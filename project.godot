@@ -13,6 +13,7 @@ config_version=5
 config/name="Bip"
 config/description="Antenle yetenek kopyalayan küçük robot Bip'in 3D platform oyunu."
 run/main_scene="res://scenes/levels/test_area.tscn"
+config/icon="res://icon.svg"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]

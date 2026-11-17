@@ -60,7 +60,7 @@ rm -f build/Bip-unsigned.apk
 [ -f build/Bip-unsigned.apk ] || { echo "HATA: Godot APK üretemedi"; exit 1; }
 
 OUT="build/Bip-${NAME}.apk"
-java --add-exports java.base/sun.security.x509=ALL-UNNAMED \
+java -Dstdout.encoding=UTF-8 --add-exports java.base/sun.security.x509=ALL-UNNAMED \
      --add-exports java.base/sun.security.pkcs=ALL-UNNAMED \
      --add-exports java.base/sun.security.util=ALL-UNNAMED \
      -cp "$APKSIG_JAR" tools/android/ApkSign.java "$KS" "$PASS" bip build/Bip-unsigned.apk "$OUT" 2>&1 | grep -v JAVA_TOOL_OPTIONS
