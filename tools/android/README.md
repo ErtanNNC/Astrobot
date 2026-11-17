@@ -10,7 +10,9 @@ Android bir uygulamayı güncelleme olarak kabul etmek için üç şey ister:
 1. **Aynı paket adı:** `io.github.ertannnc.bip` (`export_presets.cfg`, değiştirme).
 2. **Aynı imza anahtarı:** `tools/android/keystore/bip-release.p12`. Anahtar kaybolursa
    yeni APK'lar eskisinin üstüne kurulamaz; eski uygulamayı silip yeniden kurmak gerekir.
-   **Anahtarı ve şifresini güvenli bir yerde yedekle.**
+   Anahtar ve şifresi bu (gizli tutulması gereken) repoda saklanır; böylece her oturumda
+   aynı anahtar kullanılır. **Repoyu herkese açık yapma** ve anahtarı ayrıca yedekle.
+   Play Store'a çıkarken Google Play App Signing ile ayrı bir yükleme anahtarına geçilebilir.
 3. **Daha büyük sürüm kodu:** betik sürüm kodunu git commit sayısından alır; her yeni
    commit'ten sonra alınan APK'nın kodu bir öncekinden büyüktür.
 

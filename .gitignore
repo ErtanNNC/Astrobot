@@ -4,8 +4,7 @@
 export/
 build/
 *.tmp
-# Android imzalama anahtarı repoya girmez (bkz. tools/android/README.md)
+# Android imza anahtarı: tools/android/keystore/ içinde, bilerek repoda (bkz. tools/android/README.md)
 *.keystore
 *.jks
 !tools/android/.keep
-tools/android/keystore/
