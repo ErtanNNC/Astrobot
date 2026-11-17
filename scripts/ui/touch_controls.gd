@@ -30,7 +30,10 @@ const COL_ABILITY := Color(1.0, 0.75, 0.2, 0.5)
 const COL_ICON := Color(1, 1, 1, 0.95)
 const COL_SHADOW := Color(0.05, 0.08, 0.2, 0.35)
 
-var ability_enabled := false  ## M2'de kopyalama gelince true olacak
+var ability_enabled := false  ## yetenek varsa ya da menzilde kopyalanabilir nesne varsa
+var _ability_color := COL_ABILITY
+var _pulse := 0.0
+var _t := 0.0
 
 var _joy_finger := -1
 var _joy_center := Vector2.ZERO
@@ -49,6 +52,22 @@ func _ready() -> void:
 	set_process_input(_active)
 	Settings.changed.connect(queue_redraw)
 	resized.connect(queue_redraw)
+
+
+func _process(delta: float) -> void:
+	if not _active:
+		return
+	_t += delta
+	var bip := get_tree().get_first_node_in_group("player")
+	var near := false
+	if bip:
+		near = bip.best_source() != null
+	ability_enabled = near or GameState.ability != ""
+	var c := AbilityModels.color(GameState.ability) if GameState.ability != "" else COL_ABILITY
+	_ability_color = Color(c, 0.6)
+	# Kopyalanabilir nesne yakınsa Yetenek butonu nabız gibi atar: "buna bas"
+	_pulse = (0.5 + 0.5 * sin(_t * 8.0)) if near else 0.0
+	queue_redraw()
 
 
 # ---------- Yerleşim ----------
@@ -224,9 +243,11 @@ func _draw() -> void:
 
 	# Yetenek
 	var ac := _ability_center()
-	var ar := ability_radius * bs * (0.9 if _ability_finger != -1 else 1.0)
+	var ar := ability_radius * bs * (0.9 if _ability_finger != -1 else 1.0) * (1.0 + _pulse * 0.12)
 	var aa := a if ability_enabled else a * 0.45
-	_circle(ac, ar, COL_ABILITY, COL_RING, aa)
+	if _pulse > 0.0:
+		draw_circle(ac, ar * 1.25, Color(1, 1, 0.7, 0.25 * _pulse * a))
+	_circle(ac, ar, _ability_color, COL_RING, aa)
 	_icon_antenna(ac, ar * 0.55, aa)
 
 	# Duraklat

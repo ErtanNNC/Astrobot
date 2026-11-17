@@ -1,0 +1,182 @@
+extends CharacterBody3D
+## Düşmanlar. Üstüne zıplanınca ya da Kaya ile ezilince yenilir; yandan değerse Bip hasar alır.
+## Türler:
+##  vidabocek – Vidaböcek (Quaternius Crab): bir çizgide ileri geri yürür, kenarda döner.
+##  zipzip    – Zıpzıp (Quaternius Skull): yerinde zıplar, Bip yaklaşınca ona doğru seker.
+##  hurdaci   – Hurda Goblin (Quaternius "Enemy"): Bip'i görünce kovalar, uzaklaşınca evine döner.
+
+@export_enum("vidabocek", "zipzip", "hurdaci") var kind := "vidabocek"
+@export var patrol := 3.0        ## m, başlangıçtan her iki yöne
+@export var speed := 1.6         ## m/s
+@export var batteries := 3       ## yenilince saçılan pil
+
+const MODELS := {
+	"vidabocek": "res://assets/models/quaternius/enemies/Crab.gltf",
+	"zipzip": "res://assets/models/quaternius/enemies/Skull.gltf",
+	"hurdaci": "res://assets/models/quaternius/enemies/Enemy.gltf",
+}
+
+var _home := Vector3.ZERO
+var _dir := 1.0
+var _dead := false
+var _model: Node3D
+var _anim: AnimationPlayer
+var _hop_timer := 1.0
+var _gravity := 30.0
+var _hurt_area: Area3D
+var _axis := Vector3.RIGHT
+
+
+func _ready() -> void:
+	add_to_group("enemy")
+	add_to_group("stompable")
+	add_to_group("poundable")
+	_home = global_position
+	_axis = global_basis.x.normalized()
+	rotation = Vector3.ZERO
+	collision_layer = 4
+	collision_mask = 1
+	var cs := CollisionShape3D.new()
+	var sh := CapsuleShape3D.new()
+	sh.radius = 0.45
+	sh.height = 1.0
+	cs.shape = sh
+	cs.position.y = 0.5
+	add_child(cs)
+	_model = load(MODELS[kind]).instantiate()
+	_model.scale = Vector3.ONE * (0.42 if kind == "vidabocek" else 0.38)
+	add_child(_model)
+	_anim = _model.find_child("AnimationPlayer", true, false)
+	if _anim:
+		for n in _anim.get_animation_list():
+			if n.ends_with("Walk") or n.ends_with("Idle") or n.ends_with("Flying"):
+				_anim.get_animation(n).loop_mode = Animation.LOOP_LINEAR
+		_play("Walk" if kind != "zipzip" else "Idle")
+	# Bip'e değme alanı (yandan hasar)
+	_hurt_area = Area3D.new()
+	_hurt_area.collision_layer = 0
+	_hurt_area.collision_mask = 1
+	var hs := CollisionShape3D.new()
+	var hsh := SphereShape3D.new()
+	hsh.radius = 0.62
+	hs.shape = hsh
+	hs.position.y = 0.45
+	_hurt_area.add_child(hs)
+	add_child(_hurt_area)
+	_hurt_area.body_entered.connect(_on_touch)
+	_hop_timer = randf_range(0.5, 1.5)
+
+
+func _play(n: String) -> void:
+	if not _anim:
+		return
+	for a in _anim.get_animation_list():
+		if a.ends_with(n):
+			if _anim.current_animation != a:
+				_anim.play(a, 0.15)
+			return
+
+
+func _physics_process(delta: float) -> void:
+	if _dead:
+		return
+	var bip := get_tree().get_first_node_in_group("player") as Node3D
+	match kind:
+		"vidabocek":
+			var off := (global_position - _home).dot(_axis)
+			if (off > patrol and _dir > 0) or (off < -patrol and _dir < 0) or is_on_wall() or (is_on_floor() and not _ground_ahead()):
+				_dir = -_dir
+			var v := _axis * _dir * speed
+			velocity.x = v.x
+			velocity.z = v.z
+			_model.rotation.y = lerp_angle(_model.rotation.y, atan2(v.x, v.z), 8 * delta)
+		"zipzip":
+			velocity.x = move_toward(velocity.x, 0, 4 * delta)
+			velocity.z = move_toward(velocity.z, 0, 4 * delta)
+			if is_on_floor():
+				_hop_timer -= delta
+				if _hop_timer <= 0.0:
+					_hop_timer = randf_range(0.9, 1.4)
+					velocity.y = 8.0
+					if bip and bip.global_position.distance_to(global_position) < 7.0:
+						var to := (bip.global_position - global_position)
+						to.y = 0
+						velocity += to.normalized() * 3.0
+						_model.rotation.y = atan2(to.x, to.z)
+					_play("Jump")
+			elif velocity.y < 0 and _anim:
+				_play("Idle")
+		"hurdaci":
+			var target := _home
+			if bip and bip.global_position.distance_to(global_position) < 8.0 and absf(bip.global_position.y - global_position.y) < 2.0:
+				target = bip.global_position
+			var to := target - global_position
+			to.y = 0
+			if to.length() > 0.3 and (target != _home or to.length() > 0.5):
+				var v := to.normalized() * speed * (1.6 if target != _home else 1.0)
+				if is_on_floor() and not _ground_ahead_dir(v.normalized()):
+					v = Vector3.ZERO
+				velocity.x = v.x
+				velocity.z = v.z
+				_model.rotation.y = lerp_angle(_model.rotation.y, atan2(to.x, to.z), 8 * delta)
+				_play("Walk")
+			else:
+				velocity.x = 0
+				velocity.z = 0
+				_play("Idle")
+	if not is_on_floor():
+		velocity.y -= _gravity * delta
+	move_and_slide()
+	if global_position.y < _home.y - 20:
+		queue_free()
+
+
+func _ground_ahead() -> bool:
+	return _ground_ahead_dir(_axis * _dir)
+
+
+func _ground_ahead_dir(d: Vector3) -> bool:
+	var space := get_world_3d().direct_space_state
+	var from := global_position + d * 0.6 + Vector3.UP * 0.4
+	var q := PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 1.4, 1, [get_rid()])
+	return not space.intersect_ray(q).is_empty()
+
+
+func _on_touch(b: Node) -> void:
+	if _dead or not (b is Bip):
+		return
+	var bip: Bip = b
+	if bip.pounding or (bip.global_position.y > global_position.y + 0.55 and bip.velocity.y < 1.0):
+		on_stomp(bip)
+	else:
+		bip.take_hit(global_position)
+
+
+func on_stomp(bip: Node) -> void:
+	if _dead:
+		return
+	if bip.has_method("bounce"):
+		bip.bounce(11.0)
+	die()
+
+
+func on_pound(_bip: Node) -> void:
+	die()
+
+
+func die() -> void:
+	if _dead:
+		return
+	_dead = true
+	collision_layer = 0
+	_hurt_area.set_deferred("monitoring", false)
+	Sfx.play("pop")
+	Haptics.vibrate(40)
+	var cam := get_tree().get_first_node_in_group("follow_camera")
+	if cam and cam.has_method("shake"):
+		cam.shake(0.15)
+	Battery.burst(get_parent(), global_position, batteries, String(name))
+	var tw := create_tween()
+	tw.tween_property(_model, "scale", _model.scale * Vector3(1.5, 0.2, 1.5), 0.1)
+	tw.tween_property(_model, "scale", Vector3.ZERO, 0.25)
+	tw.tween_callback(queue_free)

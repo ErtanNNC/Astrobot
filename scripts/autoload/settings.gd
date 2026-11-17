@@ -13,6 +13,8 @@ var left_handed := false
 var vibration := true
 var music_on := true
 var sfx_on := true
+var hints_on := true          ## Pırıl ipuçları
+var shake_on := true          ## ekran sarsıntısı
 
 
 func _ready() -> void:
@@ -51,6 +53,8 @@ func load_settings() -> void:
 	vibration = cfg.get_value("controls", "vibration", vibration)
 	music_on = cfg.get_value("audio", "music_on", music_on)
 	sfx_on = cfg.get_value("audio", "sfx_on", sfx_on)
+	hints_on = cfg.get_value("access", "hints_on", hints_on)
+	shake_on = cfg.get_value("access", "shake_on", shake_on)
 
 
 func save_settings() -> void:
@@ -61,6 +65,8 @@ func save_settings() -> void:
 	cfg.set_value("controls", "vibration", vibration)
 	cfg.set_value("audio", "music_on", music_on)
 	cfg.set_value("audio", "sfx_on", sfx_on)
+	cfg.set_value("access", "hints_on", hints_on)
+	cfg.set_value("access", "shake_on", shake_on)
 	# Güvenli yazma: önce geçici dosya, sonra yerine koy (kayıt dokümanı kural 7).
 	var tmp := PATH + ".tmp"
 	if cfg.save(tmp) == OK:

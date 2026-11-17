@@ -49,6 +49,10 @@ var _manual_timer := 999.0
 var _return_pending := false
 var _cur_distance := 7.0
 var _zone: Node = null  # aktif CameraZone (varsa)
+var _trauma := 0.0      # ekran sarsıntısı (0..1)
+var _look_yaw := 0.0
+var _look_time := 0.0
+var extra_distance := 0.0  ## Yay zıplamasında kamera biraz uzaklaşır (kopyalama Interactions)
 
 
 func _ready() -> void:
@@ -76,6 +80,19 @@ func snap_to_target() -> void:
 	_yaw = target.facing_yaw + PI
 	_manual_timer = 999.0
 	_apply_transform()
+
+
+## Sarsıntı ekle (iniş, çakılma, hasar). Ayarlardan kapatılabilir.
+func shake(amount: float) -> void:
+	if Settings.shake_on:
+		_trauma = clampf(_trauma + amount, 0.0, 1.0)
+
+
+## Kısa bir an bir noktaya bak (manzara, patron girişi). Kontrol elden alınmaz.
+func look_toward(p: Vector3, duration: float) -> void:
+	var to := p - global_position
+	_look_yaw = atan2(-to.x, -to.z)
+	_look_time = duration
 
 
 func set_zone(zone: Node) -> void:
@@ -149,12 +166,31 @@ func _process(delta: float) -> void:
 		_yaw = lerp_angle(_yaw, deg_to_rad(_zone.yaw_deg), k)
 		_pitch = lerpf(_pitch, deg_to_rad(_zone.pitch_deg), k)
 		want_dist = _zone.distance
+	elif _look_time > 0.0:
+		_look_time -= delta
+		_yaw = lerp_angle(_yaw, _look_yaw, 1.0 - exp(-2.5 * delta))
+		_pitch = lerpf(_pitch, deg_to_rad(10.0), 1.0 - exp(-2.0 * delta))
+		want_dist = distance + 3.0
+		_manual_timer = 0.0
+		_return_pending = true
 	elif _manual_timer > auto_return_delay:
 		_auto_yaw(hvel, speed_frac, delta)
 		_pitch = lerpf(_pitch, deg_to_rad(pitch_deg), 1.0 - exp(-1.5 * delta))
-	_cur_distance = lerpf(_cur_distance, want_dist, k)
+	if target.ability == "yay" and not target.is_on_floor() and target.velocity.y > 2.0:
+		extra_distance = lerpf(extra_distance, 2.0, 1.0 - exp(-3.0 * delta))
+	else:
+		extra_distance = lerpf(extra_distance, 0.0, 1.0 - exp(-1.5 * delta))
+	_cur_distance = lerpf(_cur_distance, want_dist + extra_distance, k)
 
 	_apply_transform()
+	if _trauma > 0.0:
+		_trauma = maxf(_trauma - delta * 1.8, 0.0)
+		var a := _trauma * _trauma
+		camera.h_offset = randf_range(-1, 1) * 0.35 * a
+		camera.v_offset = randf_range(-1, 1) * 0.35 * a
+	else:
+		camera.h_offset = 0.0
+		camera.v_offset = 0.0
 	_update_fade()
 
 

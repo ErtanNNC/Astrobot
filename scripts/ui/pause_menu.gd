@@ -55,6 +55,8 @@ func _ready() -> void:
 	_row("vibration", "Titreşim")
 	_row("music_on", "Müzik")
 	_row("sfx_on", "Efekt sesleri")
+	_row("hints_on", "Pırıl ipuçları")
+	_row("shake_on", "Ekran sarsıntısı")
 	_button(_settings, "Geri", _show_main, Color(0.3, 0.75, 0.4))
 	_settings.visible = false
 	_refresh()

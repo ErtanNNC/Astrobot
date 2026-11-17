@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/bip.tscn" id="bip"]
+[ext_resource type="PackedScene" path="res://scenes/camera/follow_camera.tscn" id="cam"]
+[ext_resource type="PackedScene" path="res://scenes/ui/touch_controls.tscn" id="touch"]
+[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="pause"]
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="hud"]
+[ext_resource type="Script" path="res://scripts/npc/piril.gd" id="piril"]
+
+[node name="GameRig" type="Node"]
+
+[node name="Bip" parent="." node_paths=PackedStringArray("camera_rig") instance=ExtResource("bip")]
+camera_rig = NodePath("../FollowCamera")
+
+[node name="FollowCamera" parent="." node_paths=PackedStringArray("target") instance=ExtResource("cam")]
+target = NodePath("../Bip")
+
+[node name="Piril" type="Node3D" parent="."]
+script = ExtResource("piril")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("hud")
+
+[node name="TouchControls" parent="UI" instance=ExtResource("touch")]
+
+[node name="PauseMenu" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("pause")

@@ -8,3 +8,4 @@ build/
 *.keystore
 *.jks
 !tools/android/.keep
+tests/_shot_area.*

@@ -21,6 +21,9 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 TouchInput="*res://scripts/autoload/touch_input.gd"
 Haptics="*res://scripts/autoload/haptics.gd"
 Settings="*res://scripts/autoload/settings.gd"
+Sfx="*res://scripts/autoload/sfx.gd"
+GameState="*res://scripts/autoload/game_state.gd"
+Scenes="*res://scripts/autoload/scenes.gd"
 
 [display]
 
