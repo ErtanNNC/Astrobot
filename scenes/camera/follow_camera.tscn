@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/camera/follow_camera.gd" id="1"]
+
+[sub_resource type="SphereShape3D" id="probe"]
+radius = 0.3
+
+[node name="FollowCamera" type="Node3D"]
+script = ExtResource("1")
+
+[node name="Pitch" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Pitch"]
+shape = SubResource("probe")
+spring_length = 7.0
+margin = 0.2
+
+[node name="Camera3D" type="Camera3D" parent="Pitch/SpringArm3D"]
+current = true
+fov = 60.0
+far = 300.0

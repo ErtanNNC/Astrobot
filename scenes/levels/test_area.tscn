@@ -1,0 +1,432 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/level/test_area.gd" id="lvl"]
+[ext_resource type="PackedScene" path="res://scenes/player/bip.tscn" id="bip"]
+[ext_resource type="PackedScene" path="res://scenes/camera/follow_camera.tscn" id="cam"]
+[ext_resource type="PackedScene" path="res://scenes/ui/touch_controls.tscn" id="touch"]
+[ext_resource type="Shader" path="res://assets/shaders/greybox.gdshader" id="sh"]
+[ext_resource type="Script" path="res://scripts/level/moving_platform.gd" id="mp"]
+[ext_resource type="Script" path="res://scripts/level/camera_zone.gd" id="cz"]
+
+[sub_resource type="ShaderMaterial" id="m_floor"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.62, 0.66, 0.7, 1)
+
+[sub_resource type="ShaderMaterial" id="m_step"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.95, 0.7, 0.3, 1)
+
+[sub_resource type="ShaderMaterial" id="m_gap"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.45, 0.75, 0.5, 1)
+
+[sub_resource type="ShaderMaterial" id="m_ramp_ok"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.5, 0.65, 0.95, 1)
+
+[sub_resource type="ShaderMaterial" id="m_ramp_wall"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.9, 0.4, 0.35, 1)
+
+[sub_resource type="ShaderMaterial" id="m_ceiling"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.75, 0.55, 0.85, 1)
+
+[sub_resource type="ShaderMaterial" id="m_wall"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.7, 0.68, 0.62, 1)
+
+[sub_resource type="ShaderMaterial" id="m_tower"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.95, 0.85, 0.45, 1)
+
+[sub_resource type="ShaderMaterial" id="m_moving"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.3, 0.85, 0.85, 1)
+
+[sub_resource type="ShaderMaterial" id="m_zone"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/base_color = Color(0.85, 0.85, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="mp_mesh"]
+material = SubResource("m_moving")
+size = Vector3(4, 0.5, 4)
+
+[sub_resource type="BoxShape3D" id="mp_shape"]
+size = Vector3(4, 0.5, 4)
+
+[sub_resource type="BoxShape3D" id="zone_shape"]
+size = Vector3(8, 4, 8)
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.35, 0.6, 0.95, 1)
+sky_horizon_color = Color(0.75, 0.85, 0.95, 1)
+ground_horizon_color = Color(0.75, 0.85, 0.95, 1)
+ground_bottom_color = Color(0.3, 0.35, 0.45, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.85, 0.88, 0.95, 1)
+ambient_light_energy = 0.45
+tonemap_mode = 2
+fog_enabled = true
+fog_light_color = Color(0.75, 0.85, 0.95, 1)
+fog_density = 0.002
+
+[node name="TestArea" type="Node3D"]
+script = ExtResource("lvl")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819152, 0, -0.573576, -0.469846, 0.573576, -0.67101, 0.32899, 0.819152, 0.469846, 0, 10, 0)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 60.0
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, -0, -1, 0, 0.05, 6)
+
+[node name="Bip" parent="." node_paths=PackedStringArray("camera_rig") instance=ExtResource("bip")]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, -0, -1, 0, 0.05, 6)
+camera_rig = NodePath("../FollowCamera")
+
+[node name="FollowCamera" parent="." node_paths=PackedStringArray("target") instance=ExtResource("cam")]
+target = NodePath("../Bip")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TouchControls" parent="UI" instance=ExtResource("touch")]
+
+[node name="Help" type="Label" parent="UI"]
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 700.0
+offset_bottom = 60.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
+text = "WASD: koş · Boşluk: zıpla · Fare/oklar: kamera (tıkla) · R: başa dön · Esc: fareyi bırak"
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="A_Baslangic" type="Node3D" parent="Level"]
+
+[node name="B_Bosluklar" type="Node3D" parent="Level"]
+
+[node name="C_Hareketli" type="Node3D" parent="Level"]
+
+[node name="D_Plaza" type="Node3D" parent="Level"]
+
+[node name="Labels" type="Node3D" parent="."]
+
+[node name="Zemin" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(18, 1, 20)
+material = SubResource("m_floor")
+
+[node name="Basamak_0_5m" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -6, 0.25, 3)
+use_collision = true
+size = Vector3(3, 0.5, 2.5)
+material = SubResource("m_step")
+
+[node name="L_basamak0" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -6, 1.4, 3)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "0,5 m"
+
+[node name="Basamak_1_0m" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -6, 0.5, -0.5)
+use_collision = true
+size = Vector3(3, 1.0, 2.5)
+material = SubResource("m_step")
+
+[node name="L_basamak1" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -6, 1.9, -0.5)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "1,0 m"
+
+[node name="Basamak_1_5m" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -6, 0.75, -4)
+use_collision = true
+size = Vector3(3, 1.5, 2.5)
+material = SubResource("m_step")
+
+[node name="L_basamak2" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -6, 2.4, -4)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "1,5 m"
+
+[node name="Basamak_2_0m" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -6, 1, -7.5)
+use_collision = true
+size = Vector3(3, 2.0, 2.5)
+material = SubResource("m_step")
+
+[node name="L_basamak3" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -6, 2.9, -7.5)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "2,0 m"
+
+[node name="Rampa_30derece" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 6.5, 1.32679, 2)
+use_collision = true
+size = Vector3(3, 0.4, 6.0)
+material = SubResource("m_ramp_ok")
+
+[node name="L_Rampa_30derece" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 6.5, 4, -0.598076)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "30°"
+
+[node name="Rampa_50derece" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 6.5, 2.16958, -5)
+use_collision = true
+size = Vector3(3, 0.4, 6.0)
+material = SubResource("m_ramp_wall")
+
+[node name="L_Rampa_50derece" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 6.5, 5.59627, -6.92836)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "50°"
+
+[node name="AlcakTavan" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 2.8, -6)
+use_collision = true
+size = Vector3(4, 0.4, 3)
+material = SubResource("m_ceiling")
+
+[node name="AlcakTavan_DirekL" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -2.2, 1.3, -6)
+use_collision = true
+size = Vector3(0.4, 2.6, 0.4)
+material = SubResource("m_ceiling")
+
+[node name="AlcakTavan_DirekR" type="CSGBox3D" parent="Level/A_Baslangic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 2.2, 1.3, -6)
+use_collision = true
+size = Vector3(0.4, 2.6, 0.4)
+material = SubResource("m_ceiling")
+
+[node name="L_tavan" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 3.8, -6)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "tavan 2,6 m"
+
+[node name="Ada_bosluk_2m" type="CSGBox3D" parent="Level/B_Bosluklar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, -0.5, -15)
+use_collision = true
+size = Vector3(6, 1, 6)
+material = SubResource("m_gap")
+
+[node name="L_bosluk2" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 1.6, -11)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "2 m"
+
+[node name="Ada_bosluk_3m" type="CSGBox3D" parent="Level/B_Bosluklar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, -0.5, -24)
+use_collision = true
+size = Vector3(6, 1, 6)
+material = SubResource("m_gap")
+
+[node name="L_bosluk3" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 1.6, -19.5)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "3 m"
+
+[node name="Ada_bosluk_4m" type="CSGBox3D" parent="Level/B_Bosluklar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, -0.5, -34)
+use_collision = true
+size = Vector3(6, 1, 6)
+material = SubResource("m_gap")
+
+[node name="L_bosluk4" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 1.6, -29)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "4 m (zor)"
+
+[node name="Ada_basamak_1_5m" type="CSGBox3D" parent="Level/B_Bosluklar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 0.25, -42)
+use_collision = true
+size = Vector3(6, 2.5, 6)
+material = SubResource("m_step")
+
+[node name="L_bosluk_basamak" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 3.2, -38)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "2 m + 1,5 m"
+
+[node name="HareketliPlatform" type="AnimatableBody3D" parent="Level/C_Hareketli"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 1.25, -47)
+script = ExtResource("mp")
+offset = Vector3(0, 0, -6)
+duration = 2.5
+
+[node name="Mesh" type="MeshInstance3D" parent="Level/C_Hareketli/HareketliPlatform"]
+mesh = SubResource("mp_mesh")
+
+[node name="Shape" type="CollisionShape3D" parent="Level/C_Hareketli/HareketliPlatform"]
+shape = SubResource("mp_shape")
+
+[node name="Plaza" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 0, -66)
+use_collision = true
+size = Vector3(24, 3, 20)
+material = SubResource("m_floor")
+
+[node name="L_hareketli" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 4, -46)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "hareketli platform"
+
+[node name="KoridorDuvar_L" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -9, 4.5, -66)
+use_collision = true
+size = Vector3(1, 6, 14)
+material = SubResource("m_wall")
+
+[node name="KoridorDuvar_R" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -5, 4.5, -66)
+use_collision = true
+size = Vector3(1, 6, 14)
+material = SubResource("m_wall")
+
+[node name="KoridorTavan" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -7, 7.75, -66)
+use_collision = true
+size = Vector3(5, 0.5, 14)
+material = SubResource("m_wall")
+
+[node name="L_koridor" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -7, 8.8, -58.5)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "dar koridor"
+
+[node name="KuleBasamak_1" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 10.2, 2, -68)
+use_collision = true
+size = Vector3(2.2, 1.0, 2.2)
+material = SubResource("m_tower")
+
+[node name="KuleBasamak_2" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 8.6, 2.5, -65.2287)
+use_collision = true
+size = Vector3(2.2, 2.0, 2.2)
+material = SubResource("m_tower")
+
+[node name="KuleBasamak_3" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 5.4, 3, -65.2287)
+use_collision = true
+size = Vector3(2.2, 3.0, 2.2)
+material = SubResource("m_tower")
+
+[node name="KuleBasamak_4" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 3.8, 3.5, -68)
+use_collision = true
+size = Vector3(2.2, 4.0, 2.2)
+material = SubResource("m_tower")
+
+[node name="KuleBasamak_5" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 5.4, 4, -70.7713)
+use_collision = true
+size = Vector3(2.2, 5.0, 2.2)
+material = SubResource("m_tower")
+
+[node name="KuleBasamak_6" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 8.6, 4.5, -70.7713)
+use_collision = true
+size = Vector3(2.2, 6.0, 2.2)
+material = SubResource("m_tower")
+
+[node name="KuleBasamak_7" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 10.2, 5, -68)
+use_collision = true
+size = Vector3(2.2, 7.0, 2.2)
+material = SubResource("m_tower")
+
+[node name="KuleBasamak_8" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 8.6, 5.5, -65.2287)
+use_collision = true
+size = Vector3(2.2, 8.0, 2.2)
+material = SubResource("m_tower")
+
+[node name="KuleOrta" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 7, 6, -68)
+use_collision = true
+size = Vector3(2.5, 9, 2.5)
+material = SubResource("m_tower")
+
+[node name="L_kule" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 7, 12, -68)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "kule 9 m"
+
+[node name="BolgePlatform" type="CSGBox3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 0, -80)
+use_collision = true
+size = Vector3(8, 3, 8)
+material = SubResource("m_zone")
+
+[node name="KameraBolgesi" type="Area3D" parent="Level/D_Plaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 3.5, -80)
+script = ExtResource("cz")
+yaw_deg = 90.0
+pitch_deg = 30.0
+distance = 10.0
+
+[node name="Shape" type="CollisionShape3D" parent="Level/D_Plaza/KameraBolgesi"]
+shape = SubResource("zone_shape")
+
+[node name="L_bolge" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, 0, 4.5, -76.5)
+billboard = 1
+font_size = 96
+outline_size = 24
+text = "kamera bölgesi"

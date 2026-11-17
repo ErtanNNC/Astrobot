@@ -1,0 +1,11 @@
+# Godot
+.godot/
+*.translation
+export/
+build/
+*.tmp
+# Android imzalama anahtarı repoya girmez (bkz. tools/android/README.md)
+*.keystore
+*.jks
+!tools/android/.keep
+tools/android/keystore/
