@@ -190,7 +190,7 @@ func _on_landed(fall_speed: float) -> void:
 		if Haptics:
 			Haptics.vibrate(int(20 + 30 * t))
 	landed.emit(fall_speed)
-	# TODO (Ses ve müzik özelliği, M5): iniş sesi burada çalınacak.
+	# Ses ve animasyon: scripts/player/bip_visuals.gd (landed sinyalini dinler).
 
 
 func _tween_scale(peak: Vector3, rest: Vector3, t_in: float, t_out: float) -> void:

@@ -3,7 +3,7 @@
 Anteniyle dokunduğu nesnenin yeteneğini kopyalayan küçük robot Bip'in 3D platform oyunu.
 Tasarım: [docs/GDD.md](docs/GDD.md) · Claude için kurallar: [CLAUDE.md](CLAUDE.md)
 
-**Şu anki durum: M1 (greybox hareket + kamera) tamam.**
+**Şu anki durum: M1 (hareket + kamera) tamam, üstüne ilk görsel ve sesler eklendi.**
 
 ## Bilgisayarda açmak
 1. [godotengine.org](https://godotengine.org/download) adresinden **Godot 4.7.2** (standart sürüm, .NET değil) indir.
@@ -17,6 +17,7 @@ Tasarım: [docs/GDD.md](docs/GDD.md) · Claude için kurallar: [CLAUDE.md](CLAUD
 | Boşluk | zıpla (basılı tut = yüksek, kısa bas = alçak) |
 | Fare (önce oyun ekranına tıkla) / ok tuşları | kamerayı döndür; 2 sn dokunmazsan kamera kendi döner |
 | R | başa dön |
+| M | müziği aç/kapat |
 | Esc | fareyi serbest bırak |
 
 Gamepad: sol çubuk koş, A zıpla, sağ çubuk kamera.
@@ -29,7 +30,10 @@ Sol yarıda parmağını koy → joystick belirir. Sağ alttaki **ZIPLA**. Sağ 
 - **Boşluklar:** 2 m, 3 m, 4 m (zor) boşluklar, sonra 2 m boşluk + 1,5 m basamak.
 - **Hareketli platform**, üstünde taşınmayı test etmek için.
 - **Plaza:** dar koridor (kamera duvardan kaçıyor mu), 9 m'lik spiral kule (kamera yüksekliği), kamera bölgesi (sarı platform).
-- Aşağı düşersen başa dönersin.
+- Denize düşersen başa dönersin.
+
+## Seviyeyi yeniden üretmek
+`tools/level/gen_test_area.py` test alanı sahnesini baştan yazar. Sahneyi editörde elle değiştirdiysen çalıştırma; değişikliklerin silinir.
 
 ## Sayıları değiştirmek
 Sahnede **Bip**'i seç → sağdaki **Inspector**'da "Koşu", "Zıplama" gruplarındaki sayılar.

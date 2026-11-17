@@ -1,49 +1,40 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/player/bip.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/player/bip_visuals.gd" id="2"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/robot/Robot.fbx" id="3"]
+[ext_resource type="AudioStream" path="res://assets/audio/kenney/jump.ogg" id="4"]
+[ext_resource type="AudioStream" path="res://assets/audio/kenney/land.ogg" id="5"]
+[ext_resource type="AudioStream" path="res://assets/audio/kenney/walking.ogg" id="6"]
 
 [sub_resource type="CapsuleShape3D" id="shape"]
 radius = 0.35
 height = 1.0
 
-[sub_resource type="StandardMaterial3D" id="mat_body"]
-albedo_color = Color(0.25, 0.6, 1, 1)
+[sub_resource type="StandardMaterial3D" id="mat_dark"]
+albedo_color = Color(0.15, 0.15, 0.18, 1)
 roughness = 0.4
 
-[sub_resource type="StandardMaterial3D" id="mat_dark"]
-albedo_color = Color(0.08, 0.1, 0.15, 1)
-roughness = 0.3
-
 [sub_resource type="StandardMaterial3D" id="mat_glow"]
-albedo_color = Color(1, 0.85, 0.2, 1)
+albedo_color = Color(0.4, 0.95, 1, 1)
 emission_enabled = true
-emission = Color(1, 0.8, 0.2, 1)
-emission_energy_multiplier = 1.5
-
-[sub_resource type="CapsuleMesh" id="mesh_body"]
-material = SubResource("mat_body")
-radius = 0.35
-height = 0.9
-
-[sub_resource type="BoxMesh" id="mesh_visor"]
-material = SubResource("mat_dark")
-size = Vector3(0.5, 0.22, 0.12)
+emission = Color(0.3, 0.9, 1, 1)
+emission_energy_multiplier = 2.5
 
 [sub_resource type="CylinderMesh" id="mesh_antenna"]
 material = SubResource("mat_dark")
-top_radius = 0.025
+top_radius = 0.018
 bottom_radius = 0.025
-height = 0.3
+height = 0.22
+radial_segments = 8
+rings = 1
 
 [sub_resource type="SphereMesh" id="mesh_tip"]
 material = SubResource("mat_glow")
-radius = 0.07
-height = 0.14
-
-[sub_resource type="SphereMesh" id="mesh_eye"]
-material = SubResource("mat_glow")
-radius = 0.05
-height = 0.1
+radius = 0.06
+height = 0.12
+radial_segments = 12
+rings = 6
 
 [sub_resource type="StandardMaterial3D" id="mat_dust"]
 transparency = 1
@@ -51,9 +42,15 @@ shading_mode = 0
 vertex_color_use_as_albedo = true
 billboard_mode = 3
 
-[sub_resource type="QuadMesh" id="mesh_dust"]
+[sub_resource type="SphereMesh" id="mesh_dust"]
 material = SubResource("mat_dust")
-size = Vector2(0.25, 0.25)
+radius = 0.09
+height = 0.18
+radial_segments = 6
+rings = 3
+
+[sub_resource type="Gradient" id="dust_fade"]
+colors = PackedColorArray(1, 1, 1, 0.9, 1, 1, 1, 0)
 
 [node name="Bip" type="CharacterBody3D"]
 script = ExtResource("1")
@@ -63,35 +60,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("shape")
 
 [node name="Visual" type="Node3D" parent="."]
+script = ExtResource("2")
 
-[node name="Body" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
-mesh = SubResource("mesh_body")
+[node name="Model" parent="Visual" instance=ExtResource("3")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.063, 0)
 
-[node name="Visor" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62, 0.3)
-mesh = SubResource("mesh_visor")
+[node name="Antenna" type="Node3D" parent="Visual"]
 
-[node name="EyeL" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, 0.62, 0.36)
-mesh = SubResource("mesh_eye")
-
-[node name="EyeR" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 0.62, 0.36)
-mesh = SubResource("mesh_eye")
-
-[node name="Antenna" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+[node name="Stick" type="MeshInstance3D" parent="Visual/Antenna"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("mesh_antenna")
 
-[node name="AntennaTip" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18, 0)
+[node name="Tip" type="MeshInstance3D" parent="Visual/Antenna"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23, 0)
 mesh = SubResource("mesh_tip")
 
 [node name="LandingDust" type="CPUParticles3D" parent="."]
 emitting = false
-amount = 14
-lifetime = 0.45
+amount = 16
+lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 mesh = SubResource("mesh_dust")
@@ -105,9 +92,26 @@ spread = 180.0
 flatness = 0.8
 gravity = Vector3(0, 1, 0)
 initial_velocity_min = 1.5
-initial_velocity_max = 2.5
+initial_velocity_max = 2.8
 damping_min = 4.0
 damping_max = 5.0
-scale_amount_min = 0.6
+scale_amount_min = 0.5
 scale_amount_max = 1.2
-color = Color(0.92, 0.9, 0.85, 0.85)
+color = Color(0.96, 0.92, 0.85, 1)
+color_ramp = SubResource("dust_fade")
+
+[node name="Sfx" type="Node3D" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer3D" parent="Sfx"]
+stream = ExtResource("4")
+volume_db = -4.0
+bus = &"SFX"
+
+[node name="Land" type="AudioStreamPlayer3D" parent="Sfx"]
+stream = ExtResource("5")
+bus = &"SFX"
+
+[node name="Steps" type="AudioStreamPlayer3D" parent="Sfx"]
+stream = ExtResource("6")
+volume_db = -10.0
+bus = &"SFX"

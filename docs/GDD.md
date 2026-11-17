@@ -1,6 +1,6 @@
 # Bip — Oyun Tasarım Dokümanı
 
-**Sürüm:** 0.2 · **Güncelleme:** 2026-11-18 · [Özellikler](#feature-index) · [Kararlar](#decisions) · [Değişiklik kaydı](#change-log)
+**Sürüm:** 0.3 · **Güncelleme:** 2026-11-18 · [Özellikler](#feature-index) · [Kararlar](#decisions) · [Değişiklik kaydı](#change-log)
 
 ## Özet
 Oyuncu, anteniyle dokunduğu nesnenin yeteneğini kopyalayan küçük robot Bip'i yönetir. Renkli, kısa ve sürprizlerle dolu 3D seviyelerde koşar, zıplar ve kopyaladığı yetenekleri (Yay, Balon, Mıknatıs, Kaya) yaratıcı biçimlerde kullanarak engelleri aşar, pil ve gizli altın vidalar toplar. Eğlencenin kaynağı sıkı kontroller ve her köşede yeteneğin yeni bir kullanımını keşfetmektir. Seviye, sonundaki patron yenilince biter.
@@ -43,7 +43,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Seviye 1 | idea | MVP | 4 bölüm: Yay, Balon, Mıknatıs, Kaya; sonuncusu hepsini birleştirir | — |
 | Patron | idea | MVP | Tüm yetenekleri kullanmayı gerektiren 3 aşamalı küçük patron | — |
 | Arayüz ve menüler | idea | MVP | Başlangıç, duraklatma, sonuç ekranı; pil ve vida sayacı | — |
-| Ses ve müzik | idea | MVP | Her eyleme ses; bölüm müziği | — |
+| Ses ve müzik | in progress | MVP | Her eyleme ses; bölüm müziği. Zıplama, iniş, adım, düşme sesleri ve test alanı müziği var | — |
 | Kayıt sistemi | idea | later | Toplanan vidaların ve açılan seviyelerin kaydı | — |
 | Yeni yetenekler | idea | later | Ör. Pervane, Buz, Lastik top | — |
 
@@ -69,6 +69,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | D-003 | 2026-11-18 | Aynı anda tek yetenek | birden fazla yetenek taşıma | her bulmacada doğru yeteneği seçme kararını anlamlı kılar (Pillar 2) | [kopyalama](features/kopyalama/design.md) |
 | D-004 | 2026-11-18 | Godot 4.7.2; Android paket adı `io.github.ertannnc.bip`; her APK aynı anahtarla imzalanır, sürüm kodu = commit sayısı | her sürümde yeni paket adı | yeni APK telefondaki eskinin üstüne kurulur, kayıtlar silinmez | tümü (bkz. `tools/android/README.md`) |
 | D-005 | 2026-11-18 | Geçici dokunmatik kontroller M1'e alındı | M4'e kadar beklemek | geliştirici her güncellemeyi telefonda deneyebilsin | mobil kontroller |
+| D-006 | 2026-11-18 | Görsel ve sesler M5'ten öne çekildi: Bip = Quaternius Animated Robot, çevre = Quaternius Ultimate Platformer Pack, sesler = Kenney, müzik = OpenGameArt (hepsi CC0). Seviye zemini hâlâ ölçülü kutular; görünüşü shader'la veriliyor | asset'leri M5'te eklemek (CLAUDE.md'deki greybox kuralı) | geliştirici isteği: daha güzel görünen bir sürüm; ölçüler kutularda kaldığı için ayar yapmak hâlâ kolay | hareket, ses, seviye (bkz. CREDITS.md) |
 
 ## Open questions
 - **Doğrulanacak varsayımlar:** oturum süreleri; tüm [ASSUMPTION] işaretli sayılar özellik dokümanlarında.
@@ -78,6 +79,8 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
   - Yeni başlayan geliştirici için kapsam büyük mü? → her kilometre taşı oynanabilir bitmeli; zaman aşılırsa Patron ve Mıknatıs ilk kesilecekler.
 
 ## Change log
+**0.3 (2026-11-18):** görsel sürüm: robot model ve animasyonlar, çimenli adalar, ağaç/çalı/bulut süsleri, deniz, sesler ve müzik; D-006 eklendi.
+
 **0.2 (2026-11-18):** M1 uygulandı: Godot projesi, Bip hareketi, takip kamerası, greybox test alanı, geçici dokunmatik kontroller, Android APK hattı; D-004, D-005 eklendi.
 
 **0.1 (2026-11-18):** ilk taslak; hareket, kopyalama ve kamera tasarlandı; D-001–D-003 kaydedildi.

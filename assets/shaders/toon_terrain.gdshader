@@ -1,0 +1,58 @@
+shader_type spatial;
+// Seviye zemini: üst yüzey çimen (hafif desenli), yan yüzeyler katmanlı toprak.
+// Quaternius "Ultimate Platformer Pack" modellerinin görünüşüne uyacak şekilde.
+// Ölçüm kolaylığı için üst yüzeyde çok silik 1 m ızgara var (grid_alpha = 0 kapatır).
+
+uniform vec4 top_color : source_color = vec4(0.55, 0.82, 0.25, 1.0);
+uniform vec4 top_color2 : source_color = vec4(0.47, 0.74, 0.22, 1.0);
+uniform vec4 side_a : source_color = vec4(0.93, 0.66, 0.42, 1.0);
+uniform vec4 side_b : source_color = vec4(0.84, 0.55, 0.33, 1.0);
+uniform float band_height = 0.35;
+uniform float grid_alpha = 0.07;
+uniform float top_threshold = 0.7;
+
+varying vec3 wp;
+varying vec3 wn;
+
+void vertex() {
+	wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	wn = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
+}
+
+float hash(vec2 p) {
+	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+float vnoise(vec2 p) {
+	vec2 i = floor(p);
+	vec2 f = fract(p);
+	f = f * f * (3.0 - 2.0 * f);
+	return mix(mix(hash(i), hash(i + vec2(1, 0)), f.x),
+			   mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), f.x), f.y);
+}
+
+float grid(vec2 p) {
+	vec2 g = abs(fract(p - 0.5) - 0.5);
+	vec2 w = fwidth(p) * 1.2;
+	vec2 l = 1.0 - smoothstep(vec2(0.0), w, g);
+	return max(l.x, l.y);
+}
+
+void fragment() {
+	vec3 col;
+	if (wn.y > top_threshold) {
+		float n = vnoise(wp.xz * 0.6) * 0.6 + vnoise(wp.xz * 2.3) * 0.4;
+		col = mix(top_color.rgb, top_color2.rgb, smoothstep(0.35, 0.75, n));
+		col = mix(col, col * 0.7, grid(wp.xz) * grid_alpha / 0.07 * 0.25);
+		ROUGHNESS = 0.9;
+	} else if (wn.y < -0.5) {
+		col = side_b.rgb * 0.8;
+		ROUGHNESS = 0.95;
+	} else {
+		float y = wp.y + vnoise(wp.xz * 1.3 + wp.zx) * 0.06;
+		float band = step(0.5, fract(y / band_height));
+		col = mix(side_a.rgb, side_b.rgb, band);
+		ROUGHNESS = 0.95;
+	}
+	ALBEDO = col;
+}
