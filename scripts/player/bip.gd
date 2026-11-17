@@ -164,7 +164,13 @@ func _camera_relative(input: Vector2) -> Vector3:
 	return (right * input.x - forward * input.y)
 
 
-## Duraklatma / yeniden doğma: sayaçlar sıfırlanır.
+## Duraklatmada: zıplama tamponu ve coyote sayaçları sıfırlanır.
+func clear_timers() -> void:
+	coyote_timer = 0.0
+	buffer_timer = 0.0
+
+
+## Yeniden doğma: konum, hız ve sayaçlar sıfırlanır.
 func reset_state(at: Vector3) -> void:
 	global_position = at
 	velocity = Vector3.ZERO

@@ -12,6 +12,12 @@
 - Kod tasarımdan farklı olursa ya da oyun testinden sonra bir sayı değişirse, ilgili `design.md` dosyasını ve GDD'deki durum sütununu güncelle.
 - Kilometre taşlarını (M1, M2, ...) GDD'deki sırayla uygula; her biri oynanabilir bitmeli.
 
+## Geliştiricinin kalıcı istekleri
+- **Karakterler bulunabilen asset'lere göre:** karakter ve düşman görünüşleri için doküman tarifine birebir uymak gerekmez. Önce aşağıdaki kaynaklardan uygun hazır (tercihen animasyonlu) bir model bul, tarifi ona uyarla ve `docs/features/hikaye/design.md` içindeki "Karakterlerin görünüşü" tablosunu güncelle.
+- **Telefon kontrolleri önemli:** butonlar telefon oyunlarındaki gibi başparmakların doğal durduğu yerde, büyük ve hızlı ulaşılır olmalı. Kurallar ve ölçüler `docs/features/mobil-kontroller/design.md` içinde; yeni bir buton eklerken oraya uy.
+- **APK'lar güncellenebilir olmalı:** her APK `tools/android/build_apk.sh` ile, aynı anahtarla ve artan sürüm koduyla üretilir; yeni sürüm telefondaki eskinin üstüne kurulur.
+- **Bu çalışma ortamında erişilebilen kaynaklar:** quaternius.com ve quaternius.itch.io, kaylousberg.itch.io, opengameart.org, Kenney'nin GitHub'ı (github.com/KenneyNL). kenney.nl, Poly Haven, ambientCG, Freesound, Poly Pizza erişilemiyor.
+
 ## Ücretsiz asset kaynakları
 Öncelik sırası: önce CC0 (ücretsiz, ticari kullanım serbest, isim vermek zorunlu değil) kaynaklar. Godot için 3D modellerde GLB/glTF formatını tercih et.
 

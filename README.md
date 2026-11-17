@@ -18,12 +18,20 @@ Tasarım: [docs/GDD.md](docs/GDD.md) · Claude için kurallar: [CLAUDE.md](CLAUD
 | Fare (önce oyun ekranına tıkla) / ok tuşları | kamerayı döndür; 2 sn dokunmazsan kamera kendi döner |
 | R | başa dön |
 | M | müziği aç/kapat |
-| Esc | fareyi serbest bırak |
+| Esc | duraklat (fare de serbest kalır) |
 
 Gamepad: sol çubuk koş, A zıpla, sağ çubuk kamera.
 
 ### Telefonda (APK)
-Sol yarıda parmağını koy → joystick belirir. Sağ alttaki **ZIPLA**. Sağ yarıda parmak kaydır → kamera.
+| Yer | İş |
+|---|---|
+| Sol yarı (nereye dokunursan) | joystick belirir, Bip'i yürüt |
+| Sağ alttaki büyük ▲ | zıpla (basılı tut = yüksek) |
+| Onun sol üstündeki anten | Yetenek (M2'de çalışacak, şimdilik soluk) |
+| Sağ yarıda kaydır | kamerayı çevir |
+| Sol üstteki ‖ | duraklat: Devam, Baştan başla, Ayarlar (buton boyutu, sol el modu, titreşim, müzik, efektler) |
+
+Ayrıntılar: [docs/features/mobil-kontroller/design.md](docs/features/mobil-kontroller/design.md)
 
 ## Test alanında neler var
 - **Başlangıç:** 0,5 / 1,0 / 1,5 / 2,0 m basamaklar, 30° (çıkılır) ve 50° (duvar) rampalar, 2,6 m yükseklikte alçak tavan.

@@ -3,16 +3,16 @@
 **Sürüm:** 0.3 · **Güncelleme:** 2026-11-18 · [Özellikler](#feature-index) · [Kararlar](#decisions) · [Değişiklik kaydı](#change-log)
 
 ## Özet
-Oyuncu, anteniyle dokunduğu nesnenin yeteneğini kopyalayan küçük robot Bip'i yönetir. Renkli, kısa ve sürprizlerle dolu 3D seviyelerde koşar, zıplar ve kopyaladığı yetenekleri (Yay, Balon, Mıknatıs, Kaya) yaratıcı biçimlerde kullanarak engelleri aşar, pil ve gizli altın vidalar toplar. Eğlencenin kaynağı sıkı kontroller ve her köşede yeteneğin yeni bir kullanımını keşfetmektir. Seviye, sonundaki patron yenilince biter.
+Oyuncu, bir fırtınada anteni yıldırım çarpınca nesnelerin yeteneğini kopyalayabilen küçük tamir robotu Bip'i yönetir ve karanlığa gömülen Dişli Adası'na ışığı geri getirmeye çalışır ([hikaye](features/hikaye/design.md)). Renkli, kısa ve sürprizlerle dolu 3D seviyelerde koşar, zıplar ve kopyaladığı yetenekleri (Yay, Balon, Mıknatıs, Kaya) yaratıcı biçimlerde kullanarak engelleri aşar, pil ve gizli altın vidalar toplar. Eğlencenin kaynağı sıkı kontroller ve her köşede yeteneğin yeni bir kullanımını keşfetmektir. Her bölüm, sonundaki patron yenilip bir Çekirdek Pil geri alınınca biter.
 
 | | |
 |---|---|
 | Tür ve kamera | 3D platform, oyuncuyu kendi kendine takip eden üçüncü şahıs kamera |
 | Hedef kitle | 8 yaş ve üstü, rahat (casual) oyuncular ve platform sevenler |
 | Platformlar ve kontrol | Android, iOS (dokunmatik); PC (klavye, gamepad) |
-| Oturum | Bir bölüm 3–5 dk; ilk seviye toplam 10–15 dk [ASSUMPTION] |
+| Oturum | Bir alan 6–8 dk; Bölüm 1 ilk oynayışta yaklaşık 40 dk, gizlerle 50+ dk [ASSUMPTION] |
 | Motor | Godot 4, GDScript |
-| Kapsam | Prototip → tek seviyelik dikey kesit (vertical slice) |
+| Kapsam | Prototip → Bölüm 1'in tamamı (dikey kesit) |
 | Referanslar | Mario Odyssey (yetenek kopyalama, Cappy), Astro Bot (sürekli sürpriz, oyuncuya özel ilgi, takip kamerası), LittleBigPlanet (dokunsal, el yapımı his) |
 
 ## Pillars
@@ -26,8 +26,9 @@ Oyuncu, anteniyle dokunduğu nesnenin yeteneğini kopyalayan küçük robot Bip'
 keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı çöz → pil/vida ödülü → bir sonraki daha zor kullanım
 ```
 - **Saniyeler:** koşma, zıplama, kopyalama ve yetenek kullanma ([hareket](features/hareket/design.md), [kopyalama](features/kopyalama/design.md)), her zaman doğru yere bakan kamera ([kamera](features/kamera/design.md)).
-- **Dakikalar:** her bölüm bir yeteneği öğretir, sonra onu zorlaştırır; bölüm sonunda kontrol noktası.
-- **Oturum:** son bölüm dört yeteneği birleştirir ve patronla biter; toplanan pil ve vida sayısı sonuç ekranında gösterilir.
+- **Dakikalar:** her alan bir yeteneği öğretir, sınar, sonra beklenmedik bir kullanımla şaşırtır; 60–90 saniyede bir kontrol noktası ve otomatik kayıt.
+- **Oturum:** bölümün son alanı dört yeteneği birleştirir ve patronla biter; toplanan pil ve vida sayısı sonuç ekranında gösterilir.
+- **Oturumlar arası:** ilerleme 3 kayıt yuvasında saklanır; atölyedeki vitrinde toplanan vidalar görünür ([kayıt](features/kayit/design.md), [ana menü](features/ana-menu/design.md)).
 
 ## Feature index
 
@@ -37,27 +38,30 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Kopyalama | designed | MVP | Antenle nesneden yetenek kopyalama; Yay, Balon, Mıknatıs, Kaya; hasar alınca yetenek kaybı | [design](features/kopyalama/design.md) |
 | Kamera | implemented | MVP | Kendi kendine takip eden, duvardan kaçan, telefonda elle döndürme gerektirmeyen kamera | [design](features/kamera/design.md) |
 | Can ve hasar | idea | MVP | 3 can; hasar önce yeteneği alır, yetenek yoksa can gider; kontrol noktasından devam | — |
-| Toplanabilirler | idea | MVP | Piller (seviyeye dağılmış) ve 3 gizli altın vida | — |
+| Toplanabilirler | idea | MVP | Piller (bölüm başına ~150) ve alan başına 1, toplam 5 gizli altın vida | — |
 | Düşmanlar | idea | MVP | 2–3 basit düşman türü; üstüne zıplayınca ya da Kaya ile ezilince yenilir | — |
-| Mobil kontroller | in progress | MVP | Sol sanal joystick, sağda Zıpla ve Yetenek butonları, titreşim. M1'de test için geçici sürüm var (joystick, Zıpla, kamera kaydırma) | — |
-| Seviye 1 | idea | MVP | 4 bölüm: Yay, Balon, Mıknatıs, Kaya; sonuncusu hepsini birleştirir | — |
-| Patron | idea | MVP | Tüm yetenekleri kullanmayı gerektiren 3 aşamalı küçük patron | — |
-| Arayüz ve menüler | idea | MVP | Başlangıç, duraklatma, sonuç ekranı; pil ve vida sayacı | — |
+| Mobil kontroller | implemented | MVP | Sol yüzen joystick, sağ altta yay şeklinde Zıpla ve Yetenek butonları, sol üstte Duraklat, titreşim; buton boyutu ve sol el modu | [design](features/mobil-kontroller/design.md) |
+| Bölüm 1 | designed | MVP | Öğretici Uyanış Atölyesi + 4 alan (Yay, Balon, Mıknatıs, Kaya) + Hurdacı Vinç patronu | [design](features/bolum-1/design.md) |
+| Hikaye | designed | MVP | Sözsüz anlatım; açılış ve kapanış sahneleri; rehber drone Pırıl; karakterlerin hangi asset'le yapılacağı belli | [design](features/hikaye/design.md) |
+| Ana menü | designed | MVP | Giriş ekranı, oynanabilir atölye ana menüsü, ayarlar, duraklatma menüsü | [design](features/ana-menu/design.md) |
+| Kayıt | designed | MVP | 3 kayıt yuvası, kontrol noktalarında otomatik kayıt, ayrı ayar dosyası | [design](features/kayit/design.md) |
+| Patron | idea | MVP | Bölüm 1 sonunda Hurdacı Vinç; ayrıntı Bölüm 1 notunda | — |
+| HUD | idea | MVP | Can, pil ve vida sayacı, taşınan yetenek simgesi, sonuç ekranı | — |
 | Ses ve müzik | in progress | MVP | Her eyleme ses; bölüm müziği. Zıplama, iniş, adım, düşme sesleri ve test alanı müziği var | — |
-| Kayıt sistemi | idea | later | Toplanan vidaların ve açılan seviyelerin kaydı | — |
 | Yeni yetenekler | idea | later | Ör. Pervane, Buz, Lastik top | — |
+| Bölüm 2–4 | idea | later | Kalan üç Çekirdek Pil için yeni bölgeler | — |
 
 ## Milestones
 1. **M1, greybox hareket + kamera:** hareket, kamera; basit küplerden bir test alanı · bitti sayılır: PC'de 2 m'lik bir boşluk ve 1,5 m'lik bir basamak ilk denemede rahatça aşılıyor.
 2. **M2, kopyalama çekirdeği:** kopyalama (önce yalnızca Yay), can ve hasar · bitti sayılır: Yay olmadan ulaşılamayan bir platforma Yay kopyalanarak çıkılıyor, hasar alınca yetenek kayboluyor.
-3. **M3, dört yetenek + Seviye 1 greybox:** Balon, Mıknatıs, Kaya; 4 bölüm; toplanabilirler; düşmanlar · bitti sayılır: seviye baştan sona greybox halinde oynanabiliyor.
-4. **M4, telefon:** mobil kontroller, Android çıktısı · bitti sayılır: seviye bir Android telefonda 60 fps'ye yakın ve yalnızca dokunmatikle bitirilebiliyor.
-5. **M5, cila:** Kenney/Quaternius asset'leri, ses, efektler, patron, menüler · bitti sayılır: ilk kez oynayan biri seviyeyi yazı okumadan bitirebiliyor.
+3. **M3, dört yetenek + Bölüm 1 greybox:** Balon, Mıknatıs, Kaya; öğretici dahil 5 alan; toplanabilirler; düşmanlar · bitti sayılır: Bölüm 1 baştan sona greybox halinde oynanabiliyor.
+4. **M4, telefon + menü + kayıt:** mobil kontroller, ana menü, ayarlar, kayıt, Android çıktısı · bitti sayılır: oyun telefonda kapatılıp açılınca son kontrol noktasından devam ediyor ve Bölüm 1 yalnızca dokunmatikle bitirilebiliyor.
+5. **M5, cila + hikaye:** Kenney/Quaternius asset'leri, ses, efektler, açılış/kapanış sahneleri, patron · bitti sayılır: ilk kez oynayan biri öğreticiyi yazı okumadan 6 dakikada bitirebiliyor.
 
 ## Direction
 - **Sanat:** renkli low-poly, yumuşak ışık, sade dokular. Tehlikeli şeyler kırmızı/turuncu ve sivri; güvenli ve kopyalanabilir şeyler belirgin bir parıltıyla işaretli. Asset kaynakları ve lisans kuralları: `CLAUDE.md`.
 - **Oyun hissi:** zıplama, iniş ve kopyalama her zaman görüntü + ses + (telefonda) titreşimle karşılık bulur; Bip zıplarken uzar, inerken ezilir.
-- **Ton:** neşeli, sözsüz; Bip konuşmaz, tepkilerini animasyon ve seslerle verir.
+- **Ton:** neşeli, sözsüz; Bip konuşmaz, tepkilerini animasyon ve seslerle verir. Hikaye ve öğretim yazı yerine sahne, simge ve oyun alanıyla anlatılır.
 - **Erişilebilirlik:** yazı gerektirmeyen öğretim; renk dışında şekille de ayrılan tehlikeler.
 
 ## Decisions
@@ -67,9 +71,13 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | D-001 | 2026-11-18 | Motor: Godot 4 | Unity; tarayıcı (three.js) | ücretsiz ve hafif, yeni başlayan için sade; sahne ve kod dosyaları düz metin olduğundan Claude Code ile iyi çalışıyor; Android/iOS/PC çıktısı var | tümü |
 | D-002 | 2026-11-18 | Kamera kendi kendine takip eder, elle döndürme isteğe bağlı | Odyssey gibi tamamen serbest kamera | telefonda iki başparmakla oynanabilirlik (Pillar 4) | [kamera](features/kamera/design.md) |
 | D-003 | 2026-11-18 | Aynı anda tek yetenek | birden fazla yetenek taşıma | her bulmacada doğru yeteneği seçme kararını anlamlı kılar (Pillar 2) | [kopyalama](features/kopyalama/design.md) |
-| D-004 | 2026-11-18 | Godot 4.7.2; Android paket adı `io.github.ertannnc.bip`; her APK aynı anahtarla imzalanır, sürüm kodu = commit sayısı | her sürümde yeni paket adı | yeni APK telefondaki eskinin üstüne kurulur, kayıtlar silinmez | tümü (bkz. `tools/android/README.md`) |
-| D-005 | 2026-11-18 | Geçici dokunmatik kontroller M1'e alındı | M4'e kadar beklemek | geliştirici her güncellemeyi telefonda deneyebilsin | mobil kontroller |
-| D-006 | 2026-11-18 | Görsel ve sesler M5'ten öne çekildi: Bip = Quaternius Animated Robot, çevre = Quaternius Ultimate Platformer Pack, sesler = Kenney, müzik = OpenGameArt (hepsi CC0). Seviye zemini hâlâ ölçülü kutular; görünüşü shader'la veriliyor | asset'leri M5'te eklemek (CLAUDE.md'deki greybox kuralı) | geliştirici isteği: daha güzel görünen bir sürüm; ölçüler kutularda kaldığı için ayar yapmak hâlâ kolay | hareket, ses, seviye (bkz. CREDITS.md) |
+| D-004 | 2026-11-18 | Ana menü, Bip'in yürüyerek gezdiği bir atölye sahnesi; yanında her zaman hızlı liste menüsü | yalnızca klasik liste menü | oyunun dünyasına ilk saniyeden sokar ve kontrolleri menüde ısıtır (Astro Bot'un merkez alanı gibi); hızlı liste, aceleci oyuncu ve erişilebilirlik için | [ana menü](features/ana-menu/design.md) |
+| D-005 | 2026-11-18 | Öğretici yazısız: ortamla öğretme, simgeler yalnızca oyuncu takılınca | yazılı öğretici ekranları | sözsüz ton ve çocuk oyuncular; Pillar 1 ve 3 | [bölüm 1](features/bolum-1/design.md) |
+| D-006 | 2026-11-18 | Yalnızca otomatik kayıt (kontrol noktaları), elle kaydetme yok | elle kayıt noktaları | telefonda oyun her an kapanabilir; ilerleme kaybı en fazla 90 sn | [kayıt](features/kayit/design.md) |
+| D-007 | 2026-11-18 | Godot 4.7.2; Android paket adı `io.github.ertannnc.bip`; her APK aynı anahtarla imzalanır, sürüm kodu = commit sayısı | her sürümde yeni paket adı | yeni APK telefondaki eskinin üstüne kurulur, kayıtlar silinmez | tümü (bkz. `tools/android/README.md`) |
+| D-008 | 2026-11-18 | Mobil kontroller M4'ten öne çekildi | M4'e kadar beklemek | geliştirici her güncellemeyi telefonda deneyebilsin; buton yerleşimi erken oturmalı (geliştirici isteği) | [mobil kontroller](features/mobil-kontroller/design.md) |
+| D-009 | 2026-11-18 | Görsel ve sesler M5'ten öne çekildi: Bip = Quaternius Animated Robot, çevre = Quaternius Ultimate Platformer Pack, sesler = Kenney, müzik = OpenGameArt (hepsi CC0). Seviye zemini ölçülü kutular; görünüşü shader'la veriliyor | asset'leri M5'te eklemek | geliştirici isteği; ölçüler kutularda kaldığı için ayar yapmak hâlâ kolay | hareket, ses, seviye (bkz. `CREDITS.md`) |
+| D-010 | 2026-11-18 | Karakterlerin görünüşü bulunabilen ücretsiz (CC0) asset'lere göre seçilir; doküman tarifi asset'e uyarlanır | her karakteri tarife göre özel modelletmek | ekipte 3D sanatçı yok; geliştirici isteği | [hikaye](features/hikaye/design.md) |
 
 ## Open questions
 - **Doğrulanacak varsayımlar:** oturum süreleri; tüm [ASSUMPTION] işaretli sayılar özellik dokümanlarında.
@@ -79,8 +87,6 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
   - Yeni başlayan geliştirici için kapsam büyük mü? → her kilometre taşı oynanabilir bitmeli; zaman aşılırsa Patron ve Mıknatıs ilk kesilecekler.
 
 ## Change log
-**0.3 (2026-11-18):** görsel sürüm: robot model ve animasyonlar, çimenli adalar, ağaç/çalı/bulut süsleri, deniz, sesler ve müzik; D-006 eklendi.
-
-**0.2 (2026-11-18):** M1 uygulandı: Godot projesi, Bip hareketi, takip kamerası, greybox test alanı, geçici dokunmatik kontroller, Android APK hattı; D-004, D-005 eklendi.
-
 **0.1 (2026-11-18):** ilk taslak; hareket, kopyalama ve kamera tasarlandı; D-001–D-003 kaydedildi.
+**0.2 (2026-11-18):** ana menü, kayıt, hikaye ve Bölüm 1 tasarlandı; "Seviye 1" adı "Bölüm 1" oldu, iç kısımları "alan"; vida sayısı 3 → 5; D-004–D-006 kaydedildi.
+**0.3 (2026-11-18):** M1 uygulandı (hareket, kamera, test alanı, Android APK hattı); görsel ve sesler eklendi; mobil kontroller ve duraklatma menüsü yapıldı; karakterlerin asset karşılıkları belirlendi; D-007–D-010 kaydedildi (uygulama sırasında D-004–D-006 numaralarıyla yazılan kararlar, tasarımcının D-004–D-006'sıyla çakışmasın diye yeniden numaralandı).

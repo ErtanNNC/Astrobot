@@ -2,7 +2,7 @@
 
 **Status:** designed · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
 
-Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yeteneğini alır; yetenek bir sonraki kopyalamaya ya da hasara kadar kalır. Her bölüm bir yeteneği öğretip sonra zorlaştırır; son bölüm dördünü birleştirir. "Tek yetenek, bin kullanım" pillar'ına hizmet eder.
+Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yeteneğini alır; yetenek bir sonraki kopyalamaya ya da hasara kadar kalır. Bölüm 1'in her alanı bir yeteneği öğretip sonra zorlaştırır; son alan dördünü birleştirir ([Bölüm 1](../bolum-1/design.md)). "Tek yetenek, bin kullanım" pillar'ına hizmet eder.
 
 ## Rules
 1. Kopyalanabilir nesneler hafifçe parlar; Bip yaklaşınca anteninde bir ışık yanar.
@@ -58,3 +58,4 @@ Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yetene
 
 ## History
 - 2026-11-18: tasarlandı.
+- 2026-11-18: "bölüm" yerine "alan" terimi (GDD 0.2).
