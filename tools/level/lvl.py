@@ -70,6 +70,7 @@ ENTITIES = {
     "trigger": ("Area3D", "res://scripts/entities/trigger.gd"),
     "prop": ("Node3D", "res://scripts/entities/prop.gd"),
     "menu": ("Area3D", "res://scripts/ui/menu_object.gd"),
+    "boss": ("Node3D", "res://scripts/boss/crane_boss.gd"),
 }
 
 
@@ -155,7 +156,7 @@ class Level:
         return self.box(cx, base + rise / 2 - 0.2 * math.cos(a), cz, width, 0.4, L, theme, rx=a, ry=ry)
 
     # ---- Varlıklar ----
-    def ent(self, etype, x, y, z, ry=0.0, name=None, parent="Entities", groups=None, **props):
+    def ent(self, etype, x, y, z, ry=0.0, name=None, parent="Entities", groups=None, meta=None, **props):
         typ, path = ENTITIES[etype]
         e = self._ext("Script", path)
         name = name or self._name(etype.capitalize())
@@ -163,6 +164,8 @@ class Level:
         lines = ['[node name="%s" type="%s" parent="%s"%s]' % (name, typ, parent, g), "transform = %s" % tf(x, y, z, 0, ry), 'script = ExtResource("%s")' % e]
         for k, v in props.items():
             lines.append("%s = %s" % (k, fmt(v)))
+        for k, v in (meta or {}).items():
+            lines.append("metadata/%s = %s" % (k, fmt(v)))
         self.nodes.append("\n".join(lines) + "\n")
         return name
 

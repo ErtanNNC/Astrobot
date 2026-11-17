@@ -86,6 +86,9 @@ var glide_left := 3.0
 var magnet_state := 0          # 0 yok, 1 çekiliyor, 2 yapışık
 var magnet_target := Vector3.ZERO
 var magnet_normal := Vector3.ZERO
+var _magnet_node: Node = null
+var _magnet_last: Node = null
+var _magnet_left_at := 0
 var pounding := false
 var invuln := 0.0
 var wind := Vector3.ZERO       # rüzgâr alanları her kare ekler
@@ -369,7 +372,7 @@ func best_source() -> Node:
 	var best_score := INF
 	var fwd := Vector3(sin(facing_yaw), 0, cos(facing_yaw))
 	for s in nearby_sources:
-		if not is_instance_valid(s):
+		if not is_instance_valid(s) or not s.is_visible_in_tree():
 			continue
 		var to: Vector3 = s.global_position - global_position
 		var d := to.length()
@@ -421,18 +424,28 @@ func _start_magnet() -> void:
 		_detach_magnet(true)
 		return
 	var best := Vector3.ZERO
-	var best_d := INF
+	var best_score := INF
 	var best_n := Vector3.ZERO
+	var best_node: Node = null
+	var me := global_position + Vector3.UP * 0.5
 	for m in get_tree().get_nodes_in_group("metal"):
-		if not m.has_method("closest_point"):
+		if not m.has_method("closest_point") or not m.is_visible_in_tree():
 			continue
-		var p: Vector3 = m.closest_point(global_position + Vector3.UP * 0.5)
-		var d := p.distance_to(global_position + Vector3.UP * 0.5)
-		if d < best_d and d <= magnet_range:
-			best_d = d
+		# Az önce bırakılan yüzeye hemen tekrar yapışma: bir sonrakine (tercihen yukarıdakine) git
+		if m == _magnet_last and Time.get_ticks_msec() - _magnet_left_at < 1500:
+			continue
+		var p: Vector3 = m.closest_point(me)
+		var d := p.distance_to(me)
+		if d > magnet_range:
+			continue
+		var score := d - clampf(p.y - me.y, -2.0, 4.0) * 0.6
+		if score < best_score:
+			best_score = score
 			best = p
 			best_n = m.surface_normal(p)
-	if best_d < INF:
+			best_node = m
+	if best_node:
+		_magnet_node = best_node
 		magnet_state = 1
 		magnet_target = best
 		magnet_normal = best_n
@@ -472,6 +485,8 @@ func _process_magnet(delta: float) -> void:
 
 func _detach_magnet(push: bool) -> void:
 	magnet_state = 0
+	_magnet_last = _magnet_node
+	_magnet_left_at = Time.get_ticks_msec()
 	if push:
 		velocity = magnet_normal * 3.0
 

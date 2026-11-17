@@ -8,6 +8,8 @@ extends Node3D
 @export var kill_height := -12.0
 @export var safe := false       ## öğretici: düşme ölümü ve can yok
 @export var start_ability := "" ## alan bu yetenekle başlar (ör. test)
+@export var cam_distance := 0.0  ## 0 = varsayılan (kamera dokümanı); patron gibi geniş alanlarda büyütülür
+@export var cam_pitch := 0.0
 
 var area_total := 0
 var bip: Bip
@@ -28,6 +30,10 @@ func _ready() -> void:
 	touch = rig.get_node("UI/TouchControls")
 	pause_menu = rig.get_node("UI/PauseMenu")
 	_start = get_node_or_null("Start")
+	if cam_distance > 0.0:
+		cam.distance = cam_distance
+	if cam_pitch > 0.0:
+		cam.pitch_deg = cam_pitch
 	if GameState.data.is_empty():
 		GameState.data = GameState.new_data()  # sahne doğrudan açıldıysa (editörde F6)
 	touch.pause_pressed.connect(open_pause)
@@ -132,6 +138,36 @@ func vista() -> void:
 	var tower := get_tree().get_first_node_in_group("vista_target") as Node3D
 	var p := tower.global_position if tower else bip.global_position + Vector3(0, 0, -50)
 	cam.look_toward(p, 3.5)
+
+
+# ---------- Patron ----------
+
+func start_boss() -> void:
+	var boss := get_tree().get_first_node_in_group("boss")
+	if boss:
+		boss.start_fight()
+		cam.look_toward(boss.global_position + Vector3.UP * 8.0, 2.5)
+		hud.banner("Hurdacı Vinç", "", 1.8)
+		var mp: AudioStreamPlayer = $GameRig/Music
+		mp.pitch_scale = 1.12
+
+
+func boss_event(what: String) -> void:
+	var boss := get_tree().get_first_node_in_group("boss")
+	if boss:
+		boss.on_event(what)
+
+
+func boss_phase(p: int) -> void:
+	# Her aşama başında kontrol noktası: o aşamadan devam edilir
+	hud.banner("Aşama %d" % p, "", 1.2)
+	GameState.data["checkpoint_ability"] = GameState.ability
+
+
+func boss_defeated(cell_pos: Vector3) -> void:
+	var cell := load("res://scripts/entities/core_cell.gd").new() as Node3D
+	add_child(cell)
+	cell.global_position = cell_pos
 
 
 func show_health() -> void:
