@@ -32,6 +32,7 @@ func _ready() -> void:
 		GameState.data = GameState.new_data()  # sahne doğrudan açıldıysa (editörde F6)
 	touch.pause_pressed.connect(open_pause)
 	pause_menu.restart_requested.connect(func(): respawn(false))
+	pause_menu.home_requested.connect(go_home)
 	bip.hurt.connect(_on_hurt)
 	GameState.area_batteries = 0
 	GameState.safe_mode = safe
@@ -162,6 +163,13 @@ func complete_area() -> void:
 	GameState.data["checkpoint_ability"] = GameState.ability
 	GameState.save(true)
 	Scenes.go(nxt["scene"])
+
+
+## Duraklatmadan "Atölye'ye dön": kaydet ve Atölye'ye git (kayıt kural 2).
+func go_home() -> void:
+	GameState.save(true)
+	load("res://scripts/ui/hub.gd").skip_title = true
+	Scenes.go("res://scenes/ui/hub.tscn")
 
 
 func open_pause() -> void:

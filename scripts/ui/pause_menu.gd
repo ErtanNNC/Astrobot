@@ -5,6 +5,9 @@ extends Control
 
 signal resumed
 signal restart_requested
+signal home_requested
+
+var _settings_only := false
 
 const BTN_HEIGHT := 78.0
 const FONT_SIZE := 30
@@ -12,6 +15,7 @@ const FONT_SIZE := 30
 var _main: VBoxContainer
 var _settings: VBoxContainer
 var _rows := {}
+var _grid: GridContainer
 
 
 func _ready() -> void:
@@ -45,11 +49,18 @@ func _ready() -> void:
 	_main = _column(stack)
 	_title(_main, "Duraklatıldı")
 	_button(_main, "Devam", resume, Color(0.3, 0.75, 0.4))
-	_button(_main, "Baştan başla", func(): restart_requested.emit(); resume())
+	_button(_main, "Kontrol noktasından başla", func(): restart_requested.emit(); resume())
 	_button(_main, "Ayarlar", _show_settings)
+	_button(_main, "Atölye'ye dön", func(): resume(); home_requested.emit(), Color(0.55, 0.4, 0.75))
 
 	_settings = _column(stack)
 	_title(_settings, "Ayarlar")
+	_settings.custom_minimum_size.x = 820
+	_grid = GridContainer.new()
+	_grid.columns = 2
+	_grid.add_theme_constant_override("h_separation", 14)
+	_grid.add_theme_constant_override("v_separation", 14)
+	_settings.add_child(_grid)
 	_row("button_size", "Buton boyutu")
 	_row("left_handed", "Sol el modu")
 	_row("vibration", "Titreşim")
@@ -65,9 +76,18 @@ func _ready() -> void:
 func open() -> void:
 	if visible:
 		return
+	_settings_only = false
 	visible = true
 	get_tree().paused = true
 	_show_main()
+
+
+## Atölye'deki televizyon: yalnızca ayarlar; "Geri" menüyü kapatır.
+func open_settings_only() -> void:
+	_settings_only = true
+	visible = true
+	get_tree().paused = true
+	_show_settings()
 
 
 func resume() -> void:
@@ -89,10 +109,13 @@ func _show_settings() -> void:
 	_main.visible = false
 	_settings.visible = true
 	_refresh()
-	_settings.get_child(1).grab_focus()
+	_grid.get_child(0).grab_focus()
 
 
 func _show_main() -> void:
+	if _settings_only:
+		resume()
+		return
 	_settings.visible = false
 	_main.visible = true
 	_main.get_child(1).grab_focus()
@@ -135,7 +158,9 @@ func _button(parent: Node, text: String, cb: Callable, col := Color(0.25, 0.45, 
 
 
 func _row(key: String, label: String) -> void:
-	var b := _button(_settings, label, func(): _toggle(key))
+	var b := _button(_grid, label, func(): _toggle(key))
+	b.custom_minimum_size = Vector2(395, 70)
+	b.add_theme_font_size_override("font_size", 25)
 	_rows[key] = [b, label]
 
 

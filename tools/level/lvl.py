@@ -69,6 +69,7 @@ ENTITIES = {
     "camzone": ("Area3D", "res://scripts/level/camera_zone.gd"),
     "trigger": ("Area3D", "res://scripts/entities/trigger.gd"),
     "prop": ("Node3D", "res://scripts/entities/prop.gd"),
+    "menu": ("Area3D", "res://scripts/ui/menu_object.gd"),
 }
 
 
@@ -110,11 +111,14 @@ def tf(x, y, z, rx=0.0, ry=0.0, s=1.0, rz=0.0):
 
 class Level:
     def __init__(self, area_id, title, out, sky="day", music="res://assets/audio/opengameart/happy_clappy_loop.mp3",
-                 kill_height=-12.0, safe=False, water=-8.0, seed=1, start_ability=""):
+                 kill_height=-12.0, safe=False, water=-8.0, seed=1, start_ability="", root_script="res://scripts/level/area.gd", extra_props=None, rig=True):
         random.seed(seed)
         self.area_id, self.title, self.out = area_id, title, out
         self.sky, self.music, self.kill, self.safe, self.water = sky, music, kill_height, safe, water
         self.start_ability = start_ability
+        self.root_script = root_script
+        self.extra_props = extra_props or {}
+        self.rig = rig
         self.nodes = []
         self.ext = {}
         self.used_themes = set()
@@ -235,7 +239,7 @@ class Level:
     # ---- Yazma ----
     def write(self):
         S = SKIES[self.sky]
-        ext_lines = ['[ext_resource type="Script" path="res://scripts/level/area.gd" id="area"]',
+        ext_lines = ['[ext_resource type="Script" path="%s" id="area"]' % self.root_script,
                      '[ext_resource type="PackedScene" path="res://scenes/common/game_rig.tscn" id="rig"]',
                      '[ext_resource type="Shader" path="res://assets/shaders/toon_terrain.gdshader" id="sh"]',
                      '[ext_resource type="Shader" path="res://assets/shaders/water.gdshader" id="water"]']
@@ -302,13 +306,16 @@ adjustment_saturation = 1.12
             props.append('start_ability = "%s"' % self.start_ability)
         if self.music:
             props.append('music = ExtResource("music")')
+        for k, v in self.extra_props.items():
+            props.append("%s = %s" % (k, fmt(v)))
         root = ['[node name="%s" type="Node3D"]\nscript = ExtResource("area")\n%s\n' % (self.area_id, "\n".join(props)),
                 '[node name="WorldEnvironment" type="WorldEnvironment" parent="."]\nenvironment = SubResource("env")\n',
                 '[node name="Sun" type="DirectionalLight3D" parent="."]\ntransform = %s\nlight_color = %s\nlight_energy = %.2f\nshadow_enabled = true\nshadow_blur = 1.5\ndirectional_shadow_mode = 0\ndirectional_shadow_max_distance = 45.0\n'
                 % (tf(0, 10, 0, math.radians(S["sun_rx"]), math.radians(S["sun_ry"])), c3(S["sun"]), S["sun_e"])]
         if self.water is not None:
             root.append('[node name="Sea" type="MeshInstance3D" parent="."]\ntransform = %s\nmesh = SubResource("water_mesh")\ncast_shadow = 0\n' % tf(0, self.water, -40))
-        root.append('[node name="GameRig" parent="." instance=ExtResource("rig")]\n')
+        if self.rig:
+            root.append('[node name="GameRig" parent="." instance=ExtResource("rig")]\n')
         for g in self.groups:
             root.append('[node name="%s" type="Node3D" parent="."]\n' % g)
         txt = "[gd_scene format=3]\n\n" + "\n".join(ext_lines) + "\n\n" + "\n".join(subs) + "\n" + "\n".join(root) + "\n" + "\n".join(self.nodes)

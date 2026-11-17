@@ -51,6 +51,9 @@ var _cur_distance := 7.0
 var _zone: Node = null  # aktif CameraZone (varsa)
 var _trauma := 0.0      # ekran sarsıntısı (0..1)
 var _look_yaw := 0.0
+var _hold_front := false
+var _front_dist := 4.5
+var _front_pitch := 12.0
 var _look_time := 0.0
 var extra_distance := 0.0  ## Yay zıplamasında kamera biraz uzaklaşır (kopyalama Interactions)
 
@@ -93,6 +96,22 @@ func look_toward(p: Vector3, duration: float) -> void:
 	var to := p - global_position
 	_look_yaw = atan2(-to.x, -to.z)
 	_look_time = duration
+
+
+## Kamerayı Bip'in önüne al (giriş ekranında yüzünü göstermek için).
+func face_target(dist := 4.5, pitch := 12.0) -> void:
+	_yaw = target.facing_yaw
+	_pitch = deg_to_rad(pitch)
+	_cur_distance = dist
+	_return_pending = false
+	_manual_timer = 0.0
+	_hold_front = true
+	_front_dist = dist
+	_front_pitch = pitch
+
+
+func release_front() -> void:
+	_hold_front = false
 
 
 func set_zone(zone: Node) -> void:
@@ -166,6 +185,11 @@ func _process(delta: float) -> void:
 		_yaw = lerp_angle(_yaw, deg_to_rad(_zone.yaw_deg), k)
 		_pitch = lerpf(_pitch, deg_to_rad(_zone.pitch_deg), k)
 		want_dist = _zone.distance
+	elif _hold_front:
+		_yaw = lerp_angle(_yaw, target.facing_yaw, k)
+		_pitch = lerpf(_pitch, deg_to_rad(_front_pitch), k)
+		want_dist = _front_dist
+		_manual_timer = 0.0
 	elif _look_time > 0.0:
 		_look_time -= delta
 		_yaw = lerp_angle(_yaw, _look_yaw, 1.0 - exp(-2.5 * delta))

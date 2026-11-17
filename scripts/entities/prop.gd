@@ -1,7 +1,7 @@
 extends Node3D
 ## Basit süs: bir model ya da şekil, isteğe bağlı dönme/sallanma.
 
-@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm") var kind := "gear"
+@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator") var kind := "gear"
 @export var size := 1.0
 @export var spin := 0.0          ## rad/s
 @export var color := Color(0.75, 0.78, 0.85)
@@ -88,6 +88,52 @@ func _ready() -> void:
 				s.height = 0.7 * size
 				var a := TAU * i / 6.0
 				_part.add_child(AbilityModels.mesh_node(s, spark_m, Vector3(cos(a) * 6.0, 13.0 + sin(a * 2) * 1.5, sin(a) * 6.0) * size))
+		"rain":
+			var r := CPUParticles3D.new()
+			r.amount = 220
+			r.lifetime = 0.9
+			var line := BoxMesh.new()
+			line.size = Vector3(0.02, 0.45, 0.02)
+			r.mesh = line
+			var rm := AbilityModels.mat(Color(0.7, 0.8, 1.0, 0.5), 0.3, 0.5)
+			rm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			r.material_override = rm
+			r.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+			r.emission_box_extents = Vector3(12, 0.5, 6) * size
+			r.direction = Vector3(0.1, -1, 0)
+			r.spread = 2.0
+			r.gravity = Vector3(0, -20, 0)
+			r.initial_velocity_min = 12.0
+			r.initial_velocity_max = 15.0
+			add_child(r)
+		"generator":
+			# Ana Jeneratör: dört Çekirdek Pil yuvası (hikaye)
+			var base := CylinderMesh.new()
+			base.top_radius = 2.2 * size
+			base.bottom_radius = 2.8 * size
+			base.height = 1.0 * size
+			add_child(AbilityModels.mesh_node(base, AbilityModels.mat(Color(0.45, 0.48, 0.58)), Vector3(0, 0.5, 0) * size))
+			var col := CylinderMesh.new()
+			col.top_radius = 1.0 * size
+			col.bottom_radius = 1.3 * size
+			col.height = 5.0 * size
+			add_child(AbilityModels.mesh_node(col, AbilityModels.mat(Color(0.55, 0.58, 0.68)), Vector3(0, 3.5, 0) * size))
+			_part = Node3D.new()
+			add_child(_part)
+			for i in 4:
+				var a := TAU * i / 4.0
+				var cell := CylinderMesh.new()
+				cell.top_radius = 0.35 * size
+				cell.bottom_radius = 0.35 * size
+				cell.height = 1.1 * size
+				var cm := AbilityModels.mat(color, 0.3, 3.0)
+				var mi := AbilityModels.mesh_node(cell, cm, Vector3(cos(a) * 1.5, 3.2, sin(a) * 1.5) * size)
+				mi.name = "Cell%d" % i
+				_part.add_child(mi)
+			var cap := SphereMesh.new()
+			cap.radius = 1.2 * size
+			cap.height = 1.4 * size
+			add_child(AbilityModels.mesh_node(cap, AbilityModels.mat(Color(0.95, 0.75, 0.25), 0.3, 0.6), Vector3(0, 6.2, 0) * size))
 		"storm":
 			# Statik: mor kıvılcımlı bulut (Quaternius Cloud, mora boyanmış)
 			var c: Node3D = load("res://assets/models/quaternius/platformer/Cloud_2.gltf").instantiate()
