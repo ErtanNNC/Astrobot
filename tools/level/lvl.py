@@ -74,6 +74,7 @@ ENTITIES = {
     "menu": ("Area3D", "res://scripts/ui/menu_object.gd"),
     "boss": ("Node3D", "res://scripts/boss/crane_boss.gd"),
     "giant": ("Node3D", "res://scripts/boss/snow_giant_boss.gd"),
+    "captain": ("Node3D", "res://scripts/boss/captain_boss.gd"),
 }
 
 

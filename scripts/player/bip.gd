@@ -259,8 +259,10 @@ func _physics_process(delta: float) -> void:
 		glide_left -= delta
 		velocity.y = maxf(velocity.y - gravity * delta, -balloon_fall_speed)
 	elif propelling:
-		prop_left -= delta
-		velocity.y = move_toward(velocity.y, prop_lift_speed, 40.0 * delta)
+		# Yukarı rüzgârın içinde yakıt harcanmaz ve daha hızlı yükselinir (Fener Kulesi)
+		if wind.y <= 0.0:
+			prop_left -= delta
+		velocity.y = move_toward(velocity.y, prop_lift_speed + maxf(wind.y, 0.0) * 0.3, 40.0 * delta)
 	elif dash_left > 0.0:
 		velocity.y = maxf(velocity.y, 0.0)
 	elif not on_floor:
@@ -270,13 +272,14 @@ func _physics_process(delta: float) -> void:
 			is_jumping = false
 		velocity.y = maxf(velocity.y - g * delta * 0.5, -max_fall_speed)
 
-	# --- Rüzgâr (Kaya etkilenmez; Balon ile süzülürken yukarı taşır) ---
+	# --- Rüzgâr (Kaya etkilenmez; Balon ile süzülürken ya da Pervane ile yükselirken yukarı taşır) ---
 	if wind != Vector3.ZERO and ability != "kaya":
 		var w := wind
-		if not gliding:
+		var lifted := gliding or propelling
+		if not lifted:
 			w.y *= 0.25
 		velocity += w * delta
-		if gliding and w.y > 0.0:
+		if lifted and w.y > 0.0:
 			velocity.y = minf(velocity.y + w.y * delta * 2.0, w.y * 0.6)
 	wind = Vector3.ZERO
 
@@ -313,8 +316,8 @@ func _physics_process(delta: float) -> void:
 		if not was_on_floor:
 			is_jumping = false
 			gliding = false
-			var fl := get_last_slide_collision().get_collider() if get_last_slide_collision() else null
-			if not (fl and fl.is_in_group("metal")):
+			var fl := _floor_collider()
+			if fl and not fl.is_in_group("metal"):
 				_magnet_prev = null
 				_magnet_node = null
 			if pounding:
@@ -353,6 +356,9 @@ func _handle_ability_input(delta: float, on_floor: bool) -> void:
 		ability_hold = 0.0
 		ability_press_used = false
 		var src = best_source()
+		# Aynı yeteneğin kaynağının yanında tuş yeteneği kullanır (ör. Kaya kaynağının yanında çakılma)
+		if src and src.ability == ability and ability != "":
+			src = null
 		if src:
 			copy_from(src)
 			ability_press_used = true
@@ -508,8 +514,10 @@ func _start_magnet() -> void:
 	if magnet_state == 2:
 		skip = _magnet_node
 		skip2 = _magnet_prev
-	elif is_on_floor() and get_last_slide_collision():
-		var fc := get_last_slide_collision().get_collider()
+	elif is_on_floor():
+		var fc := _floor_collider()
+		if fc == null and _magnet_node:
+			fc = _magnet_node   # kenarda duruyor: ışın ıskaladı, son metal varsayılır
 		if fc and fc.is_in_group("metal"):
 			skip = fc
 			skip2 = _magnet_prev if fc == _magnet_node else null
@@ -528,7 +536,11 @@ func _start_magnet() -> void:
 		var d := p.distance_to(me)
 		if d > magnet_range:
 			continue
-		var score := d - clampf(p.y - me.y, -2.0, 4.0) * 0.6
+		# Yakın, yukarıda ve Bip'in baktığı yönde olan metal tercih edilir
+		var fwd := Vector3(sin(facing_yaw), 0, cos(facing_yaw))
+		var flat := Vector3(p.x - me.x, 0, p.z - me.z)
+		var facing_bonus := fwd.dot(flat.normalized()) * 2.0 if flat.length() > 0.3 else 0.0
+		var score := d - clampf(p.y - me.y, -2.0, 4.0) * 0.6 - facing_bonus
 		if score < best_score:
 			best_score = score
 			best = p
@@ -593,6 +605,17 @@ func _process_magnet(delta: float) -> void:
 				do_jump(jump_velocity)
 				velocity += magnet_normal * 4.0
 			move_and_slide()
+
+
+## Bip'in altındaki zemin nesnesi (aşağı ışın; son çarpışma kaydı güvenilir değil).
+func _floor_collider() -> Object:
+	for i in get_slide_collision_count():
+		var c := get_slide_collision(i)
+		if c.get_normal().y > 0.6 and c.get_collider():
+			return c.get_collider()
+	var q := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP * 0.3, global_position + Vector3.DOWN * 0.6, 1, [get_rid()])
+	var hit := get_world_3d().direct_space_state.intersect_ray(q)
+	return hit.collider if hit else null
 
 
 func _detach_magnet(push: bool) -> void:

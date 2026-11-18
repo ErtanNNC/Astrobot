@@ -1,6 +1,6 @@
 # Bölüm 2: Fırtına Limanı
 
-**Status:** in progress · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
+**Status:** implemented · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
 
 Statik, ikinci Çekirdek Pili adanın limanına götürdü. Liman rüzgârlı, gemiler ve vinçlerle dolu; fırtına bulutlarının arasında sallanan rıhtımlar var. Bölümün yeni oyuncağı **Pervane**: rüzgâr gülünden kopyalanan pervaneli şapka. Önceki dört yetenek de geri döner; her alan yeni bir yeteneği eski bir yetenekle birleştirir. Ritim Bölüm 1 ile aynı: **öğret → sına → şaşırt → ustalık**.
 
@@ -34,5 +34,13 @@ Hazır model yok; Hurdacı Vinç gibi parçalardan kurulur: gövde (fıçı benz
 | Pervane atılma hızı / süresi | 11 / 0,25 [ASSUMPTION] | m/s / s | ~3 m ileri (ölçüldü) |
 | Bölüm süresi | ~25 [ASSUMPTION] | dk | |
 
+## Uygulama notları
+- Üreticiler: `tools/level/ch2_b1_rihtim.py`, `ch2_b2_fener.py`, `ch2_b3_gemi_mezarligi.py`, `ch2_b4_patron.py`; patron `scripts/boss/captain_boss.gd`; test `tests/ch2_test.tscn` (her alanın anahtar geçişleri + patronun 3 aşaması).
+- Pervane yukarı rüzgârın içinde yakıt harcamaz ve daha hızlı yükselir (Fener Kulesi galerisi).
+- Liman Rıhtımı'nda deniz geçişleri ~5,5 m'ye indirildi (gerekli boşluk ≈ %70 kuralı); Altın Vida adanın yanında havada asılı tablada.
+- Gemi Mezarlığı'nda Mıknatıs zinciri alçak metal direklerle: yapış → zıpla = üstüne tırman → Yetenek = sıradakine çekil.
+- Genel kural (kopyalama): taşınan yetenekle aynı kaynağın yanında Yetenek tuşu yeteneği kullanır (ör. şapkadaki Kaya kaynağının yanında çakılma).
+
 ## History
 - 2026-11-18: tasarlandı ve Pervane yeteneği uygulandı.
+- 2026-11-18: 3 alan ve Paslı Kaptan uygulandı.

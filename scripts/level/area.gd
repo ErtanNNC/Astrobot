@@ -191,7 +191,7 @@ func start_boss() -> void:
 	if boss:
 		boss.start_fight()
 		cam.look_toward(boss.global_position + Vector3.UP * 8.0, 2.5)
-		hud.banner("Hurdacı Vinç", "", 1.8)
+		hud.banner(boss.get("boss_name") if boss.get("boss_name") else "Hurdacı Vinç", "", 1.8)
 		var mp: AudioStreamPlayer = $GameRig/Music
 		mp.volume_db = 2.0
 

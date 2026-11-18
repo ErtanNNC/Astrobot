@@ -265,7 +265,7 @@ func _set_phase_nodes(p: int) -> void:
 		var on: bool = k == p
 		for n in _phase_nodes[k]:
 			n.visible = on
-			n.process_mode = Node.PROCESS_MODE_INHERIT if on else Node.PROCESS_MODE_DISABLED
+			n.set_deferred("process_mode", Node.PROCESS_MODE_INHERIT if on else Node.PROCESS_MODE_DISABLED)
 			if n is Area3D:
 				n.set_deferred("monitoring", on)
 			if n is CollisionObject3D:

@@ -12,3 +12,4 @@ tests/_shot_area.*
 tests/_flow_shots.*
 .claude/
 __pycache__/
+tests/_dbg.*
