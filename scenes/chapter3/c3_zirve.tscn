@@ -1,0 +1,857 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/level/area.gd" id="area"]
+[ext_resource type="PackedScene" path="res://scenes/common/game_rig.tscn" id="rig"]
+[ext_resource type="Shader" path="res://assets/shaders/toon_terrain.gdshader" id="sh"]
+[ext_resource type="Shader" path="res://assets/shaders/water.gdshader" id="water"]
+[ext_resource type="AudioStream" path="res://assets/audio/opengameart/happy_adventure_loop.mp3" id="music"]
+[ext_resource type="Script" path="res://scripts/abilities/copy_source.gd" id="e0"]
+[ext_resource type="Script" path="res://scripts/entities/battery.gd" id="e1"]
+[ext_resource type="Script" path="res://scripts/entities/golden_screw.gd" id="e2"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Tree.gltf" id="e3"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Rock_1.gltf" id="e4"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Rock_2.gltf" id="e5"]
+[ext_resource type="Script" path="res://scripts/entities/checkpoint.gd" id="e6"]
+[ext_resource type="Script" path="res://scripts/entities/hint_zone.gd" id="e7"]
+[ext_resource type="Script" path="res://scripts/entities/metal_block.gd" id="e8"]
+[ext_resource type="Script" path="res://scripts/entities/hazard.gd" id="e9"]
+[ext_resource type="Script" path="res://scripts/entities/cracked_floor.gd" id="e10"]
+[ext_resource type="Script" path="res://scripts/entities/water_zone.gd" id="e11"]
+[ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e12"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Goal_Flag.gltf" id="e13"]
+[ext_resource type="Script" path="res://scripts/entities/prop.gd" id="e14"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e15"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e16"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e17"]
+
+[sub_resource type="ShaderMaterial" id="m_ice"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.720, 0.900, 1.000, 1)
+shader_parameter/top_color2 = Color(0.650, 0.850, 0.980, 1)
+shader_parameter/side_a = Color(0.500, 0.720, 0.900, 1)
+shader_parameter/side_b = Color(0.440, 0.640, 0.840, 1)
+
+[sub_resource type="ShaderMaterial" id="m_snow"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.950, 0.970, 1.000, 1)
+shader_parameter/top_color2 = Color(0.880, 0.920, 0.980, 1)
+shader_parameter/side_a = Color(0.620, 0.700, 0.820, 1)
+shader_parameter/side_b = Color(0.540, 0.620, 0.750, 1)
+
+[sub_resource type="ShaderMaterial" id="m_stone"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.780, 0.800, 0.840, 1)
+shader_parameter/top_color2 = Color(0.720, 0.740, 0.790, 1)
+shader_parameter/side_a = Color(0.620, 0.640, 0.700, 1)
+shader_parameter/side_b = Color(0.550, 0.570, 0.630, 1)
+
+[sub_resource type="CylinderShape3D" id="trunk"]
+height = 2.4
+radius = 0.35
+
+[sub_resource type="SphereShape3D" id="rockshape"]
+radius = 0.45
+
+[sub_resource type="ShaderMaterial" id="water_mat"]
+render_priority = 0
+shader = ExtResource("water")
+
+[sub_resource type="PlaneMesh" id="water_mesh"]
+material = SubResource("water_mat")
+size = Vector2(500, 500)
+subdivide_width = 60
+subdivide_depth = 60
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.120, 0.100, 0.220, 1)
+sky_horizon_color = Color(0.300, 0.250, 0.420, 1)
+sky_curve = 0.12
+ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_horizon_color = Color(0.300, 0.250, 0.420, 1)
+sun_angle_max = 20.0
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.6
+ambient_light_energy = 0.800
+tonemap_mode = 2
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.4
+glow_bloom = 0.05
+fog_enabled = true
+fog_light_color = Color(0.250, 0.220, 0.380, 1)
+fog_density = 0.0060
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.12
+
+[node name="ch3_zirve" type="Node3D"]
+script = ExtResource("area")
+area_id = "ch3_zirve"
+title = "Kar Zirvesi"
+kill_height = -14
+music = ExtResource("music")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, 0, -0.5, -0.383022, 0.642788, -0.663414, 0.321394, 0.766044, 0.55667, 0, 10, 0)
+light_color = Color(0.800, 0.700, 1.000, 1)
+light_energy = 0.60
+shadow_enabled = true
+shadow_blur = 1.5
+directional_shadow_mode = 0
+directional_shadow_max_distance = 45.0
+
+[node name="GameRig" parent="." instance=ExtResource("rig")]
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="Batteries" type="Node3D" parent="."]
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="Clouds" type="Node3D" parent="."]
+
+[node name="Guide" type="Node3D" parent="."]
+
+[node name="Labels" type="Node3D" parent="."]
+
+[node name="Kutu_1" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+use_collision = true
+size = Vector3(16, 3, 16)
+material = SubResource("m_snow")
+
+[node name="Start" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, 0, 0.1, 5)
+
+[node name="Copy_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+script = ExtResource("e0")
+ability = "yay"
+
+[node name="Kutu_2" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -11)
+use_collision = true
+size = Vector3(10, 8, 6)
+material = SubResource("m_snow")
+
+[node name="Kutu_3" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -17)
+use_collision = true
+size = Vector3(10, 12, 6)
+material = SubResource("m_snow")
+
+[node name="Kutu_4" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, -24)
+use_collision = true
+size = Vector3(10, 16, 8)
+material = SubResource("m_snow")
+
+[node name="Pil_1" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -5)
+script = ExtResource("e1")
+
+[node name="Pil_2" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.89808, -6.66667)
+script = ExtResource("e1")
+
+[node name="Pil_3" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.39808, -8.33333)
+script = ExtResource("e1")
+
+[node name="Pil_4" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.3, -10)
+script = ExtResource("e1")
+
+[node name="Pil_5" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.3, -12)
+script = ExtResource("e1")
+
+[node name="Pil_6" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.39808, -13.3333)
+script = ExtResource("e1")
+
+[node name="Pil_7" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.8981, -14.6667)
+script = ExtResource("e1")
+
+[node name="Pil_8" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.8, -16)
+script = ExtResource("e1")
+
+[node name="Pil_9" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.8, -18)
+script = ExtResource("e1")
+
+[node name="Pil_10" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.8981, -19.3333)
+script = ExtResource("e1")
+
+[node name="Pil_11" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.3981, -20.6667)
+script = ExtResource("e1")
+
+[node name="Pil_12" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.3, -22)
+script = ExtResource("e1")
+
+[node name="Kutu_5" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3, -12)
+use_collision = true
+size = Vector3(2, 12, 2)
+material = SubResource("m_snow")
+
+[node name="Screw_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 9.1, -12)
+script = ExtResource("e2")
+
+[node name="Tree_1" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(-0.674252, 0, 0.738501, -0, 1, 0, -0.738501, 0, -0.674252, -6, 0, 6)
+
+[node name="Model" parent="Decor/Tree_1" instance=ExtResource("e3")]
+transform = Transform3D(0.44, 0, 0, 0, 0.44, 0, 0, 0, 0.44, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Tree_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("trunk")
+
+[node name="Tree_2" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(-0.170634, 0, -0.985334, 0, 1, -0, 0.985334, 0, -0.170634, 6.5, 0, 4)
+
+[node name="Model" parent="Decor/Tree_2" instance=ExtResource("e3")]
+transform = Transform3D(0.385, 0, 0, 0, 0.385, 0, 0, 0, 0.385, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Tree_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("trunk")
+
+[node name="Rock_1_1" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(0.991497, 0, 0.130128, 0, 1, 0, -0.130128, 0, 0.991497, -6, 0, -5)
+
+[node name="Model" parent="Decor/Rock_1_1" instance=ExtResource("e4")]
+transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_1_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+shape = SubResource("rockshape")
+
+[node name="Rock_2_1" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(0.977531, 0, 0.210791, 0, 1, 0, -0.210791, 0, 0.977531, 6, 0, -6)
+
+[node name="Model" parent="Decor/Rock_2_1" instance=ExtResource("e5")]
+transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_2_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, 0)
+shape = SubResource("rockshape")
+
+[node name="Pirilnokta_1" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, -11)
+
+[node name="Pirilnokta_2" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.5, -24)
+
+[node name="Checkpoint_1" type="Area3D" parent="Entities"]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -3, 13.5, -23)
+script = ExtResource("e6")
+checkpoint_id = "tepe"
+
+[node name="Copy_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 13.5, -25.5)
+script = ExtResource("e0")
+ability = "miknatis"
+
+[node name="Hint_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, -26)
+script = ExtResource("e7")
+hint = "ability"
+size = Vector3(10, 3, 4)
+delay = 6
+
+[node name="Metal_1" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.5, -33)
+script = ExtResource("e8")
+size = Vector3(1, 1, 1)
+
+[node name="Kutu_6" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33)
+use_collision = true
+size = Vector3(0.5, 24, 0.5)
+material = SubResource("m_stone")
+
+[node name="Pil_13" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.4, -33)
+script = ExtResource("e1")
+
+[node name="Metal_2" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.7, -38.5)
+script = ExtResource("e8")
+size = Vector3(1, 1, 1)
+
+[node name="Kutu_7" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -38.5)
+use_collision = true
+size = Vector3(0.5, 25.2, 0.5)
+material = SubResource("m_stone")
+
+[node name="Pil_14" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.6, -38.5)
+script = ExtResource("e1")
+
+[node name="Metal_3" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.9, -44)
+script = ExtResource("e8")
+size = Vector3(1, 1, 1)
+
+[node name="Kutu_8" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -44)
+use_collision = true
+size = Vector3(0.5, 26.4, 0.5)
+material = SubResource("m_stone")
+
+[node name="Pil_15" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.8, -44)
+script = ExtResource("e1")
+
+[node name="Metal_4" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.1, -49.5)
+script = ExtResource("e8")
+size = Vector3(1, 1, 1)
+
+[node name="Kutu_9" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -49.5)
+use_collision = true
+size = Vector3(0.5, 27.6, 0.5)
+material = SubResource("m_stone")
+
+[node name="Pil_16" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, -49.5)
+script = ExtResource("e1")
+
+[node name="Kutu_10" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5, -57)
+use_collision = true
+size = Vector3(14, 9, 10)
+material = SubResource("m_snow")
+
+[node name="Kutu_11" type="CSGBox3D" parent="Level"]
+transform = Transform3D(-1, 0, -1.22465e-16, 5.47679e-17, 0.894427, -0.447214, 1.09536e-16, -0.447214, -0.894427, 0, 13.3211, -67)
+use_collision = true
+size = Vector3(6, 0.4, 11.1803)
+material = SubResource("m_snow")
+
+[node name="Pirilnokta_3" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, -42)
+
+[node name="Kutu_12" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -79)
+use_collision = true
+size = Vector3(14, 6, 30)
+material = SubResource("m_snow")
+
+[node name="Checkpoint_2" type="Area3D" parent="Entities"]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -4.5, 16, -56)
+script = ExtResource("e6")
+checkpoint_id = "direk"
+
+[node name="Hazard_1" type="Area3D" parent="Entities"]
+transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, -5, 11, -75)
+script = ExtResource("e9")
+kind = "saw"
+move = Vector3(0, 0, -14)
+period = 3
+
+[node name="Hazard_2" type="Area3D" parent="Entities"]
+transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, -1.7, 11, -75)
+script = ExtResource("e9")
+kind = "saw"
+move = Vector3(0, 0, -14)
+period = 3.7
+
+[node name="Hazard_3" type="Area3D" parent="Entities"]
+transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 1.7, 11, -75)
+script = ExtResource("e9")
+kind = "saw"
+move = Vector3(0, 0, -14)
+period = 4.4
+
+[node name="Hazard_4" type="Area3D" parent="Entities"]
+transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 5, 11, -75)
+script = ExtResource("e9")
+kind = "saw"
+move = Vector3(0, 0, -14)
+period = 3.4
+
+[node name="Rock_2_2" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(-0.94142, 0, -0.337235, 0, 1, -0, 0.337235, 0, -0.94142, -6.2, 11, -73)
+
+[node name="Model" parent="Decor/Rock_2_2" instance=ExtResource("e5")]
+transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_2_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+shape = SubResource("rockshape")
+
+[node name="Rock_1_2" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(-0.316742, 0, -0.948512, 0, 1, -0, 0.948512, 0, -0.316742, 6.2, 11, -69)
+
+[node name="Model" parent="Decor/Rock_1_2" instance=ExtResource("e4")]
+transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_1_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+shape = SubResource("rockshape")
+
+[node name="Rock_2_3" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(-0.993439, 0, 0.114365, -0, 1, 0, -0.114365, 0, -0.993439, -6.2, 11, -83)
+
+[node name="Model" parent="Decor/Rock_2_3" instance=ExtResource("e5")]
+transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_2_3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+shape = SubResource("rockshape")
+
+[node name="Rock_1_3" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(-0.0434377, 0, 0.999056, -0, 1, 0, -0.999056, 0, -0.0434377, 6.2, 11, -79)
+
+[node name="Model" parent="Decor/Rock_1_3" instance=ExtResource("e4")]
+transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_1_3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+shape = SubResource("rockshape")
+
+[node name="Pil_17" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -75)
+script = ExtResource("e1")
+
+[node name="Pil_18" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -78.5)
+script = ExtResource("e1")
+
+[node name="Pil_19" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -82)
+script = ExtResource("e1")
+
+[node name="Pil_20" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -85.5)
+script = ExtResource("e1")
+
+[node name="Pil_21" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -89)
+script = ExtResource("e1")
+
+[node name="Checkpoint_3" type="Area3D" parent="Entities"]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -4.5, 11, -92)
+script = ExtResource("e6")
+checkpoint_id = "cig"
+
+[node name="Pirilnokta_4" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, -80)
+
+[node name="Copy_3" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 11, -92.5)
+script = ExtResource("e0")
+ability = "yay"
+
+[node name="Kutu_13" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, -99)
+use_collision = true
+size = Vector3(8, 10, 6)
+material = SubResource("m_snow")
+
+[node name="Pil_22" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.3, -97.5)
+script = ExtResource("e1")
+
+[node name="Pil_23" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.3, -100.5)
+script = ExtResource("e1")
+
+[node name="Copy_4" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 15.5, -100.5)
+script = ExtResource("e0")
+ability = "balon"
+
+[node name="Pil_24" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.3, -103)
+script = ExtResource("e1")
+
+[node name="Pil_25" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.4428, -105.5)
+script = ExtResource("e1")
+
+[node name="Pil_26" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.55, -108)
+script = ExtResource("e1")
+
+[node name="Pil_27" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.1928, -110.5)
+script = ExtResource("e1")
+
+[node name="Pil_28" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.8, -113)
+script = ExtResource("e1")
+
+[node name="Kutu_14" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -117)
+use_collision = true
+size = Vector3(8, 4, 6)
+material = SubResource("m_ice")
+
+[node name="Copy_5" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 13, -118.5)
+script = ExtResource("e0")
+ability = "miknatis"
+
+[node name="Metal_5" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7, -125)
+script = ExtResource("e8")
+size = Vector3(1.6, 1.6, 1.6)
+
+[node name="Metal_6" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2, -131)
+script = ExtResource("e8")
+size = Vector3(1.6, 1.6, 1.6)
+
+[node name="Kutu_15" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -135.75)
+use_collision = true
+size = Vector3(8, 3, 3.5)
+material = SubResource("m_snow")
+
+[node name="Kutu_16" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 10, -139.5)
+use_collision = true
+size = Vector3(2, 3, 4)
+material = SubResource("m_snow")
+
+[node name="Kutu_17" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 10, -139.5)
+use_collision = true
+size = Vector3(2, 3, 4)
+material = SubResource("m_snow")
+
+[node name="Kutu_18" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -141.75)
+use_collision = true
+size = Vector3(8, 3, 0.5)
+material = SubResource("m_snow")
+
+[node name="Cracked_1" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2, -139.5)
+script = ExtResource("e10")
+size = Vector3(4, 0.6, 4)
+
+[node name="Copy_6" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 11.5, -135.5)
+script = ExtResource("e0")
+ability = "kaya"
+
+[node name="Kutu_19" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.25, -142.5)
+use_collision = true
+size = Vector3(10, 11.5, 1)
+material = SubResource("m_ice")
+
+[node name="Kutu_20" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -136.75)
+use_collision = true
+size = Vector3(8, 3, 0.5)
+material = SubResource("m_stone")
+
+[node name="Kutu_21" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, -143.5)
+use_collision = true
+size = Vector3(8, 3, 13)
+material = SubResource("m_stone")
+
+[node name="Kutu_22" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 8.5, -155)
+use_collision = true
+size = Vector3(1, 6, 36)
+material = SubResource("m_stone")
+
+[node name="Kutu_23" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 8.5, -155)
+use_collision = true
+size = Vector3(1, 6, 36)
+material = SubResource("m_stone")
+
+[node name="Copy_7" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -146)
+script = ExtResource("e0")
+ability = "buz"
+
+[node name="Kutu_24" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -155)
+use_collision = true
+size = Vector3(8, 1, 10)
+material = SubResource("m_stone")
+
+[node name="Water_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -155)
+script = ExtResource("e11")
+size = Vector3(8, 3, 10)
+
+[node name="Kutu_25" type="CSGBox3D" parent="Level"]
+transform = Transform3D(-1, 0, -1.22465e-16, 5.47679e-17, 0.894427, -0.447214, 1.09536e-16, -0.447214, -0.894427, 3.25, 5.32111, -153)
+use_collision = true
+size = Vector3(1.5, 0.4, 6.7082)
+material = SubResource("m_stone")
+
+[node name="Kutu_26" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.65, -166)
+use_collision = true
+size = Vector3(8, 5, 12)
+material = SubResource("m_snow")
+
+[node name="Pil_29" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -151)
+script = ExtResource("e1")
+
+[node name="Pil_30" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -153.667)
+script = ExtResource("e1")
+
+[node name="Pil_31" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -156.333)
+script = ExtResource("e1")
+
+[node name="Pil_32" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -159)
+script = ExtResource("e1")
+
+[node name="Copy_8" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 9.15, -164)
+script = ExtResource("e0")
+ability = "pervane"
+
+[node name="Checkpoint_4" type="Area3D" parent="Entities"]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -3, 9.15, -162)
+script = ExtResource("e6")
+checkpoint_id = "gecit"
+
+[node name="Kutu_27" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -179)
+use_collision = true
+size = Vector3(14, 12, 14)
+material = SubResource("m_snow")
+
+[node name="Pil_33" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.95, -169)
+script = ExtResource("e1")
+
+[node name="Pil_34" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.9311, -171)
+script = ExtResource("e1")
+
+[node name="Pil_35" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.8811, -173)
+script = ExtResource("e1")
+
+[node name="Pil_36" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.8, -175)
+script = ExtResource("e1")
+
+[node name="Exit_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -181)
+script = ExtResource("e12")
+
+[node name="Goal_Flag_1" parent="Decor" instance=ExtResource("e13")]
+transform = Transform3D(1.37568, 0, -0.425549, 0, 1.44, 0, 0.425549, 0, 1.37568, 4.5, 15, -183)
+
+[node name="Prop_1" type="Node3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 38, -200)
+script = ExtResource("e14")
+kind = "storm"
+size = 5
+
+[node name="Pirilnokta_5" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.5, -99)
+
+[node name="Pirilnokta_6" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, -117)
+
+[node name="Pirilnokta_7" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, -136)
+
+[node name="Pirilnokta_8" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -146)
+
+[node name="Pirilnokta_9" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -165)
+
+[node name="Kutu_28" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.1524, -4, -25.9293)
+use_collision = true
+size = Vector3(6.12193, 23.1114, 9.05904)
+material = SubResource("m_snow")
+
+[node name="Kutu_29" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.1931, -2, -139.561)
+use_collision = true
+size = Vector3(8.55061, 33.9234, 9.96204)
+material = SubResource("m_snow")
+
+[node name="Kutu_30" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2318, 0, -172.748)
+use_collision = true
+size = Vector3(6.28668, 21.8829, 7.09082)
+material = SubResource("m_snow")
+
+[node name="Kutu_31" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5505, -4, -183.821)
+use_collision = true
+size = Vector3(6.55617, 28.9986, 9.51675)
+material = SubResource("m_snow")
+
+[node name="Kutu_32" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6332, -2, -117.553)
+use_collision = true
+size = Vector3(5.37306, 30.9306, 6.01216)
+material = SubResource("m_snow")
+
+[node name="Kutu_33" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.0289, 0, -109.152)
+use_collision = true
+size = Vector3(5.77135, 28.4597, 7.8312)
+material = SubResource("m_snow")
+
+[node name="Kutu_34" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.8963, -4, -97.4062)
+use_collision = true
+size = Vector3(6.8171, 31.7751, 7.94443)
+material = SubResource("m_snow")
+
+[node name="Kutu_35" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.7917, -2, -183.206)
+use_collision = true
+size = Vector3(8.12202, 19.7759, 9.49091)
+material = SubResource("m_snow")
+
+[node name="Kutu_36" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.2303, 0, -182.257)
+use_collision = true
+size = Vector3(8.49052, 31.4996, 9.45298)
+material = SubResource("m_snow")
+
+[node name="Kutu_37" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.335, -4, -16.6779)
+use_collision = true
+size = Vector3(5.34987, 27.6278, 8.91803)
+material = SubResource("m_snow")
+
+[node name="Kutu_38" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4682, -2, -99.4025)
+use_collision = true
+size = Vector3(6.62555, 25.5604, 8.48863)
+material = SubResource("m_snow")
+
+[node name="Kutu_39" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.2053, 0, -44.8527)
+use_collision = true
+size = Vector3(6.58844, 30.8488, 7.29982)
+material = SubResource("m_snow")
+
+[node name="Kutu_40" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1498, -4, -165.47)
+use_collision = true
+size = Vector3(6.27884, 33.2378, 9.63067)
+material = SubResource("m_snow")
+
+[node name="Kutu_41" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.313, -2, -153.09)
+use_collision = true
+size = Vector3(6.73588, 30.9531, 9.70164)
+material = SubResource("m_snow")
+
+[node name="Tree_3" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(0.00306715, 0, 0.999995, 0, 1, 0, -0.999995, 0, 0.00306715, -5, 11, -95)
+
+[node name="Model" parent="Decor/Tree_3" instance=ExtResource("e3")]
+transform = Transform3D(0.385, 0, 0, 0, 0.385, 0, 0, 0, 0.385, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Tree_3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("trunk")
+
+[node name="Tree_4" type="StaticBody3D" parent="Decor"]
+transform = Transform3D(-0.997415, 0, 0.0718622, -0, 1, 0, -0.0718622, 0, -0.997415, 5.5, 15, -184)
+
+[node name="Model" parent="Decor/Tree_4" instance=ExtResource("e3")]
+transform = Transform3D(0.385, 0, 0, 0, 0.385, 0, 0, 0, 0.385, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Decor/Tree_4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("trunk")
+
+[node name="Cloud_2_1" parent="Clouds" instance=ExtResource("e15")]
+transform = Transform3D(2.55786, 0, -1.36846, 0, 2.90092, 0, 1.36846, 0, 2.55786, 56.0422, -7.67263, -22.4855)
+
+[node name="Cloud_3_1" parent="Clouds" instance=ExtResource("e16")]
+transform = Transform3D(-2.49801, 0, 1.24647, -0, 2.79172, 0, -1.24647, 0, -2.49801, -61.2144, -10.8056, 29.6827)
+
+[node name="Cloud_1_1" parent="Clouds" instance=ExtResource("e17")]
+transform = Transform3D(1.17112, 0, 2.76188, 0, 2.99992, 0, -2.76188, 0, 1.17112, 79.2921, 39.1475, -10.4516)
+
+[node name="Cloud_3_2" parent="Clouds" instance=ExtResource("e16")]
+transform = Transform3D(-1.2313, 0, -1.37044, 0, 1.84234, -0, 1.37044, 0, -1.2313, -57.9038, -11.8751, -151.269)
+
+[node name="Cloud_1_2" parent="Clouds" instance=ExtResource("e17")]
+transform = Transform3D(-0.603462, 0, -2.31932, 0, 2.39654, -0, 2.31932, 0, -0.603462, 47.8943, -6.79754, 2.96911)
+
+[node name="Cloud_1_3" parent="Clouds" instance=ExtResource("e17")]
+transform = Transform3D(-2.88461, 0, 0.510285, -0, 2.92939, 0, -0.510285, 0, -2.88461, 35.0407, 36.521, -138.467)
+
+[node name="Cloud_2_2" parent="Clouds" instance=ExtResource("e15")]
+transform = Transform3D(-2.38737, 0, -0.611538, 0, 2.46445, -0, 0.611538, 0, -2.38737, 54.0673, -10.959, -103.158)
+
+[node name="Cloud_1_4" parent="Clouds" instance=ExtResource("e17")]
+transform = Transform3D(1.06502, 0, 1.83454, 0, 2.12128, 0, -1.83454, 0, 1.06502, -76.2536, 31.0573, -142.697)
+
+[node name="Cloud_1_5" parent="Clouds" instance=ExtResource("e17")]
+transform = Transform3D(-0.621937, 0, -2.7071, 0, 2.77763, -0, 2.7071, 0, -0.621937, -78.619, 29.9486, -61.2094)
+
+[node name="Cloud_2_3" parent="Clouds" instance=ExtResource("e15")]
+transform = Transform3D(-1.47694, 0, -1.38722, 0, 2.02626, -0, 1.38722, 0, -1.47694, -66.7822, 39.2635, 20.6713)
+
+[node name="Cloud_3_3" parent="Clouds" instance=ExtResource("e16")]
+transform = Transform3D(2.59924, 0, -1.37809, 0, 2.94197, 0, 1.37809, 0, 2.59924, 56.3387, 28.2472, -12.0323)
+
+[node name="Cloud_2_4" parent="Clouds" instance=ExtResource("e15")]
+transform = Transform3D(2.28272, 0, 1.50016, 0, 2.73154, 0, -1.50016, 0, 2.28272, -48.0926, 37.3758, 34.2875)
+
+[node name="Cloud_1_6" parent="Clouds" instance=ExtResource("e17")]
+transform = Transform3D(-2.05995, 0, -0.80387, 0, 2.21124, -0, 0.80387, 0, -2.05995, 26.9216, 32.2153, 49.1881)
+
+[node name="Cloud_2_5" parent="Clouds" instance=ExtResource("e15")]
+transform = Transform3D(1.51366, 0, 2.58117, 0, 2.99225, 0, -2.58117, 0, 1.51366, -35.2298, 28.6133, 21.5386)
+
+[node name="Cloud_1_7" parent="Clouds" instance=ExtResource("e17")]
+transform = Transform3D(-2.72259, 0, 1.26347, -0, 3.00148, 0, -1.26347, 0, -2.72259, -58.9512, 39.2532, -107.962)
+
+[node name="Cloud_2_6" parent="Clouds" instance=ExtResource("e15")]
+transform = Transform3D(1.38421, 0, -0.960931, 0, 1.68506, 0, 0.960931, 0, 1.38421, -65.34, 38.5902, 32.2242)
+
+[node name="Cloud_3_4" parent="Clouds" instance=ExtResource("e16")]
+transform = Transform3D(-2.82023, 0, -1.26786, 0, 3.09212, -0, 1.26786, 0, -2.82023, 74.6582, -10.7341, -62.8796)
+
+[node name="Cloud_2_7" parent="Clouds" instance=ExtResource("e15")]
+transform = Transform3D(-1.91306, 0, -0.198844, 0, 1.92336, -0, 0.198844, 0, -1.91306, 15.3995, -7.93407, 42.3056)
