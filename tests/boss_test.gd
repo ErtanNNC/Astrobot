@@ -57,11 +57,16 @@ func _run() -> void:
 	var side := Vector3(hp.x, 0.1, hp.z) + Vector3(3.6, 0, 0)
 	await place(side, -PI / 2)   # kancaya bakıyor (-X)
 	bip.invuln = 5.0
+	GameState.set_ability("yay")   # beklerken düşen hurda Yay'ı almış olabilir
 	Input.action_press("jump")
-	Input.action_press("move_forward")
-	await step(30)
+	for i in 60:
+		await get_tree().physics_frame
+		# yükselirken kancanın üstüne gel, hizasına gelince ileriyi bırak
+		if bip.global_position.y > hp.y + 0.4 and absf(bip.global_position.x - hp.x) > 0.3:
+			Input.action_press("move_forward")
+		else:
+			Input.action_release("move_forward")
 	Input.action_release("move_forward")
-	await step(10)
 	Input.action_release("jump")
 	for i in 80:
 		await get_tree().physics_frame

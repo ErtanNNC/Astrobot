@@ -34,6 +34,7 @@ func _ready() -> void:
 	body_exited.connect(_on_exit)
 	# Katı gövde: üstüne çıkılabilir, içinden geçilmez
 	var body := StaticBody3D.new()
+	body.collision_layer = 2   # kamera kolu çarpmasın
 	var bs := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
 	cyl.radius = 0.5

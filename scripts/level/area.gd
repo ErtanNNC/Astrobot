@@ -66,6 +66,7 @@ func _ready() -> void:
 	GameState.area_batteries = 0
 	GameState.safe_mode = safe
 	_count_batteries.call_deferred()
+	_move_props_to_layer2.call_deferred()
 	_spawn_lost_robots.call_deferred()
 	# Nereden başlıyoruz?
 	_respawn = _start
@@ -121,6 +122,17 @@ func _spawn_lost_robots() -> void:
 
 func on_robot_rescued() -> void:
 	hud.banner("Robot kurtarıldı!", "Toplam %d" % GameState.data.get("robots", []).size(), 1.2)
+
+
+## Ağaç/kaya gibi süs gövdeleri ve sandıklar 2. katmana: Bip çarpar, kamera kolu çarpmaz (ekran sıçramaz).
+func _move_props_to_layer2() -> void:
+	var decor := get_node_or_null("Decor")
+	if decor:
+		for b in decor.find_children("*", "StaticBody3D", true, false):
+			b.collision_layer = 2
+	for c in get_tree().get_nodes_in_group("stompable"):
+		if c is StaticBody3D:
+			c.collision_layer = 2
 
 
 func _count_batteries() -> void:

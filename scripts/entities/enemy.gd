@@ -37,7 +37,7 @@ func _ready() -> void:
 	_axis = global_basis.x.normalized()
 	rotation = Vector3.ZERO
 	collision_layer = 4
-	collision_mask = 1
+	collision_mask = 1 | 2
 	var cs := CollisionShape3D.new()
 	var sh := CapsuleShape3D.new()
 	sh.radius = 0.45

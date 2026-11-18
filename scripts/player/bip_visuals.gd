@@ -211,7 +211,7 @@ func _update_blob() -> void:
 	if not _blob or not bip.is_inside_tree():
 		return
 	var from := bip.global_position + Vector3.UP * 0.4
-	var q := PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 40.0, 1, [bip.get_rid()])
+	var q := PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 40.0, 1 | 2, [bip.get_rid()])
 	var hit := bip.get_world_3d().direct_space_state.intersect_ray(q)
 	if hit.is_empty():
 		_blob.visible = false

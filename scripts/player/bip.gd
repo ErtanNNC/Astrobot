@@ -118,6 +118,7 @@ var _squash_tween: Tween
 
 func _ready() -> void:
 	add_to_group("player")
+	collision_mask = 1 | 2   # 2: küçük süsler (ağaç, kaya, sandık) — Bip çarpar, kamera çarpmaz
 	floor_max_angle = deg_to_rad(max_floor_angle_deg)
 	floor_snap_length = 0.3
 	floor_stop_on_slope = true
@@ -613,7 +614,7 @@ func _floor_collider() -> Object:
 		var c := get_slide_collision(i)
 		if c.get_normal().y > 0.6 and c.get_collider():
 			return c.get_collider()
-	var q := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP * 0.3, global_position + Vector3.DOWN * 0.6, 1, [get_rid()])
+	var q := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP * 0.3, global_position + Vector3.DOWN * 0.6, 1 | 2, [get_rid()])
 	var hit := get_world_3d().direct_space_state.intersect_ray(q)
 	return hit.collider if hit else null
 
