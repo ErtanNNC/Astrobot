@@ -249,6 +249,15 @@ func _draw() -> void:
 		draw_circle(ac, ar * 1.25, Color(1, 1, 0.7, 0.25 * _pulse * a))
 	_circle(ac, ar, _ability_color, COL_RING, aa)
 	_icon_antenna(ac, ar * 0.55, aa)
+	# Basılı tutma halkası: Yay şarjı (yeşil) ve yeteneği bırakma (beyaz)
+	var bip := get_tree().get_first_node_in_group("player")
+	if bip:
+		var cf: float = bip.charge_fraction()
+		if cf > 0.0:
+			draw_arc(ac, ar + 8 * _k(), -PI / 2, -PI / 2 + TAU * cf, 40, Color(0.5, 1.0, 0.4, 0.95), 7 * _k(), true)
+		var df: float = bip.drop_fraction()
+		if df > 0.0:
+			draw_arc(ac, ar + 16 * _k(), -PI / 2, -PI / 2 + TAU * df, 40, Color(1, 1, 1, 0.9), 5 * _k(), true)
 
 	# Duraklat
 	var pc := _pause_center()

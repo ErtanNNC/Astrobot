@@ -12,6 +12,31 @@ var _screws := 0
 var _screw_slots := 5
 
 
+func _on_lives(n: int) -> void:
+	_lives = n
+	_heart_pop = 1.0
+	queue_redraw()
+
+
+func _on_batteries(n: int) -> void:
+	_batteries = n
+	_batt_pop = 1.0
+
+
+func _on_screws(_n: int) -> void:
+	_refresh_screws()
+	queue_redraw()
+
+
+func _on_ability(a: String) -> void:
+	_ability = a
+	queue_redraw()
+
+
+func _on_saving() -> void:
+	_save_t = 1.2
+
+
 ## Bu bölümün Altın Vidaları: yuva sayısı = bölümdeki (patron dışı) alan sayısı.
 func _refresh_screws() -> void:
 	var area: String = GameState.data.get("area", "ch1_atolye")
@@ -36,11 +61,12 @@ var _sub: Label
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	GameState.lives_changed.connect(func(n): _lives = n; _heart_pop = 1.0; queue_redraw())
-	GameState.batteries_changed.connect(func(n): _batteries = n; _batt_pop = 1.0)
-	GameState.screws_changed.connect(func(_n): _refresh_screws(); queue_redraw())
-	GameState.ability_changed.connect(func(a): _ability = a; queue_redraw())
-	GameState.saving.connect(func(): _save_t = 1.2)
+	# Yöntemlere bağlanır (lambda değil): sahne kapanınca bağlantı kendiliğinden kopar
+	GameState.lives_changed.connect(_on_lives)
+	GameState.batteries_changed.connect(_on_batteries)
+	GameState.screws_changed.connect(_on_screws)
+	GameState.ability_changed.connect(_on_ability)
+	GameState.saving.connect(_on_saving)
 	_lives = GameState.lives
 	_batteries = GameState.total_batteries()
 	_shown_batteries = _batteries
