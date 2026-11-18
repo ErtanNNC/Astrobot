@@ -30,6 +30,7 @@ var _icon_holder: Node3D
 var _tip_mat: StandardMaterial3D
 var _beam: MeshInstance3D
 var _tip: Node3D
+var _dust_t := 0.0
 var _t := 0.0
 
 
@@ -89,6 +90,12 @@ func _process(delta: float) -> void:
 		# Tepeye yakın pozda bekle; düşüşte hafifçe ilerle.
 		if anim.current_animation == A_JUMP and anim.current_animation_position > 0.42:
 			anim.speed_scale = 0.0
+
+	# Koşu tozu: hızlı koşarken ayaklardan küçük toz bulutları
+	_dust_t -= delta
+	if on_floor and speed > 5.0 and _dust_t <= 0.0:
+		_dust_t = 0.12
+		Fx.burst(bip.global_position + Vector3(0, 0.08, 0), Color(0.95, 0.92, 0.85), 2, 0.8)
 
 	# Adım sesi: yerde ve hareket ederken
 	var walking := on_floor and speed > 1.0

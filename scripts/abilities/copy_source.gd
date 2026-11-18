@@ -116,6 +116,7 @@ func _on_exit(b: Node) -> void:
 
 
 func on_copied() -> void:
+	Fx.burst(global_position + Vector3.UP * 0.7, AbilityModels.color(ability), 14, 3.0)
 	var tw := create_tween()
 	tw.tween_property(_model, "scale", Vector3(1.25, 0.75, 1.25), 0.08)
 	tw.tween_property(_model, "scale", Vector3.ONE, 0.35).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)

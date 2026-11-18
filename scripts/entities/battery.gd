@@ -113,6 +113,7 @@ func collect() -> void:
 	_combo = mini(_combo + 1, 12)
 	_combo_time = 0.6
 	Sfx.play("pickup", -6.0 if _ghost else -2.0, 1.0 + _combo * 0.04, 0.0)
+	Fx.burst(global_position, Color(0.4, 1.0, 0.55), 8, 2.5)
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(_model, "scale", Vector3.ONE * 1.6, 0.12)

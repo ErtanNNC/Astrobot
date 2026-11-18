@@ -37,6 +37,7 @@ func smash() -> void:
 	_broken = true
 	Sfx.play("break")
 	Haptics.vibrate(30)
+	Fx.burst(global_position + Vector3.UP * 0.5, Color(1, 0.8, 0.5), 10, 3.0)
 	var parent := get_parent()
 	Battery.burst(parent, global_position, batteries, String(name))
 	# Parçalar

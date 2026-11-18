@@ -24,6 +24,7 @@ Settings="*res://scripts/autoload/settings.gd"
 Sfx="*res://scripts/autoload/sfx.gd"
 GameState="*res://scripts/autoload/game_state.gd"
 Scenes="*res://scripts/autoload/scenes.gd"
+Fx="*res://scripts/autoload/fx.gd"
 
 [display]
 
