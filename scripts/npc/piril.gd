@@ -14,6 +14,7 @@ var _icon_kind := ""
 var _guide: Node3D
 var _hint_pos := Vector3.ZERO
 var _visited := {}
+var _intro := 0.0   ## > 0 iken Pırıl Bip'in kafasında (tanışma anı, hikaye)
 
 
 func _ready() -> void:
@@ -46,6 +47,11 @@ func _ready() -> void:
 	_icon = Node3D.new()
 	_icon.visible = false
 	add_child(_icon)
+	var lvl := get_tree().current_scene
+	if lvl and lvl.get("area_id") == "ch1_atolye" and not GameState.data.get("seen_cutscenes", []).has("piril_intro") \
+			and GameState.data.get("checkpoint_id", "start") == "start":
+		_intro = 4.0
+		GameState.mark_seen("piril_intro")
 
 
 func _process(delta: float) -> void:
@@ -56,6 +62,14 @@ func _process(delta: float) -> void:
 			global_position = _bip.global_position + follow_offset
 		return
 	var target: Vector3
+	if _intro > 0.0:
+		# Bip'in kafasına konar, iki kez dürter, sonra kapıya uçar
+		_intro -= delta
+		target = _bip.global_position + Vector3(0, 1.55 + absf(sin(_t * 6.0)) * 0.12, 0)
+		if fmod(_intro, 1.6) < delta:
+			Sfx.play("glass", -8.0, 1.5)
+		global_position = global_position.lerp(target, 1.0 - exp(-6.0 * delta))
+		return
 	if _icon_kind != "":
 		target = _hint_pos
 	else:
