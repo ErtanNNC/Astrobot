@@ -181,6 +181,11 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_t += delta
+	if kind == "lamp":
+		# Kameraya çok yaklaşan lamba ampulü ekranı kaplamasın
+		var cam := get_viewport().get_camera_3d()
+		if cam and get_child_count() > 0:
+			get_child(0).visible = cam.global_position.distance_to(global_position) > 2.2
 	if _part and spin != 0.0:
 		_part.rotate_object_local(Vector3.UP, spin * delta)
 	if kind == "storm":

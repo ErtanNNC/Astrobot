@@ -39,31 +39,55 @@ func _ready() -> void:
 		_set_ghost()
 
 
+static var _mesh_cache: ArrayMesh
+
+
+## Pil modeli: tek parça (tek çizim çağrısı), renkler köşe renginde. Gölge atmaz.
 static func make_model() -> Node3D:
+	if _mesh_cache == null:
+		_mesh_cache = _build_mesh()
 	var root := Node3D.new()
-	var body := CylinderMesh.new()
-	body.top_radius = 0.16
-	body.bottom_radius = 0.16
-	body.height = 0.42
-	body.radial_segments = 12
-	var green := AbilityModels.mat(Color(0.3, 0.95, 0.45), 0.3, 0.8)
-	var dark := AbilityModels.mat(Color(0.12, 0.14, 0.2), 0.4)
-	var tip := AbilityModels.mat(Color(0.95, 0.85, 0.3), 0.2, 0.5)
-	root.add_child(AbilityModels.mesh_node(body, green))
-	var band := CylinderMesh.new()
-	band.top_radius = 0.165
-	band.bottom_radius = 0.165
-	band.height = 0.1
-	band.radial_segments = 12
-	root.add_child(AbilityModels.mesh_node(band, dark, Vector3(0, -0.12, 0)))
-	var cap := CylinderMesh.new()
-	cap.top_radius = 0.06
-	cap.bottom_radius = 0.07
-	cap.height = 0.07
-	cap.radial_segments = 8
-	root.add_child(AbilityModels.mesh_node(cap, tip, Vector3(0, 0.245, 0)))
+	var mi := MeshInstance3D.new()
+	mi.mesh = _mesh_cache
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var m := StandardMaterial3D.new()
+	m.vertex_color_use_as_albedo = true
+	m.roughness = 0.3
+	m.emission_enabled = true
+	m.emission = Color(0.25, 0.8, 0.35)
+	m.emission_energy_multiplier = 0.5
+	mi.material_override = m
+	root.add_child(mi)
 	root.rotation.z = 0.35
 	return root
+
+
+static func _build_mesh() -> ArrayMesh:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_add_cyl(st, 0.16, 0.42, 0.0, Color(0.3, 0.95, 0.45))         # gövde
+	_add_cyl(st, 0.168, 0.1, -0.12, Color(0.12, 0.14, 0.2))       # koyu bant
+	_add_cyl(st, 0.065, 0.07, 0.245, Color(0.95, 0.85, 0.3))      # uç
+	st.generate_normals()
+	return st.commit()
+
+
+static func _add_cyl(st: SurfaceTool, r: float, h: float, cy: float, c: Color) -> void:
+	var seg := 10
+	var y0 := cy - h / 2
+	var y1 := cy + h / 2
+	st.set_color(c)
+	for i in seg:
+		var a0 := TAU * i / seg
+		var a1 := TAU * (i + 1) / seg
+		var p0 := Vector3(cos(a0) * r, 0, sin(a0) * r)
+		var p1 := Vector3(cos(a1) * r, 0, sin(a1) * r)
+		# yan yüz
+		st.add_vertex(p0 + Vector3.UP * y0); st.add_vertex(p1 + Vector3.UP * y1); st.add_vertex(p1 + Vector3.UP * y0)
+		st.add_vertex(p0 + Vector3.UP * y0); st.add_vertex(p0 + Vector3.UP * y1); st.add_vertex(p1 + Vector3.UP * y1)
+		# üst ve alt kapak
+		st.add_vertex(Vector3.UP * y1); st.add_vertex(p1 + Vector3.UP * y1); st.add_vertex(p0 + Vector3.UP * y1)
+		st.add_vertex(Vector3.UP * y0); st.add_vertex(p0 + Vector3.UP * y0); st.add_vertex(p1 + Vector3.UP * y0)
 
 
 func _id() -> String:
@@ -75,6 +99,7 @@ func _set_ghost() -> void:
 	for m in _model.find_children("*", "MeshInstance3D", true, false):
 		var mat: StandardMaterial3D = m.material_override.duplicate()
 		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.vertex_color_use_as_albedo = false
 		mat.albedo_color = Color(0.6, 0.85, 1.0, 0.3)
 		mat.emission_enabled = false
 		m.material_override = mat
