@@ -36,6 +36,7 @@ func _ready() -> void:
 
 	var panel := PanelContainer.new()
 	panel.add_theme_stylebox_override("panel", UIKit.card_style())
+	panel.theme = UIKit.panel_theme()
 	center.add_child(panel)
 	_panel = panel
 

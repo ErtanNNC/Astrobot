@@ -1,10 +1,11 @@
 class_name UIKit
 extends RefCounted
-## Menülerde ortak görünüş (Astro Bot gibi neşeli, tok): Kenney UI Pack butonları (CC0),
-## Nunito yazı tipi (OFL), krem renkli yuvarlak kartlar, açılış ve basma animasyonları.
+## Menülerde ortak görünüş: pzUH "Free Game GUI" (CC0) — krem renkli pencereler, kırmızı
+## kurdeleli başlıklar, parlak jöle butonlar, yıldızlar. Yazı tipi Nunito (OFL).
+## Butonların içindeki küçük beyaz simgeler Kenney Game Icons (CC0).
 ## Bkz. docs/features/arayuz/design.md
 
-const BTN_HEIGHT := 80.0
+const BTN_HEIGHT := 84.0
 const FONT_SIZE := 30
 const BLUE := Color(0.25, 0.45, 0.8)
 const GREEN := Color(0.3, 0.75, 0.4)
@@ -13,10 +14,13 @@ const YELLOW := Color(1.0, 0.78, 0.2)
 const PURPLE := Color(0.55, 0.4, 0.75)
 const GREY := Color(0.6, 0.62, 0.68)
 
-const NAVY := Color(0.1, 0.13, 0.3)          ## yazı dış çizgisi, koyu metin
-const DIM := Color(0.06, 0.1, 0.25, 0.55)
+const NAVY := Color(0.1, 0.13, 0.3)
+const BROWN := Color(0.45, 0.26, 0.12)        ## krem pencere üstündeki yazı
+const OUTLINE := Color(0.3, 0.16, 0.08)       ## HUD ve 3B yazıların dış çizgisi
+const RIBBON_TEXT := Color(0.55, 0.06, 0.1)   ## kurdele yazısının dış çizgisi
+const DIM := Color(0.08, 0.06, 0.15, 0.5)
 
-const BTN_DIR := "res://assets/ui/kenney/buttons/"
+const GUI := "res://assets/ui/pzuh/"
 const ICON_DIR := "res://assets/ui/kenney/icons/"
 
 ## Buton yazısına göre simge (yazının başı eşleşirse)
@@ -27,8 +31,14 @@ const ICONS := {
 	"Atölye": "home", "Kontrol noktası": "return", "Sil": "cross", "Evet": "checkmark",
 	"Hayır": "cross", "Emeği": "star", "Sahneler": "menuList", "Açılış": "menuList",
 }
+## Jöle butonun rengine göre yazı dış çizgisi
+const BTN_OUTLINE := {
+	"blue": Color(0.02, 0.35, 0.6), "green": Color(0.22, 0.42, 0.02),
+	"red": Color(0.55, 0.08, 0.14), "grey": Color(0.32, 0.33, 0.38), "purple": Color(0.32, 0.16, 0.5),
+}
 
 static var _theme: Theme
+static var _panel_theme: Theme
 static var _tex_cache := {}
 
 
@@ -42,81 +52,101 @@ static func _tex(path: String) -> Texture2D:
 	return _tex_cache[path]
 
 
+static func gui(name: String) -> Texture2D:
+	return _tex(GUI + name + ".png")
+
+
 static func _color_name(col: Color) -> String:
+	if col.is_equal_approx(PURPLE):
+		return "purple"
 	var best := "blue"
 	var best_d := INF
-	var table := {"blue": BLUE, "green": GREEN, "red": RED, "yellow": YELLOW, "grey": GREY}
+	var table := {"blue": BLUE, "green": GREEN, "red": RED, "grey": GREY, "yellow": YELLOW}
 	for n in table:
 		var c: Color = table[n]
 		var d := Vector3(c.r - col.r, c.g - col.g, c.b - col.b).length()
 		if d < best_d:
 			best_d = d
 			best = n
+	if best == "yellow":
+		best = "green"
 	return best
 
 
-## Kenney butonu: normalde "derinlikli", basılınca derinlik kaybolur (içeri gömülür).
+static func _tex_box(tex: Texture2D, m: Vector4, tint := Color.WHITE) -> StyleBoxTexture:
+	var s := StyleBoxTexture.new()
+	s.texture = tex
+	s.modulate_color = tint
+	s.texture_margin_left = m.x
+	s.texture_margin_top = m.y
+	s.texture_margin_right = m.z
+	s.texture_margin_bottom = m.w
+	return s
+
+
+## Jöle buton: üstüne gelince parlar, basılınca koyulaşır ve yazı aşağı iner.
+## round = kare jöle buton (simge butonları için).
 static func button_styles(col: Color, round := false) -> Dictionary:
 	var cn := _color_name(col)
 	var tint := Color.WHITE
-	if cn == "grey":
-		tint = Color(0.62, 0.66, 0.78)
-	if col.is_equal_approx(PURPLE):
-		cn = "grey"
-		tint = Color(0.78, 0.62, 1.0)
-	var shape := "round" if round else "rectangle"
-	var normal := StyleBoxTexture.new()
-	normal.texture = _tex(BTN_DIR + "%s_button_%s_depth_gradient.png" % [cn, shape])
-	normal.modulate_color = tint
-	var m := 22.0 if not round else 30.0
-	normal.texture_margin_left = m
-	normal.texture_margin_right = m
-	normal.texture_margin_top = m
-	normal.texture_margin_bottom = m + 6.0
-	normal.content_margin_left = 22
-	normal.content_margin_right = 22
+	var file := cn
+	if cn == "purple":
+		file = "grey"
+		tint = Color(0.85, 0.65, 1.15)
+	var tex := gui(("square_" if round else "button_") + file)
+	var m := Vector4(34, 30, 34, 36) if not round else Vector4(28, 28, 28, 32)
+	var normal := _tex_box(tex, m, tint)
+	normal.content_margin_left = 30
+	normal.content_margin_right = 30
 	normal.content_margin_top = 8
-	normal.content_margin_bottom = 16
+	normal.content_margin_bottom = 18
 	var hover: StyleBoxTexture = normal.duplicate()
-	hover.modulate_color = tint.lightened(0.0) * Color(1.12, 1.12, 1.12)
-	var pressed := StyleBoxTexture.new()
-	pressed.texture = _tex(BTN_DIR + "%s_button_%s_gradient.png" % [cn, shape])
-	pressed.modulate_color = tint * Color(0.92, 0.92, 0.92)
-	pressed.texture_margin_left = m
-	pressed.texture_margin_right = m
-	pressed.texture_margin_top = m
-	pressed.texture_margin_bottom = m
-	pressed.content_margin_left = 22
-	pressed.content_margin_right = 22
+	hover.modulate_color = tint * Color(1.1, 1.1, 1.1)
+	var pressed: StyleBoxTexture = normal.duplicate()
+	pressed.modulate_color = tint * Color(0.85, 0.85, 0.88)
 	pressed.content_margin_top = 14
-	pressed.content_margin_bottom = 10
-	pressed.expand_margin_top = -10.0   # basılınca buton aşağı iner
+	pressed.content_margin_bottom = 12
 	var disabled: StyleBoxTexture = normal.duplicate()
-	disabled.texture = _tex(BTN_DIR + "grey_button_%s_depth_gradient.png" % shape)
-	disabled.modulate_color = Color(0.8, 0.8, 0.85, 0.8)
+	disabled.texture = gui("square_grey" if round else "button_grey")
+	disabled.modulate_color = Color(1, 1, 1, 0.7)
 	var focus := StyleBoxFlat.new()
 	focus.draw_center = false
-	focus.border_color = Color(1, 1, 1, 0.95)
+	focus.border_color = Color(1, 0.95, 0.5, 0.95)
 	focus.set_border_width_all(4)
-	focus.set_corner_radius_all(32 if round else 22)
-	focus.set_expand_margin_all(5)
+	focus.set_corner_radius_all(26)
+	focus.set_expand_margin_all(4)
 	return {"normal": normal, "hover": hover, "pressed": pressed, "disabled": disabled, "focus": focus,
 			"hover_pressed": pressed}
 
 
-static func card_style() -> StyleBoxFlat:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.16, 0.24, 0.5, 0.96)
-	sb.set_corner_radius_all(36)
-	sb.set_content_margin_all(30)
-	sb.content_margin_top = 26
-	sb.border_color = Color(0.55, 0.78, 1.0, 0.9)
-	sb.set_border_width_all(5)
-	sb.border_width_bottom = 9
-	sb.shadow_color = Color(0, 0.02, 0.1, 0.4)
-	sb.shadow_size = 16
-	sb.shadow_offset = Vector2(0, 10)
-	return sb
+## Krem pencere (9 parçalı doku): beyaz kenar, köşelerde parlama kabarcıkları.
+static func card_style() -> StyleBoxTexture:
+	var s := _tex_box(gui("panel"), Vector4(44, 44, 44, 52))
+	s.content_margin_left = 34
+	s.content_margin_right = 34
+	s.content_margin_top = 26
+	s.content_margin_bottom = 40
+	return s
+
+
+## Pencere içindeki gömme kutu (istatistik, ayar satırı).
+static func inset_style() -> StyleBoxTexture:
+	var s := _tex_box(gui("inset"), Vector4(26, 26, 26, 26))
+	s.set_content_margin_all(14)
+	return s
+
+
+## Krem pencere içindeki yazılar kahverengi, dış çizgisiz.
+static func panel_theme() -> Theme:
+	if _panel_theme:
+		return _panel_theme
+	var t := Theme.new()
+	t.set_color("font_color", "Label", BROWN)
+	t.set_constant("outline_size", "Label", 0)
+	t.set_color("font_shadow_color", "Label", Color(1, 1, 1, 0.5))
+	t.set_constant("shadow_offset_y", "Label", 2)
+	_panel_theme = t
+	return t
 
 
 ## Tüm oyuna uygulanan tema: yazı tipi, dış çizgili beyaz yazılar, butonlar, kaydırıcılar.
@@ -127,10 +157,10 @@ static func make_theme() -> Theme:
 	t.default_font = font()
 	t.default_font_size = 28
 	for type in ["Label", "Button", "CheckBox", "CheckButton", "LinkButton", "RichTextLabel"]:
-		t.set_color("font_outline_color", type, NAVY)
+		t.set_color("font_outline_color", type, OUTLINE)
 		t.set_constant("outline_size", type, 9)
 	t.set_color("font_color", "Label", Color.WHITE)
-	t.set_color("font_shadow_color", "Label", Color(0, 0, 0.1, 0.25))
+	t.set_color("font_shadow_color", "Label", Color(0.1, 0.05, 0, 0.25))
 	t.set_constant("shadow_offset_y", "Label", 3)
 	t.set_constant("shadow_offset_x", "Label", 0)
 	var bs := button_styles(BLUE)
@@ -138,26 +168,23 @@ static func make_theme() -> Theme:
 		t.set_stylebox(st, "Button", bs[st])
 	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
 		t.set_color(c, "Button", Color.WHITE)
-	t.set_color("font_disabled_color", "Button", Color(1, 1, 1, 0.6))
-	t.set_constant("icon_max_width", "Button", 42)
+	t.set_color("font_outline_color", "Button", BTN_OUTLINE["blue"])
+	t.set_color("font_disabled_color", "Button", Color(1, 1, 1, 0.7))
+	t.set_constant("icon_max_width", "Button", 40)
 	t.set_constant("h_separation", "Button", 12)
 	t.set_stylebox("panel", "PanelContainer", card_style())
-	# Kaydırıcı: kalın, yuvarlak iz ve parlak dolgu
-	var track := StyleBoxFlat.new()
-	track.bg_color = Color(0.05, 0.08, 0.22, 0.6)
-	track.set_corner_radius_all(14)
+	# Kaydırıcı: gri iz, pembe dolgu, yıldız tutamak
+	var track := _tex_box(gui("bar_grey"), Vector4(14, 10, 14, 10))
 	track.content_margin_top = 12
 	track.content_margin_bottom = 12
-	var fill := StyleBoxFlat.new()
-	fill.bg_color = Color(0.35, 0.85, 1.0)
-	fill.set_corner_radius_all(14)
+	var fill := _tex_box(gui("bar_pink"), Vector4(14, 10, 14, 10))
 	t.set_stylebox("slider", "HSlider", track)
 	t.set_stylebox("grabber_area", "HSlider", fill)
 	t.set_stylebox("grabber_area_highlight", "HSlider", fill)
-	var grab := _tex(BTN_DIR + "yellow_button_round_depth_gradient.png")
-	if grab:
-		var img := grab.get_image()
-		img.resize(52, 52, Image.INTERPOLATE_LANCZOS)
+	var star := gui("star")
+	if star:
+		var img := star.get_image()
+		img.resize(60, 58, Image.INTERPOLATE_LANCZOS)
 		var gt := ImageTexture.create_from_image(img)
 		t.set_icon("grabber", "HSlider", gt)
 		t.set_icon("grabber_highlight", "HSlider", gt)
@@ -181,7 +208,7 @@ static func icon_for(text: String) -> Texture2D:
 	return null
 
 
-## Kenney simgesi, buton içi boyuta küçültülmüş (önbellekli).
+## Kenney beyaz simgesi, buton içi boyuta küçültülmüş (önbellekli).
 static func icon(name: String, px := 40) -> Texture2D:
 	var key := "%s@%d" % [name, px]
 	if not _tex_cache.has(key):
@@ -195,22 +222,24 @@ static func icon(name: String, px := 40) -> Texture2D:
 	return _tex_cache[key]
 
 
+## Krem pencere; içindeki yazılar kahverengi. Başlık için title() kurdele çizer.
 static func panel(parent: Node, min_width := 460.0) -> VBoxContainer:
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	parent.add_child(center)
 	var pc := PanelContainer.new()
 	pc.add_theme_stylebox_override("panel", card_style())
+	pc.theme = panel_theme()
 	center.add_child(pc)
 	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 14)
+	v.add_theme_constant_override("separation", 12)
 	v.custom_minimum_size = Vector2(min_width, 0)
 	pc.add_child(v)
 	pop_in(pc)
 	return v
 
 
-## Kart açılırken küçükten büyüyerek "zıplar"; içindeki butonlar sırayla belirir.
+## Pencere açılırken küçükten büyüyerek "zıplar".
 static func pop_in(c: Control) -> void:
 	if not c.is_inside_tree():
 		c.ready.connect(pop_in.bind(c), CONNECT_ONE_SHOT)
@@ -228,16 +257,40 @@ static func pop_in(c: Control) -> void:
 	go.call_deferred()
 
 
+## Büyük başlık (36 px ve üstü) kırmızı kurdele üstünde beyaz yazı; küçükler düz yazı.
 static func title(parent: Node, text: String, size := 38) -> Label:
 	var l := Label.new()
 	l.text = text
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	l.add_theme_font_size_override("font_size", size)
-	if size >= 36:
-		l.add_theme_color_override("font_color", Color(1.0, 0.86, 0.3))
-		l.add_theme_constant_override("outline_size", 12)
-	parent.add_child(l)
+	if size < 36:
+		parent.add_child(l)
+		return l
+	var ribbon := TextureRect.new()
+	ribbon.texture = gui("ribbon")
+	ribbon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	ribbon.stretch_mode = TextureRect.STRETCH_SCALE
+	ribbon.custom_minimum_size = Vector2(0, size * 2.1)
+	ribbon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	l.autowrap_mode = TextServer.AUTOWRAP_OFF
+	l.add_theme_color_override("font_color", Color.WHITE)
+	l.add_theme_color_override("font_outline_color", RIBBON_TEXT)
+	l.add_theme_constant_override("outline_size", 10)
+	l.add_theme_color_override("font_shadow_color", Color(0.3, 0, 0, 0.35))
+	l.set_anchors_preset(Control.PRESET_FULL_RECT)
+	l.offset_bottom = -size * 0.35   # kurdelenin şerit kısmına ortala
+	ribbon.add_child(l)
+	parent.add_child(ribbon)
+	var fit := func():
+		if is_instance_valid(ribbon) and is_instance_valid(l):
+			var w := l.get_minimum_size().x
+			var want := maxf(w + size * 4.5, 300.0)
+			if parent is Control and (parent as Control).size.x > 0.0:
+				want = minf(want, (parent as Control).size.x)
+			ribbon.custom_minimum_size.x = want
+	fit.call_deferred()
 	return l
 
 
@@ -259,6 +312,8 @@ static func style_button(b: Button, col := BLUE, round := false) -> void:
 	var st := button_styles(col, round)
 	for s in st:
 		b.add_theme_stylebox_override(s, st[s])
+	b.add_theme_color_override("font_outline_color", BTN_OUTLINE[_color_name(col)])
+	b.add_theme_constant_override("outline_size", 9)
 	if not b.has_meta("bouncy"):
 		b.set_meta("bouncy", true)
 		b.button_down.connect(_squash.bind(b, 0.94))

@@ -5,7 +5,7 @@ Yine de teşekkür olarak burada ve ileride oyunun "Emeği Geçenler" ekranında
 
 | Dosya | Kaynak | Yazar | Lisans | Tarih |
 |---|---|---|---|---|
-| `assets/ui/kenney/buttons/*.png` (menü ve dokunmatik butonlar, yıldız) | https://opengameart.org/content/ui-pack ("UI Pack") | Kenney (kenney.nl) | CC0 1.0 | 2026-11-18 |
+| `assets/ui/pzuh/*.png` (pencereler, kurdele, jöle butonlar, simge butonları, yıldız, çubuklar; paketin PNG sayfalarından kesildi) | https://pzuh.itch.io/free-game-gui ("Free Game GUI") | pzUH | CC0 (yazarın itch.io sayfasındaki yanıtı: lisans "CC0", ticari kullanım "yes"; yazarın OpenGameArt'taki diğer GUI paketleri de CC0) | 2026-11-18 |
 | `assets/ui/kenney/icons/*.png` (buton simgeleri) | https://opengameart.org/content/game-icons ("Game Icons") | Kenney (kenney.nl) | CC0 1.0 | 2026-11-18 |
 | `assets/models/quaternius/robot/Robot.fbx` (Bip'in gövdesi ve animasyonları) | https://quaternius.itch.io/lowpoly-robot ("Animated Robot") | Quaternius | CC0 1.0 | 2026-11-18 |
 | `assets/models/quaternius/platformer/*.gltf` (ağaç, çalı, çimen, kaya, bulut, bayrak, ok, bitki) | https://quaternius.itch.io/ultimate-platformer-pack ("Ultimate Platformer Pack") | Quaternius | CC0 1.0 | 2026-11-18 |

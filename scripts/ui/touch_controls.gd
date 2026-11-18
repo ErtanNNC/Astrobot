@@ -278,8 +278,7 @@ func _draw() -> void:
 	# Zıpla
 	var jc := _jump_center()
 	var jr := jump_radius * bs * (0.9 if _jump_finger != -1 else 1.0)
-	_round_btn(jc, jr, "blue", _jump_finger != -1, a)
-	_icon_jump(jc, jr * 0.5, a)
+	_round_btn(jc, jr, "icon_up_blue", _jump_finger != -1, a)
 
 	# Yetenek
 	var ac := _ability_center()
@@ -287,7 +286,7 @@ func _draw() -> void:
 	var aa := a if ability_enabled else a * 0.45
 	if _pulse > 0.0:
 		draw_circle(ac, ar * 1.25, Color(1, 1, 0.7, 0.25 * _pulse * a))
-	_round_btn(ac, ar, "grey", _ability_finger != -1, aa, Color(_ability_color, 1.0).lightened(0.25))
+	_round_btn(ac, ar, "square_grey", _ability_finger != -1, aa, Color(_ability_color, 1.0).lightened(0.35))
 	_icon_antenna(ac, ar * 0.55, aa)
 	# Basılı tutma halkası: Yay şarjı (yeşil) ve yeteneği bırakma (beyaz)
 	var bip := get_tree().get_first_node_in_group("player")
@@ -303,17 +302,12 @@ func _draw() -> void:
 	if attack_enabled:
 		var tc := _attack_center()
 		var tr := attack_radius * bs * (0.9 if _attack_finger != -1 else 1.0)
-		_round_btn(tc, tr, "red", _attack_finger != -1, a)
-		_icon_spin(tc, tr * 0.5, a)
+		_round_btn(tc, tr, "icon_refresh_red", _attack_finger != -1, a)
 
 	# Duraklat
 	var pc := _pause_center()
 	var pr := 30.0 * _k()
-	_circle(pc, pr, Color(0, 0, 0, 0.25), Color(1, 1, 1, 0.6), a)
-	var bw := pr * 0.22
-	var bh := pr * 0.9
-	draw_rect(Rect2(pc + Vector2(-bw * 1.7, -bh * 0.5), Vector2(bw, bh)), Color(1, 1, 1, 0.9 * a))
-	draw_rect(Rect2(pc + Vector2(bw * 0.7, -bh * 0.5), Vector2(bw, bh)), Color(1, 1, 1, 0.9 * a))
+	_round_btn(pc, pr * 1.25, "icon_pause_blue", _pause_finger != -1, a)
 
 
 func _clamp_knob() -> Vector2:
@@ -352,13 +346,13 @@ func _icon_spin(c: Vector2, s: float, alpha: float) -> void:
 
 
 
-## Kenney UI Pack yuvarlak butonu (CC0): basılıyken derinliksiz sürüm, biraz aşağıda.
-func _round_btn(c: Vector2, r: float, col: String, pressed: bool, alpha: float, tint := Color.WHITE) -> void:
-	var path := "res://assets/ui/kenney/buttons/%s_button_round_%s.png" % [col, "gradient" if pressed else "depth_gradient"]
-	var tex: Texture2D = UIKit._tex(path)
+## pzUH "Free Game GUI" jöle butonu (CC0): basılıyken koyulaşır ve biraz aşağı iner.
+func _round_btn(c: Vector2, r: float, name: String, pressed: bool, alpha: float, tint := Color.WHITE) -> void:
+	var tex: Texture2D = UIKit.gui(name)
 	if tex == null:
 		_circle(c, r, COL_JUMP, COL_RING, alpha)
 		return
 	var off := Vector2(0, 4 * _k()) if pressed else Vector2.ZERO
-	draw_circle(c + Vector2(0, 6 * _k()), r * 0.98, Color(COL_SHADOW, COL_SHADOW.a * alpha))
-	draw_texture_rect(tex, Rect2(c - Vector2(r, r) + off, Vector2(r, r) * 2.0), false, Color(tint, 0.85 * alpha))
+	var t := tint * (Color(0.85, 0.85, 0.88) if pressed else Color.WHITE)
+	var h := r * 2.0 * 1.0
+	draw_texture_rect(tex, Rect2(c - Vector2(r, r) + off, Vector2(h, h * 1.016)), false, Color(t, 0.9 * alpha))

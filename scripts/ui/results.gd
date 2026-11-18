@@ -15,10 +15,10 @@ func _ready() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 	_confetti()
-	var v := UIKit.panel(self, 760)
+	var v := UIKit.panel(self, 820)
 	var area: String = GameState.data.get("area", "ch1_patron")
 	var ch := GameState.chapter_of(area)
-	UIKit.title(v, "Bölüm %d Tamamlandı!" % ch, 50)
+	UIKit.title(v, "Bölüm %d Tamamlandı!" % ch, 44)
 	UIKit.title(v, GameState.CHAPTER_NAMES.get(ch, ""), 30)
 	var total := 0
 	for a in GameState.CHAPTERS[ch]:
@@ -27,6 +27,8 @@ func _ready() -> void:
 	for a in GameState.CHAPTERS[ch]:
 		if GameState.has_screw(a["id"] + "_vida"):
 			chapter_screws += 1
+	var max_screws: int = GameState.CHAPTERS[ch].size() - 1
+	_stars(v, 1 + int(chapter_screws * 2 >= max_screws) + int(chapter_screws >= max_screws))
 	var grid := GridContainer.new()
 	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 14)
@@ -44,7 +46,11 @@ func _ready() -> void:
 		stats.append(["checkmark", "Tüm oyun pili", GameState.total_batteries(), ""])
 	for i in stats.size():
 		_stat(grid, stats[i], 0.25 + i * 0.12)
-	var b := UIKit.button(v, "Atölye'ye dön", _home, UIKit.GREEN)
+	var btns := HBoxContainer.new()
+	btns.add_theme_constant_override("separation", 14)
+	v.add_child(btns)
+	var b := UIKit.button(btns, "Atölye'ye dön", _home, UIKit.GREEN)
+	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.grab_focus.call_deferred()
 	Sfx.play("clear")
 	# Sıradaki bölüm varsa Atölye kapısı oradan devam eder
@@ -56,8 +62,8 @@ func _ready() -> void:
 		GameState.data["checkpoint_id"] = "start"
 		GameState.data["checkpoint_ability"] = ""
 		GameState.set_ability("")
-		var b2 := UIKit.button(v, "Bölüm %d: %s" % [ch + 1, GameState.CHAPTER_NAMES[ch + 1]], func(): Scenes.go(nxt["scene"]), UIKit.BLUE)
-		v.move_child(b2, v.get_child_count() - 2)
+		var b2 := UIKit.button(btns, "Bölüm %d: %s" % [ch + 1, GameState.CHAPTER_NAMES[ch + 1]], func(): Scenes.go(nxt["scene"]), UIKit.BLUE)
+		b2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	GameState.save(true)
 
 
@@ -70,13 +76,7 @@ func _home() -> void:
 ## Simgeli istatistik kartı: sayı sıfırdan sayarak gelir.
 func _stat(parent: Node, st: Array, delay: float) -> void:
 	var card := PanelContainer.new()
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(1, 1, 1, 0.12)
-	sb.set_corner_radius_all(22)
-	sb.set_content_margin_all(12)
-	sb.border_color = Color(1, 1, 1, 0.25)
-	sb.set_border_width_all(2)
-	card.add_theme_stylebox_override("panel", sb)
+	card.add_theme_stylebox_override("panel", UIKit.inset_style())
 	card.custom_minimum_size = Vector2(228, 0)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
@@ -87,10 +87,10 @@ func _stat(parent: Node, st: Array, delay: float) -> void:
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	if st[0] == "battery":
 		icon.texture = load("res://assets/ui/kenney/icons/star.png")
-		icon.modulate = Color(0.45, 1.0, 0.55)
+		icon.modulate = Color(0.3, 0.8, 0.4)
 	else:
 		icon.texture = load("res://assets/ui/kenney/icons/%s.png" % st[0])
-		icon.modulate = Color(1.0, 0.85, 0.3)
+		icon.modulate = Color(0.95, 0.6, 0.15)
 	row.add_child(icon)
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", -6)
@@ -102,7 +102,7 @@ func _stat(parent: Node, st: Array, delay: float) -> void:
 	var name_l := Label.new()
 	name_l.text = st[1]
 	name_l.add_theme_font_size_override("font_size", 20)
-	name_l.add_theme_color_override("font_color", Color(0.8, 0.9, 1.0))
+	name_l.add_theme_color_override("font_color", Color(0.6, 0.42, 0.25))
 	col.add_child(name_l)
 	parent.add_child(card)
 	card.modulate.a = 0.0
@@ -136,3 +136,30 @@ func _confetti() -> void:
 	g.colors = PackedColorArray([Color(1, 0.4, 0.45), Color(1, 0.85, 0.3), Color(0.4, 0.95, 0.5), Color(0.4, 0.8, 1.0), Color(0.8, 0.5, 1.0)])
 	p.color_initial_ramp = g
 	add_child(p)
+
+
+
+## Üç yıldız: kazanılanlar sırayla "pat" diye büyüyerek gelir, kalanlar soluk.
+func _stars(parent: Node, n: int) -> void:
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 6)
+	parent.add_child(row)
+	for i in 3:
+		var t := TextureRect.new()
+		t.texture = UIKit.gui("star")
+		t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		var sz := 80.0 if i == 1 else 62.0
+		t.custom_minimum_size = Vector2(sz, sz)
+		t.size_flags_vertical = Control.SIZE_SHRINK_END
+		row.add_child(t)
+		if i >= n:
+			t.modulate = Color(0.55, 0.42, 0.3, 0.35)
+			continue
+		t.pivot_offset = Vector2(sz, sz) / 2.0
+		t.scale = Vector2.ZERO
+		var tw := t.create_tween()
+		tw.tween_interval(0.35 + i * 0.3)
+		tw.tween_callback(func(): Sfx.play("pickup", -4.0, 1.0 + i * 0.15))
+		tw.tween_property(t, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)

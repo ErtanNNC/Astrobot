@@ -8,7 +8,7 @@ const LINES := [
 	["Bip'in gövdesi ve animasyonları", 34], ["Quaternius — Animated Robot (CC0)", 26], ["", 20],
 	["Çevre, düşmanlar, Pırıl", 34], ["Quaternius — Ultimate Platformer Pack (CC0)", 26], ["", 20],
 	["Ses efektleri", 34], ["Kenney — kenney.nl (CC0)", 26], ["", 20],
-	["Arayüz butonları ve simgeler", 34], ["Kenney — UI Pack, Game Icons (CC0)", 26], ["", 20],
+	["Arayüz", 34], ["pzUH — Free Game GUI (CC0)", 26], ["Kenney — Game Icons (CC0)", 26], ["", 20],
 	["Yazı tipi", 34], ["Nunito — The Nunito Project Authors (SIL OFL 1.1)", 26], ["", 20],
 	["Müzik (OpenGameArt, CC0)", 34],
 	["owlishmedia — Happy Clappy Loop", 24], ["tinyworlds — Happy Adventure Loop", 24],

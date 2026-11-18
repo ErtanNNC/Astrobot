@@ -3,7 +3,7 @@ extends Control
 ## kayıt simgesi, alan adı ve "alan tamam" yazısı. Yazısız: çoğu şey simgeyle.
 
 const HEART := Color(1.0, 0.35, 0.42)
-const OUTLINE := Color(0.08, 0.1, 0.25, 0.85)
+const OUTLINE := Color(0.32, 0.17, 0.08, 0.9)   ## krem/kahve tema (UIKit)
 
 var _lives := 3
 var _batteries := 0
@@ -75,9 +75,14 @@ func _ready() -> void:
 	_banner = _make_label(64)
 	_banner.add_theme_color_override("font_color", Color(1.0, 0.87, 0.3))
 	_banner.add_theme_constant_override("outline_size", 16)
+	_banner.add_theme_color_override("font_outline_color", Color(0.6, 0.1, 0.12))
 	_sub = _make_label(30)
+	_sub.add_theme_color_override("font_color", UIKit.BROWN)
+	_sub.add_theme_constant_override("outline_size", 0)
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.06, 0.1, 0.28, 0.6)
+	sb.bg_color = Color(1.0, 0.94, 0.76, 0.95)
+	sb.border_color = Color.WHITE
+	sb.set_border_width_all(4)
 	sb.set_corner_radius_all(24)
 	sb.content_margin_left = 24
 	sb.content_margin_right = 24
@@ -143,8 +148,11 @@ var _banner_tweens := {}
 func _draw_pill(r: Rect2) -> void:
 	if _pill == null:
 		_pill = StyleBoxFlat.new()
-		_pill.bg_color = Color(0.06, 0.1, 0.28, 0.55)
-		_pill.border_color = Color(1, 1, 1, 0.35)
+		_pill.bg_color = Color(1.0, 0.93, 0.74, 0.88)
+		_pill.border_color = Color(1, 1, 1, 0.95)
+		_pill.shadow_color = Color(0.3, 0.15, 0.05, 0.3)
+		_pill.shadow_size = 4
+		_pill.shadow_offset = Vector2(0, 3)
 		_pill.set_border_width_all(3)
 		_pill.border_width_bottom = 5
 	_pill.set_corner_radius_all(int(r.size.y / 2))
