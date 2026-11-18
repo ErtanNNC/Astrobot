@@ -11,3 +11,4 @@ build/
 tests/_shot_area.*
 tests/_flow_shots.*
 .claude/
+__pycache__/
