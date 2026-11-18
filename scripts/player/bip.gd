@@ -92,6 +92,11 @@ var wind := Vector3.ZERO       # rüzgâr alanları her kare ekler
 var water_level := -INF        # suyun yüzeyi (suda değilse -INF)
 var copy_timer := 0.0
 var _jump_frame := false
+var _magnet_node: Node = null
+var _magnet_prev: Node = null
+var _magnet_pull_time := 0.0
+var _vault_dir := Vector3.ZERO
+var _vault_time := 0.0
 var _squash_tween: Tween
 
 
@@ -167,6 +172,13 @@ func _physics_process(delta: float) -> void:
 	if gliding:
 		speed = balloon_air_speed
 	var target := dir * speed
+	if _vault_time > 0.0:
+		# Kenara tırmanırken: girdi yoksa duvara doğru ilerlemeye devam et
+		_vault_time -= delta
+		if input.length() < 0.3:
+			target = _vault_dir * 3.5
+			if is_on_floor() and _vault_time < 0.45:
+				_vault_time = 0.0
 	var horizontal := Vector3(velocity.x, 0.0, velocity.z)
 	var rate: float = ground_accel if input.length() > 0.01 else ground_decel
 	if not on_floor:
@@ -197,7 +209,7 @@ func _physics_process(delta: float) -> void:
 		is_jumping = false
 
 	# --- Balon: havada zıplama basılı tutulunca süzülme ---
-	var want_glide := ability == "balon" and not on_floor and velocity.y <= 0.5 \
+	var want_glide := ability == "balon" and not on_floor and (gliding or velocity.y <= 0.5) \
 			and Input.is_action_pressed("jump") and glide_left > 0.0 and controls_enabled
 	if want_glide and not gliding:
 		Sfx.play("glide", -8.0)
@@ -234,8 +246,9 @@ func _physics_process(delta: float) -> void:
 		var depth := water_level - global_position.y
 		if ability == "kaya":
 			velocity.y = maxf(velocity.y, -3.0)
-		elif depth > 0.55:
-			velocity.y = lerpf(velocity.y, 3.5, 6.0 * delta)
+		elif depth > 0.2 and velocity.y < 2.0:
+			# Yüzme: yüzeye doğru it (yerçekiminden güçlü), zıplarken karışma
+			velocity.y = move_toward(velocity.y, clampf((depth - 0.45) * 8.0, -3.0, 6.0), 70.0 * delta)
 
 	var fall_speed := -velocity.y
 	move_and_slide()
@@ -266,6 +279,10 @@ func _physics_process(delta: float) -> void:
 		if not was_on_floor:
 			is_jumping = false
 			gliding = false
+			var fl := get_last_slide_collision().get_collider() if get_last_slide_collision() else null
+			if not (fl and fl.is_in_group("metal")):
+				_magnet_prev = null
+				_magnet_node = null
 			if pounding:
 				_pound_impact()
 			_on_landed(fall_speed)
@@ -417,40 +434,63 @@ func _cancel_ability_states() -> void:
 # ---------- Mıknatıs ----------
 
 func _start_magnet() -> void:
+	# Yapışıkken ya da bir metalin üstünde dururken: o metal hariç en yakın metale geç.
+	# Zincirde geri dönmemek için bir önceki metal de atlanır.
+	var skip: Node = null
+	var skip2: Node = null
 	if magnet_state == 2:
-		_detach_magnet(true)
-		return
+		skip = _magnet_node
+		skip2 = _magnet_prev
+	elif is_on_floor() and get_last_slide_collision():
+		var fc := get_last_slide_collision().get_collider()
+		if fc and fc.is_in_group("metal"):
+			skip = fc
+			skip2 = _magnet_prev if fc == _magnet_node else null
 	var best := Vector3.ZERO
 	var best_d := INF
 	var best_n := Vector3.ZERO
+	var best_node: Node = null
+	var eye := global_position + Vector3.UP * 0.5
 	for m in get_tree().get_nodes_in_group("metal"):
-		if not m.has_method("closest_point"):
+		if m == skip or m == skip2 or not m.has_method("closest_point"):
 			continue
-		var p: Vector3 = m.closest_point(global_position + Vector3.UP * 0.5)
-		var d := p.distance_to(global_position + Vector3.UP * 0.5)
+		var p: Vector3 = m.closest_point(eye)
+		var d := p.distance_to(eye)
 		if d < best_d and d <= magnet_range:
 			best_d = d
 			best = p
 			best_n = m.surface_normal(p)
-	if best_d < INF:
-		magnet_state = 1
-		magnet_target = best
-		magnet_normal = best_n
-		gliding = false
-		pounding = false
-		Sfx.play("magnet")
-		Haptics.vibrate(20)
+			best_node = m
+	if best_node == null:
+		if magnet_state == 2:
+			_detach_magnet(true)
+		return
+	magnet_state = 1
+	magnet_target = best
+	magnet_normal = best_n
+	_magnet_prev = _magnet_node if _magnet_node != best_node else _magnet_prev
+	_magnet_node = best_node
+	_magnet_pull_time = 0.0
+	gliding = false
+	pounding = false
+	Sfx.play("magnet")
+	Haptics.vibrate(20)
 
 
 func _process_magnet(delta: float) -> void:
 	var anchor := magnet_target + magnet_normal * 0.42 - Vector3.UP * 0.5
 	if magnet_state == 1:
+		_magnet_pull_time += delta
 		var to := anchor - global_position
 		if to.length() < 0.15:
 			magnet_state = 2
 			velocity = Vector3.ZERO
 			Haptics.vibrate(25)
 			_on_landed(4.5)
+		elif _magnet_pull_time > 1.2:
+			# Yol kapalı: çekilmeyi bırak
+			magnet_state = 0
+			velocity = Vector3.ZERO
 		else:
 			velocity = to.normalized() * minf(magnet_speed, to.length() / delta)
 			move_and_slide()
@@ -465,8 +505,20 @@ func _process_magnet(delta: float) -> void:
 		global_position = global_position.lerp(anchor, 0.5)
 		if controls_enabled and Input.is_action_just_pressed("jump"):
 			_detach_magnet(false)
-			do_jump(jump_velocity)
-			velocity += magnet_normal * 4.0
+			# Üst kenar yakınsa üstüne tırman; değilse duvardan it.
+			var top_y := global_position.y + 100.0
+			if _magnet_node and _magnet_node.has_method("closest_point") and absf(magnet_normal.y) < 0.7:
+				top_y = _magnet_node.closest_point(global_position + Vector3.UP * 50.0).y
+			var rise := top_y - global_position.y
+			if rise > -0.5 and rise < 3.2:
+				do_jump(sqrt(2.0 * gravity * maxf(rise + 0.7, 1.2)))
+				is_jumping = false
+				velocity += -magnet_normal * 3.5
+				_vault_dir = -magnet_normal
+				_vault_time = 0.6
+			else:
+				do_jump(jump_velocity)
+				velocity += magnet_normal * 4.0
 			move_and_slide()
 
 

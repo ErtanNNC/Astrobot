@@ -58,11 +58,13 @@ func surface_normal(p: Vector3) -> Vector3:
 	var local := to_local(p)
 	var h := size * 0.5
 	var d := Vector3(absf(absf(local.x) - h.x), absf(absf(local.y) - h.y), absf(absf(local.z) - h.z))
+	# Kenar ve köşelerde yan yüzleri tercih et (Bip yana yapışsın, üst kenara tırmanabilsin)
+	var e := 0.05
 	var n := Vector3.ZERO
-	if d.x <= d.y and d.x <= d.z:
+	if d.x <= d.z + e and d.x <= d.y + e:
 		n = Vector3(signf(local.x), 0, 0)
-	elif d.y <= d.z:
-		n = Vector3(0, signf(local.y), 0)
-	else:
+	elif d.z <= d.y + e:
 		n = Vector3(0, 0, signf(local.z))
+	else:
+		n = Vector3(0, signf(local.y), 0)
 	return (global_basis * n).normalized()
