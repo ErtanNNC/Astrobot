@@ -21,6 +21,7 @@ THEMES = {
     "snow": ((0.95,0.97,1.00),(0.88,0.92,0.98),(0.62,0.70,0.82),(0.54,0.62,0.75)),
     "ice": ((0.72,0.90,1.00),(0.65,0.85,0.98),(0.50,0.72,0.90),(0.44,0.64,0.84)),
     "red": ((0.95,0.45,0.40),(0.90,0.40,0.36),(0.80,0.35,0.30),(0.72,0.30,0.26)),
+    "cloud": ((0.98,0.97,1.00),(0.92,0.90,0.98),(0.82,0.78,0.95),(0.74,0.70,0.90)),
 }
 
 SKIES = {
@@ -75,6 +76,7 @@ ENTITIES = {
     "boss": ("Node3D", "res://scripts/boss/crane_boss.gd"),
     "giant": ("Node3D", "res://scripts/boss/snow_giant_boss.gd"),
     "captain": ("Node3D", "res://scripts/boss/captain_boss.gd"),
+    "statik": ("Node3D", "res://scripts/boss/static_boss.gd"),
 }
 
 
