@@ -151,6 +151,14 @@ func _ability_glyph(c: Vector2, s: float, a: String) -> void:
 			draw_arc(c + Vector2(0, 0.1) * s, 0.55 * s, 0, PI, 16, w, 4.0)
 			draw_line(c + Vector2(-0.55, 0.1) * s, c + Vector2(-0.55, -0.7) * s, w, 4.0)
 			draw_line(c + Vector2(0.55, 0.1) * s, c + Vector2(0.55, -0.7) * s, w, 4.0)
+		"pervane":
+			draw_line(c + Vector2(-0.9, -0.5) * s, c + Vector2(0.9, -0.5) * s, w, 4.0)
+			draw_line(c + Vector2(0, -0.5) * s, c + Vector2(0, 0.1) * s, w, 3.0)
+			draw_arc(c + Vector2(0, 0.6) * s, 0.5 * s, PI, TAU, 12, w, 4.0)
+		"buz":
+			for i in 3:
+				var ang := i * PI / 3.0
+				draw_line(c - Vector2(cos(ang), sin(ang)) * 0.85 * s, c + Vector2(cos(ang), sin(ang)) * 0.85 * s, w, 3.0)
 		"kaya":
 			draw_colored_polygon(PackedVector2Array([c + Vector2(-0.8, 0.6) * s, c + Vector2(-0.5, -0.4) * s, c + Vector2(0.1, -0.8) * s,
 				c + Vector2(0.75, -0.2) * s, c + Vector2(0.8, 0.6) * s]), w)

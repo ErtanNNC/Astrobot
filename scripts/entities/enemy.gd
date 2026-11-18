@@ -25,6 +25,8 @@ var _hop_timer := 1.0
 var _gravity := 30.0
 var _hurt_area: Area3D
 var _axis := Vector3.RIGHT
+var _frozen := 0.0
+var _ice: StaticBody3D
 
 
 func _ready() -> void:
@@ -79,6 +81,11 @@ func _play(n: String) -> void:
 
 func _physics_process(delta: float) -> void:
 	if _dead:
+		return
+	if _frozen > 0.0:
+		_frozen -= delta
+		if _frozen <= 0.0:
+			_unfreeze()
 		return
 	var bip := get_tree().get_first_node_in_group("player") as Node3D
 	match kind:
@@ -142,8 +149,41 @@ func _ground_ahead_dir(d: Vector3) -> bool:
 	return not space.intersect_ray(q).is_empty()
 
 
+## Buz yeteneği: düşman buz kütlesine dönüşür; üstüne çıkılabilir, zarar vermez.
+func freeze(t: float) -> void:
+	_frozen = t
+	velocity = Vector3.ZERO
+	if _anim:
+		_anim.pause()
+	if _ice == null:
+		_ice = StaticBody3D.new()
+		var cs := CollisionShape3D.new()
+		var b := BoxShape3D.new()
+		b.size = Vector3(1.5, 1.3, 1.5)
+		cs.shape = b
+		cs.position.y = 0.65
+		_ice.add_child(cs)
+		var m := BoxMesh.new()
+		m.size = Vector3(1.55, 1.35, 1.55)
+		var mat := AbilityModels.mat(Color(0.65, 0.9, 1.0, 0.55), 0.05, 0.4)
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_ice.add_child(AbilityModels.mesh_node(m, mat, Vector3(0, 0.65, 0)))
+		add_child(_ice)
+	_ice.scale = Vector3.ZERO
+	create_tween().tween_property(_ice, "scale", Vector3.ONE, 0.2).set_trans(Tween.TRANS_BACK)
+
+
+func _unfreeze() -> void:
+	if _anim:
+		_anim.play()
+	if _ice:
+		_ice.queue_free()
+		_ice = null
+	Sfx.play("glass", -6.0, 0.7)
+
+
 func _on_touch(b: Node) -> void:
-	if _dead or not (b is Bip):
+	if _dead or not (b is Bip) or _frozen > 0.0:
 		return
 	var bip: Bip = b
 	if bip.pounding or (bip.global_position.y > global_position.y + 0.55 and bip.velocity.y < 1.0):

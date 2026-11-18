@@ -14,7 +14,7 @@ const SLOT_COUNT := 3
 const MAX_LIVES := 3
 const MIN_SAVE_INTERVAL := 10.0  ## s, art arda kontrol noktalarında gereksiz yazmayı önler
 
-## Bölüm 1'in alanları, sırasıyla. Sahne yolu ve kısa ad.
+## Bölümler ve alanları, sırasıyla. Sahne yolu ve kısa ad.
 const CHAPTERS := {
 	1: [
 		{"id": "ch1_atolye", "scene": "res://scenes/chapter1/a0_atolye.tscn", "name": "Uyanış Atölyesi"},
@@ -24,7 +24,21 @@ const CHAPTERS := {
 		{"id": "ch1_kaya", "scene": "res://scenes/chapter1/a4_kaya_ocagi.tscn", "name": "Kaya Ocağı"},
 		{"id": "ch1_patron", "scene": "res://scenes/chapter1/a5_patron.tscn", "name": "Hurdacı Vinç"},
 	],
+	2: [
+		{"id": "ch2_rihtim", "scene": "res://scenes/chapter2/b1_rihtim.tscn", "name": "Liman Rıhtımı"},
+		{"id": "ch2_fener", "scene": "res://scenes/chapter2/b2_fener.tscn", "name": "Fener Kulesi"},
+		{"id": "ch2_gemi", "scene": "res://scenes/chapter2/b3_gemi_mezarligi.tscn", "name": "Gemi Mezarlığı"},
+		{"id": "ch2_patron", "scene": "res://scenes/chapter2/b4_patron.tscn", "name": "Paslı Kaptan"},
+	],
+	3: [
+		{"id": "ch3_magara", "scene": "res://scenes/chapter3/c1_buz_magarasi.tscn", "name": "Buz Mağarası"},
+		{"id": "ch3_gol", "scene": "res://scenes/chapter3/c2_donmus_gol.tscn", "name": "Donmuş Göl"},
+		{"id": "ch3_zirve", "scene": "res://scenes/chapter3/c3_zirve.tscn", "name": "Kar Zirvesi"},
+		{"id": "ch3_patron", "scene": "res://scenes/chapter3/c4_patron.tscn", "name": "Kardan Dev"},
+	],
 }
+
+const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi"}
 
 var slot := -1
 var data := {}
@@ -253,8 +267,14 @@ func refill_lives() -> void:
 
 # ---------- Alanlar arası ----------
 
+static func chapter_of(area_id: String) -> int:
+	if area_id.begins_with("ch") and area_id.length() > 2:
+		return clampi(int(area_id.substr(2, 1)), 1, 3)
+	return 1
+
+
 func area_index(area_id: String) -> int:
-	var list: Array = CHAPTERS[1]
+	var list: Array = CHAPTERS[chapter_of(area_id)]
 	for i in list.size():
 		if list[i]["id"] == area_id:
 			return i
@@ -262,19 +282,38 @@ func area_index(area_id: String) -> int:
 
 
 func area_info(area_id: String) -> Dictionary:
-	return CHAPTERS[1][area_index(area_id)]
+	return CHAPTERS[chapter_of(area_id)][area_index(area_id)]
 
 
+## Bölümün sıradaki alanı; bölüm bittiyse {} (sonuç ekranı gelir).
 func next_area(area_id: String) -> Dictionary:
+	var ch := chapter_of(area_id)
 	var i := area_index(area_id) + 1
-	if i < CHAPTERS[1].size():
-		return CHAPTERS[1][i]
+	if i < CHAPTERS[ch].size():
+		return CHAPTERS[ch][i]
+	return {}
+
+
+## Bir sonraki bölümün ilk alanı (yoksa {}).
+func first_area_of_next_chapter(area_id: String) -> Dictionary:
+	var ch := chapter_of(area_id) + 1
+	if CHAPTERS.has(ch) and ResourceLoader.exists(CHAPTERS[ch][0]["scene"]):
+		return CHAPTERS[ch][0]
 	return {}
 
 
 func percent_complete() -> int:
-	## Kapsül hologramı: vida (5) + çekirdek pil + alanlar.
+	## Kapsül hologramı: alanlar + vidalar + çekirdek piller (tüm oyun).
 	var screws: int = data.get("golden_screws", []).size()
 	var cores: int = data.get("core_cells", []).size()
-	var areas := area_index(data.get("area", "ch1_atolye"))
-	return clampi(int(round((areas / 6.0) * 60.0 + screws * 4.0 + cores * 20.0)), 0, 100)
+	var area: String = data.get("area", "ch1_atolye")
+	var ch := chapter_of(area)
+	var done_areas := area_index(area)
+	for c in range(1, ch):
+		done_areas += CHAPTERS[c].size()
+	var total_areas := 0
+	var total_screws := 0
+	for c in CHAPTERS:
+		total_areas += CHAPTERS[c].size()
+		total_screws += CHAPTERS[c].size() - 1
+	return clampi(int(round(done_areas * 50.0 / total_areas + screws * 30.0 / total_screws + cores * 20.0 / 3.0)), 0, 100)

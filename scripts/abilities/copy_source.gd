@@ -3,7 +3,7 @@ extends Area3D
 ## Kopyalanabilir nesne: Bip menzile girince parlar; Yetenek tuşu yeteneği kopyalar.
 ## Kopyalanınca yok olmaz, sınırsız kopyalanabilir (kopyalama kural 7).
 
-@export_enum("yay", "balon", "miknatis", "kaya") var ability := "yay":
+@export_enum("yay", "balon", "miknatis", "kaya", "pervane", "buz") var ability := "yay":
 	set(v):
 		ability = v
 		if is_inside_tree():
@@ -95,6 +95,12 @@ func _process(delta: float) -> void:
 	if ability == "balon":
 		_model.position.y = sin(_t * 1.6) * 0.08
 		_model.rotation.z = sin(_t * 1.1) * 0.08
+	elif ability == "pervane":
+		var bl := _model.find_child("Blades", true, false) as Node3D
+		if bl:
+			bl.rotation.y += delta * 6.0
+	elif ability == "buz":
+		_model.rotation.y += delta * 0.8
 
 
 func _on_enter(b: Node) -> void:

@@ -7,9 +7,12 @@ const COLORS := {
 	"balon": Color(1.0, 0.4, 0.55),
 	"miknatis": Color(0.95, 0.25, 0.25),
 	"kaya": Color(0.62, 0.56, 0.5),
+	"pervane": Color(1.0, 0.82, 0.25),
+	"buz": Color(0.6, 0.9, 1.0),
 }
 
-const NAMES := {"yay": "Yay", "balon": "Balon", "miknatis": "Mıknatıs", "kaya": "Kaya"}
+const NAMES := {"yay": "Yay", "balon": "Balon", "miknatis": "Mıknatıs", "kaya": "Kaya", "pervane": "Pervane", "buz": "Buz"}
+const GEM := "res://assets/models/quaternius/platformer/Gem_Blue.gltf"
 
 const BOUNCER := "res://assets/models/quaternius/platformer/Bouncer.gltf"
 const ROCK := "res://assets/models/quaternius/platformer/Rock_1.gltf"
@@ -58,6 +61,10 @@ static func make_source(a: String) -> Node3D:
 			r.scale = Vector3.ONE * 0.75
 			r.position.y = 0.14
 			root.add_child(r)
+		"pervane":
+			_propeller(root, 1.6)
+		"buz":
+			_ice(root, 1.0)
 	return root
 
 
@@ -87,7 +94,46 @@ static func make_icon(a: String) -> Node3D:
 			var r: Node3D = load(ROCK).instantiate()
 			r.scale = Vector3.ONE * 0.16
 			root.add_child(r)
+		"pervane":
+			_propeller(root, 0.45)
+		"buz":
+			_ice(root, 0.3)
 	return root
+
+
+## Pervaneli şapka: kubbe + çubuk + iki kanat (kanatlar "Blades" adlı düğümde, döndürülebilir).
+static func _propeller(root: Node3D, s: float) -> void:
+	var dome := SphereMesh.new()
+	dome.radius = 0.3 * s
+	dome.height = 0.3 * s
+	dome.is_hemisphere = true
+	var c := mat(color("pervane"), 0.35)
+	root.add_child(mesh_node(dome, c, Vector3(0, 0.05 * s, 0)))
+	var stick := CylinderMesh.new()
+	stick.top_radius = 0.025 * s
+	stick.bottom_radius = 0.025 * s
+	stick.height = 0.25 * s
+	root.add_child(mesh_node(stick, mat(Color(0.3, 0.3, 0.35)), Vector3(0, 0.42 * s, 0)))
+	var blades := Node3D.new()
+	blades.name = "Blades"
+	blades.position.y = 0.55 * s
+	root.add_child(blades)
+	var blade := BoxMesh.new()
+	blade.size = Vector3(0.9, 0.03, 0.14) * s
+	for i in 2:
+		blades.add_child(mesh_node(blade, mat(Color(0.25, 0.6, 1.0) if i == 0 else Color(1.0, 0.35, 0.35), 0.3), Vector3.ZERO, Vector3(0, i * PI / 2, 0)))
+
+
+## Buz kristali: Quaternius mavi mücevheri buz rengine boyanmış.
+static func _ice(root: Node3D, s: float) -> void:
+	var g: Node3D = load(GEM).instantiate()
+	g.scale = Vector3.ONE * 0.45 * s
+	g.position.y = 0.47 * s
+	root.add_child(g)
+	var m := mat(Color(0.75, 0.95, 1.0, 0.8), 0.05, 0.6)
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	for mi in g.find_children("*", "MeshInstance3D", true, false):
+		mi.material_override = m
 
 
 static func _balloon(root: Node3D, s: float) -> void:

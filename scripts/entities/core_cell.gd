@@ -49,6 +49,8 @@ func _on_body(b: Node) -> void:
 	var tw := create_tween()
 	tw.tween_property(_model, "position:y", 3.0, 1.0).set_trans(Tween.TRANS_BACK)
 	await get_tree().create_timer(2.0).timeout
-	GameState.data["area"] = "ch1_patron"
+	var lvl := get_tree().current_scene
+	if lvl and "area_id" in lvl:
+		GameState.data["area"] = lvl.area_id
 	GameState.save(true)
 	Scenes.go("res://scenes/story/closing.tscn")

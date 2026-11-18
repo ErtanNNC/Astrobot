@@ -183,6 +183,10 @@ func _update_effects(delta: float) -> void:
 			target_scale = 2.4
 		_icon.scale = _icon.scale.lerp(Vector3.ONE * target_scale, 8.0 * delta) if _icon.scale.x > 0.9 else _icon.scale
 		_icon_holder.position.y = 1.75 + (0.35 if bip.gliding else 0.0)
+		if GameState.ability == "pervane":
+			var bl := _icon.find_child("Blades", true, false) as Node3D
+			if bl:
+				bl.rotation.y += delta * (30.0 if (bip.propelling or bip.dash_left > 0.0) else 3.0)
 	# Yay şarjı: Bip çömelir
 	var cf: float = bip.charge_fraction()
 	model.scale = model.scale.lerp(Vector3(0.2 * (1 + cf * 0.2), 0.2 * (1 - cf * 0.35), 0.2 * (1 + cf * 0.2)), 15.0 * delta)

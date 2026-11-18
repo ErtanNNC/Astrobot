@@ -331,12 +331,14 @@ func _open_collection() -> void:
 		UIKit.title(v, "Henüz bir şey yok. Kapıdan çıkıp maceraya başla!", 26)
 	else:
 		var d := GameState.slot_summary(best)
-		UIKit.title(v, "Altın Vida  %d / 5" % d.get("golden_screws", []).size(), 28)
+		UIKit.title(v, "Altın Vida  %d / 11" % d.get("golden_screws", []).size(), 28)
 		UIKit.title(v, "Çekirdek Pil  %d / 4" % d.get("core_cells", []).size(), 28)
 		var lines := []
-		for a in GameState.CHAPTERS[1]:
-			var n: int = d.get("batteries", {}).get(a["id"], []).size()
-			lines.append("%s: %d pil" % [a["name"], n])
+		for ch in GameState.CHAPTERS:
+			var n := 0
+			for a in GameState.CHAPTERS[ch]:
+				n += d.get("batteries", {}).get(a["id"], []).size()
+			lines.append("Bölüm %d · %s: %d pil" % [ch, GameState.CHAPTER_NAMES[ch], n])
 		var l := UIKit.title(v, "\n".join(lines), 22)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	UIKit.button(v, "Geri", _close_overlay)

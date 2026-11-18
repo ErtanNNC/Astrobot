@@ -123,7 +123,7 @@ func on_checkpoint(cp: Node3D) -> void:
 
 
 func on_screw_found() -> void:
-	hud.banner("Altın Vida!", "%d / 5" % GameState.data["golden_screws"].size(), 1.6)
+	hud.banner("Altın Vida!", "", 1.6)
 
 
 func open_door(node_name: String) -> void:

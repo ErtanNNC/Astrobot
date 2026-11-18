@@ -1,0 +1,209 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/level/area.gd" id="area"]
+[ext_resource type="PackedScene" path="res://scenes/common/game_rig.tscn" id="rig"]
+[ext_resource type="Shader" path="res://assets/shaders/toon_terrain.gdshader" id="sh"]
+[ext_resource type="Shader" path="res://assets/shaders/water.gdshader" id="water"]
+[ext_resource type="AudioStream" path="res://assets/audio/opengameart/happy_clappy_loop.mp3" id="music"]
+[ext_resource type="Script" path="res://scripts/abilities/copy_source.gd" id="e0"]
+[ext_resource type="Script" path="res://scripts/entities/water_zone.gd" id="e1"]
+[ext_resource type="Script" path="res://scripts/entities/enemy.gd" id="e2"]
+
+[sub_resource type="ShaderMaterial" id="m_grass"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.550, 0.820, 0.250, 1)
+shader_parameter/top_color2 = Color(0.470, 0.740, 0.220, 1)
+shader_parameter/side_a = Color(0.950, 0.700, 0.450, 1)
+shader_parameter/side_b = Color(0.870, 0.580, 0.360, 1)
+
+[sub_resource type="ShaderMaterial" id="m_sand"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.970, 0.860, 0.580, 1)
+shader_parameter/top_color2 = Color(0.930, 0.800, 0.520, 1)
+shader_parameter/side_a = Color(0.950, 0.700, 0.450, 1)
+shader_parameter/side_b = Color(0.870, 0.580, 0.360, 1)
+
+[sub_resource type="ShaderMaterial" id="m_stone"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.780, 0.800, 0.840, 1)
+shader_parameter/top_color2 = Color(0.720, 0.740, 0.790, 1)
+shader_parameter/side_a = Color(0.620, 0.640, 0.700, 1)
+shader_parameter/side_b = Color(0.550, 0.570, 0.630, 1)
+
+[sub_resource type="ShaderMaterial" id="m_yellow"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.980, 0.840, 0.320, 1)
+shader_parameter/top_color2 = Color(0.950, 0.780, 0.280, 1)
+shader_parameter/side_a = Color(0.950, 0.700, 0.450, 1)
+shader_parameter/side_b = Color(0.870, 0.580, 0.360, 1)
+
+[sub_resource type="CylinderShape3D" id="trunk"]
+height = 2.4
+radius = 0.35
+
+[sub_resource type="SphereShape3D" id="rockshape"]
+radius = 0.45
+
+[sub_resource type="ShaderMaterial" id="water_mat"]
+render_priority = 0
+shader = ExtResource("water")
+
+[sub_resource type="PlaneMesh" id="water_mesh"]
+material = SubResource("water_mat")
+size = Vector2(500, 500)
+subdivide_width = 60
+subdivide_depth = 60
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.250, 0.550, 0.950, 1)
+sky_horizon_color = Color(0.720, 0.880, 1.000, 1)
+sky_curve = 0.12
+ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_horizon_color = Color(0.720, 0.880, 1.000, 1)
+sun_angle_max = 20.0
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.6
+ambient_light_energy = 1.100
+tonemap_mode = 2
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.4
+glow_bloom = 0.05
+fog_enabled = true
+fog_light_color = Color(0.720, 0.860, 1.000, 1)
+fog_density = 0.0035
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.12
+
+[node name="sandbox" type="Node3D"]
+script = ExtResource("area")
+area_id = "sandbox"
+title = "Deneme Alanı"
+kill_height = -12
+music = ExtResource("music")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, 0, -0.5, -0.383022, 0.642788, -0.663414, 0.321394, 0.766044, 0.55667, 0, 10, 0)
+light_color = Color(1.000, 0.960, 0.880, 1)
+light_energy = 1.25
+shadow_enabled = true
+shadow_blur = 1.5
+directional_shadow_mode = 0
+directional_shadow_max_distance = 45.0
+
+[node name="Sea" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -40)
+mesh = SubResource("water_mesh")
+cast_shadow = 0
+
+[node name="GameRig" parent="." instance=ExtResource("rig")]
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="Batteries" type="Node3D" parent="."]
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="Clouds" type="Node3D" parent="."]
+
+[node name="Guide" type="Node3D" parent="."]
+
+[node name="Labels" type="Node3D" parent="."]
+
+[node name="Kutu_1" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+use_collision = true
+size = Vector3(30, 3, 30)
+material = SubResource("m_grass")
+
+[node name="Start" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, 0, 0.1, 10)
+
+[node name="Copy_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 12)
+script = ExtResource("e0")
+ability = "yay"
+
+[node name="Copy_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 12)
+script = ExtResource("e0")
+ability = "balon"
+
+[node name="Copy_3" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 12)
+script = ExtResource("e0")
+ability = "miknatis"
+
+[node name="Copy_4" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 12)
+script = ExtResource("e0")
+ability = "kaya"
+
+[node name="Copy_5" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 12)
+script = ExtResource("e0")
+ability = "pervane"
+
+[node name="Copy_6" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 12)
+script = ExtResource("e0")
+ability = "buz"
+
+[node name="Kutu_2" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, -25)
+use_collision = true
+size = Vector3(14, 1, 20)
+material = SubResource("m_sand")
+
+[node name="Water_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
+script = ExtResource("e1")
+size = Vector3(14, 2, 20)
+
+[node name="Kutu_3" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, -1, -25)
+use_collision = true
+size = Vector3(1, 2, 20)
+material = SubResource("m_stone")
+
+[node name="Kutu_4" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, -1, -25)
+use_collision = true
+size = Vector3(1, 2, 20)
+material = SubResource("m_stone")
+
+[node name="Kutu_5" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, -45)
+use_collision = true
+size = Vector3(20, 3, 20)
+material = SubResource("m_grass")
+
+[node name="Enemy_1" type="CharacterBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+script = ExtResource("e2")
+kind = "vidabocek"
+patrol = 2
+
+[node name="Kutu_6" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5.5, -5)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = SubResource("m_yellow")

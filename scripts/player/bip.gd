@@ -54,6 +54,16 @@ signal pounded(at: Vector3)
 @export var rock_jump_height := 1.2      ## m
 @export var rock_pound_speed := 25.0     ## m/s
 
+@export_group("Pervane")
+@export var prop_lift_speed := 4.5       ## m/s, havada zıplama basılı tutulunca yükselme
+@export var prop_fuel := 1.2             ## s, yere inince dolar
+@export var prop_dash_speed := 11.0      ## m/s, havada Yetenek: ileri atılma
+@export var prop_dash_time := 0.25       ## s
+
+@export_group("Buz")
+@export var ice_freeze_range := 3.5      ## m, Yetenek: en yakın düşmanı dondur
+@export var ice_freeze_time := 8.0       ## s, donmuş düşman buz kütlesi (platform) olur
+
 @export_group("Hasar")
 @export var invuln_time := 1.4           ## s
 @export var knockback_speed := 7.0       ## m/s
@@ -90,6 +100,10 @@ var _magnet_node: Node = null
 var _magnet_last: Node = null
 var _magnet_left_at := 0
 var pounding := false
+var propelling := false
+var prop_left := 1.2
+var dash_left := 0.0
+var dash_used := false
 var invuln := 0.0
 var wind := Vector3.ZERO       # rüzgâr alanları her kare ekler
 var water_level := -INF        # suyun yüzeyi (suda değilse -INF)
@@ -151,6 +165,8 @@ func _physics_process(delta: float) -> void:
 
 	if on_floor:
 		glide_left = balloon_glide_time
+		prop_left = prop_fuel
+		dash_used = false
 
 	if controls_enabled:
 		_jump_frame = false
@@ -177,6 +193,10 @@ func _physics_process(delta: float) -> void:
 	if pounding:
 		target = Vector3.ZERO
 		rate = 200.0
+	if dash_left > 0.0:
+		dash_left -= delta
+		target = Vector3(sin(facing_yaw), 0, cos(facing_yaw)) * prop_dash_speed
+		rate = 400.0
 	horizontal = horizontal.move_toward(target, rate * delta)
 	velocity.x = horizontal.x
 	velocity.z = horizontal.z
@@ -206,15 +226,32 @@ func _physics_process(delta: float) -> void:
 		Sfx.play("glide", -8.0)
 	gliding = want_glide
 
+	# --- Pervane: havada zıplama basılı tutulunca yükselme (yakıt biter, yerde dolar) ---
+	var want_prop := ability == "pervane" and not on_floor and (propelling or velocity.y <= 1.0) \
+			and Input.is_action_pressed("jump") and prop_left > 0.0 and controls_enabled
+	if want_prop and not propelling:
+		Sfx.play("glide", -6.0, 1.4)
+	propelling = want_prop
+
 	# --- Yerçekimi ---
 	# Yarım adım önce + yarım adım sonra uygulanır: zıplama yüksekliği
 	# kare hızından bağımsız olarak tasarımdaki değere eşit çıkar.
 	var g := 0.0
-	if pounding:
+	var swimming := _in_water() and ability != "kaya" and water_level - global_position.y > 0.3 and not is_jumping
+	if swimming:
+		# Bip yüzer: kafası suyun üstünde kalacak şekilde yukarı itilir (Kaya batar)
+		var want_vy := clampf((water_level - 0.45 - global_position.y) * 5.0, -3.0, 4.0)
+		velocity.y = move_toward(velocity.y, want_vy, 40.0 * delta)
+	elif pounding:
 		velocity.y = -rock_pound_speed
 	elif gliding:
 		glide_left -= delta
 		velocity.y = maxf(velocity.y - gravity * delta, -balloon_fall_speed)
+	elif propelling:
+		prop_left -= delta
+		velocity.y = move_toward(velocity.y, prop_lift_speed, 40.0 * delta)
+	elif dash_left > 0.0:
+		velocity.y = maxf(velocity.y, 0.0)
 	elif not on_floor:
 		g = gravity
 		if velocity.y < 0.0:
@@ -232,13 +269,9 @@ func _physics_process(delta: float) -> void:
 			velocity.y = minf(velocity.y + w.y * delta * 2.0, w.y * 0.6)
 	wind = Vector3.ZERO
 
-	# --- Su: Kaya batar, diğerleri yüzer ---
-	if _in_water():
-		var depth := water_level - global_position.y
-		if ability == "kaya":
-			velocity.y = maxf(velocity.y, -3.0)
-		elif depth > 0.55:
-			velocity.y = lerpf(velocity.y, 3.5, 6.0 * delta)
+	# --- Su: Kaya yavaşça batar ---
+	if _in_water() and ability == "kaya":
+		velocity.y = maxf(velocity.y, -3.0)
 
 	var fall_speed := -velocity.y
 	move_and_slide()
@@ -321,6 +354,16 @@ func _handle_ability_input(delta: float, on_floor: bool) -> void:
 				"kaya":
 					if not on_floor and not pounding:
 						_start_pound()
+						ability_press_used = true
+				"pervane":
+					if not on_floor and not dash_used:
+						dash_used = true
+						dash_left = prop_dash_time
+						Sfx.play("glide", -2.0, 1.8)
+						Haptics.vibrate(20)
+						ability_press_used = true
+				"buz":
+					if _freeze_nearest():
 						ability_press_used = true
 
 	if Input.is_action_pressed("ability"):
@@ -413,8 +456,31 @@ func _cancel_ability_states() -> void:
 	charge = 0.0
 	gliding = false
 	pounding = false
+	propelling = false
+	dash_left = 0.0
 	if magnet_state != 0:
 		magnet_state = 0
+
+
+# ---------- Buz ----------
+
+## En yakın düşmanı dondur: buz kütlesine dönüşür, üstüne çıkılabilir (Bölüm 3).
+func _freeze_nearest() -> bool:
+	var best: Node3D = null
+	var best_d := ice_freeze_range
+	for e in get_tree().get_nodes_in_group("enemy"):
+		if e.has_method("freeze") and not e.get("_dead"):
+			var d: float = e.global_position.distance_to(global_position)
+			if d < best_d:
+				best_d = d
+				best = e
+	if best:
+		best.freeze(ice_freeze_time)
+		Sfx.play("glass", 0.0, 1.2)
+		Haptics.vibrate(40)
+		return true
+	Sfx.play("glass", -10.0, 0.8)
+	return false
 
 
 # ---------- Mıknatıs ----------

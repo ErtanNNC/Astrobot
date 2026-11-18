@@ -107,9 +107,11 @@ func _play(bip: Node3D) -> void:
 	if _done: return
 	ap.play("RobotArmature|Robot_Punch")
 	await _wait(0.6)
-	# Pil takılır: bir yuva yanar, ada aydınlanır
-	var cell: MeshInstance3D = _generator._part.get_child(0)
-	cell.material_override = AbilityModels.mat(Color(0.4, 1.0, 0.9), 0.3, 4.0)
+	# Pil takılır: geri alınan her pil için bir yuva yanar, ada aydınlanır
+	var lit: int = clampi(GameState.data.get("core_cells", []).size(), 1, 4)
+	for i in lit:
+		var cell: MeshInstance3D = _generator._part.get_child(i)
+		cell.material_override = AbilityModels.mat(Color(0.4, 1.0, 0.9), 0.3, 4.0)
 	Sfx.play("core")
 	Haptics.vibrate(150)
 	var light := create_tween().set_parallel(true)
@@ -146,6 +148,6 @@ func _finish() -> void:
 	if _done:
 		return
 	_done = true
-	GameState.mark_seen("closing_ch1")
+	GameState.mark_seen("closing_ch%d" % GameState.chapter_of(GameState.data.get("area", "ch1_patron")))
 	GameState.save(true)
 	Scenes.go(NEXT)
