@@ -51,7 +51,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Yeni yetenekler | implemented | later | Pervane (Bölüm 2) ve Buz (Bölüm 3) yapıldı; Lastik top fikir | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
 | Bölüm 2 | implemented | later | Fırtına Limanı: 3 alan + Paslı Kaptan; yeni yetenek Pervane | [design](features/bolum-2/design.md) |
 | Bölüm 3 | implemented | later | Buzul Tepesi: 3 alan + Kardan Dev; yeni yetenek Buz | [design](features/bolum-3/design.md) |
-| Bölüm 4 | idea | later | Son Çekirdek Pil; Statik ile buluşma | — |
+| Bölüm 4 | in progress | later | Fırtınanın Gözü: 2 alan + Statik (ikna edilir); final ve Emeği Geçenler | [design](features/bolum-4/design.md) |
 
 ## Milestones
 1. **M1, greybox hareket + kamera:** hareket, kamera; basit küplerden bir test alanı · bitti sayılır: PC'de 2 m'lik bir boşluk ve 1,5 m'lik bir basamak ilk denemede rahatça aşılıyor.
@@ -82,6 +82,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | D-010 | 2026-11-18 | Karakterlerin görünüşü bulunabilen ücretsiz (CC0) asset'lere göre seçilir; doküman tarifi asset'e uyarlanır | her karakteri tarife göre özel modelletmek | ekipte 3D sanatçı yok; geliştirici isteği | [hikaye](features/hikaye/design.md) |
 | D-011 | 2026-11-18 | Yeteneği bırakmak için basılı tutma 0,6 → 1,2 sn | ayrı bir bırakma tuşu | Yay'ın şarjlı zıplaması da basılı tutmayı kullanıyor; iki tuşla yetinmek (Pillar 4) | [kopyalama](features/kopyalama/design.md) |
 | D-012 | 2026-11-18 | Bölüm 2 ve 3 birer yeni yetenekle (Pervane, Buz) gelir; bölümler 3 alan + patron | her bölüm yalnızca eski 4 yetenek | Astro Bot'taki gibi her bölümde yeni bir oyuncak sürprizi (Pillar 3); kapsam için alan sayısı 3 | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
+| D-014 | 2026-11-18 | Son patron Statik yenilmez, Bip ona enerji vererek ikna eder (hikaye dokümanındaki varsayım onaylandı) | kötü adamı yenmek | 8+ yaş için sıcak ton; "tek yetenek bin kullanım": anten burada da kullanılır | [bölüm 4](features/bolum-4/design.md) |
 | D-013 | 2026-11-18 | Seviyeler Python üretici betiklerle (`tools/level/*.py`) yazılır, ölçülü kutular + shader + süs | her seviyeyi elle editörde kurmak | ölçüler kesin kalır, Claude Code hızlı ve tekrarlanabilir kurar; elle düzenleme isteyen sahne için betik bir daha çalıştırılmaz | tüm seviyeler |
 
 ## Open questions

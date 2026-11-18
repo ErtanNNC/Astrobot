@@ -36,9 +36,14 @@ const CHAPTERS := {
 		{"id": "ch3_zirve", "scene": "res://scenes/chapter3/c3_zirve.tscn", "name": "Kar Zirvesi"},
 		{"id": "ch3_patron", "scene": "res://scenes/chapter3/c4_patron.tscn", "name": "Kardan Dev"},
 	],
+	4: [
+		{"id": "ch4_bulut", "scene": "res://scenes/chapter4/d1_bulut_basamaklari.tscn", "name": "Bulut Basamakları"},
+		{"id": "ch4_kale", "scene": "res://scenes/chapter4/d2_kivilcim_kalesi.tscn", "name": "Kıvılcım Kalesi"},
+		{"id": "ch4_patron", "scene": "res://scenes/chapter4/d3_patron.tscn", "name": "Statik"},
+	],
 }
 
-const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi"}
+const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi", 4: "Fırtınanın Gözü"}
 
 var slot := -1
 var data := {}
@@ -269,7 +274,7 @@ func refill_lives() -> void:
 
 static func chapter_of(area_id: String) -> int:
 	if area_id.begins_with("ch") and area_id.length() > 2:
-		return clampi(int(area_id.substr(2, 1)), 1, 3)
+		return clampi(int(area_id.substr(2, 1)), 1, 4)
 	return 1
 
 
@@ -316,4 +321,4 @@ func percent_complete() -> int:
 	for c in CHAPTERS:
 		total_areas += CHAPTERS[c].size()
 		total_screws += CHAPTERS[c].size() - 1
-	return clampi(int(round(done_areas * 50.0 / total_areas + screws * 30.0 / total_screws + cores * 20.0 / 3.0)), 0, 100)
+	return clampi(int(round(done_areas * 50.0 / total_areas + screws * 30.0 / total_screws + cores * 20.0 / 4.0)), 0, 100)
