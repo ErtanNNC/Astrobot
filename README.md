@@ -4,7 +4,8 @@ Anteniyle dokunduğu nesnenin yeteneğini kopyalayan küçük robot Bip'in 3D pl
 Tasarım: [docs/GDD.md](docs/GDD.md) · Claude için kurallar: [CLAUDE.md](CLAUDE.md)
 
 **Şu anki durum:** giriş ekranı + Atölye ana menüsü, 3 kayıt yuvası, açılış/kapanış sahneleri,
-Bölüm 1 (öğretici + 4 alan + patron Hurdacı Vinç), Bölüm 2 ve 3 (yapım aşamasında), 6 yetenek.
+Bölüm 1 Uyanış (öğretici + 4 alan + Hurdacı Vinç), Bölüm 2 Fırtına Limanı (3 alan + Paslı Kaptan),
+Bölüm 3 Buzul Tepesi (3 alan + Kardan Dev), Bölüm 4 Fırtınanın Gözü (2 alan + Statik), final ve Emeği Geçenler; 6 yetenek.
 
 ## Oyun nasıl oynanır
 Bip, anteniyle dokunduğu parlayan nesnelerin yeteneğini kopyalar. Aynı anda tek yetenek taşınır;

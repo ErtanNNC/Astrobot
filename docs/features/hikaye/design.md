@@ -28,7 +28,7 @@ Karakterler bulunabilen CC0 asset'lerle yapılır; tarif asset'e uyarlanır (D-0
 1. Bir fırtına gecesi Statik Ana Jeneratör'e çarpar, dört Çekirdek Pili kapar ve adaya dağıtır; ada karanlığa gömülür.
 2. Atölyede şarj istasyonunda uyuyan Bip'in eğri antenine bir yıldırım düşer. Bip uyanır; anteni artık dokunduğu nesnenin yeteneğini kopyalayabilmektedir.
 3. Bip ve Pırıl her bölümde bir Çekirdek Pili geri alır. Her pil yerine takıldığında adanın bir bölgesi yeniden aydınlanır.
-4. Son bölümde Statik yenilmez, ikna edilir: Bip ona jeneratörün fazla enerjisini verir, Statik adanın dost fırtınası olur [ASSUMPTION].
+4. Son bölümde (Bölüm 4) Statik yenilmez, ikna edilir: Bip ona anteninden enerji verir, Statik adanın dost fırtınası olur (D-014). Final sahnesinde pembe bir buluta dönüşüp robotların üstüne ılık yağmur yağdırır; ardından Emeği Geçenler.
 
 ## Bölüm 1: "Uyanış"
 **Bölge:** Tamirhane Vadisi. **Hedef:** Hurdacı Vinç'in yuttuğu ilk Çekirdek Pil.

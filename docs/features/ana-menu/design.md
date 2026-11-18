@@ -76,7 +76,9 @@ Oyun içinde Duraklat (telefon: sol üst düğme, PC: Esc). Seçenekler: Devam, 
 - Kodda: `scripts/ui/hub.gd` (giriş + Atölye aynı sahne: `scenes/ui/hub.tscn`, üretici `tools/level/hub.py`), menü nesneleri `scripts/ui/menu_object.gd`, duraklatma `scripts/ui/pause_menu.gd`, ortak buton görünüşü `scripts/ui/ui_kit.gd`.
 - Yapıldı: giriş ekranı (gece, yağmur penceresi, uyuyan Bip, dokununca uyanma), Atölye nesneleri (kapı, 3 kapsül + hologram, TV = ayarlar, vitrin = koleksiyon, oyuncak kutusu = açılmış yetenekleri deneme, şalter = çıkış/PC), ≡ Hızlı Menü, yuva paneli (devam / yeni oyun onaylı / sil iki adım), telefonda nesneye dokunarak seçme, duraklatma menüsü (Devam, Kontrol noktasından başla, Ayarlar, Atölye'ye dön).
 - Ayarlarda şimdilik: buton boyutu, sol el modu, titreşim, müzik, efektler, Pırıl ipuçları, ekran sarsıntısı.
-- Henüz yok: TV'den "Sahneler" (izlenen ara sahneleri tekrar izleme), buton yerlerini sürükleme, ses seviyesi kaydırıcıları, kamera ve görüntü sekmeleri, dil seçimi, açılış logoları.
+- Kapı: kayıtta birden fazla alan açılmışsa "Nereye gidelim?" paneli açılır: Devam, En ileri nokta ve açılmış her alan (Altın Vidası alınmış alanlar ✓ ile). Kaçırılan vidalar için alanlar yeniden oynanır; kayıtta en ileri alan (`furthest`) ayrı tutulur.
+- TV: Ayarlar + izlenen ara sahneler (Fırtına Gecesi, Işıklar Geri Geldi).
+- Henüz yok: buton yerlerini sürükleme, ses seviyesi kaydırıcıları, kamera ve görüntü sekmeleri, dil seçimi, açılış logoları.
 
 ## History
 - 2026-11-18: tasarlandı.
