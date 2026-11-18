@@ -22,7 +22,14 @@ THEMES = {
     "ice": ((0.72,0.90,1.00),(0.65,0.85,0.98),(0.50,0.72,0.90),(0.44,0.64,0.84)),
     "red": ((0.95,0.45,0.40),(0.90,0.40,0.36),(0.80,0.35,0.30),(0.72,0.30,0.26)),
     "cloud": ((0.98,0.97,1.00),(0.92,0.90,0.98),(0.82,0.78,0.95),(0.74,0.70,0.90)),
+    "kitside": ((0.80,0.82,0.86),(0.76,0.78,0.83),(0.70,0.72,0.78),(0.64,0.66,0.72)),
 }
+
+# KayKit Platformer Pack (CC0, Kay Lousberg): yürünen zeminlerin üstü bu renkli karolarla kaplanır.
+# Tema → karo rengi. Listede olmayan temalar (kar, bulut, ahşap, iç mekân) eski görünümünde kalır.
+KIT_DIR = "res://assets/models/kaykit/platformer/"
+KIT_COLOR = {"grass": "green", "grass2": "green", "sand": "yellow", "yellow": "yellow", "quarry": "yellow",
+             "canyon": "red", "red": "red", "stone": "blue", "factory": "blue", "blue": "blue", "ice": "blue"}
 
 SKIES = {
     "day":     dict(top=(0.25,0.55,0.95), hor=(0.72,0.88,1.0), sun=(1,0.96,0.88), sun_e=1.25, amb=1.1, fog=(0.72,0.86,1.0), fog_d=0.0035, sun_rx=-50, sun_ry=30),
@@ -118,8 +125,11 @@ def tf(x, y, z, rx=0.0, ry=0.0, s=1.0, rz=0.0):
 
 class Level:
     def __init__(self, area_id, title, out, sky="day", music="res://assets/audio/opengameart/happy_clappy_loop.mp3",
-                 kill_height=-12.0, safe=False, water=-8.0, seed=1, start_ability="", root_script="res://scripts/level/area.gd", extra_props=None, rig=True):
+                 kill_height=-12.0, safe=False, water=-8.0, seed=1, start_ability="", root_script="res://scripts/level/area.gd", extra_props=None, rig=True, kit=True):
         random.seed(seed)
+        self.use_kit = kit
+        self.kit_items = []
+        self.kit_rng = random.Random(seed * 7 + 3)   # ayrı üreteç: eski süs yerleşimi değişmesin
         self.area_id, self.title, self.out = area_id, title, out
         self.sky, self.music, self.kill, self.safe, self.water = sky, music, kill_height, safe, water
         self.start_ability = start_ability
@@ -152,8 +162,40 @@ class Level:
         return name
 
     def top(self, cx, top, cz, sx, sz, depth=3.0, theme="grass", name=None, ry=0.0):
-        """Üst yüzeyi 'top' yüksekliğinde olan kutu (çoğu zemin böyle)."""
+        """Üst yüzeyi 'top' yüksekliğinde olan kutu (çoğu zemin böyle).
+        kit açıksa üstü KayKit platform karolarıyla kaplanır; kutu gri gövde olur."""
+        if self.use_kit and theme in KIT_COLOR and abs(math.sin(ry * 2)) < 1e-6 and sx * sz <= 1200:   # uzaktaki dev zeminler karosuz
+            if abs(math.sin(ry)) > 0.5:
+                self._kit_tiles(cx, top, cz, sz, sx, KIT_COLOR[theme])
+            else:
+                self._kit_tiles(cx, top, cz, sx, sz, KIT_COLOR[theme])
+            theme = "kitside"
         return self.box(cx, top - depth / 2, cz, sx, depth, sz, theme, ry=ry, name=name)
+
+    def kit(self, model, x, y, z, ry=0.0, s=1.0):
+        """KayKit süsü (çarpışmasız), ör. kit("cone_red", 2, 0, 3)."""
+        self.kit_items.append((KIT_DIR + model + ".gltf", tf(x, y, z, 0, ry, s)))
+
+    def _kit_tiles(self, cx, top, cz, sx, sz, color):
+        T = 2 if min(sx, sz) >= 1.5 else 1   # 2 m karolar: oyuncak blok görünümü (çizgiler sık)
+        model = KIT_DIR + "platform_%dx%dx1_%s.gltf" % (T, T, color)
+        nx = max(1, round(sx / T)); nz = max(1, round(sz / T))
+        kx = (sx / nx + 0.04) / T; kz = (sz / nz + 0.04) / T   # 2 cm taşar: kutu kenarıyla titreşmez
+        for i in range(nx):
+            for k in range(nz):
+                x = cx - sx / 2 + (i + 0.5) * sx / nx
+                z = cz - sz / 2 + (k + 0.5) * sz / nz
+                self.kit_items.append((model, tf(x, top - 0.98, z, 0, 0, (kx, 1.0, kz))))
+        # Geniş zeminlerin bir köşesine küçük süs: bayrak ya da koni (çarpışmasız)
+        if sx >= 6 and sz >= 6 and self.kit_rng.random() < 0.55:
+            ex = self.kit_rng.choice((-1, 1)); ez = self.kit_rng.choice((-1, 1))
+            px = cx + ex * (sx / 2 - 0.6); pz = cz + ez * (sz / 2 - 0.6)
+            c = self.kit_rng.choice(("blue", "green", "red", "yellow"))
+            if self.kit_rng.random() < 0.5:
+                self.kit("flag_A_%s" % c, px, top, pz, ry=self.kit_rng.uniform(0, math.tau))
+            else:
+                for q in range(self.kit_rng.randint(1, 3)):
+                    self.kit("cone_%s" % c, px - ex * q * 0.55, top, pz, ry=self.kit_rng.uniform(0, math.tau))
 
     def ramp(self, cx, cz, length, width, rise, theme="grass2", ry=0.0, base=0.0):
         """base yüksekliğinden başlayıp yerel -Z yönünde 'rise' kadar yükselen rampa."""
@@ -330,6 +372,10 @@ adjustment_saturation = 1.12
             root.append('[node name="GameRig" parent="." instance=ExtResource("rig")]\n')
         for g in self.groups:
             root.append('[node name="%s" type="Node3D" parent="."]\n' % g)
+        if self.kit_items:
+            ext_lines.append('[ext_resource type="Script" path="res://scripts/level/kit_batch.gd" id="kitb"]')
+            arr = ", ".join('"%s", %s' % (p, t) for p, t in self.kit_items)
+            self.nodes.append('[node name="KitBatch" type="Node3D" parent="."]\nscript = ExtResource("kitb")\nitems = [%s]\n' % arr)
         txt = "[gd_scene format=3]\n\n" + "\n".join(ext_lines) + "\n\n" + "\n".join(subs) + "\n" + "\n".join(root) + "\n" + "\n".join(self.nodes)
         path = os.path.join(ROOT, self.out)
         os.makedirs(os.path.dirname(path), exist_ok=True)
