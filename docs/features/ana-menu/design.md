@@ -1,6 +1,6 @@
 # Ana menü
 
-**Status:** designed · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
+**Status:** implemented · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
 
 Menü de oyunun bir parçasıdır. Giriş ekranından sonra oyuncu klasik bir listeye değil, Bip'in kendi **Atölyesi**ne girer: Bip'i yürütüp nesnelere giderek oyuna başlar, ayarları açar, koleksiyonuna bakar (D-004). Böylece oyuncu ilk saniyeden kontrolleri ısıtır ve oyunun hissini alır. Aceleci oyuncular ve erişilebilirlik için aynı seçenekler her an tek dokunuşla bir **Hızlı Menü** listesinden de açılır.
 
@@ -72,5 +72,12 @@ Oyun içinde Duraklat (telefon: sol üst düğme, PC: Esc). Seçenekler: Devam, 
 ## Open questions
 - [ASSUMPTION] Tuş atamayı değiştirme (PC/gamepad) ilk sürüme gerekli mi? Şimdilik hayır.
 
+## Uygulama notları
+- Kodda: `scripts/ui/hub.gd` (giriş + Atölye aynı sahne: `scenes/ui/hub.tscn`, üretici `tools/level/hub.py`), menü nesneleri `scripts/ui/menu_object.gd`, duraklatma `scripts/ui/pause_menu.gd`, ortak buton görünüşü `scripts/ui/ui_kit.gd`.
+- Yapıldı: giriş ekranı (gece, yağmur penceresi, uyuyan Bip, dokununca uyanma), Atölye nesneleri (kapı, 3 kapsül + hologram, TV = ayarlar, vitrin = koleksiyon, oyuncak kutusu = açılmış yetenekleri deneme, şalter = çıkış/PC), ≡ Hızlı Menü, yuva paneli (devam / yeni oyun onaylı / sil iki adım), telefonda nesneye dokunarak seçme, duraklatma menüsü (Devam, Kontrol noktasından başla, Ayarlar, Atölye'ye dön).
+- Ayarlarda şimdilik: buton boyutu, sol el modu, titreşim, müzik, efektler, Pırıl ipuçları, ekran sarsıntısı.
+- Henüz yok: TV'den "Sahneler" (izlenen ara sahneleri tekrar izleme), buton yerlerini sürükleme, ses seviyesi kaydırıcıları, kamera ve görüntü sekmeleri, dil seçimi, açılış logoları.
+
 ## History
 - 2026-11-18: tasarlandı.
+- 2026-11-18: uygulandı (eksikler yukarıda).

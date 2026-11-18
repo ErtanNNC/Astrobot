@@ -1,6 +1,6 @@
 # Hikaye
 
-**Status:** designed · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
+**Status:** implemented · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
 
 Hikaye sade, sıcak ve tamamen sözsüzdür: kısa sahneler, pandomim, müzik ve simgelerle anlatılır, bu yüzden her yaşta ve her dilde anlaşılır. Amaç oyuncuya "neden zıplıyorum?" sorusuna sevimli bir cevap vermek ve Bip'i sevdirmektir; oynanışı hiçbir zaman uzun süre durdurmaz.
 
@@ -16,11 +16,13 @@ Karakterler bulunabilen CC0 asset'lerle yapılır; tarif asset'e uyarlanır (D-0
 | Karakter | Asset | Uyarlama | Durum |
 |---|---|---|---|
 | **Bip** | Quaternius "Animated Robot" (turuncu, iri elli, gözlüklü robot; 14 animasyon) | kafasına parlayan bir anten eklendi; "eğri anten" için anten hafif yana yatırılabilir; taşınan yetenek gövde rengini değiştirir (M2) | oyunda |
-| **Pırıl** | Quaternius Ultimate Platformer Pack "Bee" (uçma animasyonlu böcek) | sarı-beyaz parlayan malzeme ve küçük ışık; "ateş böceği lamba-drone" olarak boyanır | planlandı (M3, öğretici) |
-| **Statik** | Quaternius "Cloud" modelleri | mora boyanır, etrafında kıvılcım parçacıkları, yavaşça süzülür ve sallanır | planlandı (M5, sahneler) |
-| **Vidaböcek** (ilk düşman) | Quaternius Ultimate Platformer Pack "Crab" (yürüme, ölüm, isabet animasyonları) | metalik gri-mavi renk, sırtında vida; görünüşü mekanik yengeç [ASSUMPTION: adı "Vidaböcek" kalır] | planlandı (M2/M3) |
-| **Hurdacı Vinç** (patron) | uygun hazır model bulunamadı | Quaternius Platformer Pack parçaları (boru, kule, ok, kutu) ve basit şekillerle birleştirilerek yapılacak; Quaternius "Animated Mech" paketi erişilebilirse o da aday [ASSUMPTION] | açık |
-| **Atölye robotları** (kapanışta alkışlayanlar) | Quaternius "Animated Robot" | farklı renklere boyanmış kopyalar; "Wave", "Yes", "Dance" animasyonları | planlandı (M5) |
+| **Pırıl** | Quaternius Ultimate Platformer Pack "Bee" (uçma animasyonlu böcek) | sarı-beyaz parlayan malzeme ve küçük ışık; "ateş böceği lamba-drone" olarak boyanır | oyunda (`scripts/npc/piril.gd`) |
+| **Statik** | Quaternius "Cloud" modelleri | mora boyanır, etrafında kıvılcım parçacıkları, yavaşça süzülür ve sallanır | oyunda (açılış, kapanış, uzak manzara) |
+| **Vidaböcek** (ilk düşman) | Quaternius Ultimate Platformer Pack "Crab" (yürüme, ölüm, isabet animasyonları) | özgün kırmızı rengi kaldı (tehlike rengi, sanat yönü); adı "Vidaböcek" | oyunda |
+| **Zıpzıp** (zıplayan düşman) | Quaternius "Skull" | yerinde zıplar, Bip yaklaşınca ona doğru seker | oyunda |
+| **Hurda Goblin** (kovalayan düşman) | Quaternius "Enemy" (boynuzlu yeşil) | Bip'i görünce kovalar, uzaklaşınca evine döner | oyunda |
+| **Hurdacı Vinç** (patron) | uygun hazır model bulunamadı | basit şekillerden kuruldu: turuncu kule, dönen bom, kırmızı gözlü kabin, kancada Çekirdek Pil, 3 can ışığı (`scripts/boss/crane_boss.gd`) | oyunda |
+| **Atölye robotları** (kapanışta alkışlayanlar) | Quaternius "Animated Robot" | farklı renklere boyanmış kopyalar; "Wave", "Yes", "Dance" animasyonları | oyunda (kapanış) |
 
 ## Ana hikaye (tüm oyun)
 1. Bir fırtına gecesi Statik Ana Jeneratör'e çarpar, dört Çekirdek Pili kapar ve adaya dağıtır; ada karanlığa gömülür.
@@ -60,3 +62,4 @@ Karakterler bulunabilen CC0 asset'lerle yapılır; tarif asset'e uyarlanır (D-0
 ## History
 - 2026-11-18: tasarlandı.
 - 2026-11-18: karakterlerin asset karşılıkları eklendi (D-010).
+- 2026-11-18: açılış (`scripts/story/opening.gd`) ve kapanış (`scripts/story/closing.gd`) sahneleri uygulandı; basılı tutarak atlanır. Ara sahnelerin TV'den tekrar izlenmesi henüz yok.

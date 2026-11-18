@@ -1,6 +1,6 @@
 # Bip — Oyun Tasarım Dokümanı
 
-**Sürüm:** 0.3 · **Güncelleme:** 2026-11-18 · [Özellikler](#feature-index) · [Kararlar](#decisions) · [Değişiklik kaydı](#change-log)
+**Sürüm:** 0.4 · **Güncelleme:** 2026-11-18 · [Özellikler](#feature-index) · [Kararlar](#decisions) · [Değişiklik kaydı](#change-log)
 
 ## Özet
 Oyuncu, bir fırtınada anteni yıldırım çarpınca nesnelerin yeteneğini kopyalayabilen küçük tamir robotu Bip'i yönetir ve karanlığa gömülen Dişli Adası'na ışığı geri getirmeye çalışır ([hikaye](features/hikaye/design.md)). Renkli, kısa ve sürprizlerle dolu 3D seviyelerde koşar, zıplar ve kopyaladığı yetenekleri (Yay, Balon, Mıknatıs, Kaya) yaratıcı biçimlerde kullanarak engelleri aşar, pil ve gizli altın vidalar toplar. Eğlencenin kaynağı sıkı kontroller ve her köşede yeteneğin yeni bir kullanımını keşfetmektir. Her bölüm, sonundaki patron yenilip bir Çekirdek Pil geri alınınca biter.
@@ -35,21 +35,23 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Feature | Status | Scope | Summary | Docs |
 |---|---|---|---|---|
 | Hareket | implemented | MVP | Koşma, değişken yükseklikte zıplama, coyote time, zıplama tamponu, havada kontrol | [design](features/hareket/design.md) |
-| Kopyalama | designed | MVP | Antenle nesneden yetenek kopyalama; Yay, Balon, Mıknatıs, Kaya; hasar alınca yetenek kaybı | [design](features/kopyalama/design.md) |
+| Kopyalama | implemented | MVP | Antenle nesneden yetenek kopyalama; Yay, Balon, Mıknatıs, Kaya; hasar alınca yetenek kaybı | [design](features/kopyalama/design.md) |
 | Kamera | implemented | MVP | Kendi kendine takip eden, duvardan kaçan, telefonda elle döndürme gerektirmeyen kamera | [design](features/kamera/design.md) |
-| Can ve hasar | idea | MVP | 3 can; hasar önce yeteneği alır, yetenek yoksa can gider; kontrol noktasından devam | — |
-| Toplanabilirler | idea | MVP | Piller (bölüm başına ~150) ve alan başına 1, toplam 5 gizli altın vida | — |
-| Düşmanlar | idea | MVP | 2–3 basit düşman türü; üstüne zıplayınca ya da Kaya ile ezilince yenilir | — |
+| Can ve hasar | implemented | MVP | 3 can; hasar önce yeteneği alır, yetenek yoksa can gider; kontrol noktasından devam | [bölüm 1](features/bolum-1/design.md) |
+| Toplanabilirler | implemented | MVP | Piller (bölüm başına ~150) ve alan başına 1, toplam 5 gizli altın vida; kırılan sandıklar | [bölüm 1](features/bolum-1/design.md) |
+| Düşmanlar | implemented | MVP | Vidaböcek (yürür), Zıpzıp (seker), Hurda Goblin (kovalar); üstüne zıplayınca ya da Kaya ile ezilince yenilir | [hikaye](features/hikaye/design.md) |
 | Mobil kontroller | implemented | MVP | Sol yüzen joystick, sağ altta yay şeklinde Zıpla ve Yetenek butonları, sol üstte Duraklat, titreşim; buton boyutu ve sol el modu | [design](features/mobil-kontroller/design.md) |
-| Bölüm 1 | designed | MVP | Öğretici Uyanış Atölyesi + 4 alan (Yay, Balon, Mıknatıs, Kaya) + Hurdacı Vinç patronu | [design](features/bolum-1/design.md) |
-| Hikaye | designed | MVP | Sözsüz anlatım; açılış ve kapanış sahneleri; rehber drone Pırıl; karakterlerin hangi asset'le yapılacağı belli | [design](features/hikaye/design.md) |
-| Ana menü | designed | MVP | Giriş ekranı, oynanabilir atölye ana menüsü, ayarlar, duraklatma menüsü | [design](features/ana-menu/design.md) |
-| Kayıt | designed | MVP | 3 kayıt yuvası, kontrol noktalarında otomatik kayıt, ayrı ayar dosyası | [design](features/kayit/design.md) |
-| Patron | idea | MVP | Bölüm 1 sonunda Hurdacı Vinç; ayrıntı Bölüm 1 notunda | — |
-| HUD | idea | MVP | Can, pil ve vida sayacı, taşınan yetenek simgesi, sonuç ekranı | — |
+| Bölüm 1 | in progress | MVP | Öğretici Uyanış Atölyesi + 4 alan (Yay, Balon, Mıknatıs, Kaya) + Hurdacı Vinç patronu | [design](features/bolum-1/design.md) |
+| Hikaye | implemented | MVP | Sözsüz anlatım; açılış ve kapanış sahneleri; rehber drone Pırıl; karakterlerin hangi asset'le yapılacağı belli | [design](features/hikaye/design.md) |
+| Ana menü | implemented | MVP | Giriş ekranı, oynanabilir atölye ana menüsü, ayarlar, duraklatma menüsü | [design](features/ana-menu/design.md) |
+| Kayıt | implemented | MVP | 3 kayıt yuvası, kontrol noktalarında otomatik kayıt, ayrı ayar dosyası | [design](features/kayit/design.md) |
+| Patron | implemented | MVP | Bölüm 1 sonunda Hurdacı Vinç (3 aşama); ayrıntı Bölüm 1 notunda | [bölüm 1](features/bolum-1/design.md) |
+| HUD | implemented | MVP | Can, pil ve vida sayacı, taşınan yetenek simgesi, kayıt simgesi, sonuç ekranı | — |
 | Ses ve müzik | in progress | MVP | Her eyleme ses; bölüm müziği. Zıplama, iniş, adım, düşme sesleri ve test alanı müziği var | — |
-| Yeni yetenekler | idea | later | Ör. Pervane, Buz, Lastik top | — |
-| Bölüm 2–4 | idea | later | Kalan üç Çekirdek Pil için yeni bölgeler | — |
+| Yeni yetenekler | implemented | later | Pervane (Bölüm 2) ve Buz (Bölüm 3) yapıldı; Lastik top fikir | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
+| Bölüm 2 | in progress | later | Fırtına Limanı: 3 alan + Paslı Kaptan; yeni yetenek Pervane | [design](features/bolum-2/design.md) |
+| Bölüm 3 | in progress | later | Buzul Tepesi: 3 alan + Kardan Dev; yeni yetenek Buz | [design](features/bolum-3/design.md) |
+| Bölüm 4 | idea | later | Son Çekirdek Pil; Statik ile buluşma | — |
 
 ## Milestones
 1. **M1, greybox hareket + kamera:** hareket, kamera; basit küplerden bir test alanı · bitti sayılır: PC'de 2 m'lik bir boşluk ve 1,5 m'lik bir basamak ilk denemede rahatça aşılıyor.
@@ -78,6 +80,9 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | D-008 | 2026-11-18 | Mobil kontroller M4'ten öne çekildi | M4'e kadar beklemek | geliştirici her güncellemeyi telefonda deneyebilsin; buton yerleşimi erken oturmalı (geliştirici isteği) | [mobil kontroller](features/mobil-kontroller/design.md) |
 | D-009 | 2026-11-18 | Görsel ve sesler M5'ten öne çekildi: Bip = Quaternius Animated Robot, çevre = Quaternius Ultimate Platformer Pack, sesler = Kenney, müzik = OpenGameArt (hepsi CC0). Seviye zemini ölçülü kutular; görünüşü shader'la veriliyor | asset'leri M5'te eklemek | geliştirici isteği; ölçüler kutularda kaldığı için ayar yapmak hâlâ kolay | hareket, ses, seviye (bkz. `CREDITS.md`) |
 | D-010 | 2026-11-18 | Karakterlerin görünüşü bulunabilen ücretsiz (CC0) asset'lere göre seçilir; doküman tarifi asset'e uyarlanır | her karakteri tarife göre özel modelletmek | ekipte 3D sanatçı yok; geliştirici isteği | [hikaye](features/hikaye/design.md) |
+| D-011 | 2026-11-18 | Yeteneği bırakmak için basılı tutma 0,6 → 1,2 sn | ayrı bir bırakma tuşu | Yay'ın şarjlı zıplaması da basılı tutmayı kullanıyor; iki tuşla yetinmek (Pillar 4) | [kopyalama](features/kopyalama/design.md) |
+| D-012 | 2026-11-18 | Bölüm 2 ve 3 birer yeni yetenekle (Pervane, Buz) gelir; bölümler 3 alan + patron | her bölüm yalnızca eski 4 yetenek | Astro Bot'taki gibi her bölümde yeni bir oyuncak sürprizi (Pillar 3); kapsam için alan sayısı 3 | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
+| D-013 | 2026-11-18 | Seviyeler Python üretici betiklerle (`tools/level/*.py`) yazılır, ölçülü kutular + shader + süs | her seviyeyi elle editörde kurmak | ölçüler kesin kalır, Claude Code hızlı ve tekrarlanabilir kurar; elle düzenleme isteyen sahne için betik bir daha çalıştırılmaz | tüm seviyeler |
 
 ## Open questions
 - **Doğrulanacak varsayımlar:** oturum süreleri; tüm [ASSUMPTION] işaretli sayılar özellik dokümanlarında.
@@ -87,6 +92,8 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
   - Yeni başlayan geliştirici için kapsam büyük mü? → her kilometre taşı oynanabilir bitmeli; zaman aşılırsa Patron ve Mıknatıs ilk kesilecekler.
 
 ## Change log
+**0.4 (2026-11-18):** M2 + M3 büyük ölçüde: dört yetenek, can/hasar, düşmanlar, toplanabilirler, kayıt, giriş ekranı ve Atölye, açılış/kapanış, Bölüm 1 alanları ve Hurdacı Vinç; Bölüm 2 (Pervane) ve Bölüm 3 (Buz) tasarlandı; D-011–D-013.
+
 **0.1 (2026-11-18):** ilk taslak; hareket, kopyalama ve kamera tasarlandı; D-001–D-003 kaydedildi.
 **0.2 (2026-11-18):** ana menü, kayıt, hikaye ve Bölüm 1 tasarlandı; "Seviye 1" adı "Bölüm 1" oldu, iç kısımları "alan"; vida sayısı 3 → 5; D-004–D-006 kaydedildi.
 **0.3 (2026-11-18):** M1 uygulandı (hareket, kamera, test alanı, Android APK hattı); görsel ve sesler eklendi; mobil kontroller ve duraklatma menüsü yapıldı; karakterlerin asset karşılıkları belirlendi; D-007–D-010 kaydedildi (uygulama sırasında D-004–D-006 numaralarıyla yazılan kararlar, tasarımcının D-004–D-006'sıyla çakışmasın diye yeniden numaralandı).

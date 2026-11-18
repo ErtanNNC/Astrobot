@@ -1,6 +1,6 @@
 # Kayıt
 
-**Status:** designed · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
+**Status:** implemented · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
 
 Oyuncu hiçbir zaman ilerleme kaybetmekten korkmamalı. Oyun kontrol noktalarında kendiliğinden kaydeder; telefon aniden kapansa bile en fazla 90 saniyelik oynanış kaybolur (D-006). Üç kayıt yuvası, aynı cihazı paylaşan kardeşlerin ayrı oynamasına izin verir.
 
@@ -46,5 +46,12 @@ Kapsül hologramında görünen tamamlanma yüzdesi bu verilerden hesaplanır, a
 ## Open questions
 - [ASSUMPTION] Bulut kaydı (Google Play / iCloud) ilk sürümde yok.
 
+## Uygulama notları
+- Kodda: `scripts/autoload/game_state.gd` (autoload `GameState`). Yuvalar `user://slot_0.json` … `slot_2.json`; yazma önce `.tmp`, eski dosya `.bak`, sonra yerine koyma. Okuma başarısızsa `.bak` denenir.
+- Ayarlar ayrı: `user://settings.cfg` (`scripts/autoload/settings.gd`).
+- Ekstra alan: `checkpoint_ability` (kontrol noktasındaki yetenek), `chapter`.
+- Kaydetme anları: kontrol noktası (en az 10 sn arayla), alan geçişi, Altın Vida, Çekirdek Pil, duraklatmadan Atölye'ye dönüş, telefon arka plana alınınca.
+
 ## History
 - 2026-11-18: tasarlandı.
+- 2026-11-18: uygulandı.

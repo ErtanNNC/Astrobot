@@ -1,6 +1,6 @@
 # Kopyalama
 
-**Status:** designed · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
+**Status:** implemented · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
 
 Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yeteneğini alır; yetenek bir sonraki kopyalamaya ya da hasara kadar kalır. Bölüm 1'in her alanı bir yeteneği öğretip sonra zorlaştırır; son alan dördünü birleştirir ([Bölüm 1](../bolum-1/design.md)). "Tek yetenek, bin kullanım" pillar'ına hizmet eder.
 
@@ -26,7 +26,8 @@ Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yetene
 |---|---|---|---|
 | Kopyalama menzili | 1,8 [ASSUMPTION] | m | nesneye "dokunur gibi" mi hissettiriyor |
 | Kopyalama animasyonu | 0,25 [ASSUMPTION] | s | akışı bölüyor mu |
-| Yetenek bırakmak için basılı tutma | 0,6 [ASSUMPTION] | s | yanlışlıkla bırakılıyor mu |
+| Yetenek bırakmak için basılı tutma | 1,2 (eskiden 0,6) | s | yanlışlıkla bırakılıyor mu; Yay şarjıyla karışmıyor mu |
+| Yay şarj süresi (tam) | 0,5 [ASSUMPTION] | s | |
 | Yay zıplama yüksekliği | 5,0 [ASSUMPTION] | m | normal zıplamadan net farklı mı |
 | Yay şarjlı zıplama yüksekliği | 6,5 [ASSUMPTION] | m | |
 | Balon süzülme düşüş hızı | 1,5 [ASSUMPTION] | m/s | |
@@ -45,6 +46,14 @@ Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yetene
 - Kaya ile suya girilirse Bip batar ve kontrol noktasına döner [ASSUMPTION].
 - Kontrol noktasından yeniden başlarken Bip, kontrol noktasına ulaştığı andaki yetenekle başlar [ASSUMPTION].
 
+## Uygulama notları
+- Kodda: `scripts/player/bip.gd` (tüm sayılar `@export`, "Kopyalama", "Yay", "Balon", "Mıknatıs", "Kaya", "Pervane", "Buz" grupları), kopyalanabilir nesne `scripts/abilities/copy_source.gd`, görünüşler `scripts/abilities/ability_models.gd`.
+- Bırakma süresi 0,6 → 1,2 sn yapıldı (D-011): Yay'ın şarjlı zıplaması da Yetenek tuşunu basılı tutmayı kullanıyor; 0,6 sn'de şarj daha bitmeden yetenek bırakılıyordu. HUD'daki yetenek simgesinin etrafında dolan halka bırakmaya ne kadar kaldığını gösterir.
+- Mıknatıs: menzildeki metal yüzeylerden en yakın ve tercihen yukarıdaki seçilir; az önce bırakılan yüzey 1,5 sn boyunca atlanır. Böylece "zıpla → Yetenek → bir üstteki bloğa çekil" zinciriyle tırmanılır.
+- Su: Bip normalde yüzer; Kaya ile batar ve dipte yürür (Bölüm 1 tasarımındaki "suyun altındaki yol"). Edge case'teki "batar ve kontrol noktasına döner" kuralı bunun yerine kaldırıldı.
+- Kopyalanabilir nesne yakınken anten hızlı yanıp söner ve telefonda Yetenek butonu nabız gibi atar.
+- Bölüm 2 ve 3'te iki yeni yetenek eklendi: **Pervane** ve **Buz** (bkz. [Bölüm 2](../bolum-2/design.md), [Bölüm 3](../bolum-3/design.md)).
+
 ## Interactions
 | Özellik | Etki |
 |---|---|
@@ -59,3 +68,4 @@ Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yetene
 ## History
 - 2026-11-18: tasarlandı.
 - 2026-11-18: "bölüm" yerine "alan" terimi (GDD 0.2).
+- 2026-11-18: dört yetenek ve Pervane, Buz uygulandı; bırakma süresi 1,2 sn (D-011); otomatik testler: `tests/m2_test.tscn`, `tests/abilities_test.tscn`, `tests/boss_test.tscn`.
