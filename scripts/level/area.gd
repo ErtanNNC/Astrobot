@@ -66,6 +66,7 @@ func _ready() -> void:
 	GameState.area_batteries = 0
 	GameState.safe_mode = safe
 	_count_batteries.call_deferred()
+	_spawn_lost_robots.call_deferred()
 	# Nereden başlıyoruz?
 	_respawn = _start
 	var ability := start_ability
@@ -95,6 +96,31 @@ func _ready() -> void:
 		mp.play()
 	if title != "":
 		hud.banner.call_deferred(title, "", 2.2)
+
+
+## Kayıp robotlar: her kontrol noktasının yanında (zemin varsa) yardım bekleyen bir robot.
+func _spawn_lost_robots() -> void:
+	var space := get_world_3d().direct_space_state
+	var script := load("res://scripts/entities/lost_robot.gd")
+	for cp in get_tree().get_nodes_in_group("checkpoint"):
+		var id: String = area_id + "_" + String(cp.checkpoint_id)
+		if GameState.data.get("robots", []).has(id):
+			continue
+		for side in [-1.0, 1.0]:
+			var p: Vector3 = cp.global_position + cp.global_basis.x * 2.6 * side + Vector3.UP * 1.5
+			var q := PhysicsRayQueryParameters3D.create(p, p + Vector3.DOWN * 2.5, 1, [bip.get_rid()])
+			var hit := space.intersect_ray(q)
+			if hit and absf(hit.position.y - cp.global_position.y) < 0.6:
+				var r: Area3D = Area3D.new()
+				r.set_script(script)
+				r.robot_id = id
+				add_child(r)
+				r.global_position = hit.position
+				break
+
+
+func on_robot_rescued() -> void:
+	hud.banner("Robot kurtarıldı!", "Toplam %d" % GameState.data.get("robots", []).size(), 1.2)
 
 
 func _count_batteries() -> void:

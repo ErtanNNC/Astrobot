@@ -46,6 +46,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Ana menü | implemented | MVP | Giriş ekranı, oynanabilir atölye ana menüsü, ayarlar, duraklatma menüsü | [design](features/ana-menu/design.md) |
 | Kayıt | implemented | MVP | 3 kayıt yuvası, kontrol noktalarında otomatik kayıt, ayrı ayar dosyası | [design](features/kayit/design.md) |
 | Patron | implemented | MVP | Bölüm 1 sonunda Hurdacı Vinç (3 aşama); ayrıntı Bölüm 1 notunda | [bölüm 1](features/bolum-1/design.md) |
+| Kayıp robotlar | implemented | MVP | Fırtınada kaybolan atölye robotları kontrol noktalarının yanında el sallar; dokununca Atölye'ye ışınlanır ve orada dans eder (toplam 37) | [ana menü](features/ana-menu/design.md) |
 | HUD | implemented | MVP | Can, pil ve vida sayacı, taşınan yetenek simgesi, kayıt simgesi, sonuç ekranı | — |
 | Ses ve müzik | in progress | MVP | Her eyleme ses; bölüm müziği. Zıplama, iniş, adım, düşme sesleri ve test alanı müziği var | — |
 | Yeni yetenekler | implemented | later | Pervane (Bölüm 2) ve Buz (Bölüm 3) yapıldı; Lastik top fikir | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
@@ -83,6 +84,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | D-011 | 2026-11-18 | Yeteneği bırakmak için basılı tutma 0,6 → 1,2 sn | ayrı bir bırakma tuşu | Yay'ın şarjlı zıplaması da basılı tutmayı kullanıyor; iki tuşla yetinmek (Pillar 4) | [kopyalama](features/kopyalama/design.md) |
 | D-012 | 2026-11-18 | Bölüm 2 ve 3 birer yeni yetenekle (Pervane, Buz) gelir; bölümler 3 alan + patron | her bölüm yalnızca eski 4 yetenek | Astro Bot'taki gibi her bölümde yeni bir oyuncak sürprizi (Pillar 3); kapsam için alan sayısı 3 | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
 | D-014 | 2026-11-18 | Son patron Statik yenilmez, Bip ona enerji vererek ikna eder (hikaye dokümanındaki varsayım onaylandı) | kötü adamı yenmek | 8+ yaş için sıcak ton; "tek yetenek bin kullanım": anten burada da kullanılır | [bölüm 4](features/bolum-4/design.md) |
+| D-015 | 2026-11-18 | Kurtarılacak kayıp robotlar eklendi | yalnızca pil ve vida | Astro Bot'un en sevilen döngüsü: kurtarılan arkadaşlar merkez alanı (Atölye) canlandırır; ilerleme görünür olur | kayıt (`robots` alanı), Atölye |
 | D-013 | 2026-11-18 | Seviyeler Python üretici betiklerle (`tools/level/*.py`) yazılır, ölçülü kutular + shader + süs | her seviyeyi elle editörde kurmak | ölçüler kesin kalır, Claude Code hızlı ve tekrarlanabilir kurar; elle düzenleme isteyen sahne için betik bir daha çalıştırılmaz | tüm seviyeler |
 
 ## Open questions

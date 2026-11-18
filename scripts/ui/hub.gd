@@ -48,6 +48,7 @@ func _ready() -> void:
 	touch.pause_pressed.connect(open_quick_menu)
 	_refresh_capsules()
 	_refresh_toybox()
+	_spawn_rescued_robots()
 	if OS.has_feature("mobile"):
 		var sw := find_child("Salter", true, false)
 		if sw:
@@ -314,6 +315,31 @@ func _refresh_capsules() -> void:
 			for i in GameState.SLOT_COUNT:
 				best = maxi(best, GameState.slot_summary(i).get("golden_screws", []).size())
 			m.set_hologram("Vida %d/5" % best)
+
+
+## Kurtarılan robotlar Atölye'de dans eder (en çok robot kurtarılan yuvadan, en fazla 24).
+func _spawn_rescued_robots() -> void:
+	var best: Array = []
+	for i in GameState.SLOT_COUNT:
+		var r: Array = GameState.slot_summary(i).get("robots", [])
+		if r.size() > best.size():
+			best = r
+	var lr := load("res://scripts/entities/lost_robot.gd")
+	var anims := ["RobotArmature|Robot_Dance", "RobotArmature|Robot_Wave", "RobotArmature|Robot_Yes", "RobotArmature|Robot_Idle"]
+	for i in mini(best.size(), 24):
+		var m: Node3D = lr.tinted_robot(best[i], 0.13)
+		# İlk 12 robot: kameranın gördüğü tarafta, istasyonun solunda üç sıra; fazlası kapının önünde
+		if i < 12:
+			m.position = Vector3(-5.6 + (i % 4) * 1.25, 0, 3.4 + (i / 4) * 1.3)
+		else:
+			m.position = Vector3(-6.0 + ((i - 12) % 6) * 1.6, 0, -6.4 + ((i - 12) / 6) * 1.4)
+		m.rotation.y = PI + randf_range(-0.4, 0.4)
+		add_child(m)
+		var ap: AnimationPlayer = m.find_child("AnimationPlayer", true, false)
+		var n: String = anims[absi(String(best[i]).hash()) % anims.size()]
+		ap.get_animation(n).loop_mode = Animation.LOOP_LINEAR
+		ap.play(n)
+		ap.seek(randf() * 1.5, true)
 
 
 ## Oyuncak kutusu: yalnızca açılmış yetenekler denenebilir.

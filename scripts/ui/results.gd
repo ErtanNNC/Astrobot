@@ -29,6 +29,7 @@ func _ready() -> void:
 	UIKit.title(v, "Çekirdek Pil: %d / 4" % GameState.data.get("core_cells", []).size(), 32)
 	if GameState.data.get("game_complete", false):
 		UIKit.title(v, "Tüm oyun: %d pil · Altın Vida %d / 13" % [GameState.total_batteries(), GameState.data.get("golden_screws", []).size()], 26)
+	UIKit.title(v, "Kurtarılan robot: %d" % GameState.data.get("robots", []).size(), 28)
 	var mins := int(float(GameState.data.get("play_time", 0.0)) / 60.0)
 	UIKit.title(v, "Süre: %d dk" % mins, 26)
 	var b := UIKit.button(v, "Atölye'ye dön", _home, UIKit.GREEN)
