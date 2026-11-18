@@ -155,7 +155,9 @@ func _count_death() -> void:
 				best = p
 		if piril and best:
 			piril.show_hint("jump", best.global_position + Vector3.UP * 1.0)
-			get_tree().create_timer(8.0).timeout.connect(func(): piril.show_hint("", Vector3.ZERO))
+			get_tree().create_timer(8.0).timeout.connect(func():
+				if is_instance_valid(piril):
+					piril.show_hint("", Vector3.ZERO))
 
 
 func on_checkpoint(cp: Node3D) -> void:

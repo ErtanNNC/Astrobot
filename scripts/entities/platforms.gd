@@ -79,11 +79,12 @@ func surface_normal(p: Vector3) -> Vector3:
 	var local := to_local(p)
 	var h := size * 0.5
 	var d := Vector3(absf(absf(local.x) - h.x), absf(absf(local.y) - h.y), absf(absf(local.z) - h.z))
-	if d.x <= d.y and d.x <= d.z:
+	var e := 0.05
+	if d.x <= d.z + e and d.x <= d.y + e:
 		return (global_basis * Vector3(signf(local.x), 0, 0)).normalized()
-	if d.y <= d.z:
-		return (global_basis * Vector3(0, signf(local.y), 0)).normalized()
-	return (global_basis * Vector3(0, 0, signf(local.z))).normalized()
+	if d.z <= d.y + e:
+		return (global_basis * Vector3(0, 0, signf(local.z))).normalized()
+	return (global_basis * Vector3(0, signf(local.y), 0)).normalized()
 
 
 func _physics_process(delta: float) -> void:

@@ -66,9 +66,19 @@ func _process(delta: float) -> void:
 			var yaw: float = _bip.facing_yaw
 			target = _bip.global_position + Vector3(follow_offset.x, 0, follow_offset.z).rotated(Vector3.UP, yaw) + Vector3.UP * follow_offset.y
 	target += Vector3(sin(_t * 1.7) * 0.25, sin(_t * 2.3) * 0.2, cos(_t * 1.3) * 0.25)
+	# Kameraya çok yaklaşmasın: kameranın 2,5 m yakınındaysa uzağa it, ekranı kaplamasın
+	var cam := get_viewport().get_camera_3d()
+	if cam:
+		var to_cam := target - cam.global_position
+		if to_cam.length() < 2.5:
+			target = cam.global_position + to_cam.normalized() * 2.5
 	var k := 1.0 - exp(-3.0 * delta)
 	var prev := global_position
 	global_position = global_position.lerp(target, k)
+	if cam and global_position.distance_to(cam.global_position) < 1.5:
+		visible = false
+	else:
+		visible = true
 	var v := global_position - prev
 	if v.length() > 0.002:
 		rotation.y = lerp_angle(rotation.y, atan2(v.x, v.z), 6.0 * delta)
