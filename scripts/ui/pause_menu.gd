@@ -55,21 +55,22 @@ func _ready() -> void:
 
 	_settings = _column(stack)
 	_title(_settings, "Ayarlar")
-	_settings.custom_minimum_size.x = 820
+	_settings.custom_minimum_size.x = 900
 	_grid = GridContainer.new()
-	_grid.columns = 2
+	_grid.columns = 3
 	_grid.add_theme_constant_override("h_separation", 14)
 	_grid.add_theme_constant_override("v_separation", 14)
 	_settings.add_child(_grid)
 	_row("button_size", "Buton boyutu")
 	_row("left_handed", "Sol el modu")
 	_row("vibration", "Titreşim")
-	_row("music_on", "Müzik")
-	_row("sfx_on", "Efekt sesleri")
 	_row("hints_on", "Pırıl ipuçları")
 	_row("shake_on", "Ekran sarsıntısı")
 	_row("quality", "Görüntü kalitesi")
 	_row("shadows_on", "Gölgeler")
+	_slider("master_vol", "Genel ses")
+	_slider("music_vol", "Müzik")
+	_slider("sfx_vol", "Efektler")
 	_button(_settings, "Geri", _show_main, Color(0.3, 0.75, 0.4))
 	_settings.visible = false
 	_refresh()
@@ -161,9 +162,65 @@ func _button(parent: Node, text: String, cb: Callable, col := Color(0.25, 0.45, 
 
 func _row(key: String, label: String) -> void:
 	var b := _button(_grid, label, func(): _toggle(key))
-	b.custom_minimum_size = Vector2(395, 70)
-	b.add_theme_font_size_override("font_size", 25)
+	b.custom_minimum_size = Vector2(288, 62)
+	b.add_theme_font_size_override("font_size", 21)
 	_rows[key] = [b, label]
+
+
+## Ses kaydırıcısı (0–100): büyük tutamak, telefonda parmakla rahat kayar.
+func _slider(key: String, label: String) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 16)
+	var l := Label.new()
+	l.text = label
+	l.custom_minimum_size = Vector2(170, 0)
+	l.add_theme_font_size_override("font_size", 24)
+	row.add_child(l)
+	var sl := HSlider.new()
+	sl.min_value = 0
+	sl.max_value = 100
+	sl.step = 5
+	sl.value = Settings.get(key) * 100.0
+	sl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sl.custom_minimum_size = Vector2(0, 50)
+	sl.add_theme_icon_override("grabber", _grabber_tex())
+	sl.add_theme_icon_override("grabber_highlight", _grabber_tex())
+	var grab := StyleBoxFlat.new()
+	grab.bg_color = Color(0.4, 0.95, 1.0)
+	grab.set_corner_radius_all(16)
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color(1, 1, 1, 0.25)
+	track.set_corner_radius_all(8)
+	track.content_margin_top = 8
+	track.content_margin_bottom = 8
+	sl.add_theme_stylebox_override("slider", track)
+	sl.add_theme_stylebox_override("grabber_area", grab)
+	sl.add_theme_stylebox_override("grabber_area_highlight", grab)
+	sl.value_changed.connect(_on_slider.bind(key))
+	row.add_child(sl)
+	_settings.add_child(row)
+
+
+static var _grab_tex: Texture2D
+
+
+static func _grabber_tex() -> Texture2D:
+	if _grab_tex == null:
+		var img := Image.create(40, 40, false, Image.FORMAT_RGBA8)
+		for y in 40:
+			for x in 40:
+				var d := Vector2(x - 19.5, y - 19.5).length()
+				var a := clampf(19.5 - d, 0.0, 1.0)
+				var c := Color(1, 1, 1, a) if d < 16 else Color(0.25, 0.75, 0.95, a)
+				img.set_pixel(x, y, c)
+		_grab_tex = ImageTexture.create_from_image(img)
+	return _grab_tex
+
+
+func _on_slider(v: float, key: String) -> void:
+	Settings.set_value(key, v / 100.0)
+	if key == "sfx_vol":
+		Sfx.play("pickup", -4.0)
 
 
 func _toggle(key: String) -> void:

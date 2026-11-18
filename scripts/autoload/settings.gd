@@ -15,6 +15,9 @@ var music_on := true
 var sfx_on := true
 var hints_on := true          ## Pırıl ipuçları
 var shake_on := true          ## ekran sarsıntısı
+var master_vol := 1.0         ## 0..1
+var music_vol := 0.8
+var sfx_vol := 1.0
 var quality := 2              ## 0 Düşük, 1 Orta, 2 Yüksek (3B çözünürlük ölçeği)
 var shadows_on := true
 
@@ -44,9 +47,13 @@ func apply() -> void:
 	var m := AudioServer.get_bus_index("Music")
 	var s := AudioServer.get_bus_index("SFX")
 	if m >= 0:
-		AudioServer.set_bus_mute(m, not music_on)
+		AudioServer.set_bus_mute(m, not music_on or music_vol <= 0.01)
+		AudioServer.set_bus_volume_db(m, linear_to_db(maxf(music_vol, 0.01)) - 6.0)
 	if s >= 0:
-		AudioServer.set_bus_mute(s, not sfx_on)
+		AudioServer.set_bus_mute(s, not sfx_on or sfx_vol <= 0.01)
+		AudioServer.set_bus_volume_db(s, linear_to_db(maxf(sfx_vol, 0.01)))
+	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(master_vol, 0.01)))
+	AudioServer.set_bus_mute(0, master_vol <= 0.01)
 
 
 ## Kalite ve gölgeler: sahne değişince de çağrılır (alan yöneticisi).
@@ -74,6 +81,16 @@ func load_settings() -> void:
 	hints_on = cfg.get_value("access", "hints_on", hints_on)
 	shake_on = cfg.get_value("access", "shake_on", shake_on)
 	quality = cfg.get_value("graphics", "quality", quality)
+	master_vol = cfg.get_value("audio", "master_vol", master_vol)
+	music_vol = cfg.get_value("audio", "music_vol", music_vol)
+	sfx_vol = cfg.get_value("audio", "sfx_vol", sfx_vol)
+	# Eski sürümdeki aç/kapa düğmeleri artık kaydırıcı: "kapalı" → ses 0
+	if not music_on:
+		music_vol = 0.0
+		music_on = true
+	if not sfx_on:
+		sfx_vol = 0.0
+		sfx_on = true
 	shadows_on = cfg.get_value("graphics", "shadows_on", shadows_on)
 
 
@@ -88,6 +105,9 @@ func save_settings() -> void:
 	cfg.set_value("access", "hints_on", hints_on)
 	cfg.set_value("access", "shake_on", shake_on)
 	cfg.set_value("graphics", "quality", quality)
+	cfg.set_value("audio", "master_vol", master_vol)
+	cfg.set_value("audio", "music_vol", music_vol)
+	cfg.set_value("audio", "sfx_vol", sfx_vol)
 	cfg.set_value("graphics", "shadows_on", shadows_on)
 	# Güvenli yazma: önce geçici dosya, sonra yerine koy (kayıt dokümanı kural 7).
 	var tmp := PATH + ".tmp"

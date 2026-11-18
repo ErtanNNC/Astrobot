@@ -63,4 +63,4 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("restart"):
 		respawn()
 	elif event is InputEventKey and event.pressed and event.physical_keycode == KEY_M:
-		Settings.set_value("music_on", not Settings.music_on)
+		Settings.set_value("music_vol", 0.0 if Settings.music_vol > 0.01 else 0.8)
