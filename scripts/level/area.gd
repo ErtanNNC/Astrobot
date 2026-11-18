@@ -38,6 +38,7 @@ var pause_menu
 var _start: Node3D
 var _respawn: Node3D
 var _completing := false
+var _deaths_here := 0   ## aynı kontrol noktasından sonra kaç kez ölündü (Bölüm 1 kural 6)
 
 
 func _ready() -> void:
@@ -114,6 +115,7 @@ func _physics_process(_delta: float) -> void:
 
 func _fall() -> void:
 	Sfx.play("fall")
+	_count_death()
 	if safe:
 		respawn(false)
 		return
@@ -123,6 +125,7 @@ func _fall() -> void:
 
 func _on_hurt(result: String) -> void:
 	if result == "dead":
+		_count_death()
 		await get_tree().create_timer(0.5, false).timeout
 		respawn(true)
 
@@ -137,8 +140,26 @@ func respawn(refill: bool) -> void:
 	)
 
 
+## Aynı yerde 3 kez ölünürse Pırıl yolu gösterir (ayarlardan kapatılabilir).
+func _count_death() -> void:
+	_deaths_here += 1
+	if _deaths_here >= 3 and Settings.hints_on:
+		var piril := get_tree().get_first_node_in_group("piril")
+		var best: Node3D = null
+		var best_d := INF
+		for p in get_tree().get_nodes_in_group("piril_point"):
+			var d: float = p.global_position.distance_to(_respawn.global_position if _respawn else bip.global_position)
+			if d > 4.0 and d < best_d:
+				best_d = d
+				best = p
+		if piril and best:
+			piril.show_hint("jump", best.global_position + Vector3.UP * 1.0)
+			get_tree().create_timer(8.0).timeout.connect(func(): piril.show_hint("", Vector3.ZERO))
+
+
 func on_checkpoint(cp: Node3D) -> void:
 	_respawn = cp
+	_deaths_here = 0
 	GameState.reach_checkpoint(area_id, cp.checkpoint_id)
 
 

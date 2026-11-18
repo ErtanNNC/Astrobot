@@ -6,6 +6,8 @@ extends Node3D
 const NEXT := "res://scenes/chapter1/a0_atolye.tscn"
 const SKIP_HOLD := 1.0
 
+static var replay := false   ## Atölye'deki TV'den tekrar izleniyorsa sonunda Atölye'ye dönülür
+
 var cam: Camera3D
 var env: Environment
 var sun: DirectionalLight3D
@@ -314,6 +316,11 @@ func _finish() -> void:
 	if _done:
 		return
 	_done = true
+	if replay:
+		replay = false
+		load("res://scripts/ui/hub.gd").skip_title = true
+		Scenes.go("res://scenes/ui/hub.tscn")
+		return
 	GameState.mark_seen("opening")
 	GameState.data["area"] = "ch1_atolye"
 	GameState.data["checkpoint_id"] = "start"

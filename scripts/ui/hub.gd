@@ -201,7 +201,7 @@ func _activate(m: Node) -> void:
 		"slot":
 			_open_slot(int(m.arg))
 		"settings":
-			_open_settings()
+			_open_tv()
 		"collection":
 			_open_collection()
 		"quit":
@@ -341,6 +341,28 @@ func _open_collection() -> void:
 			lines.append("Bölüm %d · %s: %d pil" % [ch, GameState.CHAPTER_NAMES[ch], n])
 		var l := UIKit.title(v, "\n".join(lines), 22)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	UIKit.button(v, "Geri", _close_overlay)
+	_focus_first(v)
+
+
+## Eski televizyon: Ayarlar ve izlenen ara sahneler (hikaye kural 4).
+func _open_tv() -> void:
+	var v := _new_overlay()
+	UIKit.title(v, "Televizyon")
+	UIKit.button(v, "Ayarlar", func(): _close_overlay(); _open_settings())
+	var seen := []
+	for i in GameState.SLOT_COUNT:
+		for c in GameState.slot_summary(i).get("seen_cutscenes", []):
+			if not seen.has(c):
+				seen.append(c)
+	if seen.has("opening"):
+		UIKit.button(v, "Sahne: Fırtına Gecesi", func():
+			load("res://scripts/story/opening.gd").replay = true
+			Scenes.go("res://scenes/story/opening.tscn"), UIKit.GREEN)
+	if seen.has("closing_ch1") or seen.has("closing_ch2") or seen.has("closing_ch3"):
+		UIKit.button(v, "Sahne: Işıklar Geri Geldi", func():
+			load("res://scripts/story/closing.gd").replay = true
+			Scenes.go("res://scenes/story/closing.tscn"), UIKit.GREEN)
 	UIKit.button(v, "Geri", _close_overlay)
 	_focus_first(v)
 

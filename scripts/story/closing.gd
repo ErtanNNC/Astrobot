@@ -4,6 +4,8 @@ extends Node3D
 
 const NEXT := "res://scenes/ui/results.tscn"
 
+static var replay := false
+
 var cam: Camera3D
 var env: Environment
 var sun: DirectionalLight3D
@@ -148,6 +150,11 @@ func _finish() -> void:
 	if _done:
 		return
 	_done = true
+	if replay:
+		replay = false
+		load("res://scripts/ui/hub.gd").skip_title = true
+		Scenes.go("res://scenes/ui/hub.tscn")
+		return
 	GameState.mark_seen("closing_ch%d" % GameState.chapter_of(GameState.data.get("area", "ch1_patron")))
 	GameState.save(true)
 	Scenes.go(NEXT)
