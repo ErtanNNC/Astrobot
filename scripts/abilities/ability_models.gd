@@ -82,6 +82,8 @@ static func make_icon(a: String) -> Node3D:
 				t.ring_segments = 6
 				root.add_child(mesh_node(t, m, Vector3(0, i * 0.055, 0)))
 			var cap := CylinderMesh.new()
+			cap.radial_segments = 16
+			cap.rings = 1
 			cap.top_radius = 0.12
 			cap.bottom_radius = 0.12
 			cap.height = 0.04
@@ -104,12 +106,16 @@ static func make_icon(a: String) -> Node3D:
 ## Pervaneli şapka: kubbe + çubuk + iki kanat (kanatlar "Blades" adlı düğümde, döndürülebilir).
 static func _propeller(root: Node3D, s: float) -> void:
 	var dome := SphereMesh.new()
+	dome.radial_segments = 12
+	dome.rings = 6
 	dome.radius = 0.3 * s
 	dome.height = 0.3 * s
 	dome.is_hemisphere = true
 	var c := mat(color("pervane"), 0.35)
 	root.add_child(mesh_node(dome, c, Vector3(0, 0.05 * s, 0)))
 	var stick := CylinderMesh.new()
+	stick.radial_segments = 16
+	stick.rings = 1
 	stick.top_radius = 0.025 * s
 	stick.bottom_radius = 0.025 * s
 	stick.height = 0.25 * s
@@ -138,17 +144,23 @@ static func _ice(root: Node3D, s: float) -> void:
 
 static func _balloon(root: Node3D, s: float) -> void:
 	var sph := SphereMesh.new()
+	sph.radial_segments = 12
+	sph.rings = 6
 	sph.radius = 0.4 * s
 	sph.height = 0.8 * s
 	var m := mat(color("balon"), 0.15)
 	m.metallic_specular = 0.8
 	root.add_child(mesh_node(sph, m, Vector3(0, 1.0 * s, 0), Vector3.ZERO, Vector3(1, 1.15, 1)))
 	var knot := CylinderMesh.new()
+	knot.radial_segments = 16
+	knot.rings = 1
 	knot.top_radius = 0.02 * s
 	knot.bottom_radius = 0.07 * s
 	knot.height = 0.1 * s
 	root.add_child(mesh_node(knot, m, Vector3(0, 0.5 * s, 0)))
 	var rope := CylinderMesh.new()
+	rope.radial_segments = 16
+	rope.rings = 1
 	rope.top_radius = 0.008 * s + 0.004
 	rope.bottom_radius = rope.top_radius
 	rope.height = 0.5 * s
@@ -166,6 +178,8 @@ static func _magnet(root: Node3D, s: float) -> void:
 	var tip := BoxMesh.new()
 	tip.size = Vector3(0.27, 0.18, 0.31) * s
 	var base := TorusMesh.new()
+	base.rings = 16
+	base.ring_segments = 8
 	base.inner_radius = 0.2 * s
 	base.outer_radius = 0.46 * s
 	for side in [-1, 1]:

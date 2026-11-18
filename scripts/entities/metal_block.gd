@@ -24,6 +24,8 @@ func _ready() -> void:
 	stripe.size = size + Vector3(0.04, -size.y + 0.18, 0.04)
 	add_child(AbilityModels.mesh_node(stripe, AbilityModels.mat(Color(0.25, 0.5, 1.0), 0.3, 0.6), Vector3(0, size.y / 2 - 0.25, 0)))
 	var rivet := SphereMesh.new()
+	rivet.radial_segments = 6
+	rivet.rings = 3
 	rivet.radius = 0.07
 	rivet.height = 0.14
 	var rm := AbilityModels.mat(Color(0.85, 0.88, 0.95), 0.2)

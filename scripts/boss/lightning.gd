@@ -10,6 +10,8 @@ var _done := false
 
 func _ready() -> void:
 	var t := TorusMesh.new()
+	t.rings = 16
+	t.ring_segments = 8
 	t.inner_radius = 1.0
 	t.outer_radius = 1.25
 	_ring = AbilityModels.mesh_node(t, AbilityModels.mat(Color(0.8, 0.4, 1.0), 0.4, 2.5), Vector3(0, 0.05, 0), Vector3.ZERO, Vector3(1, 0.2, 1))
@@ -34,6 +36,8 @@ func _strike() -> void:
 		if i == 6:
 			nxt = Vector3.ZERO
 		var cyl := CylinderMesh.new()
+		cyl.radial_segments = 16
+		cyl.rings = 1
 		cyl.top_radius = 0.08
 		cyl.bottom_radius = 0.08
 		cyl.height = prev.distance_to(nxt)

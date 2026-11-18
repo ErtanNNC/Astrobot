@@ -54,6 +54,8 @@ func _build() -> void:
 	var dark := AbilityModels.mat(Color(0.25, 0.27, 0.32), 0.6)
 	# Taban ve kule
 	var base := CylinderMesh.new()
+	base.radial_segments = 16
+	base.rings = 1
 	base.top_radius = 3.0
 	base.bottom_radius = 3.4
 	base.height = 1.0
@@ -109,6 +111,8 @@ func _build() -> void:
 	# Can ışıkları (3 aşama)
 	for i in 3:
 		var l := SphereMesh.new()
+		l.radial_segments = 12
+		l.rings = 6
 		l.radius = 0.18
 		l.height = 0.36
 		var lm := AbilityModels.mat(Color(1.0, 0.85, 0.2), 0.3, 3.0)
@@ -140,6 +144,8 @@ func _build() -> void:
 	stripe.size = Vector3(2.65, 0.12, 2.65)
 	_hook.add_child(AbilityModels.mesh_node(stripe, AbilityModels.mat(Color(1, 0.85, 0.2), 0.4, 0.6), Vector3(0, 0.15, 0)))
 	var cellm := CylinderMesh.new()
+	cellm.radial_segments = 16
+	cellm.rings = 1
 	cellm.top_radius = 0.4
 	cellm.bottom_radius = 0.4
 	cellm.height = 1.0

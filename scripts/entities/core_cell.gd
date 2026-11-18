@@ -17,6 +17,8 @@ func _ready() -> void:
 	cs.shape = sh
 	add_child(cs)
 	var c := CylinderMesh.new()
+	c.radial_segments = 16
+	c.rings = 1
 	c.top_radius = 0.45
 	c.bottom_radius = 0.45
 	c.height = 1.2

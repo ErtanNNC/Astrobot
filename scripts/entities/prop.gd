@@ -29,6 +29,8 @@ func _ready() -> void:
 				var a := TAU * i / 10.0
 				_part.add_child(AbilityModels.mesh_node(tooth, m, Vector3(cos(a), 0, sin(a)) * 1.0 * size, Vector3(0, -a, 0)))
 			var hub := CylinderMesh.new()
+			hub.radial_segments = 16
+			hub.rings = 1
 			hub.top_radius = 0.25 * size
 			hub.bottom_radius = 0.25 * size
 			hub.height = 0.35 * size
@@ -36,6 +38,8 @@ func _ready() -> void:
 			_part.rotation.x = PI / 2
 		"lamp":
 			var bulb := SphereMesh.new()
+			bulb.radial_segments = 12
+			bulb.rings = 6
 			bulb.radius = 0.15 * size
 			bulb.height = 0.3 * size
 			add_child(AbilityModels.mesh_node(bulb, AbilityModels.mat(Color(1, 0.85, 0.5), 0.3, 1.5)))
@@ -47,11 +51,15 @@ func _ready() -> void:
 		"station":
 			# Bip'in şarj istasyonu: taban, kablo, parlayan halka
 			var base := CylinderMesh.new()
+			base.radial_segments = 16
+			base.rings = 1
 			base.top_radius = 1.0
 			base.bottom_radius = 1.15
 			base.height = 0.3
 			add_child(AbilityModels.mesh_node(base, AbilityModels.mat(Color(0.35, 0.4, 0.5)), Vector3(0, 0.15, 0)))
 			var ring := TorusMesh.new()
+			ring.rings = 16
+			ring.ring_segments = 8
 			ring.inner_radius = 0.75
 			ring.outer_radius = 0.9
 			_part = AbilityModels.mesh_node(ring, AbilityModels.mat(Color(0.3, 0.9, 1.0), 0.3, 2.0), Vector3(0, 0.32, 0))
@@ -84,6 +92,8 @@ func _ready() -> void:
 			var spark_m := AbilityModels.mat(Color(0.75, 0.4, 1.0), 0.3, 4.0)
 			for i in 6:
 				var s := SphereMesh.new()
+				s.radial_segments = 12
+				s.rings = 6
 				s.radius = 0.35 * size
 				s.height = 0.7 * size
 				var a := TAU * i / 6.0
@@ -109,11 +119,15 @@ func _ready() -> void:
 		"generator":
 			# Ana Jeneratör: dört Çekirdek Pil yuvası (hikaye)
 			var base := CylinderMesh.new()
+			base.radial_segments = 16
+			base.rings = 1
 			base.top_radius = 2.2 * size
 			base.bottom_radius = 2.8 * size
 			base.height = 1.0 * size
 			add_child(AbilityModels.mesh_node(base, AbilityModels.mat(Color(0.45, 0.48, 0.58)), Vector3(0, 0.5, 0) * size))
 			var col := CylinderMesh.new()
+			col.radial_segments = 16
+			col.rings = 1
 			col.top_radius = 1.0 * size
 			col.bottom_radius = 1.3 * size
 			col.height = 5.0 * size
@@ -123,6 +137,8 @@ func _ready() -> void:
 			for i in 4:
 				var a := TAU * i / 4.0
 				var cell := CylinderMesh.new()
+				cell.radial_segments = 16
+				cell.rings = 1
 				cell.top_radius = 0.35 * size
 				cell.bottom_radius = 0.35 * size
 				cell.height = 1.1 * size
@@ -131,6 +147,8 @@ func _ready() -> void:
 				mi.name = "Cell%d" % i
 				_part.add_child(mi)
 			var cap := SphereMesh.new()
+			cap.radial_segments = 12
+			cap.rings = 6
 			cap.radius = 1.2 * size
 			cap.height = 1.4 * size
 			add_child(AbilityModels.mesh_node(cap, AbilityModels.mat(Color(0.95, 0.75, 0.25), 0.3, 0.6), Vector3(0, 6.2, 0) * size))
@@ -147,6 +165,8 @@ func _ready() -> void:
 			p.amount = 16
 			p.lifetime = 0.6
 			var q := SphereMesh.new()
+			q.radial_segments = 12
+			q.rings = 6
 			q.radius = 0.08
 			q.height = 0.16
 			p.mesh = q

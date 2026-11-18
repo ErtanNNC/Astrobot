@@ -214,6 +214,8 @@ func _on_copied(a: String) -> void:
 	var from: Vector3 = _tip.global_position if _tip else bip.global_position + Vector3.UP * 1.2
 	var to: Vector3 = src.global_position + Vector3.UP * 0.6
 	var cyl := CylinderMesh.new()
+	cyl.radial_segments = 16
+	cyl.rings = 1
 	cyl.top_radius = 0.05
 	cyl.bottom_radius = 0.05
 	cyl.height = 1.0

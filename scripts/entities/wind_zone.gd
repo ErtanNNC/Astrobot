@@ -41,6 +41,8 @@ func _ready() -> void:
 	add_child(_particles)
 	# Pervane tabanı
 	var fan := CylinderMesh.new()
+	fan.radial_segments = 16
+	fan.rings = 1
 	fan.top_radius = minf(size.x, size.z) * 0.45
 	fan.bottom_radius = fan.top_radius
 	fan.height = 0.15

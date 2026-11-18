@@ -58,11 +58,15 @@ func _build() -> void:
 	cs.position.y = body_height / 2
 	body.add_child(cs)
 	var bm := CylinderMesh.new()
+	bm.radial_segments = 16
+	bm.rings = 1
 	bm.top_radius = 1.8
 	bm.bottom_radius = 1.8
 	bm.height = body_height
 	add_child(AbilityModels.mesh_node(bm, _body_mat, Vector3(0, body_height / 2, 0)))
 	var belly := SphereMesh.new()
+	belly.radial_segments = 12
+	belly.rings = 6
 	belly.radius = 2.05
 	belly.height = 3.6
 	add_child(AbilityModels.mesh_node(belly, _body_mat, Vector3(0, body_height * 0.45, 0), Vector3.ZERO, Vector3(1, 1.25, 1)))
@@ -75,6 +79,8 @@ func _build() -> void:
 		add_child(AbilityModels.mesh_node(hoop, iron, Vector3(0, y, 0)))
 	# Tek kırmızı göz (+Z yönüne, oyuncunun geldiği tarafa bakar)
 	var em := SphereMesh.new()
+	em.radial_segments = 12
+	em.rings = 6
 	em.radius = 0.55
 	em.height = 1.1
 	_eye = AbilityModels.mesh_node(em, AbilityModels.mat(Color(1, 0.2, 0.15), 0.3, 3.0), Vector3(0, body_height * 0.72, 1.9))
@@ -85,6 +91,8 @@ func _build() -> void:
 	# Kollar
 	for side in [-1, 1]:
 		var arm := CylinderMesh.new()
+		arm.radial_segments = 16
+		arm.rings = 1
 		arm.top_radius = 0.35
 		arm.bottom_radius = 0.45
 		arm.height = 2.6
@@ -92,6 +100,8 @@ func _build() -> void:
 	# Can ışıkları (3)
 	for i in 3:
 		var l := SphereMesh.new()
+		l.radial_segments = 12
+		l.rings = 6
 		l.radius = 0.2
 		l.height = 0.4
 		var lm := AbilityModels.mat(Color(1.0, 0.85, 0.2), 0.3, 3.0)
@@ -104,6 +114,8 @@ func _build() -> void:
 	_hat.position = Vector3(0, body_height + 0.6, 0)
 	add_child(_hat)
 	var badge := CylinderMesh.new()
+	badge.radial_segments = 16
+	badge.rings = 1
 	badge.top_radius = 0.35
 	badge.bottom_radius = 0.35
 	badge.height = 0.1

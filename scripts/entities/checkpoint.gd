@@ -22,17 +22,23 @@ func _ready() -> void:
 	add_child(cs)
 	# Direk + parlayan antenli lamba (Bip'in anteni gibi)
 	var pole := CylinderMesh.new()
+	pole.radial_segments = 16
+	pole.rings = 1
 	pole.top_radius = 0.06
 	pole.bottom_radius = 0.09
 	pole.height = 2.0
 	add_child(AbilityModels.mesh_node(pole, AbilityModels.mat(Color(0.75, 0.78, 0.85), 0.3), Vector3(1.0, 1.0, 0)))
 	var base := CylinderMesh.new()
+	base.radial_segments = 16
+	base.rings = 1
 	base.top_radius = 0.3
 	base.bottom_radius = 0.4
 	base.height = 0.2
 	add_child(AbilityModels.mesh_node(base, AbilityModels.mat(Color(0.35, 0.4, 0.5)), Vector3(1.0, 0.1, 0)))
 	_bulb_mat = AbilityModels.mat(Color(0.5, 0.5, 0.55), 0.3)
 	var bulb := SphereMesh.new()
+	bulb.radial_segments = 12
+	bulb.rings = 6
 	bulb.radius = 0.22
 	bulb.height = 0.44
 	add_child(AbilityModels.mesh_node(bulb, _bulb_mat, Vector3(1.0, 2.15, 0)))

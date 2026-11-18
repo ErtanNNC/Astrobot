@@ -71,10 +71,14 @@ func _build() -> void:
 	# Gözler (+Z, girişe bakar)
 	for sx in [-0.8, 0.8]:
 		var e := SphereMesh.new()
+		e.radial_segments = 12
+		e.rings = 6
 		e.radius = 0.45
 		e.height = 0.9
 		_cloud.add_child(AbilityModels.mesh_node(e, AbilityModels.mat(Color.WHITE, 0.3, 1.0), Vector3(sx, 0.4, 2.6)))
 		var p := SphereMesh.new()
+		p.radial_segments = 12
+		p.rings = 6
 		p.radius = 0.2
 		p.height = 0.4
 		_cloud.add_child(AbilityModels.mesh_node(p, AbilityModels.mat(Color(0.15, 0.05, 0.25)), Vector3(sx, 0.4, 3.0)))
@@ -83,6 +87,8 @@ func _build() -> void:
 	_sparks.amount = 30
 	_sparks.lifetime = 0.6
 	var q := SphereMesh.new()
+	q.radial_segments = 12
+	q.rings = 6
 	q.radius = 0.1
 	q.height = 0.2
 	_sparks.mesh = q
@@ -115,6 +121,8 @@ func _build() -> void:
 	# Can ışıkları
 	for i in 3:
 		var l := SphereMesh.new()
+		l.radial_segments = 12
+		l.rings = 6
 		l.radius = 0.2
 		l.height = 0.4
 		var lm := AbilityModels.mat(Color(1.0, 0.85, 0.2), 0.3, 3.0)
@@ -193,6 +201,8 @@ func _give_energy() -> void:
 	var from := _bip.global_position + Vector3.UP * 1.3
 	var to := _cloud.global_position
 	var cyl := CylinderMesh.new()
+	cyl.radial_segments = 16
+	cyl.rings = 1
 	cyl.top_radius = 0.18
 	cyl.bottom_radius = 0.18
 	cyl.height = 1.0

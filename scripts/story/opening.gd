@@ -270,6 +270,8 @@ func _build_workshop() -> void:
 	ap.pause()
 	# Anten
 	var tip := SphereMesh.new()
+	tip.radial_segments = 12
+	tip.rings = 6
 	tip.radius = 0.07
 	tip.height = 0.14
 	_tip_mat = AbilityModels.mat(Color(0.4, 0.95, 1.0), 0.3, 1.0)
@@ -300,6 +302,8 @@ func _bolt() -> void:
 		var a: Vector3 = pts[i]
 		var b: Vector3 = pts[i + 1]
 		var cyl := CylinderMesh.new()
+		cyl.radial_segments = 16
+		cyl.rings = 1
 		cyl.top_radius = 0.04
 		cyl.bottom_radius = 0.04
 		cyl.height = a.distance_to(b)

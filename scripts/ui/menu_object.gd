@@ -57,6 +57,8 @@ func _build() -> void:
 			icon_y = 3.9
 		"capsule":
 			var glass := CylinderMesh.new()
+			glass.radial_segments = 16
+			glass.rings = 1
 			glass.top_radius = 0.75
 			glass.bottom_radius = 0.75
 			glass.height = 2.2
@@ -64,6 +66,8 @@ func _build() -> void:
 			gm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 			add_child(AbilityModels.mesh_node(glass, gm, Vector3(0, 1.4, 0)))
 			var base := CylinderMesh.new()
+			base.radial_segments = 16
+			base.rings = 1
 			base.top_radius = 0.9
 			base.bottom_radius = 1.0
 			base.height = 0.3
@@ -137,6 +141,8 @@ func set_hologram(text: String) -> void:
 func _make_icon() -> Node3D:
 	var root := Node3D.new()
 	var disc := CylinderMesh.new()
+	disc.radial_segments = 16
+	disc.rings = 1
 	disc.top_radius = 0.38
 	disc.bottom_radius = 0.38
 	disc.height = 0.06
@@ -150,6 +156,8 @@ func _make_icon() -> Node3D:
 			root.add_child(AbilityModels.mesh_node(tri, w, Vector3(0.03, 0, 0.05), Vector3(0, 0, -PI / 2)))
 		"settings":
 			var g := TorusMesh.new()
+			g.rings = 16
+			g.ring_segments = 8
 			g.inner_radius = 0.09
 			g.outer_radius = 0.2
 			root.add_child(AbilityModels.mesh_node(g, w, Vector3(0, 0, 0.05), Vector3(PI / 2, 0, 0)))
@@ -162,6 +170,8 @@ func _make_icon() -> Node3D:
 			root.add_child(l)
 		_:
 			var s := SphereMesh.new()
+			s.radial_segments = 12
+			s.rings = 6
 			s.radius = 0.14
 			s.height = 0.28
 			root.add_child(AbilityModels.mesh_node(s, w, Vector3(0, 0, 0.05)))

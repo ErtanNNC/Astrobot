@@ -17,11 +17,15 @@ func _ready() -> void:
 	cs.position.y = 0.55
 	add_child(cs)
 	var base := CylinderMesh.new()
+	base.radial_segments = 16
+	base.rings = 1
 	base.top_radius = 0.9
 	base.bottom_radius = 1.0
 	base.height = 0.4
 	add_child(AbilityModels.mesh_node(base, AbilityModels.mat(Color(0.3, 0.32, 0.4)), Vector3(0, 0.2, 0)))
 	var top := CylinderMesh.new()
+	top.radial_segments = 16
+	top.rings = 1
 	top.top_radius = 0.95
 	top.bottom_radius = 0.95
 	top.height = 0.12

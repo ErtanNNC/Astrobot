@@ -11,11 +11,15 @@ var _hit_done := false
 
 func _ready() -> void:
 	var t := TorusMesh.new()
+	t.rings = 16
+	t.ring_segments = 8
 	t.inner_radius = 0.9
 	t.outer_radius = 1.1
 	_ring = AbilityModels.mesh_node(t, AbilityModels.mat(Color(1, 0.35, 0.2), 0.4, 2.0), Vector3(0, 0.05, 0), Vector3.ZERO, Vector3(1, 0.2, 1))
 	add_child(_ring)
 	var s := SphereMesh.new()
+	s.radial_segments = 12
+	s.rings = 6
 	s.radius = 0.6
 	s.height = 1.2
 	_ball = AbilityModels.mesh_node(s, AbilityModels.mat(Color(0.95, 0.97, 1.0), 0.8), Vector3(0, 14, 0))

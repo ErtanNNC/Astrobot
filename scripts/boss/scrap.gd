@@ -11,6 +11,8 @@ var _hit_done := false
 
 func _ready() -> void:
 	var t := TorusMesh.new()
+	t.rings = 16
+	t.ring_segments = 8
 	t.inner_radius = 0.9
 	t.outer_radius = 1.1
 	var m := AbilityModels.mat(Color(1, 0.25, 0.15), 0.4, 2.0)

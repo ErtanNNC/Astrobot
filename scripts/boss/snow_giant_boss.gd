@@ -77,6 +77,8 @@ func _build() -> void:
 		_sphere(0.22, coal, Vector3(0, 5.4 + i * 0.75, 1.75 - absf(i - 1) * 0.15), _body_root)
 	# Havuç burun
 	var nose := CylinderMesh.new()
+	nose.radial_segments = 16
+	nose.rings = 1
 	nose.top_radius = 0.0
 	nose.bottom_radius = 0.22
 	nose.height = 1.0

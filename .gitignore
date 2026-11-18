@@ -13,3 +13,4 @@ tests/_flow_shots.*
 .claude/
 __pycache__/
 tests/_dbg.*
+tests/_perf.*

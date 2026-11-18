@@ -41,6 +41,8 @@ func _ready() -> void:
 	light.omni_range = 4.5
 	add_child(light)
 	var bulb := SphereMesh.new()
+	bulb.radial_segments = 12
+	bulb.rings = 6
 	bulb.radius = 0.12
 	bulb.height = 0.24
 	add_child(AbilityModels.mesh_node(bulb, AbilityModels.mat(Color(1, 0.95, 0.6), 0.2, 4.0), Vector3(0, -0.05, -0.12)))
@@ -132,6 +134,8 @@ func show_hint(kind: String, at: Vector3) -> void:
 	if kind == "":
 		return
 	var disc := CylinderMesh.new()
+	disc.radial_segments = 16
+	disc.rings = 1
 	disc.top_radius = 0.32
 	disc.bottom_radius = 0.32
 	disc.height = 0.05
@@ -149,21 +153,29 @@ func show_hint(kind: String, at: Vector3) -> void:
 			_icon.add_child(AbilityModels.mesh_node(st, white, Vector3(0, -0.1, 0.04)))
 			if kind == "hold_jump":
 				var ring := TorusMesh.new()
+				ring.rings = 16
+				ring.ring_segments = 8
 				ring.inner_radius = 0.36
 				ring.outer_radius = 0.42
 				_icon.add_child(AbilityModels.mesh_node(ring, white, Vector3.ZERO, Vector3(PI / 2, 0, 0)))
 		"ability":
 			var st := CylinderMesh.new()
+			st.radial_segments = 16
+			st.rings = 1
 			st.top_radius = 0.025
 			st.bottom_radius = 0.025
 			st.height = 0.28
 			_icon.add_child(AbilityModels.mesh_node(st, white, Vector3(0, -0.04, 0.04)))
 			var tip := SphereMesh.new()
+			tip.radial_segments = 12
+			tip.rings = 6
 			tip.radius = 0.07
 			tip.height = 0.14
 			_icon.add_child(AbilityModels.mesh_node(tip, white, Vector3(0, 0.13, 0.04)))
 		"look", "move":
 			var ring := TorusMesh.new()
+			ring.rings = 16
+			ring.ring_segments = 8
 			ring.inner_radius = 0.14
 			ring.outer_radius = 0.2
 			_icon.add_child(AbilityModels.mesh_node(ring, white, Vector3(0, 0, 0.04), Vector3(PI / 2, 0, 0)))

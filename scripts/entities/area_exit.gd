@@ -24,6 +24,8 @@ func _ready() -> void:
 	_ring = AbilityModels.mesh_node(t, AbilityModels.mat(Color(1, 0.85, 0.3), 0.3, 1.3), Vector3(0, 1.6, 0), Vector3(PI / 2, 0, 0))
 	add_child(_ring)
 	var disc := CylinderMesh.new()
+	disc.radial_segments = 16
+	disc.rings = 1
 	disc.top_radius = 1.25
 	disc.bottom_radius = 1.25
 	disc.height = 0.02
@@ -31,6 +33,8 @@ func _ready() -> void:
 	dm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	add_child(AbilityModels.mesh_node(disc, dm, Vector3(0, 1.6, 0), Vector3(PI / 2, 0, 0)))
 	var pad := CylinderMesh.new()
+	pad.radial_segments = 16
+	pad.rings = 1
 	pad.top_radius = 1.5
 	pad.bottom_radius = 1.7
 	pad.height = 0.2
