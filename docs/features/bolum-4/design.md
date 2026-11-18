@@ -1,6 +1,6 @@
 # Bölüm 4: Fırtınanın Gözü
 
-**Status:** in progress · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
+**Status:** implemented · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
 
 Son Çekirdek Pil, Statik'in kendisinde: adanın üstünde dönen fırtına bulutunun içinde, kıvılcımlardan bir kale. Yeni yetenek yok; bu bölüm altı yeteneğin **hepsini** karışık ve hızlı biçimde ister (ustalık bölümü). Sonunda Statik yenilmez, **ikna edilir** (hikaye, D-014): Bip ona jeneratörün fazla enerjisini verir, Statik adanın dost fırtınası olur.
 
@@ -21,5 +21,10 @@ Son Çekirdek Pil, Statik'in kendisinde: adanın üstünde dönen fırtına bulu
 | Bölüm süresi | ~17 [ASSUMPTION] | dk |
 | Altın Vida | 2 (her alanda bir) | adet |
 
+## Uygulama notları
+- Üreticiler: `tools/level/ch4_d1_bulut_basamaklari.py`, `ch4_d2_kivilcim_kalesi.py`, `ch4_d3_patron.py`; patron `scripts/boss/static_boss.gd`, yıldırım `scripts/boss/lightning.gd`; final `scripts/story/closing.gd` (dördüncü bölümde) ve `scripts/ui/credits.gd`; testler `tests/ch4_test.tscn`, `tests/chapter_flow_test.tscn` (dört bölüm + final).
+- Bilinen: Statik'in gövdesinde çarpışma yok (taç üstünde durulur); rüzgârlı Balon geçişlerinde ileriyi bırakıp yönlendirmek gerekir.
+
 ## History
 - 2026-11-18: tasarlandı.
+- 2026-11-18: 2 alan, Statik ve final uygulandı.

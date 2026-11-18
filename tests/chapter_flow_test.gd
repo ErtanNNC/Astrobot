@@ -11,7 +11,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	get_tree().current_scene = first
-	for ch in [1, 2, 3]:
+	for ch in [1, 2, 3, 4]:
 		for a in GameState.CHAPTERS[ch]:
 			var cur := get_tree().current_scene
 			var ok: bool = cur != null and cur.name == a["id"]
@@ -24,10 +24,17 @@ func _ready() -> void:
 			else:
 				cur.complete_area()
 			await get_tree().create_timer(5.5).timeout
-		await get_tree().create_timer(18.0).timeout
+		await get_tree().create_timer(22.0).timeout
+		if ch == 4:
+			var cr := get_tree().current_scene
+			_check("final: Emeği Geçenler", cr != null and cr.name == "Credits", str(cr.name) if cr else "yok")
+			Input.action_press("jump")
+			await get_tree().create_timer(3.5).timeout
+			Input.action_release("jump")
+			await get_tree().create_timer(1.5).timeout
 		var res := get_tree().current_scene
 		_check("bölüm %d sonuç ekranı" % ch, res != null and res.name == "Results", str(res.name) if res else "yok")
-		if ch < 3:
+		if ch < 4:
 			# Sonuç ekranındaki "Bölüm N" butonuna bas
 			var pressed := false
 			for b in res.find_children("*", "Button", true, false):
@@ -36,7 +43,8 @@ func _ready() -> void:
 					pressed = true
 			_check("bölüm %d butonu" % (ch + 1), pressed)
 			await get_tree().create_timer(2.0).timeout
-	_check("3 çekirdek pil", GameState.data["core_cells"].size() == 3, str(GameState.data["core_cells"]))
+	_check("4 çekirdek pil", GameState.data["core_cells"].size() == 4, str(GameState.data["core_cells"]))
+	_check("oyun bitti işareti", GameState.data.get("game_complete", false))
 	_finish()
 
 

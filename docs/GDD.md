@@ -51,7 +51,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Yeni yetenekler | implemented | later | Pervane (Bölüm 2) ve Buz (Bölüm 3) yapıldı; Lastik top fikir | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
 | Bölüm 2 | implemented | later | Fırtına Limanı: 3 alan + Paslı Kaptan; yeni yetenek Pervane | [design](features/bolum-2/design.md) |
 | Bölüm 3 | implemented | later | Buzul Tepesi: 3 alan + Kardan Dev; yeni yetenek Buz | [design](features/bolum-3/design.md) |
-| Bölüm 4 | in progress | later | Fırtınanın Gözü: 2 alan + Statik (ikna edilir); final ve Emeği Geçenler | [design](features/bolum-4/design.md) |
+| Bölüm 4 | implemented | later | Fırtınanın Gözü: 2 alan + Statik (ikna edilir); final ve Emeği Geçenler | [design](features/bolum-4/design.md) |
 
 ## Milestones
 1. **M1, greybox hareket + kamera:** hareket, kamera; basit küplerden bir test alanı · bitti sayılır: PC'de 2 m'lik bir boşluk ve 1,5 m'lik bir basamak ilk denemede rahatça aşılıyor.
