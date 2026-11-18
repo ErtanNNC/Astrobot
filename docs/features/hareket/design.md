@@ -13,7 +13,12 @@ Bip koşar, zıplar ve havada yön değiştirir. Kontroller anında tepki vermel
 6. **Zıplama tamponu:** yere inmeden kısa süre önce basılan zıplama, inişte otomatik gerçekleşir.
 7. Havada yön kontrolü vardır ama yerdekinden zayıftır.
 8. İnişte toz efekti ve iniş sesi; zıplamada Bip dikeyde uzar, inişte ezilir.
-9. Havada ikinci zıplama yoktur; ekstra yükseklik yeteneklerden gelir.
+9. **Hareketler ilerledikçe açılır** (D-016): Bip oyun ilerledikçe güçlenir. Açılma sırası: Kenara Tutunma baştan, Dönme Saldırısı Uyanış Atölyesi'nden sonra, Havada Atılma Bölüm 1 bitince, Duvar Zıplaması Bölüm 2 bitince, Çift Zıplama Bölüm 3 bitince. Açıklık "ulaşılan en ileri alan"dan hesaplanır (eski kayıtlar da kendi ilerlemesine göre açılır); yeni açılan hareket bir sonraki alanın başında "Yeni hareket!" yazısıyla bir kez duyurulur.
+10. **Kenara tutunma:** düşerken bir kenara doğru gidiliyorsa ve kenar ayağın 0,6–1,55 m üstündeyse Bip tutunur. Zıpla ya da ileri bas → yukarı çık; geri bas ya da Vuruş → bırak. Hareketli platformların kenarında da asılı kalınır.
+11. **Dönme saldırısı (Vuruş butonu):** Bip döner, menzildeki düşmanları ve sandıkları vurur; dönerken düşmana değmek hasar vermez. Havada her zıplamada bir kez yapılabilir ve kısa süre asılı tutar. Patronlar dönmeyle hasar almaz (patron kuralları değişmedi).
+12. **Havada atılma:** havada Vuruş ilk basışta ileri hamle (yükseklik kaybetmeden) + dönme olur; iniş, kenara tutunma ya da duvar zıplaması hakkı yeniler.
+13. **Duvar zıplaması:** havada duvara doğru gidilirken Bip duvarda yavaş kayar; zıplayınca duvardan karşıya seker (kısa süre yön kilitli). Kaya, Balon süzülmesi ve Pervane yükselişi sırasında olmaz.
+14. **Çift zıplama:** havada bir kez daha zıplanır (Kaya hariç). Yere çok yakınken basılan zıplama çift zıplamayı harcamaz, inişte normal zıplamaya dönüşür.
 
 ## Numbers
 | Ad | Değer | Birim | Testte neye bakılmalı |
@@ -31,6 +36,17 @@ Bip koşar, zıplar ve havada yön değiştirir. Kontroller anında tepki vermel
 | Maksimum düşüş hızı | 20 [ASSUMPTION] | m/s | |
 | Coyote time | 0,10 [ASSUMPTION] | s | kenarda kaçan zıplama kalıyor mu |
 | Zıplama tamponu | 0,12 [ASSUMPTION] | s | |
+| Tutunma: kenar yüksekliği (ayaktan) | 0,6 – 1,55 [ASSUMPTION] | m | kenarlar kaçıyor mu / istemeden tutunuluyor mu |
+| Tutunma: asılı ayak, kenarın altında | 1,05 | m | |
+| Kenardan çıkış sıçrayışı | 1,75 | m | |
+| Dönme süresi / bekleme | 0,35 / 0,45 [ASSUMPTION] | s | art arda basmak rahat mı |
+| Dönme menzili | 1,6 [ASSUMPTION] | m | düşmana yakın durmak gerekiyor mu |
+| Havada dönme asılı kalma hızı | 2,5 | m/s | |
+| Havada atılma hızı / süresi | 11 / 0,22 [ASSUMPTION] | m/s, s | ~2,5 m ileri |
+| Duvarda kayma hızı (en fazla) | 2,5 [ASSUMPTION] | m/s | |
+| Duvar zıplaması yüksekliği / itiş | 2,0 / 7,0 [ASSUMPTION] | m, m/s | iki duvar arası tırmanılıyor mu |
+| Duvar zıplaması yön kilidi | 0,22 | s | |
+| Çift zıplama yüksekliği | 1,7 [ASSUMPTION] | m | |
 
 Yerçekimi ve zıplama hızı, yükseklik ve süreden hesaplanır: `g = 2h / t²`, `v = 2h / t`. Sayılar tek yerde (`@export` değişkenleri ya da bir ayar dosyası) tutulur.
 
@@ -45,7 +61,8 @@ Yerçekimi ve zıplama hızı, yükseklik ve süreden hesaplanır: `g = 2h / t²
 
 ## Open questions
 - [ASSUMPTION] Tüm sayılar ilk tahmin; M1'de oynanarak ayarlanacak.
-- Uzun atlama veya yuvarlanma gibi ek hareketler eklensin mi? Şimdilik hayır (pillar 2).
+- Uzun atlama veya yuvarlanma gibi ek hareketler eklensin mi? Şimdilik hayır; geliştirici isteğiyle tutunma, dönme, atılma, duvar zıplaması ve çift zıplama eklendi (D-016).
+- Eski alanlar yeni hareketler düşünülmeden tasarlandı; ileride gizli piller/robotlar için yeni hareket gerektiren köşeler eklenebilir.
 
 ## Uygulama notları (M1)
 - Kural 8 tamam: iniş sesi (düşüş hızına göre şiddetli), toz, uzama/ezilme, telefonda kısa titreşim. Ayrıca zıplama ve adım sesi var (`scripts/player/bip_visuals.gd`).
@@ -57,6 +74,7 @@ Yerçekimi ve zıplama hızı, yükseklik ve süreden hesaplanır: `g = 2h / t²
 - Hızlı koşarken ayaklardan küçük toz bulutları çıkar.
 
 ## History
+- 2026-11-18: Geliştirici isteğiyle 5 hareket eklendi, ilerledikçe açılır (kural 9-14). Kod: `bip.gd` "Hareketler" grubu, `GameState.MOVES`; test: `tests/moves_test.tscn`.
 - 2026-11-18: tasarlandı.
 - 2026-11-18: görsel sürüm: robot modeli, animasyonlar, sesler eklendi; sayılar değişmedi.
 - 2026-11-18: M1'de uygulandı; tüm sayılar dokümandaki gibi. Otomatik test geçiyor (2 m boşluk, 1,5 m basamak, coyote time, zıplama tamponu).

@@ -97,6 +97,7 @@ func _ready() -> void:
 		mp.play()
 	if title != "":
 		hud.banner.call_deferred(title, "", 2.2)
+	_announce_moves()
 
 
 ## Kayıp robotlar: her kontrol noktasının yanında (zemin varsa) yardım bekleyen bir robot.
@@ -325,3 +326,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	elif event.is_action_pressed("restart"):
 		respawn(false)
+
+
+
+## İlerledikçe açılan yeni hareketleri alan başında duyur (her biri bir kez).
+func _announce_moves() -> void:
+	var moves := GameState.new_moves()
+	if moves.is_empty():
+		return
+	GameState.mark_moves_seen()
+	GameState.save(true)
+	await get_tree().create_timer(3.0 if title != "" else 1.0, false).timeout
+	for m in moves:
+		if not is_inside_tree():
+			return
+		var info: String = GameState.MOVES[m]["info"]
+		if TouchInput.last_device == "gamepad":
+			info = info.replace("Vuruş butonu", "B tuşu")
+		elif TouchInput.last_device == "keyboard":
+			info = info.replace("Vuruş butonu", "F tuşu")
+		hud.banner("Yeni hareket: " + GameState.MOVES[m]["name"], info, 3.5)
+		Sfx.play("secret", -4.0)
+		await get_tree().create_timer(4.5, false).timeout

@@ -34,7 +34,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 
 | Feature | Status | Scope | Summary | Docs |
 |---|---|---|---|---|
-| Hareket | implemented | MVP | Koşma, değişken yükseklikte zıplama, coyote time, zıplama tamponu, havada kontrol | [design](features/hareket/design.md) |
+| Hareket | implemented | MVP | Koşma, değişken yükseklikte zıplama, coyote time, zıplama tamponu, havada kontrol; ilerledikçe açılan kenara tutunma, dönme saldırısı, havada atılma, duvar zıplaması, çift zıplama (D-016) | [design](features/hareket/design.md) |
 | Kopyalama | implemented | MVP | Antenle nesneden yetenek kopyalama; Yay, Balon, Mıknatıs, Kaya; hasar alınca yetenek kaybı | [design](features/kopyalama/design.md) |
 | Kamera | implemented | MVP | Kendi kendine takip eden, duvardan kaçan, telefonda elle döndürme gerektirmeyen kamera | [design](features/kamera/design.md) |
 | Can ve hasar | implemented | MVP | 3 can; hasar önce yeteneği alır, yetenek yoksa can gider; kontrol noktasından devam | [bölüm 1](features/bolum-1/design.md) |
@@ -85,6 +85,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | D-012 | 2026-11-18 | Bölüm 2 ve 3 birer yeni yetenekle (Pervane, Buz) gelir; bölümler 3 alan + patron | her bölüm yalnızca eski 4 yetenek | Astro Bot'taki gibi her bölümde yeni bir oyuncak sürprizi (Pillar 3); kapsam için alan sayısı 3 | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
 | D-014 | 2026-11-18 | Son patron Statik yenilmez, Bip ona enerji vererek ikna eder (hikaye dokümanındaki varsayım onaylandı) | kötü adamı yenmek | 8+ yaş için sıcak ton; "tek yetenek bin kullanım": anten burada da kullanılır | [bölüm 4](features/bolum-4/design.md) |
 | D-015 | 2026-11-18 | Kurtarılacak kayıp robotlar eklendi | yalnızca pil ve vida | Astro Bot'un en sevilen döngüsü: kurtarılan arkadaşlar merkez alanı (Atölye) canlandırır; ilerleme görünür olur | kayıt (`robots` alanı), Atölye |
+| D-016 | 2026-11-18 | Ek hareketler ilerledikçe açılır: tutunma (baştan), dönme saldırısı (Atölye sonrası), havada atılma (Bölüm 1 sonu), duvar zıplaması (Bölüm 2 sonu), çift zıplama (Bölüm 3 sonu). Yeni "Vuruş" butonu | hareket kural 9: "çift zıplama yok, yükseklik yeteneklerden" | geliştirici isteği: Bip ilerledikçe güçlensin; açılma ilerlemeden hesaplandığı için eski kayıtlar da kazanır. Yetenekler hâlâ bulmacaların anahtarı, hareketler akıcılık verir | hareket, mobil kontroller, kayıt (`moves_seen`) |
 | D-013 | 2026-11-18 | Seviyeler Python üretici betiklerle (`tools/level/*.py`) yazılır, ölçülü kutular + shader + süs | her seviyeyi elle editörde kurmak | ölçüler kesin kalır, Claude Code hızlı ve tekrarlanabilir kurar; elle düzenleme isteyen sahne için betik bir daha çalıştırılmaz | tüm seviyeler |
 
 ## Open questions

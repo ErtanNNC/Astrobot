@@ -10,6 +10,10 @@ signal copied(ability: String)
 signal ability_dropped
 signal hurt(result: String)   ## "ability" | "life" | "dead"
 signal pounded(at: Vector3)
+signal spun
+signal double_jumped
+signal wall_jumped
+signal ledge_grabbed
 
 @export_group("Koşu")
 @export var run_speed := 7.0             ## m/s
@@ -64,6 +68,23 @@ signal pounded(at: Vector3)
 @export var ice_freeze_range := 3.5      ## m, Yetenek: en yakın düşmanı dondur
 @export var ice_freeze_time := 8.0       ## s, donmuş düşman buz kütlesi (platform) olur
 
+@export_group("Hareketler (ilerledikçe açılır)")
+@export var ledge_min := 0.6             ## m, tutunulan kenar ayağın en az bu kadar üstünde
+@export var ledge_max := 1.55            ## m, en fazla bu kadar üstünde
+@export var ledge_hang_drop := 1.05      ## m, tutunurken ayak kenarın bu kadar altında
+@export var ledge_climb_height := 1.75   ## m, kenardan yukarı çıkış sıçrayışı
+@export var spin_time := 0.35            ## s, dönme saldırısı süresi
+@export var spin_radius := 1.6           ## m, vuruş menzili
+@export var spin_cooldown := 0.45        ## s
+@export var spin_air_lift := 2.5         ## m/s, havada dönünce kısa asılı kalma
+@export var air_dash_speed := 11.0       ## m/s, havada atılma
+@export var air_dash_time := 0.22        ## s
+@export var wall_slide_speed := 2.5      ## m/s, duvarda kayarken en fazla düşme hızı
+@export var wall_jump_height := 2.0      ## m
+@export var wall_jump_push := 7.0        ## m/s, duvardan uzağa itiş
+@export var wall_jump_lock := 0.22       ## s, bu sürede yön değiştirilemez
+@export var double_jump_height := 1.7    ## m, ikinci zıplama
+
 @export_group("Hasar")
 @export var invuln_time := 1.4           ## s
 @export var knockback_speed := 7.0       ## m/s
@@ -115,6 +136,26 @@ var _vault_dir := Vector3.ZERO
 var _vault_time := 0.0
 var _squash_tween: Tween
 
+# Hareketler (ilerledikçe açılır: GameState.has_move)
+var ledge_hanging := false
+var _ledge_node: Node3D = null
+var _ledge_local := Vector3.ZERO
+var _ledge_normal := Vector3.ZERO
+var _ledge_cool := 0.0
+var _ledge_t := 0.0
+var spin_left := 0.0
+var _spin_cool := 0.0
+var _spin_hit: Array = []
+var _air_spin_used := false
+var _air_dash_used := false
+var move_dash_left := 0.0
+var wall_sliding := false
+var _wall_normal := Vector3.ZERO
+var _wall_grace := 0.0
+var _wall_lock := 0.0
+var _wall_lock_dir := Vector3.ZERO
+var _double_used := false
+
 
 func _ready() -> void:
 	add_to_group("player")
@@ -155,6 +196,10 @@ func _physics_process(delta: float) -> void:
 	var on_floor := is_on_floor()
 	invuln = maxf(invuln - delta, 0.0)
 	copy_timer = maxf(copy_timer - delta, 0.0)
+	_ledge_cool = maxf(_ledge_cool - delta, 0.0)
+	_spin_cool = maxf(_spin_cool - delta, 0.0)
+	_wall_grace = maxf(_wall_grace - delta, 0.0)
+	_wall_lock = maxf(_wall_lock - delta, 0.0)
 
 	# --- Sayaçlar (coyote time ve zıplama tamponu) ---
 	var floating := _in_water() and ability != "kaya" and global_position.y > water_level - 1.2
@@ -172,6 +217,7 @@ func _physics_process(delta: float) -> void:
 		glide_left = balloon_glide_time
 		prop_left = prop_fuel
 		dash_used = false
+		_refresh_air_moves()
 
 	if controls_enabled:
 		_jump_frame = false
@@ -183,6 +229,17 @@ func _physics_process(delta: float) -> void:
 	if magnet_state != 0:
 		_process_magnet(delta)
 		return
+
+	# --- Kenara tutunma ---
+	if ledge_hanging:
+		_process_ledge(delta)
+		return
+
+	if controls_enabled:
+		_handle_attack_input(on_floor)
+	if spin_left > 0.0:
+		spin_left -= delta
+		_spin_hits()
 
 	# --- Yatay hareket (kameraya göre) ---
 	var input := _get_move_input() if controls_enabled else Vector2.ZERO
@@ -209,12 +266,19 @@ func _physics_process(delta: float) -> void:
 		dash_left -= delta
 		target = Vector3(sin(facing_yaw), 0, cos(facing_yaw)) * prop_dash_speed
 		rate = 400.0
+	if move_dash_left > 0.0:
+		move_dash_left -= delta
+		target = Vector3(sin(facing_yaw), 0, cos(facing_yaw)) * air_dash_speed
+		rate = 400.0
+	if _wall_lock > 0.0:
+		target = _wall_lock_dir * wall_jump_push
+		rate = 10.0
 	horizontal = horizontal.move_toward(target, rate * delta)
 	velocity.x = horizontal.x
 	velocity.z = horizontal.z
 
 	# --- Dönüş: hareket yönüne yumuşakça ---
-	if dir.length() > 0.05:
+	if dir.length() > 0.05 and _wall_lock <= 0.0:
 		var want := atan2(dir.x, dir.z)
 		facing_yaw = rotate_toward(facing_yaw, want, turn_speed * delta)
 		rotation.y = facing_yaw
@@ -225,6 +289,10 @@ func _physics_process(delta: float) -> void:
 		on_floor = false
 		if ability == "yay":
 			Sfx.play("spring", -4.0)
+	elif buffer_timer > 0.0 and not on_floor and not pounding and _wall_grace > 0.0 and GameState.has_move("wall"):
+		_wall_jump()
+	elif controls_enabled and Input.is_action_just_pressed("jump") and not on_floor and coyote_timer <= 0.0 and _can_double_jump():
+		_double_jump()
 
 	# Değişken yükseklik: tuş tepe noktasından önce bırakılırsa yukarı hız kesilir.
 	if is_jumping and velocity.y > 0.0 and not Input.is_action_pressed("jump"):
@@ -266,12 +334,16 @@ func _physics_process(delta: float) -> void:
 		velocity.y = move_toward(velocity.y, prop_lift_speed + maxf(wind.y, 0.0) * 0.3, 40.0 * delta)
 	elif dash_left > 0.0:
 		velocity.y = maxf(velocity.y, 0.0)
+	elif move_dash_left > 0.0:
+		velocity.y = 0.0
 	elif not on_floor:
 		g = gravity
 		if velocity.y < 0.0:
 			g *= fall_gravity_mult
 			is_jumping = false
 		velocity.y = maxf(velocity.y - g * delta * 0.5, -max_fall_speed)
+		if wall_sliding:
+			velocity.y = maxf(velocity.y, -wall_slide_speed)
 
 	# --- Rüzgâr (Kaya etkilenmez; Balon ile süzülürken ya da Pervane ile yükselirken yukarı taşır) ---
 	if wind != Vector3.ZERO and ability != "kaya":
@@ -289,9 +361,26 @@ func _physics_process(delta: float) -> void:
 		velocity.y = maxf(velocity.y, -3.0)
 
 	var fall_speed := -velocity.y
+	var pre_v := velocity
 	move_and_slide()
 	if g > 0.0 and not is_on_floor():
 		velocity.y = maxf(velocity.y - g * delta * 0.5, -max_fall_speed)
+
+	# --- Duvar: kayma ve duvar zıplaması için temas ---
+	wall_sliding = false
+	if not is_on_floor() and is_on_wall() and GameState.has_move("wall") and ability != "kaya" \
+			and not pounding and not gliding and not propelling and controls_enabled:
+		var wn := get_wall_normal()
+		wn.y = 0.0
+		if wn.length() > 0.5:
+			wn = wn.normalized()
+			var into := dir.dot(-wn) > 0.3 or Vector3(pre_v.x, 0, pre_v.z).dot(-wn) > 2.0
+			if into:
+				_wall_normal = wn
+				_wall_grace = 0.15
+				if velocity.y <= 0.0:
+					wall_sliding = true
+					velocity.y = maxf(velocity.y, -wall_slide_speed)
 
 	# Tavana çarpınca yukarı hız sıfırlanır.
 	if is_on_ceiling() and velocity.y > 0.0:
@@ -309,6 +398,11 @@ func _physics_process(delta: float) -> void:
 				else:
 					col.on_stomp(self)
 				break
+
+	# --- Kenara tutunma: düşerken kenara doğru gidiliyorsa ---
+	if not is_on_floor() and _try_ledge_grab(dir):
+		was_on_floor = false
+		return
 
 	# --- İniş ---
 	var now_on_floor := is_on_floor()
@@ -658,6 +752,7 @@ func take_hit(from: Vector3) -> void:
 	if invuln > 0.0:
 		return
 	_cancel_ability_states()
+	_release_moves()
 	var result := GameState.take_damage()
 	invuln = invuln_time
 	var away := global_position - from
@@ -715,6 +810,7 @@ func reset_state(at: Vector3) -> void:
 	was_on_floor = true
 	last_floor_y = at.y
 	_cancel_ability_states()
+	_release_moves()
 	magnet_state = 0
 	nearby_sources.clear()
 
@@ -742,3 +838,200 @@ func _tween_scale(peak: Vector3, rest: Vector3, t_in: float, t_out: float) -> vo
 	_squash_tween = create_tween()
 	_squash_tween.tween_property(visual, "scale", peak, t_in).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	_squash_tween.tween_property(visual, "scale", rest, t_out).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+
+
+# ---------- Hareketler (ilerledikçe açılır) ----------
+# Kenara tutunma · dönme saldırısı · havada atılma · duvar zıplaması · çift zıplama
+# Kurallar: docs/features/hareket/design.md (kural 9-13)
+
+func _refresh_air_moves() -> void:
+	_air_spin_used = false
+	_air_dash_used = false
+	_double_used = false
+
+
+func _release_moves() -> void:
+	ledge_hanging = false
+	_ledge_node = null
+	spin_left = 0.0
+	move_dash_left = 0.0
+	wall_sliding = false
+	_wall_grace = 0.0
+	_wall_lock = 0.0
+
+
+func _handle_attack_input(on_floor: bool) -> void:
+	if not Input.is_action_just_pressed("attack") or not GameState.has_move("spin"):
+		return
+	if pounding or _spin_cool > 0.0:
+		return
+	if on_floor:
+		_start_spin()
+	elif GameState.has_move("dash") and not _air_dash_used:
+		_air_dash_used = true
+		move_dash_left = air_dash_time
+		velocity.y = 0.0
+		is_jumping = false
+		gliding = false
+		Sfx.play("glide", -3.0, 2.0)
+		Fx.burst(global_position + Vector3.UP * 0.5, Color(0.7, 0.9, 1.0), 6, 2.0)
+		_start_spin()
+	elif not _air_spin_used:
+		_air_spin_used = true
+		velocity.y = maxf(velocity.y, spin_air_lift)
+		is_jumping = false
+		_start_spin()
+
+
+func _start_spin() -> void:
+	spin_left = spin_time
+	_spin_cool = spin_cooldown
+	_spin_hit.clear()
+	Sfx.play("glide", -5.0, 1.6)
+	Haptics.vibrate(15)
+	spun.emit()
+	_spin_hits()
+
+
+func _in_spin_reach(n: Node3D) -> bool:
+	var d := n.global_position - global_position
+	return d.y > -1.2 and d.y < 1.4 and Vector2(d.x, d.z).length() < spin_radius
+
+
+## Dönerken menzildeki düşmanları ve sandıkları vur (her biri bir kez).
+func _spin_hits() -> void:
+	for e in get_tree().get_nodes_in_group("enemy"):
+		if _spin_hit.has(e) or not (e is Node3D) or not _in_spin_reach(e):
+			continue
+		_spin_hit.append(e)
+		if e.has_method("on_spin"):
+			e.on_spin(self)
+	for c in get_tree().get_nodes_in_group("stompable"):
+		if _spin_hit.has(c) or not (c is Node3D) or not c.has_method("smash") or not _in_spin_reach(c):
+			continue
+		_spin_hit.append(c)
+		c.smash()
+
+
+func _can_double_jump() -> bool:
+	if not GameState.has_move("double") or _double_used or ability == "kaya":
+		return false
+	if magnet_state != 0 or pounding or wall_sliding or _wall_grace > 0.0 or _in_water():
+		return false
+	# Yere çok yakınken bas: çift zıplama harcanmaz, tampon yerdeki zıplamaya kalır
+	if velocity.y < 0.0:
+		var q := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP * 0.1, global_position + Vector3.DOWN * 0.45, 1 | 2, [get_rid()])
+		if get_world_3d().direct_space_state.intersect_ray(q):
+			return false
+	return true
+
+
+func _double_jump() -> void:
+	_double_used = true
+	gliding = false
+	do_jump(sqrt(2.0 * gravity * double_jump_height))
+	Fx.burst(global_position + Vector3.UP * 0.2, Color(0.75, 0.95, 1.0), 8, 2.5)
+	double_jumped.emit()
+
+
+func _wall_jump() -> void:
+	var n := _wall_normal
+	do_jump(sqrt(2.0 * gravity * wall_jump_height))
+	velocity.x = n.x * wall_jump_push
+	velocity.z = n.z * wall_jump_push
+	_wall_lock = wall_jump_lock
+	_wall_lock_dir = n
+	_wall_grace = 0.0
+	wall_sliding = false
+	facing_yaw = atan2(n.x, n.z)
+	rotation.y = facing_yaw
+	_refresh_air_moves()
+	Fx.burst(global_position + Vector3.UP * 0.6 - n * 0.3, Color(0.95, 0.92, 0.85), 6, 1.5)
+	Haptics.vibrate(15)
+	wall_jumped.emit()
+
+
+## Düşerken önde bir kenar var mı: göğüs hizasında duvar, üstünde boşluk ve basılacak düz yüzey.
+func _try_ledge_grab(dir: Vector3) -> bool:
+	if ledge_hanging or _ledge_cool > 0.0 or not controls_enabled or not GameState.has_move("ledge"):
+		return false
+	if velocity.y > 1.0 or magnet_state != 0 or pounding or _in_water() or dir.length() < 0.3:
+		return false
+	var fwd := dir.normalized()
+	var space := get_world_3d().direct_space_state
+	var p := global_position
+	var chest := PhysicsRayQueryParameters3D.create(p + Vector3.UP * 0.45, p + Vector3.UP * 0.45 + fwd * 0.85, 1, [get_rid()])
+	var hit := space.intersect_ray(chest)
+	if not hit:
+		return false
+	var n: Vector3 = hit.normal
+	if absf(n.y) > 0.3:
+		return false
+	n.y = 0.0
+	n = n.normalized()
+	if fwd.dot(-n) < 0.5:
+		return false
+	var inside: Vector3 = hit.position - n * 0.25
+	var top := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(inside.x, p.y + ledge_max + 0.25, inside.z), Vector3(inside.x, p.y + ledge_min - 0.05, inside.z), 1, [get_rid()]))
+	if not top or top.normal.y < 0.7 or not (top.collider is StaticBody3D):
+		return false
+	var ledge_y: float = top.position.y
+	var h := ledge_y - p.y
+	if h < ledge_min or h > ledge_max:
+		return false
+	# Kenarın üstünde Bip'e yer olmalı
+	var clear := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(inside.x, ledge_y + 0.1, inside.z), Vector3(inside.x, ledge_y + 1.1, inside.z), 1, [get_rid()]))
+	if clear:
+		return false
+	var hang: Vector3 = hit.position + n * 0.37
+	hang.y = ledge_y - ledge_hang_drop
+	_ledge_node = top.collider
+	_ledge_local = _ledge_node.global_transform.affine_inverse() * hang
+	_ledge_normal = n
+	_ledge_t = 0.0
+	ledge_hanging = true
+	global_position = hang
+	velocity = Vector3.ZERO
+	is_jumping = false
+	gliding = false
+	propelling = false
+	move_dash_left = 0.0
+	wall_sliding = false
+	_refresh_air_moves()
+	facing_yaw = atan2(-n.x, -n.z)
+	rotation.y = facing_yaw
+	Sfx.play("land", -10.0, 1.3)
+	Haptics.vibrate(15)
+	ledge_grabbed.emit()
+	return true
+
+
+func _process_ledge(delta: float) -> void:
+	if not is_instance_valid(_ledge_node) or not _ledge_node.is_inside_tree():
+		ledge_hanging = false
+		return
+	_ledge_t += delta
+	global_position = _ledge_node.global_transform * _ledge_local
+	velocity = Vector3.ZERO
+	coyote_timer = 0.0
+	if not controls_enabled:
+		return
+	var dir := _camera_relative(_get_move_input())
+	var into := -_ledge_normal
+	var push := dir.dot(into) if dir.length() > 0.5 else 0.0
+	if buffer_timer > 0.0 or (push > 0.6 and _ledge_t > 0.25):
+		# Yukarı çık
+		ledge_hanging = false
+		_ledge_cool = 0.3
+		do_jump(sqrt(2.0 * gravity * ledge_climb_height))
+		is_jumping = false
+		velocity += into * 2.0
+		_vault_dir = into
+		_vault_time = 0.5
+	elif push < -0.5 or Input.is_action_just_pressed("attack"):
+		# Bırak
+		ledge_hanging = false
+		_ledge_cool = 0.4
+		velocity = _ledge_normal * 1.5

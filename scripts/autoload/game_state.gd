@@ -311,6 +311,54 @@ func global_index(area_id: String) -> int:
 	return 0
 
 
+# ---------- Temel hareketler (ilerledikçe açılır) ----------
+## Sıra ve açıldığı yer: tutunma baştan, dönme Atölye'den sonra, atılma Bölüm 1 sonu,
+## duvar zıplaması Bölüm 2 sonu, çift zıplama Bölüm 3 sonu. Bkz. docs/features/hareket/design.md
+const MOVES := {
+	"ledge": {"name": "Kenara Tutunma", "after": "", "info": "Zıplaman kısa kalırsa kenara tutun; zıpla ya da ileri bas, yukarı çık."},
+	"spin": {"name": "Dönme Saldırısı", "after": "ch1_yay", "info": "Vuruş butonu: dönerek düşmanları ve sandıkları vur. Havada kısa süre asılı kalırsın."},
+	"dash": {"name": "Havada Atılma", "after": "ch2_rihtim", "info": "Havadayken Vuruş butonu: ileri doğru hamle yap."},
+	"wall": {"name": "Duvar Zıplaması", "after": "ch3_magara", "info": "Duvara doğru düşerken kayarsın; zıpla, karşıya sek."},
+	"double": {"name": "Çift Zıplama", "after": "ch4_bulut", "info": "Havadayken bir kez daha zıpla."},
+}
+
+var _moves_key := ""
+var _moves_cache: Array = []
+
+
+func unlocked_moves() -> Array:
+	var f: String = data.get("furthest", data.get("area", "ch1_atolye"))
+	var done: bool = data.get("game_complete", false)
+	var key := f + str(done)
+	if key != _moves_key:
+		_moves_key = key
+		_moves_cache = []
+		var fi := global_index(f)
+		for m in MOVES:
+			var after: String = MOVES[m]["after"]
+			if after == "" or done or fi >= global_index(after):
+				_moves_cache.append(m)
+	return _moves_cache
+
+
+func has_move(m: String) -> bool:
+	return unlocked_moves().has(m)
+
+
+## Henüz duyurulmamış açılmış hareketler (alan başında "Yeni hareket!" için).
+func new_moves() -> Array:
+	var seen: Array = data.get("moves_seen", [])
+	var out := []
+	for m in unlocked_moves():
+		if m != "ledge" and not seen.has(m):
+			out.append(m)
+	return out
+
+
+func mark_moves_seen() -> void:
+	data["moves_seen"] = unlocked_moves().duplicate()
+
+
 ## Ulaşılan en ileri alanı güncelle (alan seçimi ve "Devam" için).
 func note_progress(area_id: String) -> void:
 	var f: String = data.get("furthest", "ch1_atolye")

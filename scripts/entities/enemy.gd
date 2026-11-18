@@ -186,6 +186,9 @@ func _on_touch(b: Node) -> void:
 	if _dead or not (b is Bip) or _frozen > 0.0:
 		return
 	var bip: Bip = b
+	if bip.spin_left > 0.0:
+		on_spin(bip)
+		return
 	if bip.pounding or (bip.global_position.y > global_position.y + 0.55 and bip.velocity.y < 1.0):
 		on_stomp(bip)
 	else:
@@ -201,6 +204,13 @@ func on_stomp(bip: Node) -> void:
 
 
 func on_pound(_bip: Node) -> void:
+	die()
+
+
+## Bip'in dönme saldırısı.
+func on_spin(_bip: Node) -> void:
+	if _dead or _frozen > 0.0:
+		return
 	die()
 
 

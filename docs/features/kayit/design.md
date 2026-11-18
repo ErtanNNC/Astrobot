@@ -49,7 +49,7 @@ Kapsül hologramında görünen tamamlanma yüzdesi bu verilerden hesaplanır, a
 ## Uygulama notları
 - Kodda: `scripts/autoload/game_state.gd` (autoload `GameState`). Yuvalar `user://slot_0.json` … `slot_2.json`; yazma önce `.tmp`, eski dosya `.bak`, sonra yerine koyma. Okuma başarısızsa `.bak` denenir.
 - Ayarlar ayrı: `user://settings.cfg` (`scripts/autoload/settings.gd`).
-- Ekstra alanlar: `checkpoint_ability` (kontrol noktasındaki yetenek), `chapter`, `furthest` (ulaşılan en ileri alan), `robots` (kurtarılan robot kimlikleri: `<alan>_<kontrol noktası>`), `game_complete`.
+- Ekstra alanlar: `checkpoint_ability` (kontrol noktasındaki yetenek), `chapter`, `furthest` (ulaşılan en ileri alan), `robots` (kurtarılan robot kimlikleri: `<alan>_<kontrol noktası>`), `game_complete`, `moves_seen` (duyurusu yapılmış hareketler; açık hareketler `furthest`'ten hesaplanır).
 - Kaydetme anları: kontrol noktası (en az 10 sn arayla), alan geçişi, Altın Vida, Çekirdek Pil, duraklatmadan Atölye'ye dönüş, telefon arka plana alınınca.
 
 ## History

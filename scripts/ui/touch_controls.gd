@@ -19,6 +19,8 @@ signal tapped(pos: Vector2)   ## kısa dokunuş (kamera bölgesinde, kaydırmada
 @export var jump_from_corner := Vector2(165, 160)  ## px, sağ alt köşeden merkez
 @export var ability_radius := 64.0         ## px
 @export var ability_offset := Vector2(-150, -140)  ## px, Zıpla merkezine göre
+@export var attack_radius := 60.0          ## px, Vuruş (dönme saldırısı açılınca görünür)
+@export var attack_offset := Vector2(-215, 20)  ## px, Zıpla merkezine göre
 @export var pause_radius := 40.0           ## px (dokunma)
 @export var pause_from_corner := Vector2(62, 58)   ## px, sol üst köşeden
 @export var hit_scale := 1.25              ## dokunma alanı / çizim
@@ -28,6 +30,7 @@ const COL_FILL := Color(1, 1, 1, 0.16)
 const COL_RING := Color(1, 1, 1, 0.75)
 const COL_JUMP := Color(0.25, 0.62, 1.0, 0.55)
 const COL_ABILITY := Color(1.0, 0.75, 0.2, 0.5)
+const COL_ATTACK := Color(1.0, 0.4, 0.35, 0.5)
 const COL_ICON := Color(1, 1, 1, 0.95)
 const COL_SHADOW := Color(0.05, 0.08, 0.2, 0.35)
 
@@ -45,6 +48,8 @@ var _cam_start_t := 0
 var _cam_moved := 0.0
 var _jump_finger := -1
 var _ability_finger := -1
+var _attack_finger := -1
+var attack_enabled := false  ## dönme saldırısı açıldıysa buton görünür
 var _pause_finger := -1
 var _active := false
 
@@ -67,6 +72,7 @@ func _process(delta: float) -> void:
 	if bip:
 		near = bip.best_source() != null
 	ability_enabled = near or GameState.ability != ""
+	attack_enabled = GameState.has_move("spin")
 	var c := AbilityModels.color(GameState.ability) if GameState.ability != "" else COL_ABILITY
 	_ability_color = Color(c, 0.6)
 	# Kopyalanabilir nesne yakınsa Yetenek butonu nabız gibi atar: "buna bas"
@@ -116,6 +122,13 @@ func _ability_center() -> Vector2:
 	return j + off
 
 
+func _attack_center() -> Vector2:
+	var off := attack_offset * _bs()
+	if Settings.left_handed:
+		off.x = -off.x
+	return _jump_center() + off
+
+
 func _pause_center() -> Vector2:
 	var ins := _insets()
 	return Vector2(ins.position.x + pause_from_corner.x * _k(), ins.position.y + pause_from_corner.y * _k())
@@ -157,6 +170,10 @@ func _on_touch(e: InputEventScreenTouch) -> void:
 		elif _ability_finger == -1 and _hit(p, _ability_center(), ability_radius * _bs()):
 			_ability_finger = e.index
 			Input.action_press("ability")
+		elif attack_enabled and _attack_finger == -1 and _hit(p, _attack_center(), attack_radius * _bs()):
+			_attack_finger = e.index
+			Input.action_press("attack")
+			Haptics.vibrate(jump_vibration_ms)
 		elif _joy_finger == -1 and _in_joy_zone(p):
 			_joy_finger = e.index
 			_cam_start = p
@@ -184,6 +201,9 @@ func _on_touch(e: InputEventScreenTouch) -> void:
 		elif e.index == _ability_finger:
 			_ability_finger = -1
 			Input.action_release("ability")
+		elif e.index == _attack_finger:
+			_attack_finger = -1
+			Input.action_release("attack")
 		elif e.index == _joy_finger:
 			_joy_finger = -1
 			TouchInput.move_vector = Vector2.ZERO
@@ -227,6 +247,9 @@ func release_all() -> void:
 		Input.action_release("jump")
 	if _ability_finger != -1:
 		Input.action_release("ability")
+	if _attack_finger != -1:
+		Input.action_release("attack")
+	_attack_finger = -1
 	_joy_finger = -1
 	_cam_finger = -1
 	_jump_finger = -1
@@ -276,6 +299,13 @@ func _draw() -> void:
 		if df > 0.0:
 			draw_arc(ac, ar + 16 * _k(), -PI / 2, -PI / 2 + TAU * df, 40, Color(1, 1, 1, 0.9), 5 * _k(), true)
 
+	# Vuruş (dönme saldırısı)
+	if attack_enabled:
+		var tc := _attack_center()
+		var tr := attack_radius * bs * (0.9 if _attack_finger != -1 else 1.0)
+		_circle(tc, tr, COL_ATTACK.lightened(0.3) if _attack_finger != -1 else COL_ATTACK, COL_RING, a)
+		_icon_spin(tc, tr * 0.5, a)
+
 	# Duraklat
 	var pc := _pause_center()
 	var pr := 30.0 * _k()
@@ -310,3 +340,12 @@ func _icon_antenna(c: Vector2, s: float, alpha: float) -> void:
 	draw_circle(c + Vector2(0, -s * 0.6), s * 0.32, col)
 	draw_arc(c + Vector2(0, -s * 0.6), s * 0.75, -PI * 0.85, -PI * 0.15, 16, col, 3.0 * _k(), true)
 	draw_line(c + Vector2(-s * 0.6, s * 0.9), c + Vector2(s * 0.6, s * 0.9), col, 4.0 * _k(), true)
+
+
+## Dönme oku: üç çeyrek yay ve ok ucu.
+func _icon_spin(c: Vector2, s: float, alpha: float) -> void:
+	var col := Color(COL_ICON, COL_ICON.a * alpha)
+	draw_arc(c, s * 0.75, -PI * 0.2, PI * 1.35, 28, col, 5.0 * _k(), true)
+	var tip := c + Vector2(cos(-PI * 0.2), sin(-PI * 0.2)) * s * 0.75
+	draw_colored_polygon(PackedVector2Array([tip + Vector2(-s * 0.45, -s * 0.05), tip + Vector2(s * 0.3, -s * 0.15), tip + Vector2(-s * 0.05, s * 0.45)]), col)
+	draw_circle(c, s * 0.18, col)

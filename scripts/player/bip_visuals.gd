@@ -44,6 +44,9 @@ func _ready() -> void:
 	bip.landed.connect(_on_landed)
 	bip.copied.connect(_on_copied)
 	bip.hurt.connect(_on_hurt)
+	bip.spun.connect(_on_spun)
+	bip.double_jumped.connect(_on_double_jumped)
+	bip.ledge_grabbed.connect(_on_ledge_grabbed)
 	GameState.ability_changed.connect(_apply_ability)
 	_prepare_materials()
 	_icon_holder = Node3D.new()
@@ -83,8 +86,18 @@ func _process(delta: float) -> void:
 			else:
 				_play(A_WALK)
 				anim.speed_scale = clampf(speed / walk_anim_speed, 0.5, 1.5)
+	elif bip.ledge_hanging:
+		# Kenara asılı: kollar yukarıda (zıplama pozu), hafif sallanma
+		_idle_time = 0.0
+		_air_anim = false
+		anim.speed_scale = 0.0
 	else:
 		_idle_time = 0.0
+		if bip.wall_sliding:
+			_dust_t -= delta
+			if _dust_t <= 0.0:
+				_dust_t = 0.1
+				Fx.burst(bip.global_position + Vector3(0, 0.9, 0) - bip._wall_normal * 0.3, Color(0.95, 0.92, 0.85), 2, 0.6)
 		if not _air_anim:
 			_air_anim = true
 			anim.play(A_JUMP, 0.08)
@@ -284,3 +297,32 @@ func _on_copied(a: String) -> void:
 
 func _on_hurt(_result: String) -> void:
 	pass
+
+
+
+var _spin_tween: Tween
+
+
+## Dönme saldırısı ve çift zıplama: model kendi ekseninde döner.
+func _spin_model(turns: float, t: float) -> void:
+	if _spin_tween:
+		_spin_tween.kill()
+	model.rotation.y = 0.0
+	_spin_tween = create_tween()
+	_spin_tween.tween_property(model, "rotation:y", TAU * turns, t).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_spin_tween.tween_callback(func(): model.rotation.y = 0.0)
+
+
+func _on_spun() -> void:
+	_spin_model(2.0, bip.spin_time)
+	Fx.burst(bip.global_position + Vector3.UP * 0.6, Color(1.0, 0.95, 0.6), 10, bip.spin_radius * 1.6)
+
+
+func _on_double_jumped() -> void:
+	_spin_model(1.0, 0.3)
+
+
+func _on_ledge_grabbed() -> void:
+	anim.play(A_JUMP, 0.05)
+	anim.seek(0.3, true)
+	anim.speed_scale = 0.0

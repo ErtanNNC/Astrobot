@@ -13,8 +13,8 @@ Telefonda oyun iki başparmakla, ekrana bakmadan oynanır. Sol başparmak yürü
  │   ← sol yarı: joystick nereye                (✦)         │
  │      dokunursan orada çıkar              yetenek         │
  │                                                          │
- │      ( ◯ )                                     ( ▲ )     │
- │    dinlenme yeri                               ZIPLA     │
+ │      ( ◯ )                         (↻)         ( ▲ )     │
+ │    dinlenme yeri                  vuruş        ZIPLA     │
  └──────────────────────────────────────────────────────────┘
    sağ yarıda butonların dışında kaydırma = kamerayı çevir
 ```
@@ -23,6 +23,7 @@ Telefonda oyun iki başparmakla, ekrana bakmadan oynanır. Sol başparmak yürü
 1. **Joystick (sol):** ekranın sol %45'inde, üst %22'si hariç, nereye dokunulursa orada belirir (yüzen joystick). Parmak halkanın dışına çıkarsa halka parmağı izler; böylece yön hiç "takılmaz". Dokunulmazken sol altta silik bir joystick, nerede olduğunu hatırlatır.
 2. **Zıpla (sağ alt):** en büyük buton. Basılı tutulursa yüksek, kısa basılırsa alçak zıplama ([hareket](../hareket/design.md)).
 3. **Yetenek (Zıpla'nın sol üstü):** daha küçük ikinci buton. Yetenek yokken soluk görünür (M2'de kopyalama ile çalışacak, [kopyalama](../kopyalama/design.md)).
+3b. **Vuruş (Zıpla'nın solu):** Dönme Saldırısı açılınca görünür (yerde dönme, havada atılma; [hareket](../hareket/design.md) kural 11-12). Başparmak Zıpla'dan sola kayarak bulur; Zıpla ve Yetenek'le dokunma alanı çakışmaz.
 4. **Duraklat (sol üst):** küçük ama dokunma alanı en az 48 dp; ana eylemlerden uzak, yanlışlıkla basılmaz.
 5. **Kamera:** sağ yarıda butonlara değmeyen kaydırma kamerayı çevirir; 2 sn sonra kamera kendiliğinden arkaya döner ([kamera](../kamera/design.md)).
 6. Butonların dokunma alanı çiziminden %25 büyüktür; iki butonun alanı çakışırsa Zıpla kazanır.
@@ -45,6 +46,8 @@ Telefonda oyun iki başparmakla, ekrana bakmadan oynanır. Sol başparmak yürü
 | Zıpla merkezi, sağ alt köşeden | 165, 160 | px | |
 | Yetenek yarıçapı | 64 | px | |
 | Yetenek merkezi, Zıpla'ya göre | 150 sola, 140 yukarı | px | Zıpla'dan başparmak kaydırarak ulaşılıyor mu |
+| Vuruş yarıçapı | 60 | px | |
+| Vuruş merkezi, Zıpla'ya göre | 215 sola, 20 aşağı | px | Zıpla ile karıştırılıyor mu |
 | Duraklat yarıçapı (dokunma) | 40 | px | |
 | Dokunma alanı büyütmesi | 1,25 | × | |
 | Buton boyutu ayarı | Küçük 0,85 / Orta 1,0 / Büyük 1,2 | × | |
@@ -64,4 +67,5 @@ Buton boyutu, sol el modu, titreşim, müzik, efekt sesleri. Ayarlar `user://set
 - Yetenek butonu basılı tutunca yeteneği bırakma (kopyalama kural 6) M2'de bu butona bağlanacak.
 
 ## History
+- 2026-11-18: Vuruş butonu eklendi (D-016); PC'de F, kolda B.
 - 2026-11-18: tasarlandı ve uygulandı (D-008).

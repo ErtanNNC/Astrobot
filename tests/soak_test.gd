@@ -1,7 +1,7 @@
 extends Node
 ## Dayanıklılık testi: her alanda Bip rastgele koşar, zıplar, yetenek kullanır; çalışma hatası aranır.
 ## Çalıştırma: godot --headless --path . tests/soak_test.tscn  (çıktıda SCRIPT ERROR olmamalı)
-const ACTIONS := ["move_forward", "move_left", "move_right", "move_back", "jump", "ability", "camera_left"]
+const ACTIONS := ["move_forward", "move_left", "move_right", "move_back", "jump", "ability", "attack", "camera_left"]
 const ABILITIES := ["", "yay", "balon", "miknatis", "kaya", "pervane", "buz"]
 
 func _ready() -> void:
@@ -16,6 +16,8 @@ func _ready() -> void:
 	for path in scenes:
 		GameState.data = GameState.new_data()
 		GameState.slot = -1
+		if OS.has_environment("SOAK_ALL_MOVES") or randf() < 0.5:
+			GameState.data["furthest"] = "ch4_bulut"  # tüm hareketler açık
 		var level = load(path).instantiate()
 		get_tree().root.add_child.call_deferred(level)
 		await get_tree().process_frame
