@@ -116,6 +116,19 @@ func _enter_title() -> void:
 	_tap_label.size.x = 1280
 	logo.size.x = 1280
 	sub.size.x = 1280
+	# Logo hafifçe süzülür ve sallanır (canlı başlık)
+	logo.pivot_offset = Vector2(640, 90)
+	var ltw := logo.create_tween().set_loops()
+	ltw.tween_property(logo, "rotation", 0.04, 1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	ltw.tween_property(logo, "rotation", -0.04, 1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var stw := sub.create_tween().set_loops()
+	stw.tween_property(sub, "position:y", 232.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	stw.tween_property(sub, "position:y", 225.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	sub.add_theme_color_override("font_color", Color(0.55, 0.95, 1.0))
+	_tap_label.pivot_offset = Vector2(640, 25)
+	var ttw := _tap_label.create_tween().set_loops()
+	ttw.tween_property(_tap_label, "scale", Vector2(1.08, 1.08), 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	ttw.tween_property(_tap_label, "scale", Vector2.ONE, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	cam.face_target(4.2, 6.0)
 
 
@@ -491,12 +504,13 @@ func _build_quick_button() -> void:
 	_quick_btn.position = Vector2(-96, 20)
 	_quick_btn.size = Vector2(76, 68)
 	_quick_btn.custom_minimum_size = Vector2(76, 68)
-	var s := StyleBoxFlat.new()
-	s.bg_color = Color(0.13, 0.2, 0.38, 0.85)
-	s.set_corner_radius_all(18)
-	_quick_btn.add_theme_stylebox_override("normal", s)
-	_quick_btn.add_theme_stylebox_override("hover", s)
-	_quick_btn.add_theme_stylebox_override("pressed", s)
+	_quick_btn.text = ""
+	_quick_btn.icon = load("res://assets/ui/kenney/icons/menuList.png")
+	_quick_btn.expand_icon = true
+	_quick_btn.position = Vector2(-100, 18)
+	_quick_btn.size = Vector2(82, 82)
+	_quick_btn.custom_minimum_size = Vector2(82, 82)
+	UIKit.style_button(_quick_btn, UIKit.YELLOW, true)
 	_quick_btn.pressed.connect(open_quick_menu)
 	ui.add_child(_quick_btn)
 	# Telefonda dokunmatik Duraklat düğmesi zaten sol üstte; Atölye'de o da hızlı menüyü açar.

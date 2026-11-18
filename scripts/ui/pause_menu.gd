@@ -16,6 +16,7 @@ var _main: VBoxContainer
 var _settings: VBoxContainer
 var _rows := {}
 var _grid: GridContainer
+var _panel: PanelContainer
 
 
 func _ready() -> void:
@@ -25,7 +26,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var dim := ColorRect.new()
-	dim.color = Color(0.05, 0.08, 0.18, 0.6)
+	dim.color = UIKit.DIM
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(dim)
 
@@ -34,24 +35,19 @@ func _ready() -> void:
 	add_child(center)
 
 	var panel := PanelContainer.new()
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.13, 0.2, 0.38, 0.95)
-	sb.set_corner_radius_all(28)
-	sb.set_content_margin_all(28)
-	sb.border_color = Color(1, 1, 1, 0.25)
-	sb.set_border_width_all(3)
-	panel.add_theme_stylebox_override("panel", sb)
+	panel.add_theme_stylebox_override("panel", UIKit.card_style())
 	center.add_child(panel)
+	_panel = panel
 
 	var stack := VBoxContainer.new()
 	panel.add_child(stack)
 
 	_main = _column(stack)
 	_title(_main, "Duraklatıldı")
-	_button(_main, "Devam", resume, Color(0.3, 0.75, 0.4))
+	_button(_main, "Devam", resume, UIKit.GREEN)
 	_button(_main, "Kontrol noktasından başla", func(): restart_requested.emit(); resume())
 	_button(_main, "Ayarlar", _show_settings)
-	_button(_main, "Atölye'ye dön", func(): resume(); home_requested.emit(), Color(0.55, 0.4, 0.75))
+	_button(_main, "Atölye'ye dön", func(): resume(); home_requested.emit(), UIKit.PURPLE)
 
 	_settings = _column(stack)
 	_title(_settings, "Ayarlar")
@@ -71,7 +67,7 @@ func _ready() -> void:
 	_slider("master_vol", "Genel ses")
 	_slider("music_vol", "Müzik")
 	_slider("sfx_vol", "Efektler")
-	_button(_settings, "Geri", _show_main, Color(0.3, 0.75, 0.4))
+	_button(_settings, "Geri", _show_main, UIKit.GREEN)
 	_settings.visible = false
 	_refresh()
 
@@ -83,6 +79,7 @@ func open() -> void:
 	visible = true
 	get_tree().paused = true
 	_show_main()
+	UIKit.pop_in(_panel)
 
 
 ## Atölye'deki televizyon: yalnızca ayarlar; "Geri" menüyü kapatır.
@@ -91,6 +88,7 @@ func open_settings_only() -> void:
 	visible = true
 	get_tree().paused = true
 	_show_settings()
+	UIKit.pop_in(_panel)
 
 
 func resume() -> void:
@@ -135,26 +133,17 @@ func _column(parent: Node) -> VBoxContainer:
 
 
 func _title(parent: Node, text: String) -> void:
-	var l := Label.new()
-	l.text = text
-	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.add_theme_font_size_override("font_size", 38)
-	parent.add_child(l)
+	UIKit.title(parent, text, 42)
 
 
-func _button(parent: Node, text: String, cb: Callable, col := Color(0.25, 0.45, 0.8)) -> Button:
+func _button(parent: Node, text: String, cb: Callable, col := UIKit.BLUE) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size = Vector2(0, BTN_HEIGHT)
 	b.add_theme_font_size_override("font_size", FONT_SIZE)
-	for state in ["normal", "hover", "pressed", "focus"]:
-		var s := StyleBoxFlat.new()
-		s.bg_color = col.lightened(0.15) if state in ["hover", "focus"] else (col.darkened(0.2) if state == "pressed" else col)
-		s.set_corner_radius_all(20)
-		if state == "focus":
-			s.border_color = Color.WHITE
-			s.set_border_width_all(3)
-		b.add_theme_stylebox_override(state, s)
+	UIKit.style_button(b, col)
+	b.icon = UIKit.icon_for(text)
+	b.pressed.connect(func(): Sfx.play("click", -4.0))
 	b.pressed.connect(cb)
 	parent.add_child(b)
 	return b
@@ -174,7 +163,7 @@ func _slider(key: String, label: String) -> void:
 	var l := Label.new()
 	l.text = label
 	l.custom_minimum_size = Vector2(170, 0)
-	l.add_theme_font_size_override("font_size", 24)
+	l.add_theme_font_size_override("font_size", 26)
 	row.add_child(l)
 	var sl := HSlider.new()
 	sl.min_value = 0
@@ -183,19 +172,7 @@ func _slider(key: String, label: String) -> void:
 	sl.value = Settings.get(key) * 100.0
 	sl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sl.custom_minimum_size = Vector2(0, 50)
-	sl.add_theme_icon_override("grabber", _grabber_tex())
-	sl.add_theme_icon_override("grabber_highlight", _grabber_tex())
-	var grab := StyleBoxFlat.new()
-	grab.bg_color = Color(0.4, 0.95, 1.0)
-	grab.set_corner_radius_all(16)
-	var track := StyleBoxFlat.new()
-	track.bg_color = Color(1, 1, 1, 0.25)
-	track.set_corner_radius_all(8)
-	track.content_margin_top = 8
-	track.content_margin_bottom = 8
-	sl.add_theme_stylebox_override("slider", track)
-	sl.add_theme_stylebox_override("grabber_area", grab)
-	sl.add_theme_stylebox_override("grabber_area_highlight", grab)
+	UIKit.style_slider(sl)
 	sl.value_changed.connect(_on_slider.bind(key))
 	row.add_child(sl)
 	_settings.add_child(row)
@@ -242,3 +219,9 @@ func _refresh() -> void:
 		else:
 			value = "Açık" if Settings.get(key) else "Kapalı"
 		b.text = "%s:  %s" % [_rows[key][1], value]
+		var col := UIKit.BLUE
+		if value == "Açık":
+			col = UIKit.GREEN
+		elif value == "Kapalı":
+			col = UIKit.GREY
+		UIKit.style_button(b, col)

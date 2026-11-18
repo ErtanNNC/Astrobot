@@ -72,8 +72,18 @@ func _ready() -> void:
 	_shown_batteries = _batteries
 	_refresh_screws()
 	_ability = GameState.ability
-	_banner = _make_label(56)
-	_sub = _make_label(28)
+	_banner = _make_label(64)
+	_banner.add_theme_color_override("font_color", Color(1.0, 0.87, 0.3))
+	_banner.add_theme_constant_override("outline_size", 16)
+	_sub = _make_label(30)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.06, 0.1, 0.28, 0.6)
+	sb.set_corner_radius_all(24)
+	sb.content_margin_left = 24
+	sb.content_margin_right = 24
+	sb.content_margin_top = 4
+	sb.content_margin_bottom = 6
+	_sub.add_theme_stylebox_override("normal", sb)
 	_banner.modulate.a = 0.0
 	_sub.modulate.a = 0.0
 
@@ -97,15 +107,23 @@ func banner(text: String, sub := "", hold := 2.0) -> void:
 	_sub.text = sub
 	_banner.position = Vector2(size.x / 2 - 600, 150 * k)
 	_banner.size = Vector2(1200, 80)
-	_sub.position = Vector2(size.x / 2 - 600, 225 * k)
-	_sub.size = Vector2(1200, 40)
+	_sub.visible = sub != ""
+	_sub.size = Vector2.ZERO
+	var sw := _sub.get_combined_minimum_size().x
+	_sub.position = Vector2((size.x - sw) / 2.0, 232 * k)
 	for l: Label in [_banner, _sub]:
+		l.pivot_offset = l.size / 2.0
+		if _banner_tweens.has(l) and _banner_tweens[l].is_valid():
+			_banner_tweens[l].kill()   # önceki yazının sönmesi yenisini silmesin
 		var tw: Tween = l.create_tween()
+		_banner_tweens[l] = tw
 		l.modulate.a = 0.0
-		l.scale = Vector2.ONE
-		tw.tween_property(l, "modulate:a", 1.0, 0.25)
-		tw.tween_interval(hold)
-		tw.tween_property(l, "modulate:a", 0.0, 0.5)
+		l.scale = Vector2(0.4, 0.4) if l == _banner else Vector2(1, 0.2)
+		tw.set_parallel(true)
+		tw.tween_property(l, "modulate:a", 1.0, 0.2)
+		tw.tween_property(l, "scale", Vector2.ONE, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).set_delay(0.0 if l == _banner else 0.12)
+		tw.chain().tween_interval(hold)
+		tw.chain().tween_property(l, "modulate:a", 0.0, 0.5)
 
 
 func _process(delta: float) -> void:
@@ -117,16 +135,37 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 
+var _pill: StyleBoxFlat
+var _banner_tweens := {}
+
+
+## Göstergelerin arkasındaki yarı saydam yuvarlak hap zemin
+func _draw_pill(r: Rect2) -> void:
+	if _pill == null:
+		_pill = StyleBoxFlat.new()
+		_pill.bg_color = Color(0.06, 0.1, 0.28, 0.55)
+		_pill.border_color = Color(1, 1, 1, 0.35)
+		_pill.set_border_width_all(3)
+		_pill.border_width_bottom = 5
+	_pill.set_corner_radius_all(int(r.size.y / 2))
+	draw_style_box(_pill, r)
+
+
 func _draw() -> void:
 	var k := size.y / 720.0
 	var font := get_theme_default_font()
+	_draw_pill(Rect2(Vector2(100, 28) * k, Vector2(GameState.MAX_LIVES * 46 + 16 + (60 if _ability != "" else 0), 58) * k))
+	_draw_pill(Rect2(Vector2(size.x - 222 * k, 26 * k), Vector2(178, 60) * k))
 	# --- Kalpler (sol üst, duraklat düğmesinin sağında) ---
 	for i in GameState.MAX_LIVES:
 		var c := Vector2(130 + i * 46, 56) * k
 		var full := i < _lives
 		var s := 17.0 * k * (1.0 + (0.25 * _heart_pop if i == _lives else 0.0))
-		_heart(c, s + 3 * k, OUTLINE)
+		s *= 1.0 + 0.06 * sin(_t * 3.0 + i * 0.8) if full else 1.0   # hafif nefes alma
+		_heart(c, s + 3.5 * k, OUTLINE)
 		_heart(c, s, HEART if full else Color(1, 1, 1, 0.25))
+		if full:
+			draw_circle(c + Vector2(-0.55, -0.45) * s, 0.2 * s, Color(1, 1, 1, 0.75))  # parlama
 	# --- Taşınan yetenek ---
 	if _ability != "":
 		var ac := Vector2(130 + 3 * 46 + 30, 56) * k
@@ -140,11 +179,14 @@ func _draw() -> void:
 				draw_arc(ac, 31 * k, -PI / 2, -PI / 2 + TAU * f, 32, Color(1, 1, 1, 0.9), 5 * k, true)
 	# --- Pil sayacı (sağ üst) ---
 	var bp := Vector2(size.x - 190 * k, 56 * k)
+	if _batt_pop > 0.0:
+		draw_circle(bp, 34 * k * (1.0 + (1.0 - _batt_pop) * 0.6), Color(0.5, 1.0, 0.6, 0.35 * _batt_pop))
 	var bs := 1.0 + _batt_pop * 0.3
 	_battery_icon(bp, 20 * k * bs)
 	var txt := str(int(round(_shown_batteries)))
-	draw_string_outline(font, bp + Vector2(28, 13) * k, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, int(36 * k), int(10 * k), OUTLINE)
-	draw_string(font, bp + Vector2(28, 13) * k, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, int(36 * k), Color.WHITE)
+	var fs := int(40 * k * bs)
+	draw_string_outline(font, bp + Vector2(30, 14) * k, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, int(12 * k), OUTLINE)
+	draw_string(font, bp + Vector2(30, 14) * k, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color.WHITE)
 	# --- Altın vidalar (5 yuva) ---
 	for i in _screw_slots:
 		var sc := Vector2(size.x - 190 * k + i * 30 * k, 98 * k)

@@ -25,6 +25,7 @@ var shadows_on := true
 func _ready() -> void:
 	load_settings()
 	apply()
+	get_tree().root.theme = UIKit.make_theme()   # tüm arayüzün görünüşü (scripts/ui/ui_kit.gd)
 
 
 func button_scale() -> float:

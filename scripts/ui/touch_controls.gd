@@ -278,7 +278,7 @@ func _draw() -> void:
 	# Zıpla
 	var jc := _jump_center()
 	var jr := jump_radius * bs * (0.9 if _jump_finger != -1 else 1.0)
-	_circle(jc, jr, COL_JUMP.lightened(0.3) if _jump_finger != -1 else COL_JUMP, COL_RING, a)
+	_round_btn(jc, jr, "blue", _jump_finger != -1, a)
 	_icon_jump(jc, jr * 0.5, a)
 
 	# Yetenek
@@ -287,7 +287,7 @@ func _draw() -> void:
 	var aa := a if ability_enabled else a * 0.45
 	if _pulse > 0.0:
 		draw_circle(ac, ar * 1.25, Color(1, 1, 0.7, 0.25 * _pulse * a))
-	_circle(ac, ar, _ability_color, COL_RING, aa)
+	_round_btn(ac, ar, "grey", _ability_finger != -1, aa, Color(_ability_color, 1.0).lightened(0.25))
 	_icon_antenna(ac, ar * 0.55, aa)
 	# Basılı tutma halkası: Yay şarjı (yeşil) ve yeteneği bırakma (beyaz)
 	var bip := get_tree().get_first_node_in_group("player")
@@ -303,7 +303,7 @@ func _draw() -> void:
 	if attack_enabled:
 		var tc := _attack_center()
 		var tr := attack_radius * bs * (0.9 if _attack_finger != -1 else 1.0)
-		_circle(tc, tr, COL_ATTACK.lightened(0.3) if _attack_finger != -1 else COL_ATTACK, COL_RING, a)
+		_round_btn(tc, tr, "red", _attack_finger != -1, a)
 		_icon_spin(tc, tr * 0.5, a)
 
 	# Duraklat
@@ -349,3 +349,16 @@ func _icon_spin(c: Vector2, s: float, alpha: float) -> void:
 	var tip := c + Vector2(cos(-PI * 0.2), sin(-PI * 0.2)) * s * 0.75
 	draw_colored_polygon(PackedVector2Array([tip + Vector2(-s * 0.45, -s * 0.05), tip + Vector2(s * 0.3, -s * 0.15), tip + Vector2(-s * 0.05, s * 0.45)]), col)
 	draw_circle(c, s * 0.18, col)
+
+
+
+## Kenney UI Pack yuvarlak butonu (CC0): basılıyken derinliksiz sürüm, biraz aşağıda.
+func _round_btn(c: Vector2, r: float, col: String, pressed: bool, alpha: float, tint := Color.WHITE) -> void:
+	var path := "res://assets/ui/kenney/buttons/%s_button_round_%s.png" % [col, "gradient" if pressed else "depth_gradient"]
+	var tex: Texture2D = UIKit._tex(path)
+	if tex == null:
+		_circle(c, r, COL_JUMP, COL_RING, alpha)
+		return
+	var off := Vector2(0, 4 * _k()) if pressed else Vector2.ZERO
+	draw_circle(c + Vector2(0, 6 * _k()), r * 0.98, Color(COL_SHADOW, COL_SHADOW.a * alpha))
+	draw_texture_rect(tex, Rect2(c - Vector2(r, r) + off, Vector2(r, r) * 2.0), false, Color(tint, 0.85 * alpha))
