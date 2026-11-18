@@ -74,6 +74,7 @@ static func new_data() -> Dictionary:
 		"golden_screws": [],
 		"core_cells": [],
 		"seen_cutscenes": [],
+		"furthest": "ch1_atolye",
 		"play_time": 0.0,
 		"last_played": 0,
 	}
@@ -297,6 +298,24 @@ func next_area(area_id: String) -> Dictionary:
 	if i < CHAPTERS[ch].size():
 		return CHAPTERS[ch][i]
 	return {}
+
+
+## Tüm oyundaki sıra numarası (Bölüm 1'in ilk alanı 0).
+func global_index(area_id: String) -> int:
+	var n := 0
+	for ch in CHAPTERS:
+		for a in CHAPTERS[ch]:
+			if a["id"] == area_id:
+				return n
+			n += 1
+	return 0
+
+
+## Ulaşılan en ileri alanı güncelle (alan seçimi ve "Devam" için).
+func note_progress(area_id: String) -> void:
+	var f: String = data.get("furthest", "ch1_atolye")
+	if global_index(area_id) > global_index(f):
+		data["furthest"] = area_id
 
 
 ## Bir sonraki bölümün ilk alanı (yoksa {}).

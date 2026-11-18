@@ -80,6 +80,7 @@ func _ready() -> void:
 		ability = GameState.ability if start_ability == "" else start_ability
 		GameState.data["checkpoint_ability"] = ability
 		GameState.save(true)
+	GameState.note_progress(area_id)
 	GameState.set_ability(ability)
 	GameState.refill_lives()
 	_place_bip()
@@ -243,6 +244,7 @@ func complete_area() -> void:
 		Scenes.go("res://scenes/ui/results.tscn")
 		return
 	GameState.data["area"] = nxt["id"]
+	GameState.note_progress(nxt["id"])
 	GameState.data["checkpoint_id"] = "start"
 	GameState.data["checkpoint_ability"] = GameState.ability
 	GameState.save(true)

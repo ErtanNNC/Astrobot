@@ -215,10 +215,61 @@ func _activate(m: Node) -> void:
 
 func _play_pressed() -> void:
 	var last := GameState.last_played_slot()
-	if last >= 0:
-		_start_game(last, false)
-	else:
+	if last < 0:
 		_start_game(0, true)
+		return
+	var d := GameState.slot_summary(last)
+	var unlocked := _unlocked_areas(d)
+	if unlocked.size() <= 1 and not d.get("game_complete", false):
+		_start_game(last, false)
+		return
+	# Oynanmış alanları yeniden seçme (kaçırılan Altın Vidalar için)
+	var v := _new_overlay(700)
+	UIKit.title(v, "Nereye gidelim?")
+	if not d.get("game_complete", false):
+		UIKit.button(v, "Devam: " + GameState.area_info(d.get("area", "ch1_atolye"))["name"], func(): _start_game(last, false), UIKit.GREEN)
+		var fur: String = d.get("furthest", "")
+		if fur != "" and fur != d.get("area", ""):
+			UIKit.button(v, "En ileri nokta: " + GameState.area_info(fur)["name"], func(): _start_area(last, GameState.area_info(fur)), UIKit.GREEN)
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 8)
+	v.add_child(grid)
+	for a in unlocked:
+		var has_screw: bool = d.get("golden_screws", []).has(a["id"] + "_vida")
+		var label: String = a["name"] + ("  ✓" if has_screw else "")
+		var b := UIKit.button(grid, label, func(): _start_area(last, a))
+		b.custom_minimum_size = Vector2(320, 56)
+		b.add_theme_font_size_override("font_size", 22)
+	UIKit.button(v, "Geri", _close_overlay)
+	_focus_first(v)
+
+
+## Kayıttaki ilerlemeye göre açılmış alanlar (bölüm sırasıyla).
+func _unlocked_areas(d: Dictionary) -> Array:
+	var out := []
+	var cur: String = d.get("furthest", d.get("area", "ch1_atolye"))
+	var done: bool = d.get("game_complete", false)
+	for ch in GameState.CHAPTERS:
+		for a in GameState.CHAPTERS[ch]:
+			if not ResourceLoader.exists(a["scene"]):
+				continue
+			out.append(a)
+			if a["id"] == cur and not done:
+				return out
+	return out
+
+
+func _start_area(slot: int, a: Dictionary) -> void:
+	_close_overlay()
+	bip.controls_enabled = false
+	GameState.start_slot(slot, false)
+	GameState.data["area"] = a["id"]
+	GameState.data["checkpoint_id"] = "start"
+	GameState.data["checkpoint_ability"] = ""
+	GameState.set_ability("")
+	Scenes.go(a["scene"])
 
 
 func _start_game(slot: int, fresh: bool) -> void:

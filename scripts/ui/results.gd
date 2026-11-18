@@ -27,6 +27,8 @@ func _ready() -> void:
 			chapter_screws += 1
 	UIKit.title(v, "Altın Vida: %d / %d" % [chapter_screws, GameState.CHAPTERS[ch].size() - 1], 32)
 	UIKit.title(v, "Çekirdek Pil: %d / 4" % GameState.data.get("core_cells", []).size(), 32)
+	if GameState.data.get("game_complete", false):
+		UIKit.title(v, "Tüm oyun: %d pil · Altın Vida %d / 13" % [GameState.total_batteries(), GameState.data.get("golden_screws", []).size()], 26)
 	var mins := int(float(GameState.data.get("play_time", 0.0)) / 60.0)
 	UIKit.title(v, "Süre: %d dk" % mins, 26)
 	var b := UIKit.button(v, "Atölye'ye dön", _home, UIKit.GREEN)
@@ -36,6 +38,7 @@ func _ready() -> void:
 	var nxt := GameState.first_area_of_next_chapter(area)
 	if not nxt.is_empty():
 		GameState.data["area"] = nxt["id"]
+		GameState.note_progress(nxt["id"])
 		GameState.data["chapter"] = ch + 1
 		GameState.data["checkpoint_id"] = "start"
 		GameState.data["checkpoint_ability"] = ""

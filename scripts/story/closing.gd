@@ -14,9 +14,11 @@ var _storm: Node3D
 var _done := false
 var _hold := 0.0
 var _robots: Array = []
+var _final := false   ## dördüncü bölümün sonu: oyunun finali
 
 
 func _ready() -> void:
+	_final = GameState.chapter_of(GameState.data.get("area", "ch1_patron")) == 4 and not replay
 	var we := WorldEnvironment.new()
 	env = Environment.new()
 	var sky := Sky.new()
@@ -137,6 +139,27 @@ func _play(bip: Node3D) -> void:
 	Sfx.play("clear")
 	await _wait(2.5)
 	if _done: return
+	if _final:
+		# Final: Statik dost buluta dönüşür, robotların üstüne ılık yağmur yağdırır
+		var st2 := create_tween()
+		st2.tween_property(_storm, "position", Vector3(0, 12, -2), 3.0).set_trans(Tween.TRANS_SINE)
+		await _wait(2.0)
+		for m in _storm.find_children("*", "MeshInstance3D", true, false):
+			var mi := m as MeshInstance3D
+			for i in mi.mesh.get_surface_count():
+				mi.set_surface_override_material(i, AbilityModels.mat(Color(1.0, 0.72, 0.88), 0.6, 0.5))
+		for p in _storm.find_children("*", "CPUParticles3D", true, false):
+			p.emitting = false
+		var rain := Node3D.new()
+		rain.set_script(load("res://scripts/entities/prop.gd"))
+		rain.kind = "rain"
+		rain.size = 0.4
+		rain.position = Vector3(0, 11, -2)
+		add_child(rain)
+		Sfx.play("secret")
+		await _wait(5.0)
+		_finish()
+		return
 	# Statik uzakta bir sonraki bölgeye kaçar
 	var st := create_tween()
 	st.tween_property(_storm, "position", Vector3(-90, 35, -140), 3.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
@@ -156,5 +179,7 @@ func _finish() -> void:
 		Scenes.go("res://scenes/ui/hub.tscn")
 		return
 	GameState.mark_seen("closing_ch%d" % GameState.chapter_of(GameState.data.get("area", "ch1_patron")))
+	if _final:
+		GameState.data["game_complete"] = true
 	GameState.save(true)
-	Scenes.go(NEXT)
+	Scenes.go("res://scenes/ui/credits.tscn" if _final else NEXT)
