@@ -4,6 +4,7 @@ extends Control
 ## Ölçüler 720 px yüksekliğe göre; ekran büyüdükçe orantılı büyür.
 
 signal pause_pressed
+signal tapped(pos: Vector2)   ## kısa dokunuş (kamera bölgesinde, kaydırmadan): Atölye'de nesne seçmek için
 
 @export_group("Joystick")
 @export var joy_radius := 105.0            ## px
@@ -39,6 +40,9 @@ var _joy_finger := -1
 var _joy_center := Vector2.ZERO
 var _joy_knob := Vector2.ZERO
 var _cam_finger := -1
+var _cam_start := Vector2.ZERO
+var _cam_start_t := 0
+var _cam_moved := 0.0
 var _jump_finger := -1
 var _ability_finger := -1
 var _pause_finger := -1
@@ -155,11 +159,17 @@ func _on_touch(e: InputEventScreenTouch) -> void:
 			Input.action_press("ability")
 		elif _joy_finger == -1 and _in_joy_zone(p):
 			_joy_finger = e.index
+			_cam_start = p
+			_cam_start_t = Time.get_ticks_msec()
+			_cam_moved = 0.0
 			_joy_center = p
 			_joy_knob = p
 			TouchInput.move_vector = Vector2.ZERO
 		elif _cam_finger == -1:
 			_cam_finger = e.index
+			_cam_start = p
+			_cam_start_t = Time.get_ticks_msec()
+			_cam_moved = 0.0
 		else:
 			return
 		get_viewport().set_input_as_handled()
@@ -177,13 +187,19 @@ func _on_touch(e: InputEventScreenTouch) -> void:
 		elif e.index == _joy_finger:
 			_joy_finger = -1
 			TouchInput.move_vector = Vector2.ZERO
+			if _cam_moved < 25.0 * _k() and Time.get_ticks_msec() - _cam_start_t < 400:
+				tapped.emit(p)
 		elif e.index == _cam_finger:
 			_cam_finger = -1
+			# Kısa ve kaydırmasız dokunuş = tıklama
+			if _cam_moved < 25.0 * _k() and Time.get_ticks_msec() - _cam_start_t < 400:
+				tapped.emit(p)
 	queue_redraw()
 
 
 func _on_drag(e: InputEventScreenDrag) -> void:
 	if e.index == _joy_finger:
+		_cam_moved += e.relative.length()
 		var r := joy_radius * _bs()
 		var off := e.position - _joy_center
 		if off.length() > r:
@@ -200,6 +216,7 @@ func _on_drag(e: InputEventScreenDrag) -> void:
 		queue_redraw()
 		get_viewport().set_input_as_handled()
 	elif e.index == _cam_finger:
+		_cam_moved += e.relative.length()
 		TouchInput.add_camera_drag(e.relative)
 		get_viewport().set_input_as_handled()
 

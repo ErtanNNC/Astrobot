@@ -46,6 +46,7 @@ func _ready() -> void:
 		bip.rotation.y = bip.facing_yaw
 	cam.snap_to_target()
 	touch.pause_pressed.connect(open_quick_menu)
+	touch.tapped.connect(_on_screen_tap)
 	_refresh_capsules()
 	_refresh_toybox()
 	_spawn_rescued_robots()
@@ -158,6 +159,12 @@ func _physics_process(_delta: float) -> void:
 
 func _process(delta: float) -> void:
 	_t += delta
+	# Yetenek tuşu/butonu: telefondaki buton giriş olayı üretmez, tuş durumunu her karede kontrol et
+	if _state == "hub" and _overlay == null and Input.is_action_just_pressed("ability"):
+		for m in get_tree().get_nodes_in_group("menu_object"):
+			if m.near:
+				_activate(m)
+				break
 	if _state == "title":
 		_tap_label.modulate.a = 0.55 + 0.45 * sin(_t * 2.2)
 		_idle += delta
@@ -180,19 +187,34 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		open_quick_menu()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ability"):
-		for m in get_tree().get_nodes_in_group("menu_object"):
-			if m.near:
-				_activate(m)
-				get_viewport().set_input_as_handled()
-				return
-	elif event is InputEventScreenTouch and event.pressed:
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT \
+			and not DisplayServer.is_touchscreen_available():
 		_tap_object(event.position)
+
+
+func _on_screen_tap(pos: Vector2) -> void:
+	if _state == "hub" and _overlay == null:
+		_tap_object(pos)
 
 
 ## Telefonda nesneye dokunmak: Bip'i oraya yürütmeye gerek kalmadan seçer.
 func _tap_object(screen_pos: Vector2) -> void:
 	var c: Camera3D = get_viewport().get_camera_3d()
+	# Önce görünen simgeye (ya da nesnenin kendisine) yakın dokunuş
+	var k := get_viewport().get_visible_rect().size.y / 720.0
+	var best: Node = null
+	var best_d := 110.0 * k
+	for m in get_tree().get_nodes_in_group("menu_object"):
+		for p in [m.icon_world_position(), m.global_position + Vector3.UP * 1.2]:
+			if c.is_position_behind(p):
+				continue
+			var d := c.unproject_position(p).distance_to(screen_pos)
+			if d < best_d:
+				best_d = d
+				best = m
+	if best:
+		_activate(best)
+		return
 	var from := c.project_ray_origin(screen_pos)
 	var to := from + c.project_ray_normal(screen_pos) * 60.0
 	var q := PhysicsRayQueryParameters3D.create(from, to, 8)

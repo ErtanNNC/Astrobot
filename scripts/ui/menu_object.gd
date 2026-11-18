@@ -133,6 +133,10 @@ func _build() -> void:
 	add_child(_icon)
 
 
+func icon_world_position() -> Vector3:
+	return _icon.global_position
+
+
 func set_hologram(text: String) -> void:
 	if _holo:
 		_holo.text = text
