@@ -30,8 +30,13 @@ func _ready() -> void:
 	_glow.omni_range = 4.0
 	_glow.position.y = 2.0
 	add_child(_glow)
-	body_entered.connect(func(b): if b is Bip: near = true)
-	body_exited.connect(func(b): if b is Bip: near = false)
+	body_entered.connect(_on_body.bind(true))
+	body_exited.connect(_on_body.bind(false))
+
+
+func _on_body(b: Node, v: bool) -> void:
+	if b is Bip:
+		near = v
 
 
 func _build() -> void:

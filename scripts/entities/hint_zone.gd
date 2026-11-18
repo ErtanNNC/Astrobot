@@ -20,12 +20,12 @@ func _ready() -> void:
 	cs.shape = b
 	cs.position.y = size.y / 2
 	add_child(cs)
-	body_entered.connect(func(b): _set_inside(b, true))
-	body_exited.connect(func(b): _set_inside(b, false))
+	body_entered.connect(_set_inside.bind(true))
+	body_exited.connect(_set_inside.bind(false))
 
 
 func _set_inside(b: Node, v: bool) -> void:
-	if b is Bip:
+	if b is Bip and is_inside_tree():
 		_inside = v
 		_time = 0.0
 		if not v:

@@ -10,6 +10,9 @@ func _ready() -> void:
 	for ch in GameState.CHAPTERS:
 		for a in GameState.CHAPTERS[ch]:
 			scenes.append(a["scene"])
+	if OS.has_environment("SOAK_ONLY"):
+		scenes = Array(OS.get_environment("SOAK_ONLY").split(","))
+	var frames := int(OS.get_environment("SOAK_FRAMES")) if OS.has_environment("SOAK_FRAMES") else 1200
 	for path in scenes:
 		GameState.data = GameState.new_data()
 		GameState.slot = -1
@@ -21,7 +24,7 @@ func _ready() -> void:
 		var bip = level.get_node_or_null("GameRig/Bip")
 		if level.has_method("start_boss"):
 			level.start_boss()
-		for t in 1200:
+		for t in frames:
 			await get_tree().physics_frame
 			if t % 20 == 0:
 				for a in ACTIONS:
