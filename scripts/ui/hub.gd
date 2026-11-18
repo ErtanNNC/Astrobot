@@ -147,6 +147,15 @@ func _enter_hub(_animated: bool) -> void:
 	anim.queue("RobotArmature|Robot_Idle")
 
 
+func _physics_process(_delta: float) -> void:
+	# Atölye'den düşülemez (ana menü edge case): duvarı aşan Bip başa döner
+	if bip and bip.global_position.y < -4.0:
+		var start := get_node_or_null("Start") as Node3D
+		bip.reset_state(start.global_position if start else Vector3(0, 0.4, 0))
+		cam.snap_to_target()
+		Sfx.play("fall", -6.0)
+
+
 func _process(delta: float) -> void:
 	_t += delta
 	if _state == "title":
