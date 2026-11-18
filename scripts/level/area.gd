@@ -166,6 +166,7 @@ func boss_phase(p: int) -> void:
 
 func boss_defeated(cell_pos: Vector3) -> void:
 	var cell := load("res://scripts/entities/core_cell.gd").new() as Node3D
+	cell.cell_id = "ch%d" % GameState.chapter_of(area_id)
 	add_child(cell)
 	cell.global_position = cell_pos
 
