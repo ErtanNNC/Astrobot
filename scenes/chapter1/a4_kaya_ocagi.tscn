@@ -367,7 +367,7 @@ kind = "lamp"
 size = 1
 
 [node name="Kutu_16" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 0.847998, 0.529999, 0, -0.529999, 0.847998, 0, -2.6696, -46)
+transform = Transform3D(1, 0, 0, 0, 0.847998, -0.529999, 0, 0.529999, 0.847998, 0, -2.6696, -46)
 use_collision = true
 size = Vector3(7, 0.4, 9.43398)
 material = SubResource("m_quarry")
@@ -549,7 +549,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.2, -92)
 script = ExtResource("e2")
 
 [node name="Kutu_29" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 0.847998, 0.529999, 0, -0.529999, 0.847998, 0, -2.6696, -98)
+transform = Transform3D(1, 0, 0, 0, 0.847998, -0.529999, 0, 0.529999, 0.847998, 0, -2.6696, -98)
 use_collision = true
 size = Vector3(12, 0.4, 9.43398)
 material = SubResource("m_sand")

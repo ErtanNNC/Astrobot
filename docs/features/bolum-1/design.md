@@ -62,4 +62,5 @@ Her alanda bir **Altın Vida** (toplam 5), ana yoldan sapan ve alanın yeteneği
 - Bölüm sonunda zaman/pil derecelendirmesi (yıldız) olsun mu? Şimdilik hayır.
 
 ## History
+- 2026-11-18: Kaya Ocağı'nda mağara çıkışı ve havuz çıkışı rampaları ters eğimliydi (oyuncu çatlak zemini kırdıktan sonra uçurum kenarına geliyordu); düzeltildi, test eklendi.
 - 2026-11-18: tasarlandı.

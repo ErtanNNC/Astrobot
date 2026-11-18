@@ -159,6 +159,9 @@ class Level:
         """base yüksekliğinden başlayıp yerel -Z yönünde 'rise' kadar yükselen rampa."""
         a = math.atan2(rise, length)
         L = math.hypot(length, rise)
+        # tf() eğimi ry=0'da ters yazıyordu (ry=π'de doğru çıkıyor): yönü Godot'ta ölçülerek düzeltildi
+        if math.cos(ry) > 0:
+            a = -a
         return self.box(cx, base + rise / 2 - 0.2 * math.cos(a), cz, width, 0.4, L, theme, rx=a, ry=ry)
 
     # ---- Varlıklar ----

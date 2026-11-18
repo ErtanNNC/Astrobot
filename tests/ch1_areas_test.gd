@@ -184,12 +184,22 @@ func _test_kaya() -> void:
 	Input.action_press("ability"); await step(2); Input.action_release("ability")
 	await step(90)
 	check("Çakılma çatlak zemini kırdı", bip.global_position.y < -4.0, str(bip.global_position))
+	# Mağaradan rampayla meydana çıkış (rampa ters eğimliydi: oyuncu boşluğa düşüyordu)
+	Input.action_press("move_forward"); await step(480); Input.action_release("move_forward")
+	check("Mağaradan rampayla meydana çıktı", bip.global_position.y > -0.3 and bip.global_position.z < -51.0, str(bip.global_position))
 	# Su: Kaya batar ve duvarın altından geçer
 	await place(Vector3(0, 0.3, -82.5), PI, "kaya")
 	await step(90)
 	check("Kaya suda dibe battı", bip.global_position.y < -4.5, str(bip.global_position))
 	Input.action_press("move_forward"); await step(150); Input.action_release("move_forward")
 	check("Su altından bölmeyi geçti", bip.global_position.z < -91.0, str(bip.global_position))
+	Input.action_press("move_forward")
+	for i in 300:
+		await step(1)
+		if bip.global_position.y > -0.3 and bip.global_position.z < -102.0:
+			break
+	Input.action_release("move_forward")
+	check("Havuzdan rampayla çıktı", bip.global_position.y > -0.3 and bip.global_position.z < -102.0, str(bip.global_position))
 	# Kayasız yüzer, bölmeyi geçemez
 	await place(Vector3(0, 0.3, -82.5), PI, "")
 	Input.action_press("move_forward"); await step(150); Input.action_release("move_forward")
