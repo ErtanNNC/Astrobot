@@ -11,6 +11,24 @@ extends Node3D
 @export var cam_distance := 0.0  ## 0 = varsayılan (kamera dokümanı); patron gibi geniş alanlarda büyütülür
 @export var cam_pitch := 0.0
 
+## Alan müzikleri (hepsi CC0, bkz. CREDITS.md). Burada olan, sahnedeki ayarın önüne geçer.
+const AREA_MUSIC := {
+	"ch1_atolye": "res://assets/audio/opengameart/happy_adventure_loop.mp3",
+	"ch1_yay": "res://assets/audio/opengameart/happy_clappy_loop.mp3",
+	"ch1_balon": "res://assets/audio/opengameart/superhero.ogg",
+	"ch1_miknatis": "res://assets/audio/opengameart/mechanical_complex.ogg",
+	"ch1_kaya": "res://assets/audio/opengameart/fasttheme.ogg",
+	"ch1_patron": "res://assets/audio/opengameart/lsc_boss.ogg",
+	"ch2_rihtim": "res://assets/audio/opengameart/pacific_ocean.ogg",
+	"ch2_fener": "res://assets/audio/opengameart/lsc_ingame.ogg",
+	"ch2_gemi": "res://assets/audio/opengameart/superhero.ogg",
+	"ch2_patron": "res://assets/audio/opengameart/lsc_boss.ogg",
+	"ch3_magara": "res://assets/audio/opengameart/snow_theme_loop.ogg",
+	"ch3_gol": "res://assets/audio/opengameart/village_of_snow.ogg",
+	"ch3_zirve": "res://assets/audio/opengameart/fasttheme.ogg",
+	"ch3_patron": "res://assets/audio/opengameart/lsc_boss.ogg",
+}
+
 var area_total := 0
 var bip: Bip
 var cam
@@ -61,6 +79,8 @@ func _ready() -> void:
 	GameState.refill_lives()
 	_place_bip()
 	hud.visible = not safe or GameState.data.get("seen_cutscenes", []).has("health_shown")
+	if AREA_MUSIC.has(area_id) and ResourceLoader.exists(AREA_MUSIC[area_id]):
+		music = load(AREA_MUSIC[area_id])
 	if music:
 		var mp: AudioStreamPlayer = rig.get_node("Music")
 		mp.stream = music
@@ -149,7 +169,7 @@ func start_boss() -> void:
 		cam.look_toward(boss.global_position + Vector3.UP * 8.0, 2.5)
 		hud.banner("Hurdacı Vinç", "", 1.8)
 		var mp: AudioStreamPlayer = $GameRig/Music
-		mp.pitch_scale = 1.12
+		mp.volume_db = 2.0
 
 
 func boss_event(what: String) -> void:

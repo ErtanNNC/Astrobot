@@ -9,6 +9,16 @@ Yine de teşekkür olarak burada ve ileride oyunun "Emeği Geçenler" ekranında
 | `assets/models/quaternius/platformer/*.gltf` (ağaç, çalı, çimen, kaya, bulut, bayrak, ok, bitki) | https://quaternius.itch.io/ultimate-platformer-pack ("Ultimate Platformer Pack") | Quaternius | CC0 1.0 | 2026-11-18 |
 | `assets/audio/kenney/jump.ogg`, `land.ogg`, `fall.ogg`, `walking.ogg` | https://github.com/KenneyNL/Starter-Kit-3D-Platformer (`sounds/`) | Kenney (kenney.nl) | CC0 1.0 | 2026-11-18 |
 | `assets/audio/opengameart/happy_clappy_loop.mp3` (müzik) | https://opengameart.org/content/happy-clappy-loop ("Happy Clappy Loop") | owlishmedia | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/happy_adventure_loop.mp3` (müzik: öğretici, Atölye) | https://opengameart.org/content/happy-adventure-loop | tinyworlds | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/superhero.ogg` (müzik) | https://opengameart.org/content/adventure-theme | cleytonkauffman | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/mechanical_complex.ogg` (müzik) | https://opengameart.org/content/8-bit-mechanical-complex | hydrogene | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/fasttheme.ogg` (müzik) | https://opengameart.org/content/upbeat-chiptune-theme | nihilocrat | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/lsc_boss.ogg`, `lsc_ingame.ogg` (müzik) | https://opengameart.org/content/platformer-music | mopz | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/pacific_ocean.ogg` (müzik) | https://opengameart.org/content/pacific-ocean | josepharaoh99 | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/snow_theme_loop.ogg` (müzik) | https://opengameart.org/content/snow-theme | cleytonkauffman | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/village_of_snow.ogg` (müzik) | https://opengameart.org/content/village-of-snow | zesona | CC0 1.0 | 2026-11-18 |
+| `assets/audio/kenney/*` (efektler: Digital SFX, Interface Sounds, Jingles, Starter Kit sesleri) | https://opengameart.org/users/kenney , https://github.com/KenneyNL/Starter-Kit-3D-Platformer | Kenney (kenney.nl) | CC0 1.0 | 2026-11-18 |
+| `assets/models/quaternius/enemies/*.gltf` (Vidaböcek, Zıpzıp, Hurda Goblin, Pırıl) ve platformer paketinden ek modeller (Bouncer, Spikes, Saw, Crate, Gem, Door, Lever, Tower …) | https://quaternius.itch.io/ultimate-platformer-pack | Quaternius | CC0 1.0 | 2026-11-18 |
 
 Lisans metinleri ilgili klasörlerdeki `License.txt` dosyalarında.
 
