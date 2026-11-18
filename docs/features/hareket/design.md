@@ -52,6 +52,10 @@ Yerçekimi ve zıplama hızı, yükseklik ve süreden hesaplanır: `g = 2h / t²
 - Bip'in görünüşü Quaternius "Animated Robot" modeli (0,2 ölçek → 1,0 m). Animasyonlar: durma, yürüme, koşu (hıza göre), zıplama; 6 sn hareketsiz kalınca el sallar. Çarpışma şekli değişmedi (0,35 m yarıçaplı, 1 m kapsül).
 - Hesap: tam koşuyla zıplamada havada kalma ~0,66 s, yatay menzil ~4,6 m. Test alanında 2 m rahat, 3 m orta, 4 m zor.
 
+## Ek (2026-11-18)
+- Bip'in altında her zaman yuvarlak bir iniş gölgesi var (`bip_visuals.gd`): havadayken nereye ineceğini gösterir, yükseldikçe küçülür ve silikleşir (telefonda derinlik algısı için).
+- Hızlı koşarken ayaklardan küçük toz bulutları çıkar.
+
 ## History
 - 2026-11-18: tasarlandı.
 - 2026-11-18: görsel sürüm: robot modeli, animasyonlar, sesler eklendi; sayılar değişmedi.

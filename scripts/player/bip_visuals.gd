@@ -31,6 +31,8 @@ var _tip_mat: StandardMaterial3D
 var _beam: MeshInstance3D
 var _tip: Node3D
 var _dust_t := 0.0
+var _blob: MeshInstance3D
+var _blob_mat: StandardMaterial3D
 var _t := 0.0
 
 
@@ -51,6 +53,7 @@ func _ready() -> void:
 	($Antenna/Tip as MeshInstance3D).material_override = _tip_mat
 	_attach_antenna.call_deferred()
 	_apply_ability.call_deferred(GameState.ability)
+	_make_blob_shadow()
 
 
 func _process(delta: float) -> void:
@@ -176,7 +179,53 @@ func _apply_ability(a: String) -> void:
 	_tip_mat.albedo_color = c if a != "" else Color(0.4, 0.95, 1.0)
 
 
+## Yuvarlak iniş gölgesi: Bip'in tam altında, havadayken nereye ineceğini gösterir.
+func _make_blob_shadow() -> void:
+	var g := Gradient.new()
+	g.set_color(0, Color(0, 0, 0, 0.55))
+	g.set_color(1, Color(0, 0, 0, 0))
+	var tex := GradientTexture2D.new()
+	tex.gradient = g
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1.0, 0.5)
+	tex.width = 64
+	tex.height = 64
+	_blob_mat = StandardMaterial3D.new()
+	_blob_mat.albedo_texture = tex
+	_blob_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_blob_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_blob_mat.render_priority = 1
+	var q := QuadMesh.new()
+	q.size = Vector2(1.0, 1.0)
+	q.orientation = PlaneMesh.FACE_Y
+	_blob = MeshInstance3D.new()
+	_blob.mesh = q
+	_blob.material_override = _blob_mat
+	_blob.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_blob.top_level = true
+	add_child(_blob)
+
+
+func _update_blob() -> void:
+	if not _blob or not bip.is_inside_tree():
+		return
+	var from := bip.global_position + Vector3.UP * 0.4
+	var q := PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 40.0, 1, [bip.get_rid()])
+	var hit := bip.get_world_3d().direct_space_state.intersect_ray(q)
+	if hit.is_empty():
+		_blob.visible = false
+		return
+	var h: float = bip.global_position.y - hit.position.y
+	_blob.visible = true
+	_blob.global_position = hit.position + hit.normal * 0.03
+	var s := clampf(1.1 - h * 0.04, 0.45, 1.1)
+	_blob.scale = Vector3(s, 1, s)
+	_blob_mat.albedo_color = Color(1, 1, 1, clampf(1.0 - h * 0.05, 0.35, 1.0))
+
+
 func _update_effects(delta: float) -> void:
+	_update_blob()
 	# Anten ışığı: kopyalanabilir nesne yakınsa hızlı yanıp söner (kopyalama kural 1)
 	var near: bool = bip.best_source() != null
 	_tip_mat.emission_energy_multiplier = (2.5 + 2.5 * (0.5 + 0.5 * sin(_t * 14.0))) if near else 2.5
