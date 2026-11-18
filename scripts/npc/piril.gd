@@ -179,4 +179,18 @@ func show_hint(kind: String, at: Vector3) -> void:
 			ring.inner_radius = 0.14
 			ring.outer_radius = 0.2
 			_icon.add_child(AbilityModels.mesh_node(ring, white, Vector3(0, 0, 0.04), Vector3(PI / 2, 0, 0)))
+	# Klavye / oyun kolu: tuşun adı simgenin altında
+	var names := {
+		"keyboard": {"jump": "Boşluk", "hold_jump": "Boşluk (basılı)", "ability": "E", "look": "Fare / oklar", "move": "WASD"},
+		"gamepad": {"jump": "A", "hold_jump": "A (basılı)", "ability": "X", "look": "Sağ çubuk", "move": "Sol çubuk"},
+	}
+	var dev: String = TouchInput.last_device
+	if names.has(dev):
+		var l := Label3D.new()
+		l.text = names[dev].get(kind, "")
+		l.font_size = 40
+		l.outline_size = 10
+		l.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		l.position = Vector3(0, -0.55, 0)
+		_icon.add_child(l)
 	Sfx.play("select", -10.0)
