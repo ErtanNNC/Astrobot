@@ -43,6 +43,7 @@ var _deaths_here := 0   ## aynı kontrol noktasından sonra kaç kez ölündü (
 
 func _ready() -> void:
 	var rig := $GameRig
+	Settings.apply_graphics.call_deferred()
 	bip = rig.get_node("Bip")
 	cam = rig.get_node("FollowCamera")
 	hud = rig.get_node("UI/HUD")

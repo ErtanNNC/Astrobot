@@ -68,6 +68,8 @@ func _ready() -> void:
 	_row("sfx_on", "Efekt sesleri")
 	_row("hints_on", "Pırıl ipuçları")
 	_row("shake_on", "Ekran sarsıntısı")
+	_row("quality", "Görüntü kalitesi")
+	_row("shadows_on", "Gölgeler")
 	_button(_settings, "Geri", _show_main, Color(0.3, 0.75, 0.4))
 	_settings.visible = false
 	_refresh()
@@ -165,8 +167,8 @@ func _row(key: String, label: String) -> void:
 
 
 func _toggle(key: String) -> void:
-	if key == "button_size":
-		Settings.set_value(key, (Settings.button_size + 1) % 3)
+	if key == "button_size" or key == "quality":
+		Settings.set_value(key, (Settings.get(key) + 1) % 3)
 	else:
 		Settings.set_value(key, not Settings.get(key))
 	_refresh()
@@ -178,6 +180,8 @@ func _refresh() -> void:
 		var value: String
 		if key == "button_size":
 			value = ["Küçük", "Orta", "Büyük"][Settings.button_size]
+		elif key == "quality":
+			value = ["Düşük", "Orta", "Yüksek"][Settings.quality]
 		else:
 			value = "Açık" if Settings.get(key) else "Kapalı"
 		b.text = "%s:  %s" % [_rows[key][1], value]
