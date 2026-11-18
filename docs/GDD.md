@@ -55,11 +55,11 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Bölüm 4 | implemented | later | Fırtınanın Gözü: 2 alan + Statik (ikna edilir); final ve Emeği Geçenler | [design](features/bolum-4/design.md) |
 
 ## Milestones
-1. **M1, greybox hareket + kamera:** hareket, kamera; basit küplerden bir test alanı · bitti sayılır: PC'de 2 m'lik bir boşluk ve 1,5 m'lik bir basamak ilk denemede rahatça aşılıyor.
-2. **M2, kopyalama çekirdeği:** kopyalama (önce yalnızca Yay), can ve hasar · bitti sayılır: Yay olmadan ulaşılamayan bir platforma Yay kopyalanarak çıkılıyor, hasar alınca yetenek kayboluyor.
-3. **M3, dört yetenek + Bölüm 1 greybox:** Balon, Mıknatıs, Kaya; öğretici dahil 5 alan; toplanabilirler; düşmanlar · bitti sayılır: Bölüm 1 baştan sona greybox halinde oynanabiliyor.
-4. **M4, telefon + menü + kayıt:** mobil kontroller, ana menü, ayarlar, kayıt, Android çıktısı · bitti sayılır: oyun telefonda kapatılıp açılınca son kontrol noktasından devam ediyor ve Bölüm 1 yalnızca dokunmatikle bitirilebiliyor.
-5. **M5, cila + hikaye:** Kenney/Quaternius asset'leri, ses, efektler, açılış/kapanış sahneleri, patron · bitti sayılır: ilk kez oynayan biri öğreticiyi yazı okumadan 6 dakikada bitirebiliyor.
+1. ✅ **M1, greybox hareket + kamera:** hareket, kamera; basit küplerden bir test alanı · bitti sayılır: PC'de 2 m'lik bir boşluk ve 1,5 m'lik bir basamak ilk denemede rahatça aşılıyor.
+2. ✅ **M2, kopyalama çekirdeği:** kopyalama (önce yalnızca Yay), can ve hasar · bitti sayılır: Yay olmadan ulaşılamayan bir platforma Yay kopyalanarak çıkılıyor, hasar alınca yetenek kayboluyor.
+3. ✅ **M3, dört yetenek + Bölüm 1 greybox:** Balon, Mıknatıs, Kaya; öğretici dahil 5 alan; toplanabilirler; düşmanlar · bitti sayılır: Bölüm 1 baştan sona greybox halinde oynanabiliyor.
+4. 🟡 **M4, telefon + menü + kayıt:** (gerçek telefonda test bekliyor) mobil kontroller, ana menü, ayarlar, kayıt, Android çıktısı · bitti sayılır: oyun telefonda kapatılıp açılınca son kontrol noktasından devam ediyor ve Bölüm 1 yalnızca dokunmatikle bitirilebiliyor.
+5. 🟡 **M5, cila + hikaye:** (sahneler, sesler, patronlar yapıldı; yazısız ilk oynayış testi bekliyor) Kenney/Quaternius asset'leri, ses, efektler, açılış/kapanış sahneleri, patron · bitti sayılır: ilk kez oynayan biri öğreticiyi yazı okumadan 6 dakikada bitirebiliyor.
 
 ## Direction
 - **Sanat:** renkli low-poly, yumuşak ışık, sade dokular. Tehlikeli şeyler kırmızı/turuncu ve sivri; güvenli ve kopyalanabilir şeyler belirgin bir parıltıyla işaretli. Asset kaynakları ve lisans kuralları: `CLAUDE.md`.

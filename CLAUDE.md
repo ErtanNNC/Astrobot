@@ -18,6 +18,17 @@
 - **APK'lar güncellenebilir olmalı:** her APK `tools/android/build_apk.sh` ile, aynı anahtarla ve artan sürüm koduyla üretilir; yeni sürüm telefondaki eskinin üstüne kurulur.
 - **Bu çalışma ortamında erişilebilen kaynaklar:** quaternius.com ve quaternius.itch.io, kaylousberg.itch.io, opengameart.org, Kenney'nin GitHub'ı (github.com/KenneyNL). kenney.nl, Poly Haven, ambientCG, Freesound, Poly Pizza erişilemiyor.
 
+## Proje durumu ve mimari (2026-11-18)
+- **Oyun:** giriş + Atölye ana menüsü, 4 bölüm (14 alan + 4 patron), açılış/kapanış/final, Emeği Geçenler, 6 yetenek (Yay, Balon, Mıknatıs, Kaya, Pervane, Buz), kurtarılacak robotlar, 3 kayıt yuvası.
+- **Autoload'lar:** `GameState` (kayıt, can, yetenek, bölüm listesi `CHAPTERS`), `Settings`, `Sfx`, `Fx`, `Scenes` (geçiş), `TouchInput`, `Haptics`.
+- **Oyuncu:** `scripts/player/bip.gd` (hareket + tüm yetenekler, sayılar `@export`), `bip_visuals.gd` (animasyon, ses, renk, iniş gölgesi).
+- **Seviyeler** Python üreticilerle yazılır: `tools/level/lvl.py` kütüphanesi + her alan için `tools/level/chN_*.py` → `scenes/chapterN/*.tscn`. Bir alanı değiştirmek için betiği düzenle ve `python3 tools/level/<betik>.py` çalıştır; sahneyi editörde elle düzenlediysen betiği bir daha çalıştırma.
+- **Her alanın kökü** `scripts/level/area.gd` (kontrol noktası, düşme, alan sonu, patron kancaları); ortak oyun düzeneği `scenes/common/game_rig.tscn` (Bip, kamera, Pırıl, HUD, dokunmatik, duraklatma).
+- **Varlıklar** `scripts/entities/` (pil, vida, kontrol noktası, düşman, tuzak, rüzgâr, metal, çatlak, buton, kapı, su, platformlar...), patronlar `scripts/boss/`.
+- **Testler** (`godot --headless --path . tests/<ad>.tscn`): `compile_check`, `m2_test`, `abilities_test`, `boss_test`, `ch1_areas_test`, `ch2_test`, `ch3_test`, `ch4_test`, `chapter_flow_test` (dört bölüm + final), `soak_test` (rastgele girdi; çıktıda ERROR olmamalı). Bir değişiklikten sonra hepsini çalıştır.
+- **Çarpışma katmanları:** 1 = dünya (zemin, duvar, metal), 2 = küçük süsler/sandıklar (Bip çarpar, kamera kolu çarpmaz), 4 = düşmanlar, 8 = Atölye menü nesneleri (dokunma ışını).
+- **Bu ortamda Godot:** Godot 4.7.2 ve şablonlar oturum geçici klasöründe; yoksa github.com/godotengine/godot/releases'ten indir. Android SDK indirilemiyor; `tools/android/build_apk.sh` yer tutucu SDK ile imzasız APK alıp `ApkSign.java` ile imzalar.
+
 ## Ücretsiz asset kaynakları
 Öncelik sırası: önce CC0 (ücretsiz, ticari kullanım serbest, isim vermek zorunlu değil) kaynaklar. Godot için 3D modellerde GLB/glTF formatını tercih et.
 
