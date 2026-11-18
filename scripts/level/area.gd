@@ -258,6 +258,11 @@ func open_pause() -> void:
 
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		# Android geri tuşu oyunu kapatmaz, duraklatır
+		if not pause_menu.visible:
+			open_pause()
+		return
 	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_APPLICATION_FOCUS_OUT:
 		if is_inside_tree() and OS.has_feature("mobile"):
 			GameState.save(true)

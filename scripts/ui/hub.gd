@@ -446,6 +446,14 @@ func _focus_first(v: Node) -> void:
 			return
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if _overlay:
+			_close_overlay()
+		elif _state == "hub":
+			open_quick_menu()
+
+
 func _input(event: InputEvent) -> void:
 	if _overlay and event.is_action_pressed("ui_cancel"):
 		_close_overlay()
