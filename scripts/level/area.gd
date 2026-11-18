@@ -158,6 +158,7 @@ func _place_bip() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	_update_goals(_delta)
 	if bip.global_position.y < kill_height and not _completing:
 		_fall()
 
@@ -237,7 +238,7 @@ func start_boss() -> void:
 	if boss:
 		boss.start_fight()
 		cam.look_toward(boss.global_position + Vector3.UP * 8.0, 2.5)
-		hud.banner(boss.get("boss_name") if boss.get("boss_name") else "Hurdacı Vinç", "", 1.8)
+		hud.banner(boss.get("boss_name") if boss.get("boss_name") else "Hurdacı Vinç", _phase_hint(boss, 1), 4.0)
 		var mp: AudioStreamPlayer = $GameRig/Music
 		mp.volume_db = 2.0
 
@@ -250,7 +251,9 @@ func boss_event(what: String) -> void:
 
 func boss_phase(p: int) -> void:
 	# Her aşama başında kontrol noktası: o aşamadan devam edilir
-	hud.banner("Aşama %d" % p, "", 1.2)
+	var boss := get_tree().get_first_node_in_group("boss")
+	hud.banner("Aşama %d" % p, _phase_hint(boss, p), 4.5)
+	_goal_t = 0.0
 	GameState.data["checkpoint_ability"] = GameState.ability
 
 
@@ -353,3 +356,118 @@ func _announce_moves() -> void:
 		hud.banner("Yeni hareket: " + GameState.MOVES[m]["name"], info, 3.5)
 		Sfx.play("secret", -4.0)
 		await get_tree().create_timer(4.5, false).timeout
+
+
+
+# ---------- Patron aşaması: ne yapılacağı (yazı + hedef okları) ----------
+
+var _goal_markers := {}   # hedef düğüm → [ok, yükseklik farkı]
+var _goal_t := 0.0
+
+
+func _phase_hint(boss: Node, p: int) -> String:
+	if boss == null:
+		return ""
+	var hints = boss.get("PHASE_HINTS")
+	if hints is Array and p >= 1 and p <= hints.size():
+		return hints[p - 1]
+	return ""
+
+
+## Sıradaki hedefin üstünde zıplayan sarı ok. Gereken yetenek yoksa önce o yeteneğin kaynağı gösterilir.
+func _update_goals(delta: float) -> void:
+	_goal_t -= delta
+	var boss := get_tree().get_first_node_in_group("boss")
+	var bp: int = int(boss.get("phase")) if boss and boss.get("phase") != null else 0
+	if _goal_t <= 0.0:
+		_goal_t = 0.3
+		var goals: Array = []
+		if boss and bp >= 1 and bp <= 3 and boss.has_method("goal_nodes"):
+			var src: Node3D = null
+			var best := INF
+			for n in get_tree().get_nodes_in_group("boss_phase"):
+				if not (n is Node3D) or int(n.get_meta("phase", 0)) != bp or not n.is_visible_in_tree():
+					continue
+				if "ability" in n and n.ability != GameState.ability:
+					var d: float = n.global_position.distance_to(bip.global_position)
+					if d < best:
+						best = d
+						src = n
+				elif n.get("method_name") == "boss_event":
+					goals.append(n)
+			if src and not _ability_on_hand(bp, boss):
+				goals.append(src)
+			goals += boss.goal_nodes()
+		for g in _goal_markers.keys():
+			if not is_instance_valid(g) or not goals.has(g):
+				if is_instance_valid(_goal_markers[g][0]):
+					_goal_markers[g][0].queue_free()
+				_goal_markers.erase(g)
+		for g in goals:
+			if is_instance_valid(g) and not _goal_markers.has(g):
+				_goal_markers[g] = [_make_goal_marker(), _top_offset(g)]
+	var t := Time.get_ticks_msec() / 1000.0
+	for g in _goal_markers:
+		var m: Node3D = _goal_markers[g][0]
+		if is_instance_valid(g) and is_instance_valid(m):
+			m.global_position = (g as Node3D).global_position + Vector3.UP * (_goal_markers[g][1] + 0.35 * sin(t * 4.0))
+			m.rotation.y = t * 2.0
+
+
+## Bu aşamada gereken yeteneklerden biri Bip'te varsa kaynağı göstermeye gerek yok.
+func _ability_on_hand(p: int, _boss: Node) -> bool:
+	for n in get_tree().get_nodes_in_group("boss_phase"):
+		if int(n.get_meta("phase", 0)) == p and "ability" in n and n.ability == GameState.ability:
+			return true
+	return false
+
+
+func _top_offset(n: Node3D) -> float:
+	var top := -INF
+	for mi in n.find_children("*", "VisualInstance3D", true, false):
+		var vi := mi as VisualInstance3D
+		var ab: AABB = vi.global_transform * vi.get_aabb()
+		top = maxf(top, ab.end.y)
+	if top == -INF:
+		return 2.2
+	return clampf(top - n.global_position.y, 0.5, 14.0) + 1.3
+
+
+func _make_goal_marker() -> Node3D:
+	var root := Node3D.new()
+	var cone := MeshInstance3D.new()
+	var cm := CylinderMesh.new()
+	cm.top_radius = 0.45
+	cm.bottom_radius = 0.0
+	cm.height = 0.8
+	cm.radial_segments = 4
+	cm.rings = 1
+	cone.mesh = cm
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.albedo_color = Color(1.0, 0.85, 0.15)
+	mat.no_depth_test = true          # duvarın arkasında da görünsün
+	mat.render_priority = 10
+	cm.material = mat
+	cone.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(cone)
+	var edge := MeshInstance3D.new()
+	var em := CylinderMesh.new()
+	em.top_radius = 0.6
+	em.bottom_radius = 0.0
+	em.height = 1.05
+	em.radial_segments = 4
+	em.rings = 1
+	var emat := StandardMaterial3D.new()
+	emat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	emat.albedo_color = Color(0.45, 0.2, 0.05)
+	emat.no_depth_test = true
+	emat.render_priority = 9
+	em.material = emat
+	edge.mesh = em
+	edge.position.y = 0.05
+	edge.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(edge)
+	root.scale = Vector3.ONE * 1.5
+	add_child(root)
+	return root

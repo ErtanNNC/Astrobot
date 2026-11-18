@@ -15,6 +15,12 @@ signal defeated
 const HOVER := [6.5, 6.5, 13.0, 3.5, 3.5]   ## aşamaya göre bulutun merkez yüksekliği
 const CROWN_SIZE := Vector3(3.0, 0.8, 3.0)
 
+const PHASE_HINTS := [
+	"Yıldırım halkalarından kaç; Kaya ile üç paratoner direğine çakıl!",
+	"Pervane ve Balon ile bulutlardan Statik'e çık, sırtındaki şaltere dokun!",
+	"Mıknatısla Statik'in tacına çekil, tacın üstünde Yetenek tuşuyla enerji ver!",
+]
+
 var phase := 0
 var _t := 0.0
 var _strike_timer := 2.0
@@ -277,3 +283,13 @@ func _defeat() -> void:
 	var lvl := get_tree().current_scene
 	if lvl and lvl.has_method("boss_defeated"):
 		lvl.boss_defeated(global_position + Vector3(0, 1.0, 6.0))
+
+
+## Sıradaki hedef(ler): alan yöneticisi üstlerine ok koyar.
+func goal_nodes() -> Array:
+	match phase:
+		1:
+			return get_tree().get_nodes_in_group("boss_rod").filter(func(x): return is_instance_valid(x) and not x.is_queued_for_deletion())
+		3:
+			return [_crown]
+	return []

@@ -38,5 +38,6 @@ Hazır model yok: üst üste üç kar topu (küre), kayadan kollar (Quaternius k
 - Bilinen: suyun içinden 2,15 m kıyıya çıkış duvara 1,4 m yakından zıplanırsa olur; çığ bölümünde yan duvar dibi güvenli şerit.
 
 ## History
+- 2026-11-18: Patron aşamalarının başında ne yapılacağı yazıyla söylenir (patron betiğinde `PHASE_HINTS`); sıradaki hedefin ve gereken yeteneğin kaynağının üstünde sarı ok durur (`goal_nodes()`, `area.gd`). Geliştirici Paslı Kaptan 2. aşamada ne yapacağını bulamadı.
 - 2026-11-18: tasarlandı ve Buz yeteneği uygulandı.
 - 2026-11-18: 3 alan ve Kardan Dev uygulandı.

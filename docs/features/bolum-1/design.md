@@ -62,5 +62,6 @@ Her alanda bir **Altın Vida** (toplam 5), ana yoldan sapan ve alanın yeteneği
 - Bölüm sonunda zaman/pil derecelendirmesi (yıldız) olsun mu? Şimdilik hayır.
 
 ## History
+- 2026-11-18: Patron aşamalarının başında ne yapılacağı yazıyla söylenir (patron betiğinde `PHASE_HINTS`); sıradaki hedefin ve gereken yeteneğin kaynağının üstünde sarı ok durur (`goal_nodes()`, `area.gd`). Geliştirici Paslı Kaptan 2. aşamada ne yapacağını bulamadı.
 - 2026-11-18: Kaya Ocağı'nda mağara çıkışı ve havuz çıkışı rampaları ters eğimliydi (oyuncu çatlak zemini kırdıktan sonra uçurum kenarına geliyordu); düzeltildi, test eklendi.
 - 2026-11-18: tasarlandı.

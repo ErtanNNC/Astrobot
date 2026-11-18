@@ -17,6 +17,12 @@ const FIST_TOP := 3.2                  ## yumruk üstü yüksekliği (m): buz k�
 const HEAD_Y := 9.3                    ## baş merkezinin yüksekliği
 const HEAD_R := 1.4
 
+const PHASE_HINTS := [
+	"Zıpzıpları Buz ile dondur; buz bloklarına basıp devin yumruğuna çık!",
+	"Buz'u kopyala, gölün üstünde yürüyüp adadaki şalteri indir!",
+	"Pervane ile devin başının üstüne yüksel, Kaya ile başına çakıl!",
+]
+
 var phase := 0          # 0 giriş, 1, 2, 3, 4 = yenildi
 var _t := 0.0
 var _throw_timer := 2.0
@@ -278,3 +284,13 @@ func _defeat() -> void:
 	var lvl := get_tree().current_scene
 	if lvl and lvl.has_method("boss_defeated"):
 		lvl.boss_defeated(global_position + Vector3(0, 1.2, 3.5))
+
+
+## Sıradaki hedef(ler): alan yöneticisi üstlerine ok koyar.
+func goal_nodes() -> Array:
+	match phase:
+		1:
+			return [_fist_area]
+		3:
+			return [_head]
+	return []

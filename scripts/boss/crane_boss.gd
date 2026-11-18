@@ -12,6 +12,12 @@ signal defeated
 @export var hook_low_y := 3.6        ## kancanın inip beklediği yükseklik (plaka üstü), Yay ile ulaşılır
 @export var scrap_interval := 1.6    ## s
 
+const PHASE_HINTS := [
+	"Yay'ı kopyala; kanca yere inince üstüne zıpla!",
+	"Balon'u kopyala, rüzgârla süzülüp sağdaki şaltere ulaş!",
+	"Mıknatısla metal bloklardan tepeye çık, Kaya ile kabinin çatısına çakıl!",
+]
+
 var phase := 0          # 0 giriş, 1, 2, 3, 4 = yenildi
 var _t := 0.0
 var _boom: Node3D
@@ -313,3 +319,13 @@ func _defeat() -> void:
 	var lvl := get_tree().current_scene
 	if lvl and lvl.has_method("boss_defeated"):
 		lvl.boss_defeated(_hook.global_position + Vector3(0, 1.0, 0))
+
+
+## Sıradaki hedef(ler): alan yöneticisi üstlerine ok koyar.
+func goal_nodes() -> Array:
+	match phase:
+		1:
+			return [_hook]
+		3:
+			return [_cabin]
+	return []

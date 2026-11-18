@@ -14,6 +14,12 @@ signal defeated
 @export var sweep_radius := 10.0       ## çapa kolunun uzunluğu
 @export var sweep_speed := 1.1         ## rad/s (aşama 1)
 
+const PHASE_HINTS := [
+	"Pervane'yi kopyala, direğin tepesindeki gözcü yerine uç!",
+	"Kaya'yı kopyala, güverteye düşen 3 sandığı kır (üstüne zıpla ya da çakıl)!",
+	"Mıknatısla kaptanın şapkasına çekil, tepedeki Kaya ile şapkaya çakıl!",
+]
+
 var phase := 0
 var _t := 0.0
 var _bip: Bip
@@ -253,3 +259,13 @@ func _defeat() -> void:
 	var lvl := get_tree().current_scene
 	if lvl and lvl.has_method("boss_defeated"):
 		lvl.boss_defeated(global_position + Vector3(0, 1.0, 5.0))
+
+
+## Sıradaki hedef(ler): alan yöneticisi üstlerine ok koyar.
+func goal_nodes() -> Array:
+	match phase:
+		2:
+			return _barrels.filter(func(x): return is_instance_valid(x))
+		3:
+			return [_hat]
+	return []

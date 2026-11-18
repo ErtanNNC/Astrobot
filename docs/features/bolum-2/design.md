@@ -42,5 +42,6 @@ Hazır model yok; Hurdacı Vinç gibi parçalardan kurulur: gövde (fıçı benz
 - Genel kural (kopyalama): taşınan yetenekle aynı kaynağın yanında Yetenek tuşu yeteneği kullanır (ör. şapkadaki Kaya kaynağının yanında çakılma).
 
 ## History
+- 2026-11-18: Patron aşamalarının başında ne yapılacağı yazıyla söylenir (patron betiğinde `PHASE_HINTS`); sıradaki hedefin ve gereken yeteneğin kaynağının üstünde sarı ok durur (`goal_nodes()`, `area.gd`). Geliştirici Paslı Kaptan 2. aşamada ne yapacağını bulamadı.
 - 2026-11-18: tasarlandı ve Pervane yeteneği uygulandı.
 - 2026-11-18: 3 alan ve Paslı Kaptan uygulandı.
