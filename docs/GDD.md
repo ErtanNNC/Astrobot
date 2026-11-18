@@ -41,7 +41,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Toplanabilirler | implemented | MVP | Piller (bölüm başına ~150) ve alan başına 1, toplam 5 gizli altın vida; kırılan sandıklar | [bölüm 1](features/bolum-1/design.md) |
 | Düşmanlar | implemented | MVP | Vidaböcek (yürür), Zıpzıp (seker), Hurda Goblin (kovalar); üstüne zıplayınca ya da Kaya ile ezilince yenilir | [hikaye](features/hikaye/design.md) |
 | Mobil kontroller | implemented | MVP | Sol yüzen joystick, sağ altta yay şeklinde Zıpla ve Yetenek butonları, sol üstte Duraklat, titreşim; buton boyutu ve sol el modu | [design](features/mobil-kontroller/design.md) |
-| Bölüm 1 | in progress | MVP | Öğretici Uyanış Atölyesi + 4 alan (Yay, Balon, Mıknatıs, Kaya) + Hurdacı Vinç patronu | [design](features/bolum-1/design.md) |
+| Bölüm 1 | implemented | MVP | Öğretici Uyanış Atölyesi + 4 alan (Yay, Balon, Mıknatıs, Kaya) + Hurdacı Vinç patronu | [design](features/bolum-1/design.md) |
 | Hikaye | implemented | MVP | Sözsüz anlatım; açılış ve kapanış sahneleri; rehber drone Pırıl; karakterlerin hangi asset'le yapılacağı belli | [design](features/hikaye/design.md) |
 | Ana menü | implemented | MVP | Giriş ekranı, oynanabilir atölye ana menüsü, ayarlar, duraklatma menüsü | [design](features/ana-menu/design.md) |
 | Kayıt | implemented | MVP | 3 kayıt yuvası, kontrol noktalarında otomatik kayıt, ayrı ayar dosyası | [design](features/kayit/design.md) |
@@ -50,7 +50,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Ses ve müzik | in progress | MVP | Her eyleme ses; bölüm müziği. Zıplama, iniş, adım, düşme sesleri ve test alanı müziği var | — |
 | Yeni yetenekler | implemented | later | Pervane (Bölüm 2) ve Buz (Bölüm 3) yapıldı; Lastik top fikir | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
 | Bölüm 2 | in progress | later | Fırtına Limanı: 3 alan + Paslı Kaptan; yeni yetenek Pervane | [design](features/bolum-2/design.md) |
-| Bölüm 3 | in progress | later | Buzul Tepesi: 3 alan + Kardan Dev; yeni yetenek Buz | [design](features/bolum-3/design.md) |
+| Bölüm 3 | implemented | later | Buzul Tepesi: 3 alan + Kardan Dev; yeni yetenek Buz | [design](features/bolum-3/design.md) |
 | Bölüm 4 | idea | later | Son Çekirdek Pil; Statik ile buluşma | — |
 
 ## Milestones

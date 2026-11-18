@@ -1,6 +1,6 @@
 # Bölüm 3: Buzul Tepesi
 
-**Status:** in progress · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
+**Status:** implemented · **Updated:** 2026-11-18 · [GDD](../../GDD.md)
 
 Üçüncü Çekirdek Pil, adanın karlı dağına düştü ve dağı dondurdu. Bölümün yeni oyuncağı **Buz**: buz kristalinden kopyalanır. Buzlu dünyada her şey kayar, sular donar, düşmanlar platforma dönüşür. "Tek yetenek, bin kullanım" burada en çok görünür: aynı Buz hem yol yapar hem düşmanı merdivene çevirir.
 
@@ -31,5 +31,12 @@ Hazır model yok: üst üste üç kar topu (küre), kayadan kollar (Quaternius k
 | Donma süresi | 8 [ASSUMPTION] | s | |
 | Buz karosu ömrü | 6 [ASSUMPTION] | s | su geçişinde geri dönmeye yetiyor mu |
 
+## Uygulama notları
+- Üreticiler: `tools/level/ch3_c1_buz_magarasi.py`, `ch3_c2_donmus_gol.py`, `ch3_c3_zirve.py`, `ch3_c4_patron.py`; patron `scripts/boss/snow_giant_boss.gd`, kartopu `scripts/boss/snowball.gd`; test `tests/ch3_test.tscn` (40 kontrol).
+- Ölçüm: yüzerken zıplama 1,75 m, buz karosundan 2,22 m. Yalnızca suyla ulaşılan kıyılar suyun 2,15 m üstünde: yüzerek çıkılmaz, Buz ile çıkılır.
+- Mıknatıs direkleri her biri öncekinden 1,2 m yüksek (Mıknatıs yukarıyı tercih eder).
+- Bilinen: suyun içinden 2,15 m kıyıya çıkış duvara 1,4 m yakından zıplanırsa olur; çığ bölümünde yan duvar dibi güvenli şerit.
+
 ## History
 - 2026-11-18: tasarlandı ve Buz yeteneği uygulandı.
+- 2026-11-18: 3 alan ve Kardan Dev uygulandı.
