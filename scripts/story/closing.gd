@@ -32,7 +32,9 @@ func _ready() -> void:
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 	env.ambient_light_energy = 0.5
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.tonemap_white = 6.0
 	env.glow_enabled = true
+	env.glow_intensity = 0.3
 	we.environment = env
 	add_child(we)
 	sun = DirectionalLight3D.new()
@@ -47,6 +49,17 @@ func _ready() -> void:
 	im.shader = load("res://assets/shaders/toon_terrain.gdshader")
 	island.material = im
 	add_child(island)
+	var sea := MeshInstance3D.new()
+	var pm := PlaneMesh.new()
+	pm.size = Vector2(300, 300)
+	pm.subdivide_width = 30
+	pm.subdivide_depth = 30
+	sea.mesh = pm
+	var wm := ShaderMaterial.new()
+	wm.shader = load("res://assets/shaders/water.gdshader")
+	sea.material_override = wm
+	sea.position.y = -3.0
+	add_child(sea)
 	var prop := load("res://scripts/entities/prop.gd")
 	_generator = Node3D.new()
 	_generator.set_script(prop)
@@ -123,6 +136,16 @@ func _play(bip: Node3D) -> void:
 	light.tween_property(sun, "light_energy", 1.3, 2.5)
 	light.tween_property(cam, "position", Vector3(6, 6, 16), 4.0)
 	_generator.spin = 0.6
+	if _final:
+		# Dört pil yerinde: gece biter, gökyüzü aydınlanır
+		var sm := env.sky.sky_material as ProceduralSkyMaterial
+		var sk := create_tween().set_parallel(true)
+		sk.tween_property(sm, "sky_top_color", Color(0.3, 0.6, 1.0), 3.0)
+		sk.tween_property(sm, "sky_horizon_color", Color(1.0, 0.85, 0.7), 3.0)
+		sk.tween_property(sm, "ground_horizon_color", Color(1.0, 0.85, 0.7), 3.0)
+		sk.tween_property(sun, "light_energy", 1.0, 3.0)
+		sk.tween_property(env, "ambient_light_energy", 0.45, 3.0)
+		sk.tween_property(sm, "ground_bottom_color", Color(0.2, 0.45, 0.75), 3.0)
 	await _wait(1.5)
 	if _done: return
 	# Robotlar dışarı çıkıp alkışlar
