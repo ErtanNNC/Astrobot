@@ -68,6 +68,11 @@ signal ledge_grabbed
 @export var ice_freeze_range := 3.5      ## m, Yetenek: en yakın düşmanı dondur
 @export var ice_freeze_time := 8.0       ## s, donmuş düşman buz kütlesi (platform) olur
 
+@export_group("Jet süzülme (Astro Bot gibi, baştan açık)")
+@export var hover_time := 0.65           ## s, havada Zıpla basılı: ayaklardan jetle asılı kalma; yerde dolar
+@export var hover_fall_speed := 0.6      ## m/s, süzülürken yavaş alçalma
+@export var hover_laser_length := 2.6    ## m, jet ışınının altındaki düşmanı vurduğu uzunluk
+
 @export_group("Hareketler (ilerledikçe açılır)")
 @export var ledge_min := 0.6             ## m, tutunulan kenar ayağın en az bu kadar üstünde
 @export var ledge_max := 1.55            ## m, en fazla bu kadar üstünde
@@ -155,6 +160,9 @@ var _wall_grace := 0.0
 var _wall_lock := 0.0
 var _wall_lock_dir := Vector3.ZERO
 var _double_used := false
+var hovering := false
+var hover_left := 0.65
+var _hover_used_jump := false
 
 
 func _ready() -> void:
@@ -218,6 +226,8 @@ func _physics_process(delta: float) -> void:
 		prop_left = prop_fuel
 		dash_used = false
 		_refresh_air_moves()
+		hover_left = hover_time
+		_hover_used_jump = false
 
 	if controls_enabled:
 		_jump_frame = false
@@ -313,6 +323,15 @@ func _physics_process(delta: float) -> void:
 		Sfx.play("glide", -6.0, 1.4)
 	propelling = want_prop
 
+	# --- Jet süzülme: yetenek süzülme vermiyorsa, düşerken Zıpla basılı tutulunca ---
+	var want_hover := not on_floor and controls_enabled and Input.is_action_pressed("jump") \
+			and ability not in ["balon", "pervane", "kaya"] and not pounding and magnet_state == 0 \
+			and velocity.y <= 0.0 and hover_left > 0.0 and not wall_sliding \
+			and move_dash_left <= 0.0 and not _in_water()
+	if want_hover and not hovering:
+		Sfx.play("glide", -9.0, 0.8)
+	hovering = want_hover
+
 	# --- Yerçekimi ---
 	# Yarım adım önce + yarım adım sonra uygulanır: zıplama yüksekliği
 	# kare hızından bağımsız olarak tasarımdaki değere eşit çıkar.
@@ -336,6 +355,10 @@ func _physics_process(delta: float) -> void:
 		velocity.y = maxf(velocity.y, 0.0)
 	elif move_dash_left > 0.0:
 		velocity.y = 0.0
+	elif hovering:
+		hover_left -= delta
+		velocity.y = move_toward(velocity.y, -hover_fall_speed, 60.0 * delta)
+		_hover_lasers()
 	elif not on_floor:
 		g = gravity
 		if velocity.y < 0.0:
@@ -423,6 +446,7 @@ func _physics_process(delta: float) -> void:
 
 func do_jump(v: float) -> void:
 	_jump_frame = true
+	hovering = false
 	velocity.y = v
 	is_jumping = true
 	buffer_timer = 0.0
@@ -851,6 +875,7 @@ func _refresh_air_moves() -> void:
 
 
 func _release_moves() -> void:
+	hovering = false
 	ledge_hanging = false
 	_ledge_node = null
 	spin_left = 0.0
@@ -943,6 +968,7 @@ func _wall_jump() -> void:
 	_wall_lock_dir = n
 	_wall_grace = 0.0
 	wall_sliding = false
+	hover_left = hover_time
 	facing_yaw = atan2(n.x, n.z)
 	rotation.y = facing_yaw
 	_refresh_air_moves()
@@ -999,6 +1025,8 @@ func _try_ledge_grab(dir: Vector3) -> bool:
 	propelling = false
 	move_dash_left = 0.0
 	wall_sliding = false
+	hovering = false
+	hover_left = hover_time
 	_refresh_air_moves()
 	facing_yaw = atan2(-n.x, -n.z)
 	rotation.y = facing_yaw
@@ -1035,3 +1063,20 @@ func _process_ledge(delta: float) -> void:
 		ledge_hanging = false
 		_ledge_cool = 0.4
 		velocity = _ledge_normal * 1.5
+
+
+
+## Jet ışınları altındaki düşmanı ve sandığı vurur (Astro Bot'taki lazerli süzülme).
+func _hover_lasers() -> void:
+	for e in get_tree().get_nodes_in_group("enemy"):
+		if not (e is Node3D) or not e.has_method("on_spin"):
+			continue
+		var d: Vector3 = e.global_position - global_position
+		if d.y < 0.3 and d.y > -hover_laser_length and Vector2(d.x, d.z).length() < 0.8:
+			e.on_spin(self)
+	for c in get_tree().get_nodes_in_group("stompable"):
+		if not (c is Node3D) or not c.has_method("smash"):
+			continue
+		var d: Vector3 = c.global_position - global_position
+		if d.y < -0.2 and d.y > -hover_laser_length and Vector2(d.x, d.z).length() < 0.8:
+			c.smash()

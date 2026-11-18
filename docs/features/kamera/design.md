@@ -24,7 +24,7 @@ Kamera oyuncunun dikkatini dağıtmadan hep doğru yeri gösterir. Astro Bot'tak
 | Dikey sınır (yukarı) | 2,5 [ASSUMPTION] | m, son zeminin üstü | yüksek zıplamada Bip ekrandan çıkıyor mu |
 | Dikey sınır (aşağı) | 0,5 [ASSUMPTION] | m, son zeminin altı | düşerken kamera geç mi kalıyor |
 | Dikey yumuşatma | 4 [ASSUMPTION] | 1/s | iniş sonrası kamera yükselişi rahat mı |
-| Kendiliğinden dönme hızı | 1,6 [ASSUMPTION] | 1/s | yana koşarken kamera arkaya geçiyor mu, başı döndürüyor mu |
+| Kendiliğinden dönme hızı | 0,9 [ASSUMPTION] (1,6 idi; Astro gibi daha sakin, D-017) | 1/s | yana koşarken kamera arkaya geçiyor mu, başı döndürüyor mu |
 | Saydamlaşma başlangıcı / tam saydam | 2,0 / 0,8 [ASSUMPTION] | m | |
 
 ## Edge cases

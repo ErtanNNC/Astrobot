@@ -19,6 +19,7 @@ Bip koşar, zıplar ve havada yön değiştirir. Kontroller anında tepki vermel
 12. **Havada atılma:** havada Vuruş ilk basışta ileri hamle (yükseklik kaybetmeden) + dönme olur; iniş, kenara tutunma ya da duvar zıplaması hakkı yeniler.
 13. **Duvar zıplaması:** havada duvara doğru gidilirken Bip duvarda yavaş kayar; zıplayınca duvardan karşıya seker (kısa süre yön kilitli). Kaya, Balon süzülmesi ve Pervane yükselişi sırasında olmaz.
 14. **Çift zıplama:** havada bir kez daha zıplanır (Kaya hariç). Yere çok yakınken basılan zıplama çift zıplamayı harcamaz, inişte normal zıplamaya dönüşür.
+15. **Jet süzülme** (baştan açık, D-017): havada yükselme bitince Zıpla basılı tutulursa kısa süre asılı kalınır; bkz. [oyun hissi](../oyun-hissi/design.md).
 
 ## Numbers
 | Ad | Değer | Birim | Testte neye bakılmalı |

@@ -57,10 +57,12 @@ func _ready() -> void:
 	_attach_antenna.call_deferred()
 	_apply_ability.call_deferred(GameState.ability)
 	_make_blob_shadow()
+	_make_jets()
 
 
 func _process(delta: float) -> void:
 	_t += delta
+	_update_jets()
 	_update_effects(delta)
 	var v := bip.velocity
 	var speed := Vector2(v.x, v.z).length()
@@ -326,3 +328,43 @@ func _on_ledge_grabbed() -> void:
 	anim.play(A_JUMP, 0.05)
 	anim.seek(0.3, true)
 	anim.speed_scale = 0.0
+
+
+
+# ---------- Jet süzülme ışınları ----------
+var _jets: Array[MeshInstance3D] = []
+
+
+func _make_jets() -> void:
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	mat.albedo_color = Color(0.4, 0.85, 1.0, 0.85)
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = 0.07
+	mesh.bottom_radius = 0.02
+	mesh.height = 1.0
+	mesh.radial_segments = 8
+	mesh.rings = 1
+	mesh.material = mat
+	for side in [-1, 1]:
+		var mi := MeshInstance3D.new()
+		mi.mesh = mesh
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mi.position = Vector3(0.13 * side, -0.4, 0)
+		mi.visible = false
+		add_child(mi)
+		_jets.append(mi)
+
+
+func _update_jets() -> void:
+	var on: bool = bip.hovering
+	for j in _jets:
+		j.visible = on
+		if on:
+			var len := 0.8 + 0.25 * sin(_t * 60.0 + j.position.x * 10.0)
+			j.scale = Vector3(1.0, len, 1.0)
+			j.position.y = 0.05 - len * 0.5
+	if on and fmod(_t, 0.08) < 0.02:
+		Fx.burst(bip.global_position + Vector3(0, -0.8, 0), Color(0.5, 0.9, 1.0), 1, 0.8)

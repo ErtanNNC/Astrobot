@@ -68,6 +68,11 @@ func _ready() -> void:
 	_count_batteries.call_deferred()
 	_move_props_to_layer2.call_deferred()
 	_spawn_lost_robots.call_deferred()
+	if has_node("Decor"):
+		var react := preload("res://scripts/level/decor_react.gd").new()
+		react.name = "DecorReact"
+		add_child(react)
+		react.setup(get_node("Decor"), bip, area_id)
 	# Nereden başlıyoruz?
 	_respawn = _start
 	var ability := start_ability

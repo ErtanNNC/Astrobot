@@ -105,7 +105,7 @@ func _run() -> void:
 	await place(Vector3(9, 0.6, -62.5))
 	Input.action_press("move_forward")
 	Input.action_press("jump")
-	await step(50)
+	await step(32)  # tepe noktasında bırak (basılı kalırsa jet süzülme ileri taşır)
 	Input.action_release("jump")
 	for i in 120:
 		await get_tree().physics_frame

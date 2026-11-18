@@ -55,6 +55,8 @@ func peak_of_jump(second_press_at := -1) -> float:
 			Input.action_press("jump")
 		await get_tree().physics_frame
 		peak = maxf(peak, bip.global_position.y)
+		if OS.has_environment("DBG2") and second_press_at > 0 and i < 40:
+			print(i, " y=%.2f vy=%.2f dbl=%s hov=%s" % [bip.global_position.y - y0, bip.velocity.y, bip._double_used, bip.hovering])
 	Input.action_release("jump")
 	return peak - y0
 
@@ -69,6 +71,22 @@ func _run() -> void:
 	check("Bölüm 3 bitince hepsi", GameState.unlocked_moves().size() == 5)
 
 	box(base + Vector3(0, -0.5, 0), Vector3(40, 1, 40))
+	# Jet süzülme: Zıpla basılı tutulunca tepe noktasından sonra asılı kalır
+	await place(base + Vector3(0, 0.1, 0))
+	Input.action_press("jump")
+	var hovered := false
+	var air := 0
+	for i in 150:
+		await get_tree().physics_frame
+		if bip.hovering:
+			hovered = true
+		if not bip.is_on_floor():
+			air += 1
+		elif i > 5:
+			break
+	Input.action_release("jump")
+	check("Jet süzülme: basılı tutunca asılı kalır", hovered and air > 75, "havada %d kare" % air)
+	await step(20)
 	# Çift zıplama
 	await place(base + Vector3(0, 0.1, 0))
 	var single := await peak_of_jump(-1)

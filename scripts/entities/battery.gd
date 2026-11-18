@@ -4,6 +4,7 @@ extends Area3D
 ## ve tekrar sayılmaz (Bölüm 1 kural 3). Mıknatıs taşıyan Bip'e uzaktan çekilir.
 
 const MAGNET_RANGE := 3.5
+const VACUUM_RANGE := 1.6   ## m, yeteneksiz de pil bu kadar yakından çekilir
 
 var area_id := ""
 var collected := false
@@ -115,15 +116,15 @@ func _process(delta: float) -> void:
 		_combo_time -= delta
 	elif _combo > 0:
 		_combo = 0
-	# Mıknatıs pasifi: küçük metal nesneler Bip'e çekilir (kopyalama tablosu)
-	if GameState.ability == "miknatis" or _flying:
-		var bip := get_tree().get_first_node_in_group("player") as Node3D
-		if bip:
-			var target := bip.global_position + Vector3.UP * 0.6
-			var d := global_position.distance_to(target)
-			if d < MAGNET_RANGE or _flying:
-				_flying = true
-				global_position = global_position.move_toward(target, delta * (6.0 + 10.0 / maxf(d, 0.3)))
+	# Astro Bot'taki gibi: yakından geçince pil her zaman Bip'e çekilir (Mıknatısla daha uzaktan)
+	var bip := get_tree().get_first_node_in_group("player") as Node3D
+	if bip:
+		var target := bip.global_position + Vector3.UP * 0.6
+		var d := global_position.distance_to(target)
+		var reach := MAGNET_RANGE if GameState.ability == "miknatis" else VACUUM_RANGE
+		if d < reach or _flying:
+			_flying = true
+			global_position = global_position.move_toward(target, delta * (6.0 + 10.0 / maxf(d, 0.3)))
 
 
 func _on_body(b: Node) -> void:

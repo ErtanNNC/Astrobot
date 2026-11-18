@@ -26,7 +26,7 @@ extends Node3D
 
 @export_group("Dönüş")
 @export var auto_return_delay := 2.0     ## s, elle döndürmeden sonra otomatiğe dönüş
-@export var auto_turn_speed := 1.6       ## 1/s, hareket yönüne kendiliğinden dönme
+@export var auto_turn_speed := 0.9       ## 1/s, hareket yönüne kendiliğinden dönme (Astro gibi sakin: kamera yolu izler, Bip etrafında savrulmaz)
 @export var mouse_sensitivity := 0.004   ## rad/piksel
 @export var stick_speed := 2.8           ## rad/s
 @export var touch_sensitivity := 0.006   ## rad/piksel
