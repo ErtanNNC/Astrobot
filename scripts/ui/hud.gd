@@ -9,6 +9,21 @@ var _lives := 3
 var _batteries := 0
 var _shown_batteries := 0.0
 var _screws := 0
+var _screw_slots := 5
+
+
+## Bu bölümün Altın Vidaları: yuva sayısı = bölümdeki (patron dışı) alan sayısı.
+func _refresh_screws() -> void:
+	var area: String = GameState.data.get("area", "ch1_atolye")
+	var ch := GameState.chapter_of(area)
+	_screw_slots = 0
+	_screws = 0
+	for a in GameState.CHAPTERS[ch]:
+		if a["id"].ends_with("_patron"):
+			continue
+		_screw_slots += 1
+		if GameState.has_screw(a["id"] + "_vida"):
+			_screws += 1
 var _ability := ""
 var _save_t := 0.0
 var _heart_pop := 0.0
@@ -23,13 +38,13 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	GameState.lives_changed.connect(func(n): _lives = n; _heart_pop = 1.0; queue_redraw())
 	GameState.batteries_changed.connect(func(n): _batteries = n; _batt_pop = 1.0)
-	GameState.screws_changed.connect(func(n): _screws = n; queue_redraw())
+	GameState.screws_changed.connect(func(_n): _refresh_screws(); queue_redraw())
 	GameState.ability_changed.connect(func(a): _ability = a; queue_redraw())
 	GameState.saving.connect(func(): _save_t = 1.2)
 	_lives = GameState.lives
 	_batteries = GameState.total_batteries()
 	_shown_batteries = _batteries
-	_screws = GameState.data.get("golden_screws", []).size()
+	_refresh_screws()
 	_ability = GameState.ability
 	_banner = _make_label(56)
 	_sub = _make_label(28)
@@ -105,7 +120,7 @@ func _draw() -> void:
 	draw_string_outline(font, bp + Vector2(28, 13) * k, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, int(36 * k), int(10 * k), OUTLINE)
 	draw_string(font, bp + Vector2(28, 13) * k, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, int(36 * k), Color.WHITE)
 	# --- Altın vidalar (5 yuva) ---
-	for i in 5:
+	for i in _screw_slots:
 		var sc := Vector2(size.x - 190 * k + i * 30 * k, 98 * k)
 		draw_circle(sc, 11 * k, OUTLINE)
 		draw_circle(sc, 9 * k, Color(1, 0.8, 0.2) if i < _screws else Color(1, 1, 1, 0.2))
