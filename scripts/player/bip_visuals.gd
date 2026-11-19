@@ -36,7 +36,60 @@ var _blob_mat: StandardMaterial3D
 var _t := 0.0
 
 
+# ---------- Yeni Bip modeli (Pixabay sarı robot + Mixamo animasyonları) ----------
+const NEW_BIP := true                        ## false: eski Quaternius robotu
+const NEW_DIR := "res://assets/models/pixabay/bip/"
+const NEW_SCALE := 120.0                     ## Mixamo santim ölçeğinde verdi: 120× → ~1,2 m (antenlerle)
+const A_FALL := "bip_fall"
+const A_HANG := "bip_hang"
+## Eski robotun animasyon adları (oyunun her yerinde kullanılıyor) → yeni animasyonlar
+const ALIASES := {
+	"RobotArmature|Robot_Idle": "idle", "RobotArmature|Robot_Walking": "walk", "RobotArmature|Robot_Running": "run",
+	"RobotArmature|Robot_Jump": "jump", "RobotArmature|Robot_Wave": "wave", "RobotArmature|Robot_Dance": "victory",
+	"RobotArmature|Robot_Yes": "victory", "RobotArmature|Robot_ThumbsUp": "victory", "RobotArmature|Robot_Sitting": "idle",
+	"RobotArmature|Robot_Standing": "idle", "RobotArmature|Robot_Punch": "wave", "bip_fall": "fall", "bip_hang": "hang",
+}
+const LOOPING := ["idle", "walk", "run", "fall", "hang", "victory"]
+
+static var _lib_cache: AnimationLibrary
+var _new := false
+var _base_scale := 0.2
+
+
+func _swap_model() -> void:
+	var old := $Model
+	var nm: Node3D = load(NEW_DIR + "idle.fbx").instantiate()
+	remove_child(old)
+	old.queue_free()
+	nm.name = "Model"
+	nm.scale = Vector3.ONE * NEW_SCALE
+	add_child(nm)
+	move_child(nm, 0)
+	model = nm
+	anim = nm.get_node("AnimationPlayer")
+	if _lib_cache == null:
+		var src := {}
+		for f in ["idle", "walk", "run", "jump", "fall", "hang", "wave", "victory"]:
+			var sc: Node = load(NEW_DIR + f + ".fbx").instantiate()
+			var a: Animation = (sc.get_node("AnimationPlayer") as AnimationPlayer).get_animation("mixamo_com").duplicate()
+			a.loop_mode = Animation.LOOP_LINEAR if f in LOOPING else Animation.LOOP_NONE
+			src[f] = a
+			sc.free()
+		_lib_cache = AnimationLibrary.new()
+		for alias in ALIASES:
+			_lib_cache.add_animation(alias, src[ALIASES[alias]])
+	for lib in anim.get_animation_library_list():
+		anim.remove_animation_library(lib)
+	anim.add_animation_library("", _lib_cache)
+	_base_scale = NEW_SCALE
+	_new = true
+	for mi in nm.find_children("*", "MeshInstance3D", true, false):
+		(mi as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+
+
 func _ready() -> void:
+	if NEW_BIP:
+		_swap_model()
 	for n in [A_IDLE, A_WALK, A_RUN]:
 		anim.get_animation(n).loop_mode = Animation.LOOP_LINEAR
 	anim.play(A_IDLE)
@@ -89,10 +142,15 @@ func _process(delta: float) -> void:
 				_play(A_WALK)
 				anim.speed_scale = clampf(speed / walk_anim_speed, 0.5, 1.5)
 	elif bip.ledge_hanging:
-		# Kenara asılı: kollar yukarıda (zıplama pozu), hafif sallanma
+		# Kenara asılı: yeni modelde tutunma animasyonu, eskide zıplama pozu
 		_idle_time = 0.0
 		_air_anim = false
-		anim.speed_scale = 0.0
+		if _new:
+			if anim.current_animation != A_HANG:
+				anim.play(A_HANG, 0.1)
+			anim.speed_scale = 1.0
+		else:
+			anim.speed_scale = 0.0
 	else:
 		_idle_time = 0.0
 		if bip.wall_sliding:
@@ -100,14 +158,26 @@ func _process(delta: float) -> void:
 			if _dust_t <= 0.0:
 				_dust_t = 0.1
 				Fx.burst(bip.global_position + Vector3(0, 0.9, 0) - bip._wall_normal * 0.3, Color(0.95, 0.92, 0.85), 2, 0.6)
-		if not _air_anim:
-			_air_anim = true
-			anim.play(A_JUMP, 0.08)
-			anim.speed_scale = 1.0
-			anim.seek(0.18, true)
-		# Tepeye yakın pozda bekle; düşüşte hafifçe ilerle.
-		if anim.current_animation == A_JUMP and anim.current_animation_position > 0.42:
-			anim.speed_scale = 0.0
+		if _new:
+			# Yeni model: zıplama animasyonu baştan oynar, iniş pozuna yakın yerde bekler.
+			# (Mixamo "Falling Idle" yüzüstü paraşüt pozu; platform oyununda tuhaf durduğu için kullanılmıyor.)
+			if not _air_anim:
+				_air_anim = true
+				anim.play(A_JUMP, 0.1)
+				anim.speed_scale = 1.0
+				anim.seek(0.2, true)
+			var jl := anim.current_animation_length
+			if anim.current_animation == A_JUMP and anim.current_animation_position > jl * 0.45:
+				anim.speed_scale = 0.0
+		else:
+			if not _air_anim:
+				_air_anim = true
+				anim.play(A_JUMP, 0.08)
+				anim.speed_scale = 1.0
+				anim.seek(0.18, true)
+			# Tepeye yakın pozda bekle; düşüşte hafifçe ilerle.
+			if anim.current_animation == A_JUMP and anim.current_animation_position > 0.42:
+				anim.speed_scale = 0.0
 
 	# Koşu tozu: hızlı koşarken ayaklardan küçük toz bulutları
 	_dust_t -= delta
@@ -145,6 +215,20 @@ func _on_landed(fall_speed: float) -> void:
 ## Bip'in anteni: kafanın tepesine, kafayla birlikte sallanan bir çubuk ve parlayan uç.
 ## Kopyalama (M2) bu uçtaki ışığı kullanacak.
 func _attach_antenna() -> void:
+	if _new:
+		# Yeni modelin kendi iki anteni var: parlayan kopyalama ucunu başın tepesine, kafayla birlikte bağla
+		var sk: Skeleton3D = model.get_node("Skeleton3D")
+		var ba := BoneAttachment3D.new()
+		ba.bone_name = "mixamorig_HeadTop_End"
+		sk.add_child(ba)
+		var antenna: Node3D = $Antenna
+		_tip = antenna.get_node("Tip")
+		antenna.get_node("Stick").visible = false
+		remove_child(antenna)
+		ba.add_child(antenna)
+		antenna.transform = Transform3D(Basis().scaled(Vector3.ONE / NEW_SCALE), Vector3.ZERO)
+		_tip.position = Vector3(0, 0.02, 0)
+		return
 	var head: Node3D = model.find_child("Head2", true, false)
 	var head_mesh: MeshInstance3D = head.find_child("*", false, false) as MeshInstance3D
 	if head_mesh == null:
@@ -181,6 +265,10 @@ func _apply_ability(a: String) -> void:
 		var orig: Color = _orig_colors[mat]
 		# Yalnızca turuncu gövde boyası renk değiştirir; gri metal ve siyah gözler kalır.
 		var is_paint := orig.s > 0.35 and orig.v > 0.35
+		if _new:
+			# Dokulu tek malzeme: bütün gövde yeteneğin rengine hafifçe boyanır
+			mat.albedo_color = Color.WHITE.lerp(c.lightened(0.15), 0.55) if a != "" else orig
+			continue
 		mat.albedo_color = orig.lerp(c, 0.75) if (a != "" and is_paint) else orig
 	if _icon:
 		_icon.queue_free()
@@ -260,7 +348,8 @@ func _update_effects(delta: float) -> void:
 				bl.rotation.y += delta * (30.0 if (bip.propelling or bip.dash_left > 0.0) else 3.0)
 	# Yay şarjı: Bip çömelir
 	var cf: float = bip.charge_fraction()
-	model.scale = model.scale.lerp(Vector3(0.2 * (1 + cf * 0.2), 0.2 * (1 - cf * 0.35), 0.2 * (1 + cf * 0.2)), 15.0 * delta)
+	var b := _base_scale
+	model.scale = model.scale.lerp(Vector3(b * (1 + cf * 0.2), b * (1 - cf * 0.35), b * (1 + cf * 0.2)), 15.0 * delta)
 	# Kopyalama ışını
 	if _beam:
 		_beam.scale.x = maxf(_beam.scale.x - delta * 4.0, 0.0)
@@ -325,6 +414,8 @@ func _on_double_jumped() -> void:
 
 
 func _on_ledge_grabbed() -> void:
+	if _new:
+		return
 	anim.play(A_JUMP, 0.05)
 	anim.seek(0.3, true)
 	anim.speed_scale = 0.0

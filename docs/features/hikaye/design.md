@@ -15,7 +15,7 @@ Karakterler bulunabilen CC0 asset'lerle yapılır; tarif asset'e uyarlanır (D-0
 
 | Karakter | Asset | Uyarlama | Durum |
 |---|---|---|---|
-| **Bip** | Quaternius "Animated Robot" (turuncu, iri elli, gözlüklü robot; 14 animasyon) | kafasına parlayan bir anten eklendi; "eğri anten" için anten hafif yana yatırılabilir; taşınan yetenek gövde rengini değiştirir (M2) | oyunda |
+| **Bip** | Pixabay "Cute robot" (sarı, iki antenli, mavi gözlü robot; model 3347) + Mixamo animasyonları (Idle, Walking, Running, Jump, Hanging Idle, Waving, Victory Idle) | geliştirici modeli Mixamo'da iskeletledi; animasyonlar eski adlarla eşlendi (`bip_visuals.gd` `ALIASES`), başın tepesine parlayan kopyalama ucu bağlandı, taşınan yetenek gövdeyi hafifçe boyar. Eski Quaternius robotu `NEW_BIP = false` ile geri gelir; kayıp robotlar ve kapanıştaki robotlar hâlâ Quaternius | oyunda |
 | **Pırıl** | Quaternius Ultimate Platformer Pack "Bee" (uçma animasyonlu böcek) | sarı-beyaz parlayan malzeme ve küçük ışık; "ateş böceği lamba-drone" olarak boyanır | oyunda (`scripts/npc/piril.gd`) |
 | **Statik** | Quaternius "Cloud" modelleri | mora boyanır, etrafında kıvılcım parçacıkları, yavaşça süzülür ve sallanır | oyunda (açılış, kapanış, uzak manzara) |
 | **Vidaböcek** (ilk düşman) | Quaternius Ultimate Platformer Pack "Crab" (yürüme, ölüm, isabet animasyonları) | özgün kırmızı rengi kaldı (tehlike rengi, sanat yönü); adı "Vidaböcek" | oyunda |

@@ -50,4 +50,8 @@ Ticari kullanım serbest, isim vermek zorunlu değil; modelin kendisi tek başı
 
 | Dosya | Kaynak | Yazar | Lisans | Tarih |
 |---|---|---|---|---|
+| `assets/models/pixabay/bip/*.fbx` (Bip'in modeli; Mixamo'da iskeletlenip animasyonlandı) | https://pixabay.com/3d-models/glb-robot-cute-robot-cartoon-robot-3347/ (geliştirici indirip yükledi) | Pixabay kullanıcısı | Pixabay Content License | 2026-11-19 |
 | `assets/models/pixabay/fish_mecha.glb` (Paslı Kaptan patronu) | https://pixabay.com/3d-models/fish-mecha-robot-alien-low-poly-77/ (geliştirici indirip yükledi) | Pixabay kullanıcısı | Pixabay Content License | 2026-11-19 |
+
+## Mixamo (Adobe)
+Bip'in animasyonları (Idle, Walking, Running, Jump, Falling Idle, Hanging Idle, Waving Gesture, Victory Idle) https://www.mixamo.com — Adobe'nin koşullarına göre oyunlarda ve ticari projelerde telifsiz kullanılabilir; animasyon dosyaları tek başına dağıtılamaz. Oyunun içinde kullanmak serbest.
