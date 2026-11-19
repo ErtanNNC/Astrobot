@@ -56,7 +56,20 @@ DECOR = {
     "rockplat": ("RockPlatforms_1", 0.7, 0), "rockplat2": ("RockPlatforms_2", 0.7, 0), "rocktall": ("RockPlatform_Tall", 0.7, 0),
     "bricks": ("Cube_Bricks", 0.5, 0.5), "qblock": ("Cube_Question", 0.5, 0.5), "bridge": ("Bridge_Small", 0.6, 0.17),
     "stairs": ("Stairs", 0.6, 0.6), "spikes_deco": ("Spikes", 0.4, 0),
+    # Kenney Platformer Kit (CC0): ağaç, çiçek, çimen, kaya — KayKit karolarıyla aynı oyuncak tarzı
+    "k_tree": ("kenney:tree", 3.0, 0), "k_pine": ("kenney:tree-pine", 2.4, 0),
+    "k_tree_snow": ("kenney:tree-snow", 3.0, 0), "k_pine_snow": ("kenney:tree-pine-snow", 2.4, 0),
+    "k_flowers": ("kenney:flowers", 2.6, 0), "k_flowers_tall": ("kenney:flowers-tall", 2.4, 0),
+    "k_grass": ("kenney:grass", 2.4, 0), "k_plant": ("kenney:plant", 2.6, 0),
+    "k_rocks": ("kenney:rocks", 2.2, 0), "k_stones": ("kenney:stones", 2.4, 0),
+    "k_mushrooms": ("kenney:mushrooms", 2.4, 0),
 }
+
+# Eski Quaternius süsleri → Kenney Platformer Kit karşılıkları (kit açıkken)
+KIND_ALIAS = {"tree": "k_tree", "tree_fruit": "k_pine", "bush": "k_flowers_tall", "bush_fruit": "k_mushrooms",
+              "grass": "k_grass", "grass2": "k_flowers", "grass3": "k_plant", "rock": "k_rocks", "rock2": "k_rocks",
+              "plant": "k_flowers_tall", "plant_small": "k_plant"}
+KENNEY_DIR = "res://assets/models/kenney/platformer/"
 
 ENTITIES = {
     "copy": ("Area3D", "res://scripts/abilities/copy_source.gd"),
@@ -186,6 +199,16 @@ class Level:
                 x = cx - sx / 2 + (i + 0.5) * sx / nx
                 z = cz - sz / 2 + (k + 0.5) * sz / nz
                 self.kit_items.append((model, tf(x, top - 0.98, z, 0, 0, (kx, 1.0, kz))))
+        # Çiçek ve çimen serpiştir (çarpışmasız, MultiMesh): boş zeminler canlansın. Kenarlardan uzak.
+        if color in ("green", "yellow") and sx * sz >= 16:
+            n = int(sx * sz / 11)
+            kinds = ("flowers", "grass", "flowers", "plant") if color == "green" else ("grass", "rocks", "plant", "stones")
+            for _ in range(n):
+                px = cx + self.kit_rng.uniform(-sx / 2 + 0.8, sx / 2 - 0.8)
+                pz = cz + self.kit_rng.uniform(-sz / 2 + 0.8, sz / 2 - 0.8)
+                k = self.kit_rng.choice(kinds)
+                sc = self.kit_rng.uniform(1.2, 1.8) if k != "rocks" else self.kit_rng.uniform(0.8, 1.2)
+                self.kit_items.append((KENNEY_DIR + k + ".glb", tf(px, top, pz, 0, self.kit_rng.uniform(0, math.tau), sc)))
         # Geniş zeminlerin bir köşesine küçük süs: bayrak ya da koni (çarpışmasız)
         if sx >= 6 and sz >= 6 and self.kit_rng.random() < 0.55:
             ex = self.kit_rng.choice((-1, 1)); ez = self.kit_rng.choice((-1, 1))
@@ -246,9 +269,17 @@ class Level:
 
     # ---- Süsler ----
     def deco(self, kind, x, y, z, s=1.0, ry=None, parent="Decor", collide=None):
+        if self.use_kit:
+            kind = KIND_ALIAS.get(kind, kind)
+            if self.area_id.startswith("ch3"):
+                kind = {"k_tree": "k_tree_snow", "k_pine": "k_pine_snow"}.get(kind, kind)
         file, base, yoff = DECOR[kind]
-        folder = "platformer"
-        e = self._ext("PackedScene", "res://assets/models/quaternius/%s/%s.gltf" % (folder, file))
+        if file.startswith("kenney:"):
+            file = file[7:]
+            e = self._ext("PackedScene", "res://assets/models/kenney/platformer/%s.glb" % file)
+            file = "K" + file.replace("-", "_").title().replace("_", "")   # düğüm adı: KTreePine
+        else:
+            e = self._ext("PackedScene", "res://assets/models/quaternius/platformer/%s.gltf" % file)
         if ry is None:
             ry = random.uniform(0, math.tau)
         sc = base * s
@@ -262,13 +293,16 @@ class Level:
             self.nodes.append('[node name="%s" parent="%s" instance=ExtResource("%s")]\ntransform = %s\n' % (name, parent, e, tf(x, y + yoff*sc, z, 0, ry, sc)))
 
     def tree(self, x, y, z, s=1.0, fruit=None):
-        self.deco("tree_fruit" if (fruit if fruit is not None else random.random() < 0.4) else "tree", x, y, z, s, collide=("trunk", 1.2))
+        alt = fruit if fruit is not None else random.random() < 0.4
+        snow = self.area_id.startswith("ch3")
+        kind = ("k_pine_snow" if alt else "k_tree_snow") if snow else ("k_pine" if alt else "k_tree")
+        self.deco(kind, x, y, z, s, collide=("trunk", 1.2))
 
     def rock(self, x, y, z, s=1.0):
-        self.deco(random.choice(["rock", "rock2"]), x, y, z, s, collide=("rockshape", 0.35*s))
+        self.deco(random.choice(["k_rocks", "k_rocks"]), x, y, z, s, collide=("rockshape", 0.35*s))
 
     def bush(self, x, y, z, s=1.0):
-        self.deco(random.choice(["bush", "bush_fruit"]), x, y, z, s)
+        self.deco(random.choice(["k_flowers_tall", "k_mushrooms"]), x, y, z, s)
 
     def grass_patch(self, x0, x1, z0, z1, y, n, avoid=()):
         k = 0; tries = 0
@@ -277,7 +311,7 @@ class Level:
             x = random.uniform(x0, x1); z = random.uniform(z0, z1)
             if any(a[0] <= x <= a[1] and a[2] <= z <= a[3] for a in avoid):
                 continue
-            self.deco(random.choice(["grass", "grass2", "grass3"]), x, y, z, random.uniform(0.9, 1.3))
+            self.deco(random.choice(["k_grass", "k_flowers", "k_plant"]), x, y, z, random.uniform(0.9, 1.3))
             k += 1
 
     def clouds(self, n=20, xr=(-80, 80), zr=(-160, 60), avoid=(-30, 30, -140, 30), low=(-6, -3), high=(10, 22)):

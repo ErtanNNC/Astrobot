@@ -17,7 +17,7 @@
 [ext_resource type="Script" path="res://scripts/entities/enemy.gd" id="e9"]
 [ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e10"]
 [ext_resource type="Script" path="res://scripts/entities/prop.gd" id="e11"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Rock_1.gltf" id="e12"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/rocks.glb" id="e12"]
 [ext_resource type="Script" path="res://scripts/level/kit_batch.gd" id="kitb"]
 
 [sub_resource type="ShaderMaterial" id="m_kitside"]
@@ -589,23 +589,23 @@ transform = Transform3D(0.0708249, 0, -0.595805, 0, 0.6, 0, 0.595805, 0, 0.07082
 [node name="Gem_Pink_3" parent="Decor" instance=ExtResource("e8")]
 transform = Transform3D(-0.51304, 0, 0.084795, -0, 0.52, 0, -0.084795, 0, -0.51304, -5, 10.908, -76)
 
-[node name="Rock_1_1" type="StaticBody3D" parent="Decor"]
+[node name="KRocks_1" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(0.999736, 0, 0.0229712, 0, 1, 0, -0.0229712, 0, 0.999736, -4.8, 0, -8.5)
 
-[node name="Model" parent="Decor/Rock_1_1" instance=ExtResource("e12")]
-transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, 0, 0, 0)
+[node name="Model" parent="Decor/KRocks_1" instance=ExtResource("e12")]
+transform = Transform3D(1.32, 0, 0, 0, 1.32, 0, 0, 0, 1.32, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_1_1"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KRocks_1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, 0)
 shape = SubResource("rockshape")
 
-[node name="Rock_1_2" type="StaticBody3D" parent="Decor"]
+[node name="KRocks_2" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(0.736884, 0, -0.676019, 0, 1, 0, 0.676019, 0, 0.736884, 4.3, 7.5, -71)
 
-[node name="Model" parent="Decor/Rock_1_2" instance=ExtResource("e12")]
-transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0, 0)
+[node name="Model" parent="Decor/KRocks_2" instance=ExtResource("e12")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_1_2"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KRocks_2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
 shape = SubResource("rockshape")
 

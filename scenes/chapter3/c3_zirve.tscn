@@ -8,21 +8,20 @@
 [ext_resource type="Script" path="res://scripts/abilities/copy_source.gd" id="e0"]
 [ext_resource type="Script" path="res://scripts/entities/battery.gd" id="e1"]
 [ext_resource type="Script" path="res://scripts/entities/golden_screw.gd" id="e2"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Tree.gltf" id="e3"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Rock_1.gltf" id="e4"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Rock_2.gltf" id="e5"]
-[ext_resource type="Script" path="res://scripts/entities/checkpoint.gd" id="e6"]
-[ext_resource type="Script" path="res://scripts/entities/hint_zone.gd" id="e7"]
-[ext_resource type="Script" path="res://scripts/entities/metal_block.gd" id="e8"]
-[ext_resource type="Script" path="res://scripts/entities/hazard.gd" id="e9"]
-[ext_resource type="Script" path="res://scripts/entities/cracked_floor.gd" id="e10"]
-[ext_resource type="Script" path="res://scripts/entities/water_zone.gd" id="e11"]
-[ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e12"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Goal_Flag.gltf" id="e13"]
-[ext_resource type="Script" path="res://scripts/entities/prop.gd" id="e14"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e15"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e16"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e17"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/tree-snow.glb" id="e3"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/rocks.glb" id="e4"]
+[ext_resource type="Script" path="res://scripts/entities/checkpoint.gd" id="e5"]
+[ext_resource type="Script" path="res://scripts/entities/hint_zone.gd" id="e6"]
+[ext_resource type="Script" path="res://scripts/entities/metal_block.gd" id="e7"]
+[ext_resource type="Script" path="res://scripts/entities/hazard.gd" id="e8"]
+[ext_resource type="Script" path="res://scripts/entities/cracked_floor.gd" id="e9"]
+[ext_resource type="Script" path="res://scripts/entities/water_zone.gd" id="e10"]
+[ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e11"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Goal_Flag.gltf" id="e12"]
+[ext_resource type="Script" path="res://scripts/entities/prop.gd" id="e13"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e14"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e15"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e16"]
 [ext_resource type="Script" path="res://scripts/level/kit_batch.gd" id="kitb"]
 
 [sub_resource type="ShaderMaterial" id="m_ice"]
@@ -229,43 +228,43 @@ material = SubResource("m_snow")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 9.1, -12)
 script = ExtResource("e2")
 
-[node name="Tree_1" type="StaticBody3D" parent="Decor"]
+[node name="KTreeSnow_1" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(-0.674252, 0, 0.738501, -0, 1, 0, -0.738501, 0, -0.674252, -6, 0, 6)
 
-[node name="Model" parent="Decor/Tree_1" instance=ExtResource("e3")]
-transform = Transform3D(0.44, 0, 0, 0, 0.44, 0, 0, 0, 0.44, 0, 0, 0)
+[node name="Model" parent="Decor/KTreeSnow_1" instance=ExtResource("e3")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Tree_1"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KTreeSnow_1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("trunk")
 
-[node name="Tree_2" type="StaticBody3D" parent="Decor"]
+[node name="KTreeSnow_2" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(-0.170634, 0, -0.985334, 0, 1, -0, 0.985334, 0, -0.170634, 6.5, 0, 4)
 
-[node name="Model" parent="Decor/Tree_2" instance=ExtResource("e3")]
-transform = Transform3D(0.385, 0, 0, 0, 0.385, 0, 0, 0, 0.385, 0, 0, 0)
+[node name="Model" parent="Decor/KTreeSnow_2" instance=ExtResource("e3")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Tree_2"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KTreeSnow_2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("trunk")
 
-[node name="Rock_1_1" type="StaticBody3D" parent="Decor"]
+[node name="KRocks_1" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(0.991497, 0, 0.130128, 0, 1, 0, -0.130128, 0, 0.991497, -6, 0, -5)
 
-[node name="Model" parent="Decor/Rock_1_1" instance=ExtResource("e4")]
-transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+[node name="Model" parent="Decor/KRocks_1" instance=ExtResource("e4")]
+transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_1_1"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KRocks_1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
-[node name="Rock_2_1" type="StaticBody3D" parent="Decor"]
+[node name="KRocks_2" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(0.977531, 0, 0.210791, 0, 1, 0, -0.210791, 0, 0.977531, 6, 0, -6)
 
-[node name="Model" parent="Decor/Rock_2_1" instance=ExtResource("e5")]
-transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, 0, 0, 0)
+[node name="Model" parent="Decor/KRocks_2" instance=ExtResource("e4")]
+transform = Transform3D(1.32, 0, 0, 0, 1.32, 0, 0, 0, 1.32, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_2_1"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KRocks_2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, 0)
 shape = SubResource("rockshape")
 
@@ -277,7 +276,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.5, -24)
 
 [node name="Checkpoint_1" type="Area3D" parent="Entities"]
 transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -3, 13.5, -23)
-script = ExtResource("e6")
+script = ExtResource("e5")
 checkpoint_id = "tepe"
 
 [node name="Copy_2" type="Area3D" parent="Entities"]
@@ -287,14 +286,14 @@ ability = "miknatis"
 
 [node name="Hint_1" type="Area3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, -26)
-script = ExtResource("e7")
+script = ExtResource("e6")
 hint = "ability"
 size = Vector3(10, 3, 4)
 delay = 6
 
 [node name="Metal_1" type="StaticBody3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.5, -33)
-script = ExtResource("e8")
+script = ExtResource("e7")
 size = Vector3(1, 1, 1)
 
 [node name="Kutu_6" type="CSGBox3D" parent="Level"]
@@ -309,7 +308,7 @@ script = ExtResource("e1")
 
 [node name="Metal_2" type="StaticBody3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.7, -38.5)
-script = ExtResource("e8")
+script = ExtResource("e7")
 size = Vector3(1, 1, 1)
 
 [node name="Kutu_7" type="CSGBox3D" parent="Level"]
@@ -324,7 +323,7 @@ script = ExtResource("e1")
 
 [node name="Metal_3" type="StaticBody3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.9, -44)
-script = ExtResource("e8")
+script = ExtResource("e7")
 size = Vector3(1, 1, 1)
 
 [node name="Kutu_8" type="CSGBox3D" parent="Level"]
@@ -339,7 +338,7 @@ script = ExtResource("e1")
 
 [node name="Metal_4" type="StaticBody3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.1, -49.5)
-script = ExtResource("e8")
+script = ExtResource("e7")
 size = Vector3(1, 1, 1)
 
 [node name="Kutu_9" type="CSGBox3D" parent="Level"]
@@ -375,74 +374,74 @@ material = SubResource("m_snow")
 
 [node name="Checkpoint_2" type="Area3D" parent="Entities"]
 transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -4.5, 16, -56)
-script = ExtResource("e6")
+script = ExtResource("e5")
 checkpoint_id = "direk"
 
 [node name="Hazard_1" type="Area3D" parent="Entities"]
 transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, -5, 11, -75)
-script = ExtResource("e9")
+script = ExtResource("e8")
 kind = "saw"
 move = Vector3(0, 0, -14)
 period = 3
 
 [node name="Hazard_2" type="Area3D" parent="Entities"]
 transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, -1.7, 11, -75)
-script = ExtResource("e9")
+script = ExtResource("e8")
 kind = "saw"
 move = Vector3(0, 0, -14)
 period = 3.7
 
 [node name="Hazard_3" type="Area3D" parent="Entities"]
 transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 1.7, 11, -75)
-script = ExtResource("e9")
+script = ExtResource("e8")
 kind = "saw"
 move = Vector3(0, 0, -14)
 period = 4.4
 
 [node name="Hazard_4" type="Area3D" parent="Entities"]
 transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 5, 11, -75)
-script = ExtResource("e9")
+script = ExtResource("e8")
 kind = "saw"
 move = Vector3(0, 0, -14)
 period = 3.4
 
-[node name="Rock_2_2" type="StaticBody3D" parent="Decor"]
+[node name="KRocks_3" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(-0.94142, 0, -0.337235, 0, 1, -0, 0.337235, 0, -0.94142, -6.2, 11, -73)
 
-[node name="Model" parent="Decor/Rock_2_2" instance=ExtResource("e5")]
-transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+[node name="Model" parent="Decor/KRocks_3" instance=ExtResource("e4")]
+transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_2_2"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KRocks_3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
-[node name="Rock_1_2" type="StaticBody3D" parent="Decor"]
+[node name="KRocks_4" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(-0.316742, 0, -0.948512, 0, 1, -0, 0.948512, 0, -0.316742, 6.2, 11, -69)
 
-[node name="Model" parent="Decor/Rock_1_2" instance=ExtResource("e4")]
-transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+[node name="Model" parent="Decor/KRocks_4" instance=ExtResource("e4")]
+transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_1_2"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KRocks_4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
-[node name="Rock_2_3" type="StaticBody3D" parent="Decor"]
+[node name="KRocks_5" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(-0.993439, 0, 0.114365, -0, 1, 0, -0.114365, 0, -0.993439, -6.2, 11, -83)
 
-[node name="Model" parent="Decor/Rock_2_3" instance=ExtResource("e5")]
-transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+[node name="Model" parent="Decor/KRocks_5" instance=ExtResource("e4")]
+transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_2_3"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KRocks_5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
-[node name="Rock_1_3" type="StaticBody3D" parent="Decor"]
+[node name="KRocks_6" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(-0.0434377, 0, 0.999056, -0, 1, 0, -0.999056, 0, -0.0434377, 6.2, 11, -79)
 
-[node name="Model" parent="Decor/Rock_1_3" instance=ExtResource("e4")]
-transform = Transform3D(0.56, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0, 0, 0)
+[node name="Model" parent="Decor/KRocks_6" instance=ExtResource("e4")]
+transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Rock_1_3"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KRocks_6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
@@ -468,7 +467,7 @@ script = ExtResource("e1")
 
 [node name="Checkpoint_3" type="Area3D" parent="Entities"]
 transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -4.5, 11, -92)
-script = ExtResource("e6")
+script = ExtResource("e5")
 checkpoint_id = "cig"
 
 [node name="Pirilnokta_4" type="Marker3D" parent="Guide" groups=["piril_point"]]
@@ -531,12 +530,12 @@ ability = "miknatis"
 
 [node name="Metal_5" type="StaticBody3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7, -125)
-script = ExtResource("e8")
+script = ExtResource("e7")
 size = Vector3(1.6, 1.6, 1.6)
 
 [node name="Metal_6" type="StaticBody3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2, -131)
-script = ExtResource("e8")
+script = ExtResource("e7")
 size = Vector3(1.6, 1.6, 1.6)
 
 [node name="Kutu_15" type="CSGBox3D" parent="Level"]
@@ -565,7 +564,7 @@ material = SubResource("m_snow")
 
 [node name="Cracked_1" type="StaticBody3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2, -139.5)
-script = ExtResource("e10")
+script = ExtResource("e9")
 size = Vector3(4, 0.6, 4)
 
 [node name="Copy_6" type="Area3D" parent="Entities"]
@@ -616,7 +615,7 @@ material = SubResource("m_kitside")
 
 [node name="Water_1" type="Area3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -155)
-script = ExtResource("e11")
+script = ExtResource("e10")
 size = Vector3(8, 3, 10)
 
 [node name="Kutu_25" type="CSGBox3D" parent="Level"]
@@ -654,7 +653,7 @@ ability = "pervane"
 
 [node name="Checkpoint_4" type="Area3D" parent="Entities"]
 transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -3, 9.15, -162)
-script = ExtResource("e6")
+script = ExtResource("e5")
 checkpoint_id = "gecit"
 
 [node name="Kutu_27" type="CSGBox3D" parent="Level"]
@@ -681,14 +680,14 @@ script = ExtResource("e1")
 
 [node name="Exit_1" type="Area3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -181)
-script = ExtResource("e12")
+script = ExtResource("e11")
 
-[node name="Goal_Flag_1" parent="Decor" instance=ExtResource("e13")]
+[node name="Goal_Flag_1" parent="Decor" instance=ExtResource("e12")]
 transform = Transform3D(1.37568, 0, -0.425549, 0, 1.44, 0, 0.425549, 0, 1.37568, 4.5, 15, -183)
 
 [node name="Prop_1" type="Node3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 38, -200)
-script = ExtResource("e14")
+script = ExtResource("e13")
 kind = "storm"
 size = 5
 
@@ -791,78 +790,78 @@ use_collision = true
 size = Vector3(6.73588, 30.9531, 9.70164)
 material = SubResource("m_snow")
 
-[node name="Tree_3" type="StaticBody3D" parent="Decor"]
+[node name="KTreeSnow_3" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(0.00306715, 0, 0.999995, 0, 1, 0, -0.999995, 0, 0.00306715, -5, 11, -95)
 
-[node name="Model" parent="Decor/Tree_3" instance=ExtResource("e3")]
-transform = Transform3D(0.385, 0, 0, 0, 0.385, 0, 0, 0, 0.385, 0, 0, 0)
+[node name="Model" parent="Decor/KTreeSnow_3" instance=ExtResource("e3")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Tree_3"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KTreeSnow_3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("trunk")
 
-[node name="Tree_4" type="StaticBody3D" parent="Decor"]
+[node name="KTreeSnow_4" type="StaticBody3D" parent="Decor"]
 transform = Transform3D(-0.997415, 0, 0.0718622, -0, 1, 0, -0.0718622, 0, -0.997415, 5.5, 15, -184)
 
-[node name="Model" parent="Decor/Tree_4" instance=ExtResource("e3")]
-transform = Transform3D(0.385, 0, 0, 0, 0.385, 0, 0, 0, 0.385, 0, 0, 0)
+[node name="Model" parent="Decor/KTreeSnow_4" instance=ExtResource("e3")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, 0, 0, 0)
 
-[node name="Shape" type="CollisionShape3D" parent="Decor/Tree_4"]
+[node name="Shape" type="CollisionShape3D" parent="Decor/KTreeSnow_4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("trunk")
 
-[node name="Cloud_2_1" parent="Clouds" instance=ExtResource("e15")]
+[node name="Cloud_2_1" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(2.55786, 0, -1.36846, 0, 2.90092, 0, 1.36846, 0, 2.55786, 56.0422, -7.67263, -22.4855)
 
-[node name="Cloud_3_1" parent="Clouds" instance=ExtResource("e16")]
+[node name="Cloud_3_1" parent="Clouds" instance=ExtResource("e15")]
 transform = Transform3D(-2.49801, 0, 1.24647, -0, 2.79172, 0, -1.24647, 0, -2.49801, -61.2144, -10.8056, 29.6827)
 
-[node name="Cloud_1_1" parent="Clouds" instance=ExtResource("e17")]
+[node name="Cloud_1_1" parent="Clouds" instance=ExtResource("e16")]
 transform = Transform3D(1.17112, 0, 2.76188, 0, 2.99992, 0, -2.76188, 0, 1.17112, 79.2921, 39.1475, -10.4516)
 
-[node name="Cloud_3_2" parent="Clouds" instance=ExtResource("e16")]
+[node name="Cloud_3_2" parent="Clouds" instance=ExtResource("e15")]
 transform = Transform3D(-1.2313, 0, -1.37044, 0, 1.84234, -0, 1.37044, 0, -1.2313, -57.9038, -11.8751, -151.269)
 
-[node name="Cloud_1_2" parent="Clouds" instance=ExtResource("e17")]
+[node name="Cloud_1_2" parent="Clouds" instance=ExtResource("e16")]
 transform = Transform3D(-0.603462, 0, -2.31932, 0, 2.39654, -0, 2.31932, 0, -0.603462, 47.8943, -6.79754, 2.96911)
 
-[node name="Cloud_1_3" parent="Clouds" instance=ExtResource("e17")]
+[node name="Cloud_1_3" parent="Clouds" instance=ExtResource("e16")]
 transform = Transform3D(-2.88461, 0, 0.510285, -0, 2.92939, 0, -0.510285, 0, -2.88461, 35.0407, 36.521, -138.467)
 
-[node name="Cloud_2_2" parent="Clouds" instance=ExtResource("e15")]
+[node name="Cloud_2_2" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(-2.38737, 0, -0.611538, 0, 2.46445, -0, 0.611538, 0, -2.38737, 54.0673, -10.959, -103.158)
 
-[node name="Cloud_1_4" parent="Clouds" instance=ExtResource("e17")]
+[node name="Cloud_1_4" parent="Clouds" instance=ExtResource("e16")]
 transform = Transform3D(1.06502, 0, 1.83454, 0, 2.12128, 0, -1.83454, 0, 1.06502, -76.2536, 31.0573, -142.697)
 
-[node name="Cloud_1_5" parent="Clouds" instance=ExtResource("e17")]
+[node name="Cloud_1_5" parent="Clouds" instance=ExtResource("e16")]
 transform = Transform3D(-0.621937, 0, -2.7071, 0, 2.77763, -0, 2.7071, 0, -0.621937, -78.619, 29.9486, -61.2094)
 
-[node name="Cloud_2_3" parent="Clouds" instance=ExtResource("e15")]
+[node name="Cloud_2_3" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(-1.47694, 0, -1.38722, 0, 2.02626, -0, 1.38722, 0, -1.47694, -66.7822, 39.2635, 20.6713)
 
-[node name="Cloud_3_3" parent="Clouds" instance=ExtResource("e16")]
+[node name="Cloud_3_3" parent="Clouds" instance=ExtResource("e15")]
 transform = Transform3D(2.59924, 0, -1.37809, 0, 2.94197, 0, 1.37809, 0, 2.59924, 56.3387, 28.2472, -12.0323)
 
-[node name="Cloud_2_4" parent="Clouds" instance=ExtResource("e15")]
+[node name="Cloud_2_4" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(2.28272, 0, 1.50016, 0, 2.73154, 0, -1.50016, 0, 2.28272, -48.0926, 37.3758, 34.2875)
 
-[node name="Cloud_1_6" parent="Clouds" instance=ExtResource("e17")]
+[node name="Cloud_1_6" parent="Clouds" instance=ExtResource("e16")]
 transform = Transform3D(-2.05995, 0, -0.80387, 0, 2.21124, -0, 0.80387, 0, -2.05995, 26.9216, 32.2153, 49.1881)
 
-[node name="Cloud_2_5" parent="Clouds" instance=ExtResource("e15")]
+[node name="Cloud_2_5" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(1.51366, 0, 2.58117, 0, 2.99225, 0, -2.58117, 0, 1.51366, -35.2298, 28.6133, 21.5386)
 
-[node name="Cloud_1_7" parent="Clouds" instance=ExtResource("e17")]
+[node name="Cloud_1_7" parent="Clouds" instance=ExtResource("e16")]
 transform = Transform3D(-2.72259, 0, 1.26347, -0, 3.00148, 0, -1.26347, 0, -2.72259, -58.9512, 39.2532, -107.962)
 
-[node name="Cloud_2_6" parent="Clouds" instance=ExtResource("e15")]
+[node name="Cloud_2_6" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(1.38421, 0, -0.960931, 0, 1.68506, 0, 0.960931, 0, 1.38421, -65.34, 38.5902, 32.2242)
 
-[node name="Cloud_3_4" parent="Clouds" instance=ExtResource("e16")]
+[node name="Cloud_3_4" parent="Clouds" instance=ExtResource("e15")]
 transform = Transform3D(-2.82023, 0, -1.26786, 0, 3.09212, -0, 1.26786, 0, -2.82023, 74.6582, -10.7341, -62.8796)
 
-[node name="Cloud_2_7" parent="Clouds" instance=ExtResource("e15")]
+[node name="Cloud_2_7" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(-1.91306, 0, -0.198844, 0, 1.92336, -0, 0.198844, 0, -1.91306, 15.3995, -7.93407, 42.3056)
 
 [node name="KitBatch" type="Node3D" parent="."]

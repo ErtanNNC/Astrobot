@@ -15,7 +15,7 @@
 [ext_resource type="Script" path="res://scripts/entities/checkpoint.gd" id="e7"]
 [ext_resource type="Script" path="res://scripts/entities/wind_zone.gd" id="e8"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e9"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Plant_Large.gltf" id="e10"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/flowers-tall.glb" id="e10"]
 [ext_resource type="Script" path="res://scripts/entities/golden_screw.gd" id="e11"]
 [ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e12"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Goal_Flag.gltf" id="e13"]
@@ -294,8 +294,8 @@ transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, 2.5, 
 script = ExtResource("e7")
 checkpoint_id = "bulut2"
 
-[node name="Plant_Large_1" parent="Decor" instance=ExtResource("e10")]
-transform = Transform3D(0.68559, 0, 0.412269, 0, 0.8, 0, -0.412269, 0, 0.68559, -2.5, 1, -51)
+[node name="KFlowersTall_1" parent="Decor" instance=ExtResource("e10")]
+transform = Transform3D(2.05677, 0, 1.23681, 0, 2.4, 0, -1.23681, 0, 2.05677, -2.5, 1, -51)
 
 [node name="Copy_3" type="Area3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, -50.5)

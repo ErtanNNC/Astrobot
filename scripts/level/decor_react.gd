@@ -3,8 +3,8 @@ extends Node
 ## dönme saldırısıyla vurulan çalı/bitki bir kez pil düşürür, ağaçlar sarsılır.
 ## area.gd her alana bunu ekler. Bkz. docs/features/oyun-hissi/design.md
 
-const TOUCH_KINDS := ["Grass", "Bush", "Plant"]   ## içinden geçince sallanır
-const DROP_KINDS := ["Bush", "Plant"]            ## vurunca pil düşürür
+const TOUCH_KINDS := ["Grass", "Bush", "Plant", "KGrass", "KFlowers", "KPlant", "KMushrooms"]   ## içinden geçince sallanır
+const DROP_KINDS := ["Bush", "Plant", "KFlowersTall", "KMushrooms", "KPlant"]   ## vurunca pil düşürür
 const TOUCH_RADIUS := 0.9                        ## m
 const BATTERIES_PER_BUSH := 1
 
@@ -21,7 +21,7 @@ func setup(decor: Node, bip: Bip, area_id: String) -> void:
 		if not (n is Node3D):
 			continue
 		var kind := ""
-		for k in TOUCH_KINDS + ["Tree"]:
+		for k in TOUCH_KINDS + ["Tree", "KTree", "KPine"]:
 			if String(n.name).begins_with(k):
 				kind = k
 				break
@@ -56,14 +56,22 @@ func _on_spun() -> void:
 	for it in _items:
 		var n: Node3D = it["node"]
 		var d: Vector3 = n.global_position - p
-		var reach := r + (0.8 if it["kind"] == "Tree" else 0.0)
+		var tree: bool = it["kind"] in ["Tree", "KTree", "KPine"]
+		var reach := r + (0.8 if tree else 0.0)
 		if absf(d.y) > 2.0 or Vector2(d.x, d.z).length() > reach:
 			continue
 		_wobble(it, 0.45)
-		Fx.burst(n.global_position + Vector3.UP * (1.5 if it["kind"] == "Tree" else 0.4), Color(0.45, 0.8, 0.35), 6, 2.0)
-		if DROP_KINDS.has(it["kind"]) and not _given.has(n.name):
+		Fx.burst(n.global_position + Vector3.UP * (1.5 if tree else 0.4), Color(0.45, 0.8, 0.35), 6, 2.0)
+		if _drops(String(n.name)) and not _given.has(n.name):
 			_given[n.name] = true
 			Battery.burst(n.get_parent(), n.global_position, BATTERIES_PER_BUSH, "cali_" + String(n.name))
+
+
+func _drops(nm: String) -> bool:
+	for k in DROP_KINDS:
+		if nm.begins_with(k):
+			return true
+	return false
 
 
 func _wobble(it: Dictionary, amount: float) -> void:

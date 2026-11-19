@@ -5,6 +5,7 @@ Yine de teşekkür olarak burada ve ileride oyunun "Emeği Geçenler" ekranında
 
 | Dosya | Kaynak | Yazar | Lisans | Tarih |
 |---|---|---|---|---|
+| `assets/models/kenney/platformer/*.glb` (ağaçlar, çiçekler, çimen, kaya, mantar ve diğer süsler; lisans dosyası klasörde) | https://kenney-assets.itch.io/platformer-kit ("Platformer Kit") | Kenney (kenney.nl) | CC0 1.0 | 2026-11-19 |
 | `assets/models/kaykit/platformer/*` (zemin karoları, bayrak, koni ve diğer parçalar; lisans dosyası klasörde) | https://kaylousberg.itch.io/kaykit-platformer ("KayKit Platformer Pack" ücretsiz sürüm) | Kay Lousberg (kaylousberg.com) | CC0 1.0 | 2026-11-18 |
 | `assets/ui/pzuh/*.png` (pencereler, kurdele, jöle butonlar, simge butonları, yıldız, çubuklar; paketin PNG sayfalarından kesildi) | https://pzuh.itch.io/free-game-gui ("Free Game GUI") | pzUH | CC0 (yazarın itch.io sayfasındaki yanıtı: lisans "CC0", ticari kullanım "yes"; yazarın OpenGameArt'taki diğer GUI paketleri de CC0) | 2026-11-18 |
 | `assets/ui/kenney/icons/*.png` (buton simgeleri) | https://opengameart.org/content/game-icons ("Game Icons") | Kenney (kenney.nl) | CC0 1.0 | 2026-11-18 |
