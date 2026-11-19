@@ -49,7 +49,6 @@ const ALIASES := {
 	"RobotArmature|Robot_Yes": "victory", "RobotArmature|Robot_ThumbsUp": "victory", "RobotArmature|Robot_Sitting": "idle",
 	"RobotArmature|Robot_Standing": "idle", "RobotArmature|Robot_Punch": "wave", "bip_fall": "fall", "bip_hang": "hang",
 }
-const LOOPING := ["idle", "walk", "run", "fall", "hang", "victory"]
 
 static var _lib_cache: AnimationLibrary
 var _new := false
@@ -68,16 +67,11 @@ func _swap_model() -> void:
 	model = nm
 	anim = nm.get_node("AnimationPlayer")
 	if _lib_cache == null:
-		var src := {}
-		for f in ["idle", "walk", "run", "jump", "fall", "hang", "wave", "victory"]:
-			var sc: Node = load(NEW_DIR + f + ".fbx").instantiate()
-			var a: Animation = (sc.get_node("AnimationPlayer") as AnimationPlayer).get_animation("mixamo_com").duplicate()
-			a.loop_mode = Animation.LOOP_LINEAR if f in LOOPING else Animation.LOOP_NONE
-			src[f] = a
-			sc.free()
+		# Animasyonlar tek kütüphanede (tests/extract_bip_anims.gd üretir); eski adlarla eşlenir
+		var src: AnimationLibrary = load(NEW_DIR + "bip_anims.res")
 		_lib_cache = AnimationLibrary.new()
 		for alias in ALIASES:
-			_lib_cache.add_animation(alias, src[ALIASES[alias]])
+			_lib_cache.add_animation(alias, src.get_animation(ALIASES[alias]))
 	for lib in anim.get_animation_library_list():
 		anim.remove_animation_library(lib)
 	anim.add_animation_library("", _lib_cache)
