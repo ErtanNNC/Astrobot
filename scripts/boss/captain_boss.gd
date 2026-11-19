@@ -1,5 +1,6 @@
 extends Node3D
-## Patron: Paslı Kaptan (Bölüm 2). Hazır model bulunmadığı için parçalardan kurulur (D-010).
+## Patron: Paslı Kaptan (Bölüm 2). Görünüş: fanuslu balık robot (Pixabay, bkz. CREDITS.md);
+## oynanış parçaları (çapa kolu, can ışıkları, metal şapka) koddan kurulur.
 ## Aşama 1 (Pervane): dev çapa güvertede döner; çapanın üstünden atla/atıl, direğin tepesindeki
 ##                    çana Pervane ile çık (tetikleyici "mast").
 ## Aşama 2 (Kaya):    güverteye düşen üç fıçıyı Kaya ile ez → kalkan iner.
@@ -23,14 +24,17 @@ const PHASE_HINTS := [
 var phase := 0
 var _t := 0.0
 var _bip: Bip
-var _body_mat: StandardMaterial3D
 var _lights: Array = []
 var _sweeper: Node3D
 var _sweep_area: Area3D
 var _hat: StaticBody3D
 var _barrels: Array = []
 var _phase_nodes := {}
-var _eye: MeshInstance3D
+var _eye: MeshInstance3D       ## fanustaki balık
+var _model: Node3D
+var _flash: StandardMaterial3D
+var _fish_rot := Vector3.ZERO
+var _fish_pos := Vector3.ZERO
 var _hat_hit := false
 
 
@@ -49,11 +53,9 @@ func _ready() -> void:
 
 
 func _build() -> void:
-	_body_mat = AbilityModels.mat(Color(0.62, 0.38, 0.22), 0.7)
-	var rust := AbilityModels.mat(Color(0.45, 0.28, 0.18), 0.8)
 	var iron := AbilityModels.mat(Color(0.35, 0.37, 0.42), 0.4)
 	iron.metallic = 0.6
-	# Gövde: fıçı
+	# Gövde: çarpışma silindiri (görünmez)
 	var body := StaticBody3D.new()
 	add_child(body)
 	var cs := CollisionShape3D.new()
@@ -63,46 +65,21 @@ func _build() -> void:
 	cs.shape = cyl
 	cs.position.y = body_height / 2
 	body.add_child(cs)
-	var bm := CylinderMesh.new()
-	bm.radial_segments = 16
-	bm.rings = 1
-	bm.top_radius = 1.8
-	bm.bottom_radius = 1.8
-	bm.height = body_height
-	add_child(AbilityModels.mesh_node(bm, _body_mat, Vector3(0, body_height / 2, 0)))
-	var belly := SphereMesh.new()
-	belly.radial_segments = 12
-	belly.rings = 6
-	belly.radius = 2.05
-	belly.height = 3.6
-	add_child(AbilityModels.mesh_node(belly, _body_mat, Vector3(0, body_height * 0.45, 0), Vector3.ZERO, Vector3(1, 1.25, 1)))
-	for y in [0.8, body_height * 0.45, body_height - 0.8]:
-		var hoop := TorusMesh.new()
-		hoop.inner_radius = 1.95
-		hoop.outer_radius = 2.15
-		hoop.rings = 24
-		hoop.ring_segments = 6
-		add_child(AbilityModels.mesh_node(hoop, iron, Vector3(0, y, 0)))
-	# Tek kırmızı göz (+Z yönüne, oyuncunun geldiği tarafa bakar)
-	var em := SphereMesh.new()
-	em.radial_segments = 12
-	em.rings = 6
-	em.radius = 0.55
-	em.height = 1.1
-	_eye = AbilityModels.mesh_node(em, AbilityModels.mat(Color(1, 0.2, 0.15), 0.3, 3.0), Vector3(0, body_height * 0.72, 1.9))
-	add_child(_eye)
-	var lid := BoxMesh.new()
-	lid.size = Vector3(1.4, 0.18, 0.3)
-	add_child(AbilityModels.mesh_node(lid, rust, Vector3(0, body_height * 0.72 + 0.5, 1.95), Vector3(0, 0, 0.15)))
-	# Kollar
-	for side in [-1, 1]:
-		var arm := CylinderMesh.new()
-		arm.radial_segments = 16
-		arm.rings = 1
-		arm.top_radius = 0.35
-		arm.bottom_radius = 0.45
-		arm.height = 2.6
-		add_child(AbilityModels.mesh_node(arm, rust, Vector3(side * 2.4, body_height * 0.55, 0), Vector3(0, 0, side * 0.9)))
+	# Görünüş: fanuslu balık robot (Pixabay "Fish mecha robot alien", bkz. CREDITS.md).
+	# Fanusun içindeki balık (_eye) yüzer; vuruşta bütün model beyaz parlar.
+	_model = load("res://assets/models/pixabay/fish_mecha.glb").instantiate()
+	_model.scale = Vector3.ONE * (body_height / 5.85)
+	add_child(_model)
+	_flash = StandardMaterial3D.new()
+	_flash.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_flash.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_flash.albedo_color = Color(1, 1, 1, 0.0)
+	for mi in _model.find_children("*", "MeshInstance3D", true, false):
+		(mi as MeshInstance3D).material_overlay = _flash
+		if mi.name == "Fish":
+			_eye = mi
+	_fish_rot = _eye.rotation
+	_fish_pos = _eye.position
 	# Can ışıkları (3)
 	for i in 3:
 		var l := SphereMesh.new()
@@ -111,7 +88,7 @@ func _build() -> void:
 		l.radius = 0.2
 		l.height = 0.4
 		var lm := AbilityModels.mat(Color(1.0, 0.85, 0.2), 0.3, 3.0)
-		add_child(AbilityModels.mesh_node(l, lm, Vector3(-0.7 + i * 0.7, body_height * 0.3, 1.95)))
+		add_child(AbilityModels.mesh_node(l, lm, Vector3(-0.7 + i * 0.7, body_height * 0.3, 1.6)))
 		_lights.append(lm)
 	# Metal kaptan şapkası: aşama 3'te Mıknatısla yapışılır, üstüne çakılır
 	_hat = StaticBody3D.new()
@@ -159,7 +136,11 @@ func _physics_process(delta: float) -> void:
 	_t += delta
 	if phase < 1 or phase >= 4:
 		return
-	_eye.scale = Vector3.ONE * (1.0 + 0.1 * sin(_t * 6.0))
+	# Fanustaki balık yüzer, robot gövdesi hafifçe sallanır
+	_eye.rotation.y = _fish_rot.y + sin(_t * 1.6) * 0.7
+	_eye.position.y = _fish_pos.y + sin(_t * 2.3) * 0.06
+	_model.position.y = sin(_t * 2.0) * 0.08
+	_model.rotation.z = sin(_t * 1.1) * 0.03
 	var spd: float = [0.0, sweep_speed, sweep_speed * 0.6, 0.0][phase]
 	_sweeper.rotation.y += spd * delta
 	if spd > 0.0:
@@ -199,8 +180,8 @@ func _hit() -> void:
 	lm.emission_energy_multiplier = 0.0
 	lm.albedo_color = Color(0.2, 0.2, 0.2)
 	var tw := create_tween()
-	tw.tween_property(_body_mat, "albedo_color", Color(1, 1, 1), 0.06)
-	tw.tween_property(_body_mat, "albedo_color", Color(0.62, 0.38, 0.22), 0.3)
+	tw.tween_property(_flash, "albedo_color:a", 0.75, 0.06)
+	tw.tween_property(_flash, "albedo_color:a", 0.0, 0.3)
 	tw.parallel().tween_property(self, "rotation:z", 0.06, 0.1)
 	tw.tween_property(self, "rotation:z", 0.0, 0.4).set_trans(Tween.TRANS_ELASTIC)
 	phase += 1
@@ -253,7 +234,7 @@ func _defeat() -> void:
 	Sfx.play("core")
 	var tw := create_tween()
 	tw.tween_property(self, "rotation:x", -0.25, 1.0).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
-	tw.parallel().tween_property(_eye, "scale", Vector3.ONE * 0.2, 1.0)
+	tw.parallel().tween_property(_eye, "rotation:z", _fish_rot.z + PI * 0.9, 1.0)   # balık şaşkın, ters döner
 	await tw.finished
 	defeated.emit()
 	var lvl := get_tree().current_scene

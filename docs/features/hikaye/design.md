@@ -22,6 +22,7 @@ Karakterler bulunabilen CC0 asset'lerle yapılır; tarif asset'e uyarlanır (D-0
 | **Zıpzıp** (zıplayan düşman) | Quaternius "Skull" | yerinde zıplar, Bip yaklaşınca ona doğru seker | oyunda |
 | **Hurda Goblin** (kovalayan düşman) | Quaternius "Enemy" (boynuzlu yeşil) | Bip'i görünce kovalar, uzaklaşınca evine döner | oyunda |
 | **Hurdacı Vinç** (patron) | uygun hazır model bulunamadı | basit şekillerden kuruldu: turuncu kule, dönen bom, kırmızı gözlü kabin, kancada Çekirdek Pil, 3 can ışığı (`scripts/boss/crane_boss.gd`) | oyunda |
+| **Paslı Kaptan** (Bölüm 2 patronu) | Pixabay "Fish mecha robot alien low poly" (fanusta balık, dört bacaklı robot gövde; animasyonsuz) | fanustaki balık yüzer, gövde hafifçe sallanır, vuruşta beyaz parlar, yenilince balık ters döner; tepesine Mıknatıs için metal şapka, önüne 3 can ışığı; çapa kolu koddan (`scripts/boss/captain_boss.gd`) | oyunda |
 | **Atölye robotları** (kapanışta alkışlayanlar) | Quaternius "Animated Robot" | farklı renklere boyanmış kopyalar; "Wave", "Yes", "Dance" animasyonları | oyunda (kapanış) |
 
 ## Ana hikaye (tüm oyun)

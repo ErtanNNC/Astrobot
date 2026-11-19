@@ -24,7 +24,7 @@ Statik, ikinci Çekirdek Pili adanın limanına götürdü. Liman rüzgârlı, g
 Her alanda bir Altın Vida (bölümde 3).
 
 ## Patron: Paslı Kaptan
-Hazır model yok; Hurdacı Vinç gibi parçalardan kurulur: gövde (fıçı benzeri silindir), iki kol (biri çapa), metal kaptan şapkası, ortada tek kırmızı göz. Üç can ışığı. Gemi güvertesi arenası, etrafı deniz.
+Görünüş: fanusunda bir balığın yüzdüğü dört bacaklı robot (Pixabay modeli, geliştiricinin seçimi; bkz. hikaye "Karakterlerin görünüşü"). Tepesinde metal kaptan şapkası, önünde üç can ışığı, güvertede dönen çapa kolu. Gemi güvertesi arenası, etrafı deniz.
 
 ## Numbers
 | Ad | Değer | Birim | Testte neye bakılmalı |

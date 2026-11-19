@@ -44,3 +44,10 @@ Lisans metinleri ilgili klasörlerdeki `License.txt` dosyalarında.
 | Dosya | Kaynak | Yazar | Lisans | Tarih |
 |---|---|---|---|---|
 | `assets/fonts/nunito/Nunito.ttf` (oyunun yazı tipi, ağırlık 900) | https://github.com/google/fonts/tree/main/ofl/nunito | The Nunito Project Authors (Vernon Adams, Cyreal, Jacques Le Bailly) | SIL Open Font License 1.1 (`assets/fonts/nunito/OFL.txt`; ticari kullanım serbest, yazı tipi tek başına satılamaz) | 2026-11-18 |
+
+## Pixabay Content License
+Ticari kullanım serbest, isim vermek zorunlu değil; modelin kendisi tek başına (değiştirilmeden) satılamaz ya da dağıtılamaz. Oyunun içinde kullanmak serbest. https://pixabay.com/service/license-summary/
+
+| Dosya | Kaynak | Yazar | Lisans | Tarih |
+|---|---|---|---|---|
+| `assets/models/pixabay/fish_mecha.glb` (Paslı Kaptan patronu) | https://pixabay.com/3d-models/fish-mecha-robot-alien-low-poly-77/ (geliştirici indirip yükledi) | Pixabay kullanıcısı | Pixabay Content License | 2026-11-19 |
