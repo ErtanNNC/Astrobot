@@ -25,6 +25,18 @@ THEMES = {
     "kitside": ((0.80,0.82,0.86),(0.76,0.78,0.83),(0.70,0.72,0.78),(0.64,0.66,0.72)),
 }
 
+# Tema → (yan doku, üst doku): freegameassets.com "Painterly Fantasy Textures" (CC0), 512 px.
+# Listede olmayan temalar (renkli oyun blokları: yellow, red, blue, purple, cloud) düz renkli kalır.
+TEX_DIR = "res://assets/textures/freegameassets/painterly/"
+THEME_TEX = {
+    "grass": ("mossy-earth", "lush-meadow-grass"), "grass2": ("mossy-earth", "lush-meadow-grass"),
+    "sand": ("sandstone-block", "fine-beach-sand"), "canyon": ("desert-cliff", "red-desert-dust"),
+    "quarry": ("cracked-cliff-face", "brown-crushed-rock"), "stone": ("granite-rock", "cracked-stone-ground"),
+    "kitside": ("pale-limestone-blocks", None), "wood": ("weathered-planks", "dock-boards"),
+    "floor": ("dock-boards", "dock-boards"), "factory": ("rivet-metal", "rivet-metal"),
+    "snow": ("icy-rock-wall", "powder-snow"), "ice": ("icy-granite-cliff", "blue-ice-cracks"),
+}
+
 # KayKit Platformer Pack (CC0, Kay Lousberg): yürünen zeminlerin üstü bu renkli karolarla kaplanır.
 # Tema → karo rengi. Listede olmayan temalar (kar, bulut, ahşap, iç mekân) eski görünümünde kalır.
 KIT_DIR = "res://assets/models/kaykit/platformer/"
@@ -339,7 +351,17 @@ class Level:
         subs = []
         for k in sorted(self.used_themes):
             t1, t2, a, b = THEMES[k]
-            subs.append('[sub_resource type="ShaderMaterial" id="m_%s"]\nrender_priority = 0\nshader = ExtResource("sh")\nshader_parameter/top_color = %s\nshader_parameter/top_color2 = %s\nshader_parameter/side_a = %s\nshader_parameter/side_b = %s\n' % (k, c3(t1), c3(t2), c3(a), c3(b)))
+            extra = ""
+            if self.use_kit and k in THEME_TEX:
+                side, top = THEME_TEX[k]
+                for kind, name in (("side", side), ("top", top)):
+                    if name:
+                        tid = "tex_" + name.replace("-", "_")
+                        line = '[ext_resource type="Texture2D" path="%s%s.png" id="%s"]' % (TEX_DIR, name, tid)
+                        if line not in ext_lines:
+                            ext_lines.append(line)
+                        extra += 'shader_parameter/use_%s_tex = true\nshader_parameter/%s_tex = ExtResource("%s")\n' % (kind, kind, tid)
+            subs.append('[sub_resource type="ShaderMaterial" id="m_%s"]\nrender_priority = 0\nshader = ExtResource("sh")\nshader_parameter/top_color = %s\nshader_parameter/top_color2 = %s\nshader_parameter/side_a = %s\nshader_parameter/side_b = %s\n%s' % (k, c3(t1), c3(t2), c3(a), c3(b), extra))
         subs.append('''[sub_resource type="CylinderShape3D" id="trunk"]
 height = 2.4
 radius = 0.35

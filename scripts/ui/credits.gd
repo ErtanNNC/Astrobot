@@ -9,6 +9,7 @@ const LINES := [
 	["Çevre, düşmanlar, Pırıl", 34], ["Quaternius — Ultimate Platformer Pack (CC0)", 26], ["", 20],
 	["Zemin blokları", 34], ["Kay Lousberg — KayKit Platformer Pack (CC0)", 26], ["", 20],
 	["Ağaçlar ve çiçekler", 34], ["Kenney — Platformer Kit (CC0)", 26], ["", 20],
+	["Duvar ve zemin dokuları", 34], ["freegameassets.com — Painterly Fantasy Textures (CC0)", 26], ["", 20],
 	["Ses efektleri", 34], ["Kenney — kenney.nl (CC0)", 26], ["", 20],
 	["Arayüz", 34], ["pzUH — Free Game GUI (CC0)", 26], ["Kenney — Game Icons (CC0)", 26], ["", 20],
 	["Yazı tipi", 34], ["Nunito — The Nunito Project Authors (SIL OFL 1.1)", 26], ["", 20],

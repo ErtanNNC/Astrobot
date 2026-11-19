@@ -10,6 +10,13 @@ uniform vec4 side_b : source_color = vec4(0.84, 0.55, 0.33, 1.0);
 uniform float band_height = 0.35;
 uniform float grid_alpha = 0.07;
 uniform float top_threshold = 0.7;
+// El boyaması dokular (freegameassets.com "Painterly Fantasy Textures", CC0). Yoksa eski renkli görünüm.
+uniform bool use_side_tex = false;
+uniform bool use_top_tex = false;
+uniform sampler2D side_tex : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D top_tex : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform float tex_size = 3.0;      // m, doku bu kadar uzunlukta bir kez tekrar eder
+uniform float tex_tint = 0.12;     // temanın rengine ne kadar yaklaşsın
 
 varying vec3 wp;
 varying vec3 wn;
@@ -40,7 +47,19 @@ float grid(vec2 p) {
 
 void fragment() {
 	vec3 col;
-	if (wn.y > top_threshold) {
+	if (wn.y > top_threshold && use_top_tex) {
+		col = texture(top_tex, wp.xz / tex_size).rgb;
+		col = mix(col, col * top_color.rgb * 1.6, tex_tint);
+		ROUGHNESS = 0.9;
+	} else if (wn.y <= top_threshold && use_side_tex) {
+		vec2 uv = abs(wn.x) > abs(wn.z) ? wp.zy : wp.xy;
+		col = texture(side_tex, uv / tex_size).rgb;
+		if (wn.y < -0.5) {
+			col = texture(side_tex, wp.xz / tex_size).rgb * 0.75;
+		}
+		col = mix(col, col * side_a.rgb * 1.5, tex_tint);
+		ROUGHNESS = 0.95;
+	} else if (wn.y > top_threshold) {
 		float n = vnoise(wp.xz * 0.6) * 0.6 + vnoise(wp.xz * 2.3) * 0.4;
 		col = mix(top_color.rgb, top_color2.rgb, smoothstep(0.35, 0.75, n));
 		col = mix(col, col * 0.7, grid(wp.xz) * grid_alpha / 0.07 * 0.25);

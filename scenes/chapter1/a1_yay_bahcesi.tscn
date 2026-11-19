@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e19"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e20"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e21"]
+[ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Script" path="res://scripts/level/kit_batch.gd" id="kitb"]
 
 [sub_resource type="ShaderMaterial" id="m_kitside"]
@@ -36,6 +37,8 @@ shader_parameter/top_color = Color(0.800, 0.820, 0.860, 1)
 shader_parameter/top_color2 = Color(0.760, 0.780, 0.830, 1)
 shader_parameter/side_a = Color(0.700, 0.720, 0.780, 1)
 shader_parameter/side_b = Color(0.640, 0.660, 0.720, 1)
+shader_parameter/use_side_tex = true
+shader_parameter/side_tex = ExtResource("tex_pale_limestone_blocks")
 
 [sub_resource type="CylinderShape3D" id="trunk"]
 height = 2.4
