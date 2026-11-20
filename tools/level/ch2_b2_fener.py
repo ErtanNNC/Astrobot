@@ -81,6 +81,29 @@ for x in (-4.3, 4.3):
     L.box(x, 44.6, 0, 0.3, 1.2, 9, "wood")
 L.box(0, 44.6, 4.35, 9, 1.2, 0.3, "wood")
 
+# =====================================================================================
+# Görsel yenileme (2026-11-21): kumsal, kayalar, balıkçı evleri, fener kapısı, yunuslar
+# =====================================================================================
+MD = "kaykit/medieval/"
+L.top(0, -1.3, 0, 37, 37, depth=1.6, theme="sand")            # kumsal halkası
+for i in range(18):
+    a = math.tau * i / 18 + 0.1
+    r = 17.5 + (i % 3) * 0.6
+    L.model("kaykit/forest/" + random.choice(("Rock_3_A_Color1", "Rock_3_E_Color1", "Rock_3_K_Color1", "Rock_1_J_Color1")),
+            math.cos(a) * r, -1.3, math.sin(a) * r, random.uniform(0, 6.28), random.uniform(2.5, 4.0))
+L.model(MD + "building_home_A_blue", 12.5, 0, -3, -PI / 2, 5.0)
+L.model(MD + "building_home_B_red", -12.5, 0, 2, PI / 2, 5.0)
+L.solid(12.5, 2.2, -3, 4.2, 4.4, 4.4); L.solid(-12.5, 2.2, 2, 4.2, 4.4, 4.4)
+for (x, z) in ((10.2, -6.2), (-10.4, 5.0), (9.8, 1.2)):
+    L.model(MD + random.choice(("barrel", "crate_A_big", "sack")), x, 0, z, random.uniform(0, 6.28), 5.0)
+L.model("kaykit/restaurant/door_A", -0.8, 0, 3.0, 0, 1.0)      # fener kapısı
+for i in range(2, 10, 2):                                        # pencereler (her kırmızı şeritte)
+    L.box(0, i * 4 + 2.2, 3.02, 1.0, 1.4, 0.06, "blue")
+L.model(MD + "flag_red", 0, 44.6, -4.4, 0, 6.0)
+for (x, z, sc) in ((22, 6, 1.0), (-20, -14, 0.9), (6, -24, 1.0), (-14, 22, 0.9)):
+    L.ent("prop", x, -8, z, kind="dolphin", size=sc, ry=math.atan2(x, z), parent="Decor")
+L.ent("prop", -60, -8.5, 40, kind="whale", size=2.0, parent="Decor")
+
 L.ent("prop", -50, 30, -120, kind="storm", size=4.0)
 L.clouds(24, xr=(-90, 90), zr=(-90, 90), avoid=(-25, 25, -25, 25), low=(-6, -3), high=(18, 50))
 L.write()
