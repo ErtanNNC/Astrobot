@@ -31,7 +31,7 @@ Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yetene
 | Yay zıplama yüksekliği | 5,0 [ASSUMPTION] | m | normal zıplamadan net farklı mı |
 | Yay şarjlı zıplama yüksekliği | 6,5 [ASSUMPTION] | m | |
 | Balon süzülme düşüş hızı | 1,5 [ASSUMPTION] | m/s | |
-| Balon süzülme süresi | 3,0 [ASSUMPTION] | s | yere inince yenilenir |
+| Balon süzülme süresi | 3,0 [ASSUMPTION] | s | yere inince yenilenir; yukarı esen rüzgârın içinde harcanmaz (2026-11-20) |
 | Balon havada yatay hız | 5,0 [ASSUMPTION] | m/s | |
 | Mıknatıs menzili | 7,0 [ASSUMPTION] | m | |
 | Mıknatıs çekilme hızı | 12 [ASSUMPTION] | m/s | |

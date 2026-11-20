@@ -170,15 +170,58 @@ func _test_yay() -> void:
 
 
 func _test_balon() -> void:
-	await place(Vector3(0, 17.1, -35.3), PI, "balon")
-	var p := await jump_forward(30, 400, true)
-	check("Balonla 12 m'lik boşluk", p.z < -47.5 and absf(p.y - 14.0) < 0.3, str(p))
-	await place(Vector3(0, 18.6, -93.3), PI, "balon")
+	await place(Vector3(0, 20.1, 0), PI, "balon")
+	var p := await jump_forward(30, 300, true)
+	check("Başlangıçtan ilk mesaya süzülüş", p.z < -7.5 and absf(p.y - 19.0) < 0.3, str(p))
+	await place(Vector3(5, 17.1, -28.3), PI, "balon")
+	p = await jump_forward(30, 400, true)
+	check("Balonla 12 m'lik boşluk", p.z < -40.8 and absf(p.y - 14.0) < 0.3, str(p))
+	await place(Vector3(-3, 18.6, -86.3), PI, "balon")
 	p = await jump_forward(30, 500, true)
-	check("Rüzgârla yukarıdaki mesaya", p.z < -109.5 and absf(p.y - 22.0) < 0.3, str(p))
-	await place(Vector3(0, 18.6, -93.3), PI, "")
+	check("Rüzgârla yukarıdaki mesaya", p.z < -103.8 and absf(p.y - 23.0) < 0.3, str(p))
+	await place(Vector3(-3, 18.6, -86.3), PI, "")
 	p = await jump_forward(30, 300)
-	check("Balonsuz rüzgâr kanyonu geçilemez", p.y < 10.0 or p.z > -96.0, str(p))
+	check("Balonsuz rüzgâr kanyonu geçilemez", p.y < 10.0 or p.z > -89.0, str(p))
+	# Gizli köşeler: rüzgârla yüksel, yana süzül
+	p = await _ride_wind(Vector3(-9.3, 14.0, 1), "move_right", 22.0, Vector3(-4, 0, 1))
+	check("Kayıp Balkon'dan rüzgârla başlangıca dönüş", absf(p.y - 20.0) < 0.3 and p.x > -7.2, str(p))
+	p = await _ride_wind(Vector3(14, 8.0, -46), "move_left", 19.0, Vector3(7, 0, -46))
+	check("Altın Vida çıkıntısından rüzgârla M3'e dönüş", absf(p.y - 14.0) < 0.3 and p.x < 10.2, str(p))
+	p = await _ride_wind(Vector3(-3, 23.0, -98.5), "move_right", 24.5, Vector3(8, 0, -98.5))
+	check("Rüzgârın tepesinden Kartal Yuvası'na", absf(p.y - 23.5) < 0.3, str(p))
+	# Büyük Hortum: rüzgârda yüksel, Gün Batımı Kayası'na süzül
+	p = await _ride_wind(Vector3(-3, 24.0, -148), "move_forward", 42.0, Vector3(-3, 0, -157))
+	check("Büyük Hortum bitiş kayasına çıkarır", absf(p.y - 40.0) < 0.3, str(p))
+
+
+## Balonla rüzgârın içinde süzül; 'rise' yüksekliğine çıkınca 'dir' yönüne git, hedefin üstüne
+## gelince (oyuncu gibi) zıplamayı bırakıp in.
+func _ride_wind(at: Vector3, dir: String, rise: float, target: Vector3) -> Vector3:
+	await place(at, PI, "balon")
+	var turn: float = level.cam.auto_turn_speed
+	level.cam.auto_turn_speed = 0.0
+	Input.action_press("jump")
+	var going := false
+	for i in 900:
+		await get_tree().physics_frame
+		if i == 2:
+			Input.action_release("jump")
+		if i == 12:
+			Input.action_press("jump")
+		if not going and bip.global_position.y > rise:
+			going = true
+			Input.action_press(dir)
+		var d := Vector2(bip.global_position.x - target.x, bip.global_position.z - target.z)
+		if going and d.length() < 1.0:
+			Input.action_release(dir)
+			Input.action_release("jump")
+		if going and bip.is_on_floor():
+			break
+	Input.action_release(dir)
+	Input.action_release("jump")
+	await step(10)
+	level.cam.auto_turn_speed = turn
+	return bip.global_position
 
 
 func _test_miknatis() -> void:

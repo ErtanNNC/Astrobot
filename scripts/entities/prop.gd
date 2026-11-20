@@ -1,7 +1,7 @@
 extends Node3D
 ## Basit süs: bir model ya da şekil, isteğe bağlı dönme/sallanma.
 
-@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator") var kind := "gear"
+@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator", "balloon") var kind := "gear"
 @export var size := 1.0
 @export var spin := 0.0          ## rad/s
 @export var color := Color(0.75, 0.78, 0.85)
@@ -152,6 +152,38 @@ func _ready() -> void:
 			cap.radius = 1.2 * size
 			cap.height = 1.4 * size
 			add_child(AbilityModels.mesh_node(cap, AbilityModels.mat(Color(0.95, 0.75, 0.25), 0.3, 0.6), Vector3(0, 6.2, 0) * size))
+		"balloon":
+			# Balon Kanyonu: gökte süzülen sıcak hava balonu (süs, yön işareti). Dilimli renkli zarf + sepet.
+			_part = Node3D.new()
+			add_child(_part)
+			var cols := [color, Color(1, 0.95, 0.85), color.lightened(0.25), Color(1, 0.95, 0.85)]
+			for i in 8:
+				var sl := SphereMesh.new()
+				sl.radial_segments = 12
+				sl.rings = 8
+				sl.radius = 2.2 * size
+				sl.height = 5.0 * size
+				var a := TAU * i / 8.0
+				var piece := AbilityModels.mesh_node(sl, AbilityModels.mat(cols[i % 4], 0.6), Vector3(cos(a), 0, sin(a)) * 0.35 * size + Vector3(0, 4.0 * size, 0))
+				piece.scale = Vector3(0.62, 1.0, 0.62)
+				_part.add_child(piece)
+			var top := SphereMesh.new()
+			top.radius = 2.4 * size
+			top.height = 4.8 * size
+			_part.add_child(AbilityModels.mesh_node(top, AbilityModels.mat(color, 0.6), Vector3(0, 4.4 * size, 0)))
+			var neck := CylinderMesh.new()
+			neck.top_radius = 0.9 * size
+			neck.bottom_radius = 0.45 * size
+			neck.height = 1.2 * size
+			_part.add_child(AbilityModels.mesh_node(neck, AbilityModels.mat(color.darkened(0.2), 0.6), Vector3(0, 1.6 * size, 0)))
+			var basket := BoxMesh.new()
+			basket.size = Vector3(0.9, 0.7, 0.9) * size
+			_part.add_child(AbilityModels.mesh_node(basket, AbilityModels.mat(Color(0.62, 0.42, 0.24), 0.8), Vector3(0, 0, 0)))
+			for k in 4:
+				var rope := BoxMesh.new()
+				rope.size = Vector3(0.05, 1.4, 0.05) * size
+				var off := Vector3(0.4 if k % 2 == 0 else -0.4, 0.75, 0.4 if k < 2 else -0.4) * size
+				_part.add_child(AbilityModels.mesh_node(rope, AbilityModels.mat(Color(0.4, 0.3, 0.2)), off))
 		"storm":
 			# Statik: mor kıvılcımlı bulut (Quaternius Cloud, mora boyanmış)
 			var c: Node3D = load("res://assets/models/quaternius/platformer/Cloud_2.gltf").instantiate()
@@ -188,6 +220,11 @@ func _process(delta: float) -> void:
 			get_child(0).visible = cam.global_position.distance_to(global_position) > 2.2
 	if _part and spin != 0.0:
 		_part.rotate_object_local(Vector3.UP, spin * delta)
+	if kind == "balloon":
+		position.y += sin(_t * 0.5 + size) * delta * 0.5
+		if _part:
+			_part.rotation.y += delta * 0.05
+		return
 	if kind == "storm":
 		position.y += sin(_t * 0.8) * delta * 0.4
 		rotation.z = sin(_t * 0.6) * 0.05

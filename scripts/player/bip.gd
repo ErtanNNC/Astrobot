@@ -346,7 +346,9 @@ func _physics_process(delta: float) -> void:
 	elif pounding:
 		velocity.y = -rock_pound_speed
 	elif gliding:
-		glide_left -= delta
+		# Yukarı rüzgârın içinde balon dolar: süre harcanmaz (Pervane ile aynı kural)
+		if wind.y <= 0.0:
+			glide_left -= delta
 		velocity.y = maxf(velocity.y - gravity * delta, -balloon_fall_speed)
 	elif propelling:
 		# Yukarı rüzgârın içinde yakıt harcanmaz ve daha hızlı yükselinir (Fener Kulesi)

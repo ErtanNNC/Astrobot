@@ -50,6 +50,28 @@ Geliştiricinin isteğiyle baştan yapıldı; diğer alanlar beğenilirse aynı 
 
 **Sayılar:** ~100 pil; zorunlu boşluklar ≤ 3 m, Yay basamakları 4–4,5 m; 3 kontrol noktası (her birinde kurtarılacak robot); test: `tests/ch1_areas_test.tscn` (teraslar, basamak taşı, sütuna tutunma, mağaradan dönüş, hareketli trambolin, Dev Yay).
 
+## Balon Kanyonu (mağaza kalitesi, 2026-11-20)
+Yay Bahçesi yöntemiyle baştan yapıldı. Üretici: `tools/level/ch1_a2_balon_kanyonu.py`.
+
+**Görünüş:** gün batımında bir kanyon. Mesaların gövdeleri ve kanyon duvarları renkli kaya katmanlarıyla boyanır (`strata` teması: `toon_terrain.gdshader` yan yüzeyi dünya yüksekliğine göre şeritlere böler; tek kutu = katmanlı kaya, telefonda ucuz). Duvarlar üç basamaklı teras, tepelerinde ağaçlar. Gökte süzülen sıcak hava balonları (`prop` kind=balloon). Bitiş: uzaktan görünen **Gün Batımı Kayası** (40 m).
+
+| # | Bölüm | Ne yapılır | Not |
+|---|---|---|---|
+| 0 | Kanyon Ağzı | Balon kopyalanır, süzülme ipucu | batıya inen pil yayı Kayıp Balkon'u ima eder |
+| 1 | İlk Süzülüşler (öğret) | 4 m ve 7 m'lik boşluklar | kontrol noktası "kanyon1" |
+| 2 | Uzun süzülüş + Düşen Köprü (sına) | 12 m'lik boşluk, 4 düşen platform | kontrol noktası "dusen" |
+| 3 | Yay Duvarı (kural 4) | 4,5 m'lik duvar Yay ile | Balon yeniden alınır |
+| 4 | Rüzgâr Kanyonu (şaşırt) | iki rüzgâr akımıyla yükselip yukarıdaki mesaya süzülme | kontrol noktası "ruzgar" |
+| 5 | Pervaneler (ustalık) | açılıp kapanan iki rüzgâr arasında ara sütun | |
+| 6 | Gün Batımı Terası (dinlenme) | pil halkası, kemer | kontrol noktası "teras" |
+| 7 | Büyük Hortum (set piece) | 54 m'lik güçlü rüzgârla 40 m'ye yükselip kayanın tepesine süzülme | |
+
+**Gizli köşeler (3):** Kayıp Balkon (başlangıcın batısında; süzülerek in, kayanın dibindeki rüzgârla geri yüksel; 13 pil); Altın Vida çıkıntısı (düşen köprünün doğusunda dipte; rüzgârla M3'e dön); Kartal Yuvası (ikinci rüzgârın tepesinden doğuya süzül; 11 pil).
+
+**Kural değişikliği:** yukarı esen rüzgârın içinde balonun süzülme süresi harcanmaz (Pervane'deki kuralla aynı). Böylece uzun yükselişler mümkün; rüzgârdan çıkınca normal süre işler.
+
+**Sayılar:** ~100 pil; 4 kontrol noktası; test: `tests/ch1_areas_test.tscn` (süzülüşler, rüzgâr kanyonu, balonsuz geçilemez, üç gizli köşe dönüşü, Büyük Hortum).
+
 ## Rules
 1. Kontrol noktaları 60–90 saniyede bir ve her alan geçişinde; her biri otomatik kaydeder ([kayıt](../kayit/design.md)).
 2. Bip'in 3 canı vardır. Çukura düşmek 1 can götürür ve Bip son kontrol noktasında belirir. Canlar biterse "oyun bitti" ekranı yoktur: Bip son kontrol noktasından tam canla devam eder.

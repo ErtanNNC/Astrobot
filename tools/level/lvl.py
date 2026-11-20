@@ -22,6 +22,7 @@ THEMES = {
     "ice": ((0.72,0.90,1.00),(0.65,0.85,0.98),(0.50,0.72,0.90),(0.44,0.64,0.84)),
     "red": ((0.95,0.45,0.40),(0.90,0.40,0.36),(0.80,0.35,0.30),(0.72,0.30,0.26)),
     "cloud": ((0.98,0.97,1.00),(0.92,0.90,0.98),(0.82,0.78,0.95),(0.74,0.70,0.90)),
+    "strata": ((0.95,0.62,0.38),(0.90,0.55,0.33),(0.86,0.45,0.28),(0.76,0.38,0.24)),
     "kitside": ((0.80,0.82,0.86),(0.76,0.78,0.83),(0.70,0.72,0.78),(0.64,0.66,0.72)),
 }
 
@@ -30,7 +31,7 @@ THEMES = {
 TEX_DIR = "res://assets/textures/freegameassets/painterly/"
 THEME_TEX = {
     "grass": ("mossy-earth", "lush-meadow-grass"), "grass2": ("mossy-earth", "lush-meadow-grass"),
-    "sand": ("sandstone-block", "fine-beach-sand"), "canyon": ("desert-cliff", "red-desert-dust"),
+    "sand": ("sandstone-block", "fine-beach-sand"), "strata": ("desert-cliff", "red-desert-dust"), "canyon": ("desert-cliff", "red-desert-dust"),
     "quarry": ("cracked-cliff-face", "brown-crushed-rock"), "stone": ("granite-rock", "cracked-stone-ground"),
     "kitside": ("pale-limestone-blocks", None), "wood": ("weathered-planks", "dock-boards"),
     "floor": ("dock-boards", "dock-boards"), "factory": ("rivet-metal", "rivet-metal"),
@@ -186,7 +187,7 @@ class Level:
                           % (name, parent, tf(x, y, z, rx, ry), fmt(sx), fmt(sy), fmt(sz), theme))
         return name
 
-    def top(self, cx, top, cz, sx, sz, depth=3.0, theme="grass", name=None, ry=0.0):
+    def top(self, cx, top, cz, sx, sz, depth=3.0, theme="grass", name=None, ry=0.0, side=None):
         """Üst yüzeyi 'top' yüksekliğinde olan kutu (çoğu zemin böyle).
         kit açıksa üstü KayKit platform karolarıyla kaplanır; kutu gri gövde olur."""
         if self.use_kit and theme in KIT_COLOR and abs(math.sin(ry * 2)) < 1e-6 and sx * sz <= 1200:   # uzaktaki dev zeminler karosuz
@@ -194,7 +195,7 @@ class Level:
                 self._kit_tiles(cx, top, cz, sz, sx, KIT_COLOR[theme])
             else:
                 self._kit_tiles(cx, top, cz, sx, sz, KIT_COLOR[theme])
-            theme = "kitside"
+            theme = side or "kitside"
         return self.box(cx, top - depth / 2, cz, sx, depth, sz, theme, ry=ry, name=name)
 
     def island(self, cx, top, cz, sx, sz, theme="grass", skirt=True, under=True, depth=2.5):
@@ -376,6 +377,8 @@ class Level:
                         if line not in ext_lines:
                             ext_lines.append(line)
                         extra += 'shader_parameter/use_%s_tex = true\nshader_parameter/%s_tex = ExtResource("%s")\n' % (kind, kind, tid)
+            if k == "strata":
+                extra += 'shader_parameter/strata = true\n'
             subs.append('[sub_resource type="ShaderMaterial" id="m_%s"]\nrender_priority = 0\nshader = ExtResource("sh")\nshader_parameter/top_color = %s\nshader_parameter/top_color2 = %s\nshader_parameter/side_a = %s\nshader_parameter/side_b = %s\n%s' % (k, c3(t1), c3(t2), c3(a), c3(b), extra))
         subs.append('''[sub_resource type="CylinderShape3D" id="trunk"]
 height = 2.4

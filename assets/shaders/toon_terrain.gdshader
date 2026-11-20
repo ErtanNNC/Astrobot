@@ -17,6 +17,13 @@ uniform sampler2D side_tex : source_color, filter_linear_mipmap_anisotropic, rep
 uniform sampler2D top_tex : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform float tex_size = 3.0;      // m, doku bu kadar uzunlukta bir kez tekrar eder
 uniform float tex_tint = 0.12;     // temanın rengine ne kadar yaklaşsın
+// Kanyon kaya katmanları: yan yüzey dünya yüksekliğine göre renk şeritlerine boyanır (tek kutuda katmanlı kaya)
+uniform bool strata = false;
+uniform float strata_height = 2.6;
+uniform vec4 strata_a : source_color = vec4(0.93, 0.52, 0.32, 1.0);
+uniform vec4 strata_b : source_color = vec4(0.98, 0.80, 0.55, 1.0);
+uniform vec4 strata_c : source_color = vec4(0.78, 0.36, 0.25, 1.0);
+uniform vec4 strata_d : source_color = vec4(0.95, 0.66, 0.42, 1.0);
 
 varying vec3 wp;
 varying vec3 wn;
@@ -58,6 +65,15 @@ void fragment() {
 			col = texture(side_tex, wp.xz / tex_size).rgb * 0.75;
 		}
 		col = mix(col, col * side_a.rgb * 1.5, tex_tint);
+		if (strata) {
+			float y = wp.y / strata_height + vnoise(wp.xz * 0.35 + wp.zx * 0.11) * 0.45;
+			float k = mod(floor(y), 4.0);
+			vec3 sc = k < 0.5 ? strata_a.rgb : (k < 1.5 ? strata_b.rgb : (k < 2.5 ? strata_c.rgb : strata_d.rgb));
+			float lum = dot(col, vec3(0.3, 0.55, 0.15));
+			col = sc * (0.55 + lum * 0.9);
+			// şerit sınırlarında ince koyu çizgi
+			col *= 1.0 - 0.22 * (1.0 - smoothstep(0.0, 0.06, fract(y))) ;
+		}
 		ROUGHNESS = 0.95;
 	} else if (wn.y > top_threshold) {
 		float n = vnoise(wp.xz * 0.6) * 0.6 + vnoise(wp.xz * 2.3) * 0.4;
