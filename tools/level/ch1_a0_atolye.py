@@ -135,4 +135,22 @@ for i in range(16):
 L.top(10, -20, -180, 200, 140, depth=2.0, theme="grass")   # vadi tabanı (uzakta)
 L.clouds(14, xr=(-120, 140), zr=(-300, -110), avoid=(0, 0, 0, 0), low=(-10, -4), high=(15, 35))
 
+# ---------- Süsler (KayKit Furniture/Restaurant, CC0; Atölye ana menüsüyle aynı eşyalar, çarpışmasız) ----------
+FU = "kaykit/furniture/"; RE = "kaykit/restaurant/"
+L.model(FU + "rug_oval_A", 0, 0.01, 3, 0, 1.3)
+L.model(FU + "shelf_B_large_decorated", -6.0, 1.9, -2.5, math.pi / 2)
+L.model(FU + "pictureframe_large_A", 3.5, 1.9, 6.5, math.pi)
+L.model(FU + "lamp_standing", 5.4, 0, 5.8)
+L.model(FU + "table_medium_long", -4.6, 0, 1.6, math.pi / 2, 0.8)
+L.model(FU + "book_set", -4.6, 0.8, 1.3, 0.3, 0.8)
+L.model(RE + "jar_A_large", -4.4, 0.8, 2.4, 0, 0.8)
+L.model(FU + "cactus_medium_A", 5.6, 0, 0.5)
+L.model(RE + "crate", 15.2, 0, -27.0, 0.2, 0.7); L.model(RE + "crate", 15.2, 0.56, -27.0, 0.9, 0.55)
+L.model(FU + "shelf_B_small_decorated", 2.0, 2.2, -38, -math.pi / 2)
+L.model(FU + "pictureframe_medium", 16.0, 2.2, -44, math.pi / 2)
+L.model(FU + "lamp_standing", 3.0, 8.5, -87.5)
+L.model(FU + "shelf_B_large_decorated", 18.0, 10.4, -80, -math.pi / 2)
+L.model(FU + "rug_rectangle_stripes_A", 9, 8.51, -81.5, 0, 1.4)
+L.model(FU + "cactus_small_B", 17.2, 8.5, -74.6)
+
 L.write()
