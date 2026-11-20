@@ -256,6 +256,21 @@ func _test_miknatis() -> void:
 	Input.action_press("jump"); await step(3); Input.action_release("jump")
 	await step(90)
 	check("Dönen çarka tırmandı", bip.global_position.y > 21.8 and bip.global_position.z < -127.5, str(bip.global_position))
+	# Gizli Depo: C2'nin doğu kenarından deponun tutamağına çekil, tırman
+	await place(Vector3(6.3, 12.1, -79.5), PI / 2, "miknatis")
+	Input.action_press("ability"); await step(2); Input.action_release("ability")
+	await step(40)
+	Input.action_press("jump"); await step(3); Input.action_release("jump")
+	await step(90)
+	check("Gizli Depo'ya mıknatısla çıkış", absf(bip.global_position.y - 12.0) < 0.3 and bip.global_position.x > 9.0, str(bip.global_position))
+	# Gizli Vinç Kulesi: üç levha
+	await place(Vector3(5.5, 26.1, -153), PI / 2, "miknatis")
+	for i in 3:
+		Input.action_press("ability"); await step(2); Input.action_release("ability")
+		await step(40)
+	Input.action_press("jump"); await step(3); Input.action_release("jump")
+	await step(90)
+	check("Vinç Kulesi'ne levhalarla çıkış", bip.global_position.y > 32.8, str(bip.global_position))
 
 
 func _test_kaya() -> void:

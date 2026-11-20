@@ -38,6 +38,9 @@ THEME_TEX = {
     "snow": ("icy-rock-wall", "powder-snow"), "ice": ("icy-granite-cliff", "blue-ice-cracks"),
 }
 
+# Koyu dokuları aydınlat (tema → çarpan)
+TEX_GAIN = {"factory": 1.75}
+
 # KayKit Platformer Pack (CC0, Kay Lousberg): yürünen zeminlerin üstü bu renkli karolarla kaplanır.
 # Tema → karo rengi. Listede olmayan temalar (kar, bulut, ahşap, iç mekân) eski görünümünde kalır.
 KIT_DIR = "res://assets/models/kaykit/platformer/"
@@ -394,6 +397,8 @@ class Level:
                         if line not in ext_lines:
                             ext_lines.append(line)
                         extra += 'shader_parameter/use_%s_tex = true\nshader_parameter/%s_tex = ExtResource("%s")\n' % (kind, kind, tid)
+            if k in TEX_GAIN:
+                extra += 'shader_parameter/tex_gain = %.2f\n' % TEX_GAIN[k]
             if k == "strata":
                 extra += 'shader_parameter/strata = true\n'
             subs.append('[sub_resource type="ShaderMaterial" id="m_%s"]\nrender_priority = 0\nshader = ExtResource("sh")\nshader_parameter/top_color = %s\nshader_parameter/top_color2 = %s\nshader_parameter/side_a = %s\nshader_parameter/side_b = %s\n%s' % (k, c3(t1), c3(t2), c3(a), c3(b), extra))

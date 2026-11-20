@@ -72,6 +72,15 @@ Yay Bahçesi yöntemiyle baştan yapıldı. Üretici: `tools/level/ch1_a2_balon_
 
 **Sayılar:** ~100 pil; 4 kontrol noktası; test: `tests/ch1_areas_test.tscn` (süzülüşler, rüzgâr kanyonu, balonsuz geçilemez, üç gizli köşe dönüşü, Büyük Hortum).
 
+## Mıknatıs Fabrikası (mağaza kalitesi, 2026-11-21)
+Üretici: `tools/level/ch1_a3_miknatis_fabrikasi.py`. Oynanış omurgası (tutamak, zincir, konveyör, levhalar, Yay↔Mıknatıs, çarklar) korundu; görünüş ve gizli köşeler yeni.
+
+**Görünüş:** denizin üstünde sarı çelik ayaklar üzerinde duran oyuncak bir fabrika. Zeminler perçinli çelik (`factory` teması, `tex_gain` 1,75 ile aydınlatıldı) ve kenarlarında sarı şerit; her yerde Kenney Factory Kit (CC0) makineleri: süs konveyör hatları ve üstünde kutular, robot kollar, huniler, borular, ekranlar, tarayıcı kapısı. Yan duvarlarda pencereli çelik binalar, bacalar, dev dişliler. Yön işareti: sonda kolu yola uzanan **Dev Mıknatıs Vinci**.
+
+**Gizli köşeler (3):** Depo (levha duvarının doğusu; kenardaki tutamağa mıknatısla çekil; 12 pil); Altın Vida bloğu (konveyörün yanında boşlukta); Vinç Kulesi (bitiş terasının doğusunda üç metal levhayla; 11 pil). Yeni kontrol noktası "vinc" bitiş terasında.
+
+**Test:** `tests/ch1_areas_test.tscn` (tutamak, zincir, levhalar, çark, Depo, Vinç Kulesi).
+
 ## Rules
 1. Kontrol noktaları 60–90 saniyede bir ve her alan geçişinde; her biri otomatik kaydeder ([kayıt](../kayit/design.md)).
 2. Bip'in 3 canı vardır. Çukura düşmek 1 can götürür ve Bip son kontrol noktasında belirir. Canlar biterse "oyun bitti" ekranı yoktur: Bip son kontrol noktasından tam canla devam eder.

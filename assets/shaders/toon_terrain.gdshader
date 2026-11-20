@@ -17,6 +17,7 @@ uniform sampler2D side_tex : source_color, filter_linear_mipmap_anisotropic, rep
 uniform sampler2D top_tex : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform float tex_size = 3.0;      // m, doku bu kadar uzunlukta bir kez tekrar eder
 uniform float tex_tint = 0.12;     // temanın rengine ne kadar yaklaşsın
+uniform float tex_gain = 1.0;      // koyu dokuları aydınlatmak için (fabrika çeliği)
 // Kanyon kaya katmanları: yan yüzey dünya yüksekliğine göre renk şeritlerine boyanır (tek kutuda katmanlı kaya)
 uniform bool strata = false;
 uniform float strata_height = 2.6;
@@ -56,7 +57,7 @@ void fragment() {
 	vec3 col;
 	if (wn.y > top_threshold && use_top_tex) {
 		col = texture(top_tex, wp.xz / tex_size).rgb;
-		col = mix(col, col * top_color.rgb * 1.6, tex_tint);
+		col = mix(col, col * top_color.rgb * 1.6, tex_tint) * tex_gain;
 		ROUGHNESS = 0.9;
 	} else if (wn.y <= top_threshold && use_side_tex) {
 		vec2 uv = abs(wn.x) > abs(wn.z) ? wp.zy : wp.xy;
@@ -64,7 +65,7 @@ void fragment() {
 		if (wn.y < -0.5) {
 			col = texture(side_tex, wp.xz / tex_size).rgb * 0.75;
 		}
-		col = mix(col, col * side_a.rgb * 1.5, tex_tint);
+		col = mix(col, col * side_a.rgb * 1.5, tex_tint) * tex_gain;
 		if (strata) {
 			float y = wp.y / strata_height + vnoise(wp.xz * 0.35 + wp.zx * 0.11) * 0.45;
 			float k = mod(floor(y), 4.0);
