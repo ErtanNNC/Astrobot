@@ -95,5 +95,30 @@ for i in range(14):
     z = random.uniform(-185, 0); x = random.choice([-1, 1]) * random.uniform(14, 24)
     L.box(x, -4 + i % 3 * 2, z, random.uniform(5, 9), random.uniform(18, 34), random.uniform(6, 10), "snow")
 L.tree(-5, 11.0, -95, 0.7); L.tree(5.5, 15.0, -184, 0.7)
+# =====================================================================================
+# Görsel yenileme (2026-11-21): kar yağışı, teleferik halatı ve kabini, zirvede kulübe ve fener (yön işareti)
+# =====================================================================================
+H = "kenney/holiday/"
+for z in (-10, -60, -110, -160):
+    L.ent("prop", 0, 24, z, kind="snow", size=1.0, parent="Decor")
+# Teleferik: direklerin üstünden geçen halat ve asılı kabin (süs)
+for (z0, y0, z1, y1) in ((-28, 19, -60, 22.5),):
+    n = 16
+    for i in range(n):
+        t0 = i / n; t1 = (i + 1) / n
+        za = z0 + (z1 - z0) * t0; zb = z0 + (z1 - z0) * t1
+        ya = y0 + (y1 - y0) * t0 - math.sin(t0 * math.pi) * 1.2; yb = y0 + (y1 - y0) * t1 - math.sin(t1 * math.pi) * 1.2
+        L.box(2.2, (ya + yb) / 2, (za + zb) / 2, 0.08, 0.08, abs(zb - za) + 0.05, "stone")
+L.box(2.2, 18.2, -41, 1.6, 1.4, 2.0, "red"); L.box(2.2, 19.25, -41, 0.1, 0.8, 0.1, "stone")
+L.box(2.2, 18.4, -40.0, 1.3, 0.6, 0.05, "blue")
+# Zirve: kulübe, fenerler, kardan adam, bayrak direği
+L.model("kaykit/holiday/gingerbread_house_decorated.gltf", -4.0, 15.0, -184.0, 0.3, 3.0)
+L.model(H + "lantern.glb", 4.8, 15.0, -174.5, 0, 2.0); L.model(H + "lantern.glb", -4.8, 15.0, -174.5, 0, 2.0)
+L.model("kaykit/holiday/snowman_A.gltf", 5.6, 15.0, -184.0, -0.8, 1.5)
+L.kit("star_yellow", 0, 23, -181, s=2.4)
+L.box(0, 19, -186.2, 0.3, 8, 0.3, "stone")
+# Etekte çam ormanı
+L.scatter([H + "tree-snow-a.glb", H + "tree-snow-b.glb", H + "tree-snow-c.glb"], -7.5, 7.5, 2, 7.5, 0, 6, 1.6, 2.4, clear=(-3, 3))
+
 L.clouds(18, avoid=(-30, 30, -200, 20), low=(-12, -6), high=(26, 40))
 L.write()

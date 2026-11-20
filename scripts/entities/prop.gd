@@ -1,7 +1,7 @@
 extends Node3D
 ## Basit süs: bir model ya da şekil, isteğe bağlı dönme/sallanma.
 
-@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator", "balloon", "dolphin", "whale", "fish") var kind := "gear"
+@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator", "balloon", "dolphin", "whale", "fish", "snow") var kind := "gear"
 @export var size := 1.0
 @export var spin := 0.0          ## rad/s
 @export var color := Color(0.75, 0.78, 0.85)
@@ -201,6 +201,26 @@ func _ready() -> void:
 				ap.get_animation(an).loop_mode = Animation.LOOP_LINEAR
 				ap.play(an)
 			_t = randf() * 10.0
+		"snow":
+			# Yavaşça yağan kar taneleri (Kar Zirvesi, Donmuş Göl)
+			var sn := CPUParticles3D.new()
+			sn.amount = 160
+			sn.lifetime = 6.0
+			var flake := SphereMesh.new()
+			flake.radius = 0.06
+			flake.height = 0.12
+			flake.radial_segments = 6
+			flake.rings = 3
+			sn.mesh = flake
+			sn.material_override = AbilityModels.mat(Color(1, 1, 1), 0.5, 0.6)
+			sn.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+			sn.emission_box_extents = Vector3(18, 0.5, 18) * size
+			sn.direction = Vector3(0.2, -1, 0.1)
+			sn.spread = 15.0
+			sn.gravity = Vector3(0, -0.6, 0)
+			sn.initial_velocity_min = 1.2
+			sn.initial_velocity_max = 2.0
+			add_child(sn)
 		"storm":
 			# Statik: mor kıvılcımlı bulut (Quaternius Cloud, mora boyanmış)
 			var c: Node3D = load("res://assets/models/quaternius/platformer/Cloud_2.gltf").instantiate()
