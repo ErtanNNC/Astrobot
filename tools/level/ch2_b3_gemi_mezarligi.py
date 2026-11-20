@@ -105,6 +105,31 @@ for x, z in ((-12, -20), (11, -35), (-13, -60), (12, -90), (-11, -110)):
     L.box(x, 7, z, 4, 0.3, 0.3, "wood")
 for i in range(8):
     L.rock(random.choice([-1, 1]) * random.uniform(9, 16), -3.5, random.uniform(-130, 0), random.uniform(1.0, 1.8))
+# =====================================================================================
+# Görsel yenileme (2026-11-21): yağmur, yelkenli batık direkler, toplar, kurukafalar, varil enkazı,
+# yön işareti olarak bitişin ardında yan yatmış dev gemi (Quaternius Pirate Pack + KayKit Medieval, CC0)
+# =====================================================================================
+PR = "quaternius/pirate/"
+MD = "kaykit/medieval/"
+L.ent("prop", 0, 14, -20, kind="rain", size=1.6, parent="Decor")
+L.ent("prop", 0, 14, -75, kind="rain", size=1.6, parent="Decor")
+L.ent("prop", 0, 14, -120, kind="rain", size=1.6, parent="Decor")
+for x, z in ((-12, -20), (11, -35), (-13, -60), (12, -90), (-11, -110)):
+    L.box(x + 0.3, 4.5, z, 0.1, 3.6, 3.4, "stone", rx=0.15)          # yırtık yelken
+L.model(PR + "Cannon.fbx", -4.0, 2.0, -26.0, 1.4, 0.35); L.model(PR + "Cannon.fbx", 4.2, 2.5, -48.6, -1.6, 0.35)
+L.model(PR + "Cannon.fbx", -3.0, 5.5, -132.2, 0.2, 0.35)
+L.model(PR + "Skull.fbx", 6.2, 0, 6.5, 0.6, 0.25); L.model(PR + "Skull.fbx", -4.2, -1.0, -49.2, 2.0, 0.25)
+for (x, y, z) in ((-5.6, 0, 3.0), (6.0, 0, 1.0), (3.8, 2.0, -25.2), (-3.4, -1.0, -38.8), (3.6, 0, -74.6), (2.6, 5.5, -128.2)):
+    L.model(MD + random.choice(("barrel", "crate_A_big", "crate_B_small", "sack")), x, y, z, random.uniform(0, 6.28), 5.0)
+for i in range(10):                                              # suda yüzen variller
+    L.model(MD + "barrel", random.choice((-1, 1)) * random.uniform(8, 18), -11.7, random.uniform(-130, 0), random.uniform(0, 6.28), 6.0)
+# Yan yatmış dev batık (bitişin ardında, yön işareti)
+L.box(12, 0, -148, 9, 8, 28, "wood", rx=0.0, ry=0.35)
+L.box(12, 5, -148, 7.5, 2, 26, "red", ry=0.35)
+L.box(10.5, 13, -146, 0.8, 18, 0.8, "wood", ry=0.35)
+L.box(10.8, 15, -146, 0.12, 7, 6, "stone", ry=0.35)
+L.box(13.5, 10, -156, 0.6, 12, 0.6, "wood", ry=0.35)
+
 L.ent("prop", -40, 25, -150, kind="storm", size=4.0)
 L.clouds(18, xr=(-90, 90), zr=(-200, 50), avoid=(-25, 25, -150, 20), low=(-10, -6), high=(15, 30))
 L.write()
