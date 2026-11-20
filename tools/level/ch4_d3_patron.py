@@ -56,4 +56,16 @@ for i in range(10):
            random.uniform(0.8, 1.5), parent="Clouds")
 L.ent("prop", 70, -25, -200, kind="dark_tower", size=3.0)
 L.clouds(16, avoid=(-40, 40, -40, 40), low=(-14, -8), high=(28, 44))
+
+# Görsel yenileme (2026-11-21): bulutların üstünde kale kuleleri halkası, bayraklar (KayKit Medieval, CC0)
+import math as _m
+for i in range(6):
+    a = _m.tau * i / 6 + 0.3
+    x, z = _m.cos(a) * 36, _m.sin(a) * 36
+    if abs(x) < 12 and z > 0:
+        continue                       # giriş köprüsünün önü açık kalsın
+    L.top(x, -4, z, 8, 8, depth=3, theme="cloud")
+    L.model("kaykit/medieval/building_tower_B_red.gltf", x, -4, z, a, 6.0)
+    L.model("kaykit/medieval/flag_red.gltf", x, 9.2, z, 0, 5.0)
+
 L.write()

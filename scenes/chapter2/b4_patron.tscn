@@ -17,6 +17,8 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e9"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e10"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
+[ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/granite-rock.png" id="tex_granite_rock"]
+[ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/weathered-planks.png" id="tex_weathered_planks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/dock-boards.png" id="tex_dock_boards"]
 [ext_resource type="Script" path="res://scripts/level/kit_batch.gd" id="kitb"]
@@ -38,6 +40,18 @@ shader_parameter/top_color = Color(0.950, 0.450, 0.400, 1)
 shader_parameter/top_color2 = Color(0.900, 0.400, 0.360, 1)
 shader_parameter/side_a = Color(0.800, 0.350, 0.300, 1)
 shader_parameter/side_b = Color(0.720, 0.300, 0.260, 1)
+
+[sub_resource type="ShaderMaterial" id="m_stone"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.780, 0.800, 0.840, 1)
+shader_parameter/top_color2 = Color(0.720, 0.740, 0.790, 1)
+shader_parameter/side_a = Color(0.620, 0.640, 0.700, 1)
+shader_parameter/side_b = Color(0.550, 0.570, 0.630, 1)
+shader_parameter/use_side_tex = true
+shader_parameter/side_tex = ExtResource("tex_granite_rock")
+shader_parameter/use_top_tex = true
+shader_parameter/top_tex = ExtResource("tex_cracked_stone_ground")
 
 [sub_resource type="ShaderMaterial" id="m_wood"]
 render_priority = 0
@@ -463,6 +477,66 @@ transform = Transform3D(1.99513, 0, -0.299617, 0, 2.01751, 0, 0.299617, 0, 1.995
 [node name="Cloud_1_5" parent="Clouds" instance=ExtResource("e9")]
 transform = Transform3D(2.24103, 0, -1.87831, 0, 2.92408, 0, 1.87831, 0, 2.24103, 74.9241, 29.9911, -52.4696)
 
+[node name="Kutu_18" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.921061, 0, -0.389418, 0, 1, 0, 0.389418, 0, 0.921061, -30, -3, -20)
+use_collision = true
+size = Vector3(8, 7, 24)
+material = SubResource("m_wood")
+
+[node name="Kutu_19" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.921061, 0, -0.389418, 0, 1, 0, 0.389418, 0, 0.921061, -30, 6, -20)
+use_collision = true
+size = Vector3(0.6, 16, 0.6)
+material = SubResource("m_wood")
+
+[node name="Kutu_20" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.921061, 0, -0.389418, 0, 1, 0, 0.389418, 0, 0.921061, -29.7, 8, -20)
+use_collision = true
+size = Vector3(0.1, 5, 5)
+material = SubResource("m_stone")
+
+[node name="Kutu_21" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.825336, 0, 0.564642, 0, 1, 0, -0.564642, 0, 0.825336, 32, -3, 18)
+use_collision = true
+size = Vector3(8, 7, 24)
+material = SubResource("m_wood")
+
+[node name="Kutu_22" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.825336, 0, 0.564642, 0, 1, 0, -0.564642, 0, 0.825336, 32, 6, 18)
+use_collision = true
+size = Vector3(0.6, 16, 0.6)
+material = SubResource("m_wood")
+
+[node name="Kutu_23" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.825336, 0, 0.564642, 0, 1, 0, -0.564642, 0, 0.825336, 32.3, 8, 18)
+use_collision = true
+size = Vector3(0.1, 5, 5)
+material = SubResource("m_stone")
+
+[node name="Prop_6" type="Node3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, -8, 8)
+script = ExtResource("e4")
+kind = "dolphin"
+size = 1
+
+[node name="Prop_7" type="Node3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, -8, -20)
+script = ExtResource("e4")
+kind = "dolphin"
+size = 0.9
+
+[node name="Prop_8" type="Node3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -30)
+script = ExtResource("e4")
+kind = "dolphin"
+size = 1.1
+
+[node name="Prop_9" type="Node3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 0)
+script = ExtResource("e4")
+kind = "rain"
+size = 1.6
+
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")
-items = ["res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.77, 0, 0, 0, 1, 0, 0, 0, 0.77, 11.25, 7.52, -8.75), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.77, 0, 0, 0, 1, 0, 0, 0, 0.77, 11.25, 7.52, -7.25), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.77, 0, 0, 0, 1, 0, 0, 0, 0.77, 12.75, 7.52, -8.75), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.77, 0, 0, 0, 1, 0, 0, 0, 0.77, 12.75, 7.52, -7.25)]
+items = ["res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.77, 0, 0, 0, 1, 0, 0, 0, 0.77, 11.25, 7.52, -8.75), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.77, 0, 0, 0, 1, 0, 0, 0, 0.77, 11.25, 7.52, -7.25), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.77, 0, 0, 0, 1, 0, 0, 0, 0.77, 12.75, 7.52, -8.75), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.77, 0, 0, 0, 1, 0, 0, 0, 0.77, 12.75, 7.52, -7.25), "res://assets/models/quaternius/pirate/Cannon.fbx", Transform3D(0.243847, 0, -0.251075, 0, 0.35, 0, 0.251075, 0, 0.243847, -14, 0, -10), "res://assets/models/quaternius/pirate/Cannon.fbx", Transform3D(-0.233197, 0, 0.260997, -0, 0.35, 0, -0.260997, 0, -0.233197, 14, 0, 10), "res://assets/models/kaykit/medieval/barrel.gltf", Transform3D(4.77668, 0, -1.4776, 0, 5, 0, 1.4776, 0, 4.77668, -13.5, 0, 9), "res://assets/models/kaykit/medieval/barrel.gltf", Transform3D(4.77668, 0, -1.4776, 0, 5, 0, 1.4776, 0, 4.77668, 13.5, 0, -10.5), "res://assets/models/kaykit/medieval/barrel.gltf", Transform3D(4.77668, 0, -1.4776, 0, 5, 0, 1.4776, 0, 4.77668, -12.5, 0, -10)]

@@ -51,4 +51,17 @@ for x, z in ((-28, -20), (30, -10), (-25, 25), (26, 30)):
     L.box(x, 1, z, 0.6, 14, 0.6, "wood")
 L.ent("prop", 30, 28, -40, kind="storm", size=5.0)
 L.clouds(16, avoid=(-35, 35, -30, 40), low=(-8, -4), high=(25, 40))
+
+# Görsel yenileme (2026-11-21): batık gemiler, yunuslar, toplar, variller (CC0 paketler; çarpışmasız)
+L.model("quaternius/pirate/Cannon.fbx", -14, 0, -10, 0.8, 0.35); L.model("quaternius/pirate/Cannon.fbx", 14, 0, 10, -2.3, 0.35)
+for (x, z) in ((-13.5, 9), (13.5, -10.5), (-12.5, -10)):
+    L.model("kaykit/medieval/barrel.gltf", x, 0, z, 0.3, 5.0)
+for (x, z, r) in ((-30, -20, 0.4), (32, 18, -0.6)):
+    L.box(x, -3, z, 8, 7, 24, "wood", ry=r)
+    L.box(x, 6, z, 0.6, 16, 0.6, "wood", ry=r)
+    L.box(x + 0.3, 8, z, 0.1, 5, 5, "stone", ry=r)
+for (x, z, sc) in ((-24, 8, 1.0), (22, -20, 0.9), (0, -30, 1.1)):
+    L.ent("prop", x, -8, z, kind="dolphin", size=sc, parent="Decor")
+L.ent("prop", 0, 14, 0, kind="rain", size=1.6, parent="Decor")
+
 L.write()

@@ -46,4 +46,11 @@ for i in range(8):
 L.tree(-8.5, 0, 22, 0.8); L.tree(6, 0, 21, 0.7)
 L.ent("prop", -30, 30, -40, kind="storm", size=5.0)
 L.clouds(14, avoid=(-35, 40, -35, 40), low=(-8, -5), high=(24, 38))
+
+# Görsel yenileme (2026-11-21): karlı orman halkası, kar yağışı (Kenney Holiday Kit, CC0; çarpışmasız)
+for (x, z) in ((-22, 20), (-24, -14), (0, -26), (26, -18), (30, 18)):
+    L.top(x, -2, z, 12, 12, depth=6, theme="snow")
+    L.scatter(["kenney/holiday/tree-snow-a.glb", "kenney/holiday/tree-snow-b.glb", "kenney/holiday/tree-snow-c.glb"], x - 5, x + 5, z - 5, z + 5, -2, 7, 2.4, 3.4)
+L.ent("prop", 0, 22, 0, kind="snow", size=1.4, parent="Decor")
+
 L.write()
