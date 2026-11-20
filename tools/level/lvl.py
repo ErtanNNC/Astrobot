@@ -20,6 +20,7 @@ THEMES = {
     "blue": ((0.45,0.70,1.00),(0.40,0.64,0.95),(0.35,0.55,0.85),(0.30,0.48,0.78)),
     "snow": ((0.95,0.97,1.00),(0.88,0.92,0.98),(0.62,0.70,0.82),(0.54,0.62,0.75)),
     "ice": ((0.72,0.90,1.00),(0.65,0.85,0.98),(0.50,0.72,0.90),(0.44,0.64,0.84)),
+    "green": ((0.45,0.85,0.45),(0.40,0.80,0.40),(0.35,0.70,0.35),(0.30,0.62,0.30)),
     "red": ((0.95,0.45,0.40),(0.90,0.40,0.36),(0.80,0.35,0.30),(0.72,0.30,0.26)),
     "cloud": ((0.98,0.97,1.00),(0.92,0.90,0.98),(0.82,0.78,0.95),(0.74,0.70,0.90)),
     "qstrata": ((0.80,0.74,0.64),(0.74,0.68,0.58),(0.66,0.58,0.48),(0.58,0.50,0.42)),
@@ -49,7 +50,7 @@ TEX_GAIN = {"factory": 1.75}
 # Tema → karo rengi. Listede olmayan temalar (kar, bulut, ahşap, iç mekân) eski görünümünde kalır.
 KIT_DIR = "res://assets/models/kaykit/platformer/"
 KIT_COLOR = {"grass": "green", "grass2": "green", "sand": "yellow", "yellow": "yellow", "quarry": "yellow",
-             "canyon": "red", "red": "red", "stone": "blue", "factory": "blue", "blue": "blue", "ice": "blue"}
+             "canyon": "red", "red": "red", "green": "green", "stone": "blue", "factory": "blue", "blue": "blue", "ice": "blue"}
 
 SKIES = {
     "day":     dict(top=(0.25,0.55,0.95), hor=(0.72,0.88,1.0), sun=(1,0.96,0.88), sun_e=1.25, amb=1.1, fog=(0.72,0.86,1.0), fog_d=0.0035, sun_rx=-50, sun_ry=30),

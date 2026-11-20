@@ -17,9 +17,13 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e9"]
 [ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/flowers-tall.glb" id="e10"]
 [ext_resource type="Script" path="res://scripts/entities/golden_screw.gd" id="e11"]
-[ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e12"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Goal_Flag.gltf" id="e13"]
-[ext_resource type="Script" path="res://scripts/entities/prop.gd" id="e14"]
+[ext_resource type="Script" path="res://scripts/entities/trampoline.gd" id="e12"]
+[ext_resource type="Script" path="res://scripts/entities/prop.gd" id="e13"]
+[ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e14"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Goal_Flag.gltf" id="e15"]
+[ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
+[ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/granite-rock.png" id="tex_granite_rock"]
+[ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
 [ext_resource type="Script" path="res://scripts/level/kit_batch.gd" id="kitb"]
 
 [sub_resource type="ShaderMaterial" id="m_cloud"]
@@ -30,6 +34,16 @@ shader_parameter/top_color2 = Color(0.920, 0.900, 0.980, 1)
 shader_parameter/side_a = Color(0.820, 0.780, 0.950, 1)
 shader_parameter/side_b = Color(0.740, 0.700, 0.900, 1)
 
+[sub_resource type="ShaderMaterial" id="m_kitside"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.800, 0.820, 0.860, 1)
+shader_parameter/top_color2 = Color(0.760, 0.780, 0.830, 1)
+shader_parameter/side_a = Color(0.700, 0.720, 0.780, 1)
+shader_parameter/side_b = Color(0.640, 0.660, 0.720, 1)
+shader_parameter/use_side_tex = true
+shader_parameter/side_tex = ExtResource("tex_pale_limestone_blocks")
+
 [sub_resource type="ShaderMaterial" id="m_purple"]
 render_priority = 0
 shader = ExtResource("sh")
@@ -37,6 +51,18 @@ shader_parameter/top_color = Color(0.700, 0.550, 0.900, 1)
 shader_parameter/top_color2 = Color(0.640, 0.500, 0.850, 1)
 shader_parameter/side_a = Color(0.560, 0.420, 0.750, 1)
 shader_parameter/side_b = Color(0.500, 0.370, 0.680, 1)
+
+[sub_resource type="ShaderMaterial" id="m_stone"]
+render_priority = 0
+shader = ExtResource("sh")
+shader_parameter/top_color = Color(0.780, 0.800, 0.840, 1)
+shader_parameter/top_color2 = Color(0.720, 0.740, 0.790, 1)
+shader_parameter/side_a = Color(0.620, 0.640, 0.700, 1)
+shader_parameter/side_b = Color(0.550, 0.570, 0.630, 1)
+shader_parameter/use_side_tex = true
+shader_parameter/side_tex = ExtResource("tex_granite_rock")
+shader_parameter/use_top_tex = true
+shader_parameter/top_tex = ExtResource("tex_cracked_stone_ground")
 
 [sub_resource type="CylinderShape3D" id="trunk"]
 height = 2.4
@@ -378,115 +404,509 @@ script = ExtResource("e1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 8.3, -70.299)
 script = ExtResource("e1")
 
-[node name="Exit_1" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, -71)
-script = ExtResource("e12")
-
-[node name="Goal_Flag_1" parent="Decor" instance=ExtResource("e13")]
-transform = Transform3D(-0.794224, 0, 0.423329, -0, 0.9, 0, -0.423329, 0, -0.794224, 3.5, 7.5, -72)
+[node name="Copy_4" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7.5, -66.5)
+script = ExtResource("e0")
+ability = "yay"
 
 [node name="Kutu_8" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, -8, -150)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.1, -76.5)
+use_collision = true
+size = Vector3(3.5, 0.8, 3)
+material = SubResource("m_kitside")
+
+[node name="Pil_27" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.3, -76.5)
+script = ExtResource("e1")
+
+[node name="Kutu_9" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -80.5)
+use_collision = true
+size = Vector3(3.5, 0.8, 3)
+material = SubResource("m_kitside")
+
+[node name="Pil_28" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.3, -80.5)
+script = ExtResource("e1")
+
+[node name="Platform_4" type="AnimatableBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.25, -84.5)
+script = ExtResource("e6")
+kind = "move"
+size = Vector3(3.5, 0.5, 3)
+offset = Vector3(4, 0, 0)
+duration = 2.2
+color = Color(0.4, 0.85, 0.45, 1)
+
+[node name="Pil_29" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.3, -84.5)
+script = ExtResource("e1")
+
+[node name="Kutu_10" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -88.5)
+use_collision = true
+size = Vector3(3.5, 0.8, 3)
+material = SubResource("m_kitside")
+
+[node name="Pil_30" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.3, -88.5)
+script = ExtResource("e1")
+
+[node name="Kutu_11" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.1, -92.5)
+use_collision = true
+size = Vector3(3.5, 0.8, 3)
+material = SubResource("m_purple")
+
+[node name="Pil_31" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.3, -92.5)
+script = ExtResource("e1")
+
+[node name="Enemy_3" type="CharacterBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, -80.5)
+script = ExtResource("e5")
+kind = "zipzip"
+batteries = 2
+
+[node name="Kutu_12" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 16.3, -84)
+use_collision = true
+size = Vector3(2.6, 0.4, 2.6)
+material = SubResource("m_kitside")
+
+[node name="Crate_4" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.9, 16.5, -84.6)
+script = ExtResource("e2")
+batteries = 5
+
+[node name="Pil_32" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 17.3, -84)
+script = ExtResource("e1")
+
+[node name="Pil_33" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 17.3, -83.134)
+script = ExtResource("e1")
+
+[node name="Pil_34" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 17.3, -83.134)
+script = ExtResource("e1")
+
+[node name="Pil_35" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 17.3, -84)
+script = ExtResource("e1")
+
+[node name="Pil_36" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 17.3, -84.866)
+script = ExtResource("e1")
+
+[node name="Pil_37" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 17.3, -84.866)
+script = ExtResource("e1")
+
+[node name="Kutu_13" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 11.8, -80.5)
+use_collision = true
+size = Vector3(2.2, 0.4, 2.2)
+material = SubResource("m_kitside")
+
+[node name="Pil_38" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 9.8, -80.5)
+script = ExtResource("e1")
+
+[node name="Pil_39" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6, 12.4, -80.5)
+script = ExtResource("e1")
+
+[node name="Kutu_14" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -100)
+use_collision = true
+size = Vector3(8, 3, 6)
+material = SubResource("m_cloud")
+
+[node name="Checkpoint_4" type="Area3D" parent="Entities"]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -2.5, 7.5, -98.5)
+script = ExtResource("e7")
+checkpoint_id = "kopru"
+
+[node name="Kutu_15" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 8.7, -107)
+use_collision = true
+size = Vector3(3.2, 0.6, 3.2)
+material = SubResource("m_cloud")
+
+[node name="Trampoline_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 9, -107)
+script = ExtResource("e12")
+height = 5
+
+[node name="Prop_1" type="Node3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 15.5, -107)
+script = ExtResource("e13")
+kind = "balloon"
+size = 0.45
+color = Color(0.95, 0.35, 0.3, 1)
+
+[node name="Kutu_16" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 12.2, -107)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Kutu_17" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 12.2, -107)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Kutu_18" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 12.2, -107)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Kutu_19" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 12.2, -112)
+use_collision = true
+size = Vector3(3.2, 0.6, 3.2)
+material = SubResource("m_cloud")
+
+[node name="Trampoline_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 12.5, -112)
+script = ExtResource("e12")
+height = 5
+
+[node name="Prop_2" type="Node3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 19, -112)
+script = ExtResource("e13")
+kind = "balloon"
+size = 0.45
+color = Color(0.3, 0.6, 0.95, 1)
+
+[node name="Kutu_20" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 15.7, -112)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Kutu_21" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 15.7, -112)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Kutu_22" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 15.7, -112)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Kutu_23" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 15.7, -117)
+use_collision = true
+size = Vector3(3.2, 0.6, 3.2)
+material = SubResource("m_cloud")
+
+[node name="Trampoline_3" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 16, -117)
+script = ExtResource("e12")
+height = 5
+
+[node name="Prop_3" type="Node3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 22.5, -117)
+script = ExtResource("e13")
+kind = "balloon"
+size = 0.45
+color = Color(0.98, 0.78, 0.25, 1)
+
+[node name="Kutu_24" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 19.2, -117)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Kutu_25" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 19.2, -117)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Kutu_26" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 19.2, -117)
+use_collision = true
+size = Vector3(0.04, 6.4, 0.04)
+material = SubResource("m_stone")
+
+[node name="Pil_40" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.3, -103)
+script = ExtResource("e1")
+
+[node name="Pil_41" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 11.05, -105)
+script = ExtResource("e1")
+
+[node name="Pil_42" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 9.8, -107)
+script = ExtResource("e1")
+
+[node name="Pil_43" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 9.8, -107)
+script = ExtResource("e1")
+
+[node name="Pil_44" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 14.4308, -108.667)
+script = ExtResource("e1")
+
+[node name="Pil_45" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 15.5974, -110.333)
+script = ExtResource("e1")
+
+[node name="Pil_46" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 13.3, -112)
+script = ExtResource("e1")
+
+[node name="Pil_47" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 13.3, -112)
+script = ExtResource("e1")
+
+[node name="Pil_48" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 17.9308, -113.667)
+script = ExtResource("e1")
+
+[node name="Pil_49" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 19.0974, -115.333)
+script = ExtResource("e1")
+
+[node name="Pil_50" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 16.8, -117)
+script = ExtResource("e1")
+
+[node name="Pirilnokta_4" type="Marker3D" parent="Guide" groups=["piril_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -110)
+
+[node name="Kutu_27" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, -127)
+use_collision = true
+size = Vector3(12, 4, 10)
+material = SubResource("m_cloud")
+
+[node name="Pil_51" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 16.8, -119)
+script = ExtResource("e1")
+
+[node name="Pil_52" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 19.8, -121)
+script = ExtResource("e1")
+
+[node name="Pil_53" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.8, -123)
+script = ExtResource("e1")
+
+[node name="Checkpoint_5" type="Area3D" parent="Entities"]
+transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -3.5, 16, -124)
+script = ExtResource("e7")
+checkpoint_id = "manzara"
+
+[node name="Pil_54" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 16.8, -127)
+script = ExtResource("e1")
+
+[node name="Pil_55" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.41421, 16.8, -125.586)
+script = ExtResource("e1")
+
+[node name="Pil_56" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.22465e-16, 16.8, -125)
+script = ExtResource("e1")
+
+[node name="Pil_57" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.41421, 16.8, -125.586)
+script = ExtResource("e1")
+
+[node name="Pil_58" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 16.8, -127)
+script = ExtResource("e1")
+
+[node name="Pil_59" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.41421, 16.8, -128.414)
+script = ExtResource("e1")
+
+[node name="Pil_60" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.67394e-16, 16.8, -129)
+script = ExtResource("e1")
+
+[node name="Pil_61" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.41421, 16.8, -128.414)
+script = ExtResource("e1")
+
+[node name="Exit_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, -129)
+script = ExtResource("e14")
+
+[node name="Goal_Flag_1" parent="Decor" instance=ExtResource("e15")]
+transform = Transform3D(-0.794224, 0, 0.423329, -0, 0.9, 0, -0.423329, 0, -0.794224, 3.5, 16, -131)
+
+[node name="Yazi_1" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 21, -132)
+billboard = 1
+font_size = 60
+outline_size = 16
+outline_modulate = Color(0.15, 0.2, 0.35, 1)
+text = "Kıvılcım Kalesi"
+
+[node name="Kutu_28" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, 13.5)
+use_collision = true
+size = Vector3(6, 1, 5)
+material = SubResource("m_cloud")
+
+[node name="Crate_5" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, -6, 15)
+script = ExtResource("e2")
+batteries = 5
+
+[node name="Pil_62" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, -5.2, 13.8)
+script = ExtResource("e1")
+
+[node name="Pil_63" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.45, -5.2, 14.9258)
+script = ExtResource("e1")
+
+[node name="Pil_64" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -5.2, 14.9258)
+script = ExtResource("e1")
+
+[node name="Pil_65" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -5.2, 13.8)
+script = ExtResource("e1")
+
+[node name="Pil_66" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -5.2, 12.6742)
+script = ExtResource("e1")
+
+[node name="Pil_67" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.45, -5.2, 12.6742)
+script = ExtResource("e1")
+
+[node name="Trampoline_4" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, -6, 12.4)
+script = ExtResource("e12")
+height = 7.5
+
+[node name="Pil_68" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 7.6)
+script = ExtResource("e1")
+
+[node name="Pil_69" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 9.55)
+script = ExtResource("e1")
+
+[node name="Pil_70" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.2, 11.5)
+script = ExtResource("e1")
+
+[node name="Kutu_29" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2, -175)
 use_collision = true
 size = Vector3(30, 4, 26)
 material = SubResource("m_cloud")
 
-[node name="Prop_1" type="Node3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 18, -140)
-script = ExtResource("e14")
+[node name="Prop_4" type="Node3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 34, -200)
+script = ExtResource("e13")
 kind = "storm"
 size = 6
 
-[node name="Prop_2" type="Node3D" parent="Entities"]
+[node name="Prop_5" type="Node3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, -20, -180)
-script = ExtResource("e14")
+script = ExtResource("e13")
 kind = "dark_tower"
 size = 2.5
 
 [node name="Cloud_3_2" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(0.589734, 0, 2.96873, 0, 3.02674, 0, -2.96873, 0, 0.589734, 25.9551, -13.0823, -14.1538)
+transform = Transform3D(0.589734, 0, 2.96873, 0, 3.02674, 0, -2.96873, 0, 0.589734, 25.9551, -13.0823, -30.2564)
 
 [node name="Cloud_3_3" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(1.63902, 0, -2.87397, 0, 3.30849, 0, 2.87397, 0, 1.63902, -23.9091, -14.2248, -66.5148)
+transform = Transform3D(1.63902, 0, -2.87397, 0, 3.30849, 0, 2.87397, 0, 1.63902, -23.9091, -14.2248, -117.525)
 
 [node name="Cloud_3_4" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(-0.234227, 0, 2.44995, -0, 2.46113, 0, -2.44995, 0, -0.234227, -18.1567, -12.0612, -41.0662)
+transform = Transform3D(-0.234227, 0, 2.44995, -0, 2.46113, 0, -2.44995, 0, -0.234227, -18.1567, -12.0612, -75.1104)
 
 [node name="Cloud_1_2" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(1.84478, 0, 1.11901, 0, 2.15763, 0, -1.11901, 0, 1.84478, 29.1821, -14.375, -19.7043)
+transform = Transform3D(1.84478, 0, 1.11901, 0, 2.15763, 0, -1.11901, 0, 1.84478, 29.1821, -14.375, -39.5072)
 
 [node name="Cloud_3_5" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(1.27789, 0, -2.81091, 0, 3.08776, 0, 2.81091, 0, 1.27789, -16.9635, -13.411, -24.209)
+transform = Transform3D(1.27789, 0, -2.81091, 0, 3.08776, 0, 2.81091, 0, 1.27789, -16.9635, -13.411, -47.015)
 
 [node name="Cloud_1_3" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(-1.08723, 0, 1.63235, -0, 1.96128, 0, -1.63235, 0, -1.08723, 23.1901, -14.4664, -71.5832)
+transform = Transform3D(-1.08723, 0, 1.63235, -0, 1.96128, 0, -1.63235, 0, -1.08723, 23.1901, -14.4664, -125.972)
 
 [node name="Cloud_2_2" parent="Clouds" instance=ExtResource("e4")]
-transform = Transform3D(-2.96277, 0, -1.49406, 0, 3.31817, -0, 1.49406, 0, -2.96277, -16.39, -14.3253, -38.7424)
+transform = Transform3D(-2.96277, 0, -1.49406, 0, 3.31817, -0, 1.49406, 0, -2.96277, -16.39, -14.3253, -71.2374)
 
 [node name="Cloud_3_6" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(1.63233, 0, -1.94343, 0, 2.53799, 0, 1.94343, 0, 1.63233, 25.7162, -10.5982, -21.0393)
+transform = Transform3D(1.63233, 0, -1.94343, 0, 2.53799, 0, 1.94343, 0, 1.63233, 25.7162, -10.5982, -41.7322)
 
 [node name="Cloud_1_4" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(3.51785, 0, 0.298262, 0, 3.53047, 0, -0.298262, 0, 3.51785, -28.9645, -11.5897, -3.34619)
+transform = Transform3D(3.51785, 0, 0.298262, 0, 3.53047, 0, -0.298262, 0, 3.51785, -28.9645, -11.5897, -12.2437)
 
 [node name="Cloud_3_7" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(-2.0494, 0, 0.377133, -0, 2.08381, 0, -0.377133, 0, -2.0494, -32.1068, -12.9337, -16.1126)
+transform = Transform3D(-2.0494, 0, 0.377133, -0, 2.08381, 0, -0.377133, 0, -2.0494, -32.1068, -12.9337, -33.5209)
 
 [node name="Cloud_3_8" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(-1.41794, 0, 3.011, -0, 3.32817, 0, -3.011, 0, -1.41794, -33.3102, -13.7912, -40.6351)
+transform = Transform3D(-1.41794, 0, 3.011, -0, 3.32817, 0, -3.011, 0, -1.41794, -33.3102, -13.7912, -74.3918)
 
 [node name="Cloud_2_3" parent="Clouds" instance=ExtResource("e4")]
-transform = Transform3D(0.0269177, 0, -3.7037, 0, 3.70379, 0, 3.7037, 0, 0.0269177, 17.4939, -11.6573, -31.2084)
+transform = Transform3D(0.0269177, 0, -3.7037, 0, 3.70379, 0, 3.7037, 0, 0.0269177, 17.4939, -11.6573, -58.6806)
 
 [node name="Cloud_2_4" parent="Clouds" instance=ExtResource("e4")]
-transform = Transform3D(-2.31727, 0, -0.899986, 0, 2.4859, -0, 0.899986, 0, -2.31727, 30.5424, -11.8866, -9.11139)
+transform = Transform3D(-2.31727, 0, -0.899986, 0, 2.4859, -0, 0.899986, 0, -2.31727, 30.5424, -11.8866, -21.8523)
 
 [node name="Cloud_1_5" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(0.163112, 0, -2.81535, 0, 2.82007, 0, 2.81535, 0, 0.163112, -25.9391, -13.9308, -59.7008)
+transform = Transform3D(0.163112, 0, -2.81535, 0, 2.82007, 0, 2.81535, 0, 0.163112, -25.9391, -13.9308, -106.168)
 
 [node name="Cloud_1_6" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(-0.39645, 0, 2.19779, -0, 2.23326, 0, -2.19779, 0, -0.39645, 87.7991, -8.26381, -59.5181)
+transform = Transform3D(-0.39645, 0, 2.19779, -0, 2.23326, 0, -2.19779, 0, -0.39645, 87.7991, -8.26381, -68.5652)
 
 [node name="Cloud_2_5" parent="Clouds" instance=ExtResource("e4")]
-transform = Transform3D(2.41668, 0, 1.90589, 0, 3.07779, 0, -1.90589, 0, 2.41668, 58.0681, 20.7025, -81.6078)
+transform = Transform3D(2.41668, 0, 1.90589, 0, 3.07779, 0, -1.90589, 0, 2.41668, 58.0681, 20.7025, -92.663)
 
 [node name="Cloud_3_9" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(2.12465, 0, 1.17161, 0, 2.42628, 0, -1.17161, 0, 2.12465, 57.9501, -8.46292, -173.434)
+transform = Transform3D(2.12465, 0, 1.17161, 0, 2.42628, 0, -1.17161, 0, 2.12465, 57.9501, -8.46292, -192.837)
 
 [node name="Cloud_1_7" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(2.34781, 0, 1.25385, 0, 2.66164, 0, -1.25385, 0, 2.34781, -15.9761, 18.587, 33.9887)
+transform = Transform3D(2.34781, 0, 1.25385, 0, 2.66164, 0, -1.25385, 0, 2.34781, -15.9761, 18.587, 33.4422)
 
 [node name="Cloud_1_8" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(-0.539212, 0, -2.88123, 0, 2.93125, -0, 2.88123, 0, -0.539212, 73.1154, -11.0895, -112.291)
+transform = Transform3D(-0.539212, 0, -2.88123, 0, 2.93125, -0, 2.88123, 0, -0.539212, 73.1154, -11.0895, -126.135)
 
 [node name="Cloud_1_9" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(-1.99236, 0, 1.33843, -0, 2.40019, 0, -1.33843, 0, -1.99236, 15.7301, -7.21505, -113.29)
-
-[node name="Cloud_2_6" parent="Clouds" instance=ExtResource("e4")]
-transform = Transform3D(1.39397, 0, 2.69433, 0, 3.03357, 0, -2.69433, 0, 1.39397, -48.054, 19.0093, -139.852)
-
-[node name="Cloud_3_10" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(0.641672, 0, 1.85349, 0, 1.96142, 0, -1.85349, 0, 0.641672, -80.2229, -7.70128, 1.66542)
+transform = Transform3D(1.95346, 0, 1.35375, 0, 2.37668, 0, -1.35375, 0, 1.95346, 53.5486, 25.0018, -34.0256)
 
 [node name="Cloud_1_10" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(-2.92581, 0, 0.254506, -0, 2.93686, 0, -0.254506, 0, -2.92581, -31.9592, -10.9664, -99.338)
+transform = Transform3D(2.55909, 0, 0.0186697, 0, 2.55916, 0, -0.0186697, 0, 2.55909, -37.5427, 25.9694, -140.713)
 
-[node name="Cloud_3_11" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(0.175938, 0, 1.70533, 0, 1.71438, 0, -1.70533, 0, 0.175938, -63.2708, 18.3785, -35.8662)
-
-[node name="Cloud_2_7" parent="Clouds" instance=ExtResource("e4")]
-transform = Transform3D(-1.72176, 0, 0.418659, -0, 1.77193, 0, -0.418659, 0, -1.72176, 40.8697, -10.8827, -95.1293)
+[node name="Cloud_2_6" parent="Clouds" instance=ExtResource("e4")]
+transform = Transform3D(-1.43462, 0, -1.59374, 0, 2.14433, -0, 1.59374, 0, -1.43462, 57.0647, 26.8261, -71.5757)
 
 [node name="Cloud_1_11" parent="Clouds" instance=ExtResource("e3")]
-transform = Transform3D(2.12748, 0, -1.67497, 0, 2.70771, 0, 1.67497, 0, 2.12748, -82.7893, 19.2226, -98.7212)
+transform = Transform3D(-1.44995, 0, 0.921975, -0, 1.71825, 0, -0.921975, 0, -1.44995, -58.9933, 30.2194, 8.22088)
 
-[node name="Cloud_3_12" parent="Clouds" instance=ExtResource("e9")]
-transform = Transform3D(0.61705, 0, 2.12837, 0, 2.21601, 0, -2.12837, 0, 0.61705, -20.035, 31.9968, -165.305)
+[node name="Cloud_2_7" parent="Clouds" instance=ExtResource("e4")]
+transform = Transform3D(2.6203, 0, -0.748373, 0, 2.72508, 0, 0.748373, 0, 2.6203, -22.4882, -6.90584, -143.979)
+
+[node name="Cloud_1_12" parent="Clouds" instance=ExtResource("e3")]
+transform = Transform3D(-0.367926, 0, -2.18119, 0, 2.21201, -0, 2.18119, 0, -0.367926, -31.0786, -10.8946, -77.5292)
+
+[node name="Cloud_3_10" parent="Clouds" instance=ExtResource("e9")]
+transform = Transform3D(-0.713481, 0, -2.00373, 0, 2.12697, -0, 2.00373, 0, -0.713481, -74.281, -6.38762, -41.9082)
+
+[node name="Cloud_3_11" parent="Clouds" instance=ExtResource("e9")]
+transform = Transform3D(0.61705, 0, 2.12837, 0, 2.21601, 0, -2.12837, 0, 0.61705, 55.0754, 22.4629, -69.3131)
 
 [node name="Cloud_2_8" parent="Clouds" instance=ExtResource("e4")]
-transform = Transform3D(1.61586, 0, -1.01679, 0, 1.90916, 0, 1.01679, 0, 1.61586, -74.6961, -9.8951, -98.4632)
+transform = Transform3D(1.61586, 0, -1.01679, 0, 1.90916, 0, 1.01679, 0, 1.61586, -74.6961, -9.8951, -111.051)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")
-items = ["res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.89228, 0, -0.784139, 0, 1.18787, 0, 0.784139, 0, 0.89228, -5.08482, -0.9, 5.79205), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.522731, 0, -1.28855, 0, 1.39055, -0, 1.28855, 0, -0.522731, 4.89777, -0.9, 5.15346), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.168703, 0, -1.02117, 0, 1.03502, -0, 1.02117, 0, -0.168703, -5.40258, -0.9, 6.43186), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.957662, 0, 0.184751, -0, 0.975321, 0, -0.184751, 0, -0.957662, -5.37356, -0.9, 4.68583), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(1.05372, 0, 0.0978974, 0, 1.05826, 0, -0.0978974, 0, 1.05372, 5.42271, -0.9, 3.47327), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.0987545, 0, 1.0606, -0, 1.06519, 0, -1.0606, 0, -0.0987545, 5.04542, -0.9, 2.85953), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.0995915, 0, -1.06101, 0, 1.06567, -0, 1.06101, 0, -0.0995915, 5.00377, -0.9, -0.014012), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.350315, 0, 1.01625, 0, 1.07493, 0, -1.01625, 0, 0.350315, -3.52433, 3.1, -28.2236), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.554639, 0, -0.821561, 0, 0.991255, 0, 0.821561, 0, 0.554639, 3.3693, 3.1, -28.2335), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-1.3035, 0, -0.303045, 0, 1.33826, -0, 0.303045, 0, -1.3035, -3.42135, 3.1, -28.3162), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.0533231, 0, -0.90365, 0, 0.905222, 0, 0.90365, 0, 0.0533231, 3.7864, 3.1, -31.3533), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.117348, 0, -1.34076, 0, 1.34588, -0, 1.34076, 0, -0.117348, 3.49737, 3.1, -30.679), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.32058, 0, -0.981707, 0, 1.03272, -0, 0.981707, 0, -0.32058, 3.28638, 0.1, -50.4186), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.00041, 0, -0.326648, 0, 1.05239, 0, 0.326648, 0, 1.00041, -2.89589, 0.1, -49.1645), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.543297, 0, -1.20196, 0, 1.31904, 0, 1.20196, 0, 0.543297, 2.94569, 0.1, -52.462), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.776407, 0, -0.58476, 0, 0.971983, -0, 0.58476, 0, -0.776407, -2.9204, 0.1, -52.0481), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.963225, 0, -0.815052, 0, 1.26179, -0, 0.815052, 0, -0.963225, -4.05176, 6.6, -66.0077), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.275153, 0, 1.18267, 0, 1.21426, 0, -1.18267, 0, 0.275153, 4.26532, 6.6, -67.999), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-1.00005, 0, 0.689083, -0, 1.21447, 0, -0.689083, 0, -1.00005, -3.94799, 6.6, -68.277), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.753672, 0, 0.789199, -0, 1.09126, 0, -0.789199, 0, -0.753672, 3.88047, 6.6, -68.5869), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-1.14068, 0, -0.290078, 0, 1.17698, -0, 0.290078, 0, -1.14068, -4.22137, 6.6, -71.6148), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.860667, 0, 0.839698, -0, 1.20243, 0, -0.839698, 0, -0.860667, 32.1512, -6.9, -140.639), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.905574, 0, 0.48987, 0, 1.02958, 0, -0.48987, 0, 0.905574, 4.10257, -6.9, -158.569), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.0214218, 0, -1.13684, 0, 1.13704, 0, 1.13684, 0, 0.0214218, 3.86187, -6.9, -153.465), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-1.18706, 0, 0.29307, -0, 1.22271, 0, -0.29307, 0, -1.18706, 3.65029, -6.9, -156.582), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.18716, 0, -0.0362213, 0, 1.18771, 0, 0.0362213, 0, 1.18716, 3.94111, -6.9, -150.139), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.872054, 0, 0.612855, 0, 1.06587, 0, -0.612855, 0, 0.872054, 3.89659, -6.9, -159.57), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.676923, 0, -1.10354, 0, 1.29461, 0, 1.10354, 0, 0.676923, 3.87354, -6.9, -156.282), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(1.26542, 0, -0.00106456, 0, 1.26542, 0, 0.00106456, 0, 1.26542, 32.1859, -6.9, -157.303), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-1.16917, 0, 0.662791, -0, 1.34397, 0, -0.662791, 0, -1.16917, 3.79156, -6.9, -147.08), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.11324, 0, -0.202318, 0, 1.13147, 0, 0.202318, 0, 1.11324, 3.90372, -6.9, -160.311), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.420819, 0, 1.10742, -0, 1.18468, 0, -1.10742, 0, -0.420819, 3.89649, -6.9, -153.041), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.874245, 0, 0.585731, 0, 1.05232, 0, -0.585731, 0, 0.874245, 32.4838, -6.9, -150.346), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.242993, 0, 0.962339, -0, 0.992543, 0, -0.962339, 0, -0.242993, 3.8203, -6.9, -140.64), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.994442, 0, 0.331053, -0, 1.0481, 0, -0.331053, 0, -0.994442, 31.8067, -6.9, -150.304), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.2112, 0, 0.095437, 0, 1.21495, 0, -0.095437, 0, 1.2112, 3.83719, -6.9, -139.254), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.0337097, 0, -1.08551, 0, 1.08603, 0, 1.08551, 0, 0.0337097, 32.3928, -6.9, -152.849), "res://assets/models/kaykit/medieval/building_castle_red.gltf", Transform3D(7.64269, 0, -2.36416, 0, 8, 0, 2.36416, 0, 7.64269, 18, -6, -150), "res://assets/models/kaykit/medieval/building_tower_B_red.gltf", Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 6, -6, -140), "res://assets/models/kaykit/medieval/building_tower_B_red.gltf", Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 30, -6, -140), "res://assets/models/kaykit/medieval/building_tower_B_red.gltf", Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 6, -6, -162), "res://assets/models/kaykit/medieval/building_tower_B_red.gltf", Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 30, -6, -162), "res://assets/models/kaykit/medieval/flag_red.gltf", Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 18, 26, -150)]
+items = ["res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.89228, 0, -0.784139, 0, 1.18787, 0, 0.784139, 0, 0.89228, -5.08482, -0.9, 5.79205), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.522731, 0, -1.28855, 0, 1.39055, -0, 1.28855, 0, -0.522731, 4.89777, -0.9, 5.15346), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.168703, 0, -1.02117, 0, 1.03502, -0, 1.02117, 0, -0.168703, -5.40258, -0.9, 6.43186), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.957662, 0, 0.184751, -0, 0.975321, 0, -0.184751, 0, -0.957662, -5.37356, -0.9, 4.68583), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(1.05372, 0, 0.0978974, 0, 1.05826, 0, -0.0978974, 0, 1.05372, 5.42271, -0.9, 3.47327), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.0987545, 0, 1.0606, -0, 1.06519, 0, -1.0606, 0, -0.0987545, 5.04542, -0.9, 2.85953), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.0995915, 0, -1.06101, 0, 1.06567, -0, 1.06101, 0, -0.0995915, 5.00377, -0.9, -0.014012), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.350315, 0, 1.01625, 0, 1.07493, 0, -1.01625, 0, 0.350315, -3.52433, 3.1, -28.2236), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.554639, 0, -0.821561, 0, 0.991255, 0, 0.821561, 0, 0.554639, 3.3693, 3.1, -28.2335), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-1.3035, 0, -0.303045, 0, 1.33826, -0, 0.303045, 0, -1.3035, -3.42135, 3.1, -28.3162), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.0533231, 0, -0.90365, 0, 0.905222, 0, 0.90365, 0, 0.0533231, 3.7864, 3.1, -31.3533), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.117348, 0, -1.34076, 0, 1.34588, -0, 1.34076, 0, -0.117348, 3.49737, 3.1, -30.679), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.32058, 0, -0.981707, 0, 1.03272, -0, 0.981707, 0, -0.32058, 3.28638, 0.1, -50.4186), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.00041, 0, -0.326648, 0, 1.05239, 0, 0.326648, 0, 1.00041, -2.89589, 0.1, -49.1645), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.543297, 0, -1.20196, 0, 1.31904, 0, 1.20196, 0, 0.543297, 2.94569, 0.1, -52.462), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.776407, 0, -0.58476, 0, 0.971983, -0, 0.58476, 0, -0.776407, -2.9204, 0.1, -52.0481), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.963225, 0, -0.815052, 0, 1.26179, -0, 0.815052, 0, -0.963225, -4.05176, 6.6, -66.0077), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.275153, 0, 1.18267, 0, 1.21426, 0, -1.18267, 0, 0.275153, 4.26532, 6.6, -67.999), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-1.00005, 0, 0.689083, -0, 1.21447, 0, -0.689083, 0, -1.00005, -3.94799, 6.6, -68.277), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.753672, 0, 0.789199, -0, 1.09126, 0, -0.789199, 0, -0.753672, 3.88047, 6.6, -68.5869), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-1.14068, 0, -0.290078, 0, 1.17698, -0, 0.290078, 0, -1.14068, -4.22137, 6.6, -71.6148), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, -0.875, 6.52, -77.25), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, -0.875, 6.52, -75.75), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, 0.875, 6.52, -77.25), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, 0.875, 6.52, -75.75), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, -0.875, 7.52, -81.25), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, -0.875, 7.52, -79.75), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, 0.875, 7.52, -81.25), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, 0.875, 7.52, -79.75), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, -0.875, 7.52, -89.25), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, -0.875, 7.52, -87.75), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, 0.875, 7.52, -89.25), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.77, 0.875, 7.52, -87.75), "res://assets/models/kaykit/platformer/platform_1x1x1_red.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 7, -93), "res://assets/models/kaykit/platformer/platform_1x1x1_yellow.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 8.75581, -92.8271), "res://assets/models/kaykit/platformer/platform_1x1x1_green.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 10.4442, -92.3149), "res://assets/models/kaykit/platformer/platform_1x1x1_blue.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 12.0001, -91.4832), "res://assets/models/kaykit/platformer/platform_1x1x1_red.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 13.364, -90.364), "res://assets/models/kaykit/platformer/platform_1x1x1_yellow.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 14.4832, -89.0001), "res://assets/models/kaykit/platformer/platform_1x1x1_green.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 15.3149, -87.4442), "res://assets/models/kaykit/platformer/platform_1x1x1_green.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 15.3149, -80.5558), "res://assets/models/kaykit/platformer/platform_1x1x1_blue.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 14.4832, -78.9999), "res://assets/models/kaykit/platformer/platform_1x1x1_red.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 13.364, -77.636), "res://assets/models/kaykit/platformer/platform_1x1x1_yellow.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 12.0001, -76.5168), "res://assets/models/kaykit/platformer/platform_1x1x1_green.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 10.4442, -75.6851), "res://assets/models/kaykit/platformer/platform_1x1x1_blue.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 8.75581, -75.1729), "res://assets/models/kaykit/platformer/platform_1x1x1_red.gltf", Transform3D(2.2, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 7, -75), "res://assets/models/kaykit/platformer/platform_2x2x1_yellow.gltf", Transform3D(1.32, 0, 0, 0, 1, 0, 0, 0, 1.32, -6.5, 15.52, -84), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(1.12, 0, 0, 0, 1, 0, 0, 0, 1.12, -6.2, 11.02, -80.5), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.860667, 0, 0.839698, -0, 1.20243, 0, -0.839698, 0, -0.860667, 3.15122, 6.6, -97.8398), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.905574, 0, 0.48987, 0, 1.02958, 0, -0.48987, 0, 0.905574, -2.89743, 6.6, -101.977), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.0214218, 0, -1.13684, 0, 1.13704, 0, 1.13684, 0, 0.0214218, -3.13813, 6.6, -100.8), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-1.18706, 0, 0.29307, -0, 1.22271, 0, -0.29307, 0, -1.18706, -3.34971, 6.6, -101.519), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.18716, 0, -0.0362213, 0, 1.18771, 0, 0.0362213, 0, 1.18716, -5.05889, 15.1, -127.053), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.872054, 0, 0.612855, 0, 1.06587, 0, -0.612855, 0, 0.872054, -5.10341, 15.1, -130.681), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.676923, 0, -1.10354, 0, 1.29461, 0, 1.10354, 0, 0.676923, -5.12646, 15.1, -129.416), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(1.26542, 0, -0.00106456, 0, 1.26542, 0, 0.00106456, 0, 1.26542, 5.18591, 15.1, -129.809), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-1.16917, 0, 0.662791, -0, 1.34397, 0, -0.662791, 0, -1.16917, -5.20844, 15.1, -125.877), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.11324, 0, -0.202318, 0, 1.13147, 0, 0.202318, 0, 1.11324, -5.09628, 15.1, -130.966), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.420819, 0, 1.10742, -0, 1.18468, 0, -1.10742, 0, -0.420819, -2.10351, -6.9, 12.9153), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.874245, 0, 0.585731, 0, 1.05232, 0, -0.585731, 0, 0.874245, 2.48384, -6.9, 13.4334), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.242993, 0, 0.962339, -0, 0.992543, 0, -0.962339, 0, -0.242993, -2.1797, -6.9, 15.3001), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.994442, 0, 0.331053, -0, 1.0481, 0, -0.331053, 0, -0.994442, 31.8067, 3.1, -175.304), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.2112, 0, 0.095437, 0, 1.21495, 0, -0.095437, 0, 1.2112, 3.83719, 3.1, -164.254), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.0337097, 0, -1.08551, 0, 1.08603, 0, 1.08551, 0, 0.0337097, 32.3928, 3.1, -177.849), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(0.240487, 0, 1.02257, 0, 1.05046, 0, -1.02257, 0, 0.240487, 32.2633, 3.1, -181.142), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.902294, 0, -0.518519, 0, 1.04067, 0, 0.518519, 0, 0.902294, 32.4386, 3.1, -175.613), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-1.36646, 0, -0.280884, 0, 1.39503, -0, 0.280884, 0, -1.36646, 3.88741, 3.1, -175.348), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.139303, 0, -1.28664, 0, 1.29416, -0, 1.28664, 0, -0.139303, 4.12012, 3.1, -180.396), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(0.231914, 0, 1.25402, 0, 1.27528, 0, -1.25402, 0, 0.231914, 32.0821, 3.1, -179.977), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.344774, 0, -1.05932, 0, 1.11401, -0, 1.05932, 0, -0.344774, 3.62772, 3.1, -169.861), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.989546, 0, -0.173971, 0, 1.00472, -0, 0.173971, 0, -0.989546, 31.9553, 3.1, -177.294), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.7366, 0, 0.868357, -0, 1.13869, 0, -0.868357, 0, -0.7366, 31.8655, 3.1, -183.939), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(1.19566, 0, -0.00208005, 0, 1.19566, 0, 0.00208005, 0, 1.19566, 31.8939, 3.1, -164.929), "res://assets/models/kaykit/medieval/cloud_small.gltf", Transform3D(-0.48704, 0, -0.870501, 0, 0.997487, -0, 0.870501, 0, -0.48704, 4.17717, 3.1, -179.578), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(1.03685, 0, -0.405161, 0, 1.1132, 0, 0.405161, 0, 1.03685, 3.75567, 3.1, -178.171), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.406507, 0, 1.11192, -0, 1.1839, 0, -1.11192, 0, -0.406507, 3.75129, 3.1, -186.313), "res://assets/models/kaykit/medieval/cloud_big.gltf", Transform3D(-0.860425, 0, 0.586517, -0, 1.04131, 0, -0.586517, 0, -0.860425, 3.98873, 3.1, -175.798), "res://assets/models/kaykit/medieval/building_castle_red.gltf", Transform3D(7.64269, 0, -2.36416, 0, 8, 0, 2.36416, 0, 7.64269, 18, 4, -175), "res://assets/models/kaykit/medieval/building_tower_B_red.gltf", Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 6, 4, -165), "res://assets/models/kaykit/medieval/building_tower_B_red.gltf", Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 30, 4, -165), "res://assets/models/kaykit/medieval/building_tower_B_red.gltf", Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 6, 4, -187), "res://assets/models/kaykit/medieval/building_tower_B_red.gltf", Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 30, 4, -187), "res://assets/models/kaykit/medieval/flag_red.gltf", Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 18, 36, -175)]

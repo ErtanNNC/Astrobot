@@ -197,6 +197,30 @@ func _d1() -> void:
 	await place(Vector3(2.6, 7.6, -59.5), PI / 2, "pervane")
 	ok = await jump_forward(110, 85, 10.5, 300, 50)
 	check("d1: Altın Vida tablasına Pervane ile", ok and bip.global_position.y > 10.8, str(bip.global_position))
+	# Gökkuşağı köprüsü: kemerin tepesindeki gizli sandığa Yay ile iki sıçrayış
+	await place(Vector3(-1.2, 8.6, -80.5), -PI / 2, "yay")
+	ok = await jump_forward(60, 40, 11.5)
+	check("d1: kemere çıkış basamağına Yay ile", ok and absf(bip.global_position.y - 12.0) < 0.2, str(bip.global_position))
+	await place(Vector3(-6.3, 12.1, -80.0), PI, "yay")
+	ok = await jump_forward(60, 40, 16.0)
+	check("d1: gökkuşağı kemerinin tepesine", ok and absf(bip.global_position.y - 16.5) < 0.2, str(bip.global_position))
+	# Balon merdiveni: trambolinlerle yukarı, bitiş bulutuna
+	await place(Vector3(3.0, 10.0, -107), PI, "")
+	var top := 0.0
+	for i in 120:
+		await get_tree().physics_frame
+		top = maxf(top, bip.global_position.y)
+	check("d1: trambolin bulutu sıçratır", top > 13.0, "tepe %.1f" % top)
+	# Gizli alt bulut: trambolinle başlangıca dönüş
+	await place(Vector3(1.6, -4.5, 12.4), PI, "")
+	Input.action_press("move_forward")
+	for i in 240:
+		await get_tree().physics_frame
+		if i > 40 and bip.is_on_floor():
+			break
+	Input.action_release("move_forward")
+	await step(10)
+	check("d1: gizli alt buluttan başlangıca dönüş", bip.global_position.y > -0.3 and bip.global_position.z < 8.5, str(bip.global_position))
 	await place(Vector3(0, 7.6, -61.5), PI, "")
 	ok = await jump_forward(30, 40, 7.0)
 	check("d1: varış bulutuna", ok and bip.global_position.z < -65.0, str(bip.global_position))

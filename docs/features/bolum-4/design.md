@@ -33,3 +33,4 @@ Son Çekirdek Pil, Statik'in kendisinde: adanın üstünde dönen fırtına bulu
 
 ## Görsel yenileme (2026-11-21)
 Bulut zeminlerinin kenarlarında bulut kümeleri (KayKit Medieval bulutları). Bulut Basamakları'nda uzakta bulutların üstünde Kıvılcım Kalesi (kale + dört kule + bayrak, yön işareti). Kıvılcım Kalesi'nde iki yanda kuleler ve surlar, mancınık kulesi, bitişte bayraklar. Düşman görünüşü: Vidaböcek → sıçan, Zıpzıp → eşek arısı.
+Bulut Basamakları uzatıldı (~70 m → ~130 m): dinlenme bulutundan sonra **Gökkuşağı Köprüsü** (renkli basamaklar, gidip gelen parça, eşek arısı), yanında süs gökkuşağı kemeri ve tepesinde gizli sandık (iki Yay sıçrayışı); **Balon Merdiveni** (sıcak hava balonlarına bağlı trambolinli bulutlar, 7,5 → 16 m); **Kale Manzarası** bitiş bulutu (kontrol noktası "manzara"; Kıvılcım Kalesi karşıda). Yeni gizli köşe: başlangıç bulutunun altındaki saklı bulut (trambolinle dönüş). Test: `tests/ch4_test.tscn`.
