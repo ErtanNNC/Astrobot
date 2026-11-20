@@ -198,6 +198,8 @@ class Level:
     def top(self, cx, top, cz, sx, sz, depth=3.0, theme="grass", name=None, ry=0.0, side=None):
         """Üst yüzeyi 'top' yüksekliğinde olan kutu (çoğu zemin böyle).
         kit açıksa üstü KayKit platform karolarıyla kaplanır; kutu gri gövde olur."""
+        if abs(math.sin(ry * 2)) < 1e-6:
+            self._edge_dress(cx, top, cz, sx, sz, theme)
         if self.use_kit and theme in KIT_COLOR and abs(math.sin(ry * 2)) < 1e-6 and sx * sz <= 1200:   # uzaktaki dev zeminler karosuz
             if abs(math.sin(ry)) > 0.5:
                 self._kit_tiles(cx, top, cz, sz, sx, KIT_COLOR[theme])
@@ -228,9 +230,47 @@ class Level:
     def model(self, path, x, y, z, ry=0.0, s=1.0):
         """Herhangi bir glTF/GLB süs (çarpışmasız, MultiMesh), ör. model("kaykit/furniture/couch_pillows", ...).
         Yol assets/models/ altına göredir; uzantı yoksa .gltf eklenir."""
-        if not path.endswith((".gltf", ".glb")):
+        if not path.endswith((".gltf", ".glb", ".fbx")):
             path += ".gltf"
         self.kit_items.append(("res://assets/models/" + path, tf(x, y, z, 0, ry, s)))
+
+    # Tema → kenar süsleri (çarpışmasız). Geniş zeminlerin kenarlarına serpiştirilir; ortası yürüme alanı kalır.
+    EDGE_DRESS = {
+        "snow": ("kenney/holiday/snow-pile.glb", "kenney/holiday/rocks-small.glb", "kenney/holiday/rocks-medium.glb",
+                 "kenney/holiday/tree-snow-a.glb", "kenney/holiday/tree-snow-b.glb", "kenney/holiday/snow-flat.glb"),
+        "cloud": ("kaykit/medieval/cloud_big.gltf", "kaykit/medieval/cloud_small.gltf"),
+    }
+
+    def _edge_dress(self, cx, top, cz, sx, sz, theme):
+        if theme not in self.EDGE_DRESS or not self.use_kit or sx * sz < 30 or sx * sz > 1200 or self.area_id == "ch3_magara":
+            return
+        models = self.EDGE_DRESS[theme]
+        n = int((sx + sz) / 3.5)
+        for _ in range(n):
+            side = self.kit_rng.randrange(2, 4) if sx < sz * 1.5 else self.kit_rng.randrange(4)   # yol boyunca: yan kenarlar (kamera önü boş)
+            t = self.kit_rng.uniform(-0.45, 0.45)
+            inset = self.kit_rng.uniform(0.5, 1.2)
+            if side < 2:
+                x = cx + t * sx; z = cz + (sz / 2 - inset) * (1 if side == 0 else -1)
+            else:
+                z = cz + t * sz; x = cx + (sx / 2 - inset) * (1 if side == 2 else -1)
+            m = self.kit_rng.choice(models)
+            sc = self.kit_rng.uniform(1.2, 1.8) if "tree" not in m else self.kit_rng.uniform(1.3, 1.9)
+            if "cloud" in m:
+                sc = self.kit_rng.uniform(0.9, 1.4)
+                self.model(m, x, top - 0.9, z, self.kit_rng.uniform(0, math.tau), sc)
+            else:
+                self.model(m, x, top, z, self.kit_rng.uniform(0, math.tau), sc)
+
+    def scatter(self, models, x0, x1, z0, z1, y, n, smin=1.0, smax=1.5, clear=None):
+        """Bir alana süs serpiştir (çarpışmasız). models: assets/models/ altına göre yollar.
+        clear=(xa, xb): bu x aralığını boş bırak (yürüme hattı)."""
+        for _ in range(n):
+            for _try in range(10):
+                x = self.kit_rng.uniform(x0, x1)
+                if not clear or not (clear[0] < x < clear[1]):
+                    break
+            self.model(self.kit_rng.choice(models), x, y, self.kit_rng.uniform(z0, z1), self.kit_rng.uniform(0, math.tau), self.kit_rng.uniform(smin, smax))
 
     def solid(self, x, y, z, sx, sy, sz, parent="Level"):
         """Görünmez çarpışma kutusu (görüntüyü modeller verirken duvar/mobilya çarpışması için)."""

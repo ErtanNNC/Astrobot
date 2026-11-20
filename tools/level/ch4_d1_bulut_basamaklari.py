@@ -63,6 +63,13 @@ L.ent("exit", 0, 7.5, -71)
 L.deco("flag", 3.5, 7.5, -72, 1.0)
 
 # Uzakta Statik'in kalesi ve fırtına
+# Görsel yenileme (2026-11-21): uzakta bulutların üstünde Kıvılcım Kalesi (KayKit Medieval, CC0), yön işareti
+L.top(18, -6, -150, 30, 26, depth=4, theme="cloud")
+L.model("kaykit/medieval/building_castle_red.gltf", 18, -6, -150, 0.3, 8.0)
+for (x, z) in ((6, -140), (30, -140), (6, -162), (30, -162)):
+    L.model("kaykit/medieval/building_tower_B_red.gltf", x, -6, z, 0, 6.0)
+L.model("kaykit/medieval/flag_red.gltf", 18, 26, -150, 0, 9.0)
+
 L.ent("prop", 10, 18, -140, kind="storm", size=6.0)
 L.ent("prop", -50, -20, -180, kind="dark_tower", size=2.5)
 for i in range(14):

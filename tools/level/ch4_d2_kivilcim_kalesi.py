@@ -95,4 +95,16 @@ for x, z in ((-11, 6), (11, 6), (-11, -20), (-11, -45)):
     L.deco("flag", x, 10, z, 1.0)
 L.ent("prop", -20, 30, -90, kind="storm", size=6.0)
 L.clouds(16, xr=(-90, 90), zr=(-200, 40), avoid=(-25, 25, -130, 20), low=(-14, -8), high=(25, 40))
+# Görsel yenileme (2026-11-21): kale surları, kuleler, bayraklar (KayKit Medieval, CC0; çarpışmasız süs)
+MD = "kaykit/medieval/"
+for z in (-3, -21, -38):
+    for side in (-1, 1):
+        L.model(MD + "building_tower_B_red.gltf", side * 9.6, 2.0 if z < -10 else 0, z, 0, 3.4)
+for z in range(6, -46, -4):
+    for side in (-1, 1):
+        L.model(MD + "wall_straight.gltf", side * 8.6, 2.0 if z < -11 else 0, z, PI / 2, 2.0)
+L.model(MD + "flag_red.gltf", -3, 11.15, -122.6, 0, 4.0); L.model(MD + "flag_red.gltf", 3, 11.15, -122.6, 0, 4.0)
+L.model(MD + "building_tower_catapult_red.gltf", -12, 0, -60, 0.6, 4.0)
+L.model(MD + "building_castle_red.gltf", 0, 11.15 - 14, -150, 0, 9.0)
+
 L.write()

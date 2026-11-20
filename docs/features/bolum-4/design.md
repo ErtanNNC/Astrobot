@@ -29,3 +29,7 @@ Son Çekirdek Pil, Statik'in kendisinde: adanın üstünde dönen fırtına bulu
 - 2026-11-18: Patron aşamalarının başında ne yapılacağı yazıyla söylenir (patron betiğinde `PHASE_HINTS`); sıradaki hedefin ve gereken yeteneğin kaynağının üstünde sarı ok durur (`goal_nodes()`, `area.gd`). Geliştirici Paslı Kaptan 2. aşamada ne yapacağını bulamadı.
 - 2026-11-18: tasarlandı.
 - 2026-11-18: 2 alan, Statik ve final uygulandı.
+
+
+## Görsel yenileme (2026-11-21)
+Bulut zeminlerinin kenarlarında bulut kümeleri (KayKit Medieval bulutları). Bulut Basamakları'nda uzakta bulutların üstünde Kıvılcım Kalesi (kale + dört kule + bayrak, yön işareti). Kıvılcım Kalesi'nde iki yanda kuleler ve surlar, mancınık kulesi, bitişte bayraklar. Düşman görünüşü: Vidaböcek → sıçan, Zıpzıp → eşek arısı.

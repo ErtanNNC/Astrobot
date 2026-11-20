@@ -41,3 +41,7 @@ Hazır model yok: üst üste üç kar topu (küre), kayadan kollar (Quaternius k
 - 2026-11-18: Patron aşamalarının başında ne yapılacağı yazıyla söylenir (patron betiğinde `PHASE_HINTS`); sıradaki hedefin ve gereken yeteneğin kaynağının üstünde sarı ok durur (`goal_nodes()`, `area.gd`). Geliştirici Paslı Kaptan 2. aşamada ne yapacağını bulamadı.
 - 2026-11-18: tasarlandı ve Buz yeteneği uygulandı.
 - 2026-11-18: 3 alan ve Kardan Dev uygulandı.
+
+
+## Görsel yenileme (2026-11-21)
+Kar zeminlerinin yan kenarlarına otomatik süs (`lvl.py` `_edge_dress`): kar yığınları, karlı kayalar, karlı ağaçlar (Kenney Holiday Kit, CC0). Buz Mağarası'nda fenerler, iri karlı kayalar, kardan adam, kızak, kartopu yığını. Düşman görünüşü: Vidaböcek → örümcek, Zıpzıp → kurbağa.

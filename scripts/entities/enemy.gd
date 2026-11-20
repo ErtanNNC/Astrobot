@@ -1,20 +1,35 @@
 extends CharacterBody3D
 ## Düşmanlar. Üstüne zıplanınca ya da Kaya ile ezilince yenilir; yandan değerse Bip hasar alır.
 ## Türler:
-##  vidabocek – Vidaböcek (Quaternius Crab): bir çizgide ileri geri yürür, kenarda döner.
-##  zipzip    – Zıpzıp (Quaternius Skull): yerinde zıplar, Bip yaklaşınca ona doğru seker.
-##  hurdaci   – Hurda Goblin (Quaternius "Enemy"): Bip'i görünce kovalar, uzaklaşınca evine döner.
+##  vidabocek – Vidaböcek: bir çizgide ileri geri yürür, kenarda döner.
+##  zipzip    – Zıpzıp: yerinde zıplar, Bip yaklaşınca ona doğru seker.
+##  hurdaci   – Hurda Goblin: Bip'i görünce kovalar, uzaklaşınca evine döner.
+## Görünüş bölüme göre değişir (CHAPTER_SKINS): yengeç/kurukafa → kurbağa, örümcek, sıçan, eşek arısı.
 
 @export_enum("vidabocek", "zipzip", "hurdaci") var kind := "vidabocek"
 @export var patrol := 3.0        ## m, başlangıçtan her iki yöne
 @export var speed := 1.6         ## m/s
 @export var batteries := 3       ## yenilince saçılan pil
+@export_enum("auto", "crab", "skull", "goblin", "frog", "spider", "rat", "wasp") var skin := "auto"   ## auto: bölüme göre seçilir
 
-const MODELS := {
-	"vidabocek": "res://assets/models/quaternius/enemies/Crab.gltf",
-	"zipzip": "res://assets/models/quaternius/enemies/Skull.gltf",
-	"hurdaci": "res://assets/models/quaternius/enemies/Enemy.gltf",
+## Görünüş (davranış türden gelir). Bölümlere göre çeşit: her bölümün kendi yaratıkları olsun.
+const SKINS := {
+	"crab": ["res://assets/models/quaternius/enemies/Crab.gltf", 0.42],
+	"skull": ["res://assets/models/quaternius/enemies/Skull.gltf", 0.38],
+	"goblin": ["res://assets/models/quaternius/enemies/Enemy.gltf", 0.38],
+	"frog": ["res://assets/models/quaternius/easy_enemies/Frog.fbx", 0.3],
+	"spider": ["res://assets/models/quaternius/easy_enemies/Spider.fbx", 0.26],
+	"rat": ["res://assets/models/quaternius/easy_enemies/Rat.fbx", 0.42],
+	"wasp": ["res://assets/models/quaternius/easy_enemies/Wasp.fbx", 0.28],
 }
+## Bölüm → [vidabocek, zipzip, hurdaci] görünüşü
+const CHAPTER_SKINS := {
+	"chapter1": ["crab", "skull", "goblin"],
+	"chapter2": ["crab", "frog", "goblin"],
+	"chapter3": ["spider", "frog", "goblin"],
+	"chapter4": ["rat", "wasp", "goblin"],
+}
+
 
 var _home := Vector3.ZERO
 var _dir := 1.0
@@ -45,8 +60,9 @@ func _ready() -> void:
 	cs.shape = sh
 	cs.position.y = 0.5
 	add_child(cs)
-	_model = load(MODELS[kind]).instantiate()
-	_model.scale = Vector3.ONE * (0.42 if kind == "vidabocek" else 0.38)
+	var sk := skin if skin != "auto" else _chapter_skin()
+	_model = load(SKINS[sk][0]).instantiate()
+	_model.scale = Vector3.ONE * float(SKINS[sk][1])
 	add_child(_model)
 	_anim = _model.find_child("AnimationPlayer", true, false)
 	if _anim:
@@ -54,6 +70,7 @@ func _ready() -> void:
 			if n.ends_with("Walk") or n.ends_with("Idle") or n.ends_with("Flying"):
 				_anim.get_animation(n).loop_mode = Animation.LOOP_LINEAR
 		_play("Walk" if kind != "zipzip" else "Idle")
+		_play_fallback()
 	# Bip'e değme alanı (yandan hasar)
 	_hurt_area = Area3D.new()
 	_hurt_area.collision_layer = 0
@@ -67,6 +84,30 @@ func _ready() -> void:
 	add_child(_hurt_area)
 	_hurt_area.body_entered.connect(_on_touch)
 	_hop_timer = randf_range(0.5, 1.5)
+
+
+func _chapter_skin() -> String:
+	var path := ""
+	var n: Node = self
+	while n:
+		if n.scene_file_path != "" and "/chapter" in n.scene_file_path:
+			path = n.scene_file_path
+			break
+		n = n.get_parent()
+	var i := ["vidabocek", "zipzip", "hurdaci"].find(kind)
+	for ch in CHAPTER_SKINS:
+		if "/" + ch + "/" in path:
+			return CHAPTER_SKINS[ch][i]
+	return CHAPTER_SKINS["chapter1"][i]
+
+
+## Yürüme/bekleme animasyonu olmayan modeller (eşek arısı) uçma animasyonunu oynatır.
+func _play_fallback() -> void:
+	if _anim and _anim.current_animation == "":
+		for a in _anim.get_animation_list():
+			if a.ends_with("Flying") or a.ends_with("Idle"):
+				_anim.play(a)
+				return
 
 
 func _play(n: String) -> void:

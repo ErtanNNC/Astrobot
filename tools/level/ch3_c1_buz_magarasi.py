@@ -79,4 +79,17 @@ for z in (-2, -18, -34, -50, -66, -84):
 for x, y, z, s in ((-5, 0, 6, 1.6), (5, 0, -7, 1.4), (-5.2, 2.15, -30, 1.5), (5.2, 7.5, -60, 1.8), (-5, 13.9, -96, 2.0), (5, 13.9, -95, 1.5), (-5, 10.7, -76, 1.3)):
     L.deco(random.choice(["gem", "gem_pink"]), x, y, z, s)
 L.rock(-4.8, 0, -8.5, 0.6); L.rock(4.3, 7.5, -71, 0.5)
+# ---------- Görsel yenileme (2026-11-21): Kenney Holiday Kit + KayKit Holiday (CC0) ----------
+H = "kenney/holiday/"
+SNOWY = [H + "snow-pile.glb", H + "rocks-small.glb", H + "rocks-medium.glb", H + "snow-flat.glb"]
+for (z0, z1, y) in ((7, -9, 0), (-21, -31, 2.15), (-33, -37, 2.15), (-39, -43, 5.35), (-59, -69, 7.5), (-75, -81, 10.7), (-83, -97, 13.9)):
+    L.scatter(SNOWY, -5.6, 5.6, z0, z1, y, 6, 1.4, 2.4, clear=(-2.4, 2.4))
+    L.model(H + "lantern.glb", -5.2, y, (z0 + z1) / 2, 0, 1.6)
+for (x, z, y) in ((-6.2, 2, 0), (6.2, -26, 2.15), (-6.2, -64, 7.5), (6.2, -88, 13.9), (6.2, -12, -3), (-6.2, -50, 2.35)):
+    L.model(H + "rocks-large.glb", x, y, z, random.uniform(0, 6.28), 1.6)
+L.model("kaykit/holiday/snowman_A.gltf", 4.2, 0, 3.4, -0.6, 2.2)
+L.model(H + "sled.glb", -4.0, 0, 1.0, 0.8, 1.8)
+L.model("kaykit/holiday/snowball_pile.gltf", 4.6, 13.9, -95.5, 0, 2.2)
+L.model("kaykit/holiday/lantern_decorated.gltf", -4.6, 13.9, -91, 0, 2.0)
+
 L.write()
