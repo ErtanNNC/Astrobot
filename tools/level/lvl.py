@@ -22,6 +22,7 @@ THEMES = {
     "ice": ((0.72,0.90,1.00),(0.65,0.85,0.98),(0.50,0.72,0.90),(0.44,0.64,0.84)),
     "red": ((0.95,0.45,0.40),(0.90,0.40,0.36),(0.80,0.35,0.30),(0.72,0.30,0.26)),
     "cloud": ((0.98,0.97,1.00),(0.92,0.90,0.98),(0.82,0.78,0.95),(0.74,0.70,0.90)),
+    "qstrata": ((0.80,0.74,0.64),(0.74,0.68,0.58),(0.66,0.58,0.48),(0.58,0.50,0.42)),
     "strata": ((0.95,0.62,0.38),(0.90,0.55,0.33),(0.86,0.45,0.28),(0.76,0.38,0.24)),
     "kitside": ((0.80,0.82,0.86),(0.76,0.78,0.83),(0.70,0.72,0.78),(0.64,0.66,0.72)),
 }
@@ -31,12 +32,15 @@ THEMES = {
 TEX_DIR = "res://assets/textures/freegameassets/painterly/"
 THEME_TEX = {
     "grass": ("mossy-earth", "lush-meadow-grass"), "grass2": ("mossy-earth", "lush-meadow-grass"),
-    "sand": ("sandstone-block", "fine-beach-sand"), "strata": ("desert-cliff", "red-desert-dust"), "canyon": ("desert-cliff", "red-desert-dust"),
+    "sand": ("sandstone-block", "fine-beach-sand"), "strata": ("desert-cliff", "red-desert-dust"), "qstrata": ("cracked-cliff-face", "brown-crushed-rock"), "canyon": ("desert-cliff", "red-desert-dust"),
     "quarry": ("cracked-cliff-face", "brown-crushed-rock"), "stone": ("granite-rock", "cracked-stone-ground"),
     "kitside": ("pale-limestone-blocks", None), "wood": ("weathered-planks", "dock-boards"),
     "floor": ("dock-boards", "dock-boards"), "factory": ("rivet-metal", "rivet-metal"),
     "snow": ("icy-rock-wall", "powder-snow"), "ice": ("icy-granite-cliff", "blue-ice-cracks"),
 }
+
+# Katmanlı kaya temaları (shader yüksekliğe göre şerit boyar). None = shader'daki kanyon renkleri.
+STRATA = {"strata": None, "qstrata": ((0.78,0.74,0.68),(0.92,0.80,0.58),(0.62,0.56,0.50),(0.85,0.70,0.52))}
 
 # Koyu dokuları aydınlat (tema → çarpan)
 TEX_GAIN = {"factory": 1.75}
@@ -399,8 +403,10 @@ class Level:
                         extra += 'shader_parameter/use_%s_tex = true\nshader_parameter/%s_tex = ExtResource("%s")\n' % (kind, kind, tid)
             if k in TEX_GAIN:
                 extra += 'shader_parameter/tex_gain = %.2f\n' % TEX_GAIN[k]
-            if k == "strata":
+            if k in STRATA:
                 extra += 'shader_parameter/strata = true\n'
+                for nm, c in zip("abcd", STRATA[k] or ()):
+                    extra += 'shader_parameter/strata_%s = %s\n' % (nm, c3(c))
             subs.append('[sub_resource type="ShaderMaterial" id="m_%s"]\nrender_priority = 0\nshader = ExtResource("sh")\nshader_parameter/top_color = %s\nshader_parameter/top_color2 = %s\nshader_parameter/side_a = %s\nshader_parameter/side_b = %s\n%s' % (k, c3(t1), c3(t2), c3(a), c3(b), extra))
         subs.append('''[sub_resource type="CylinderShape3D" id="trunk"]
 height = 2.4

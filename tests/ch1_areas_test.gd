@@ -317,3 +317,20 @@ func _test_kaya() -> void:
 	await place(Vector3(0, 4.6, -115.5), PI, "balon")
 	var p := await jump_forward(30, 400, true)
 	check("Son parkur: balonla U2", p.z < -122.5 and absf(p.y - 4.0) < 0.3, str(p))
+	# Gizli Kaya Rafı: Yay ile batıdaki rafa
+	await place(Vector3(-6.0, 0.1, -1.5), -PI / 2, "yay")
+	p = await jump_forward()
+	check("Gizli Kaya Rafı'na Yay ile", absf(p.y - 4.5) < 0.3 and p.x < -7.4, str(p))
+	# Gizli kaya sütunu: U1'den balonla doğuya, trambolinle geri
+	await place(Vector3(5.5, 4.6, -113), PI / 2, "balon")
+	p = await jump_forward(30, 300, true)
+	check("Balonla gizli kaya sütununa", absf(p.y - 3.0) < 0.3 and p.x > 10.2, str(p))
+	await place(Vector3(10.9, 4.5, -111.2), -PI / 2, "")
+	Input.action_press("move_forward")
+	for i in 240:
+		await get_tree().physics_frame
+		if i > 40 and bip.is_on_floor():
+			break
+	Input.action_release("move_forward")
+	await step(10)
+	check("Sütundan trambolinle U1'e dönüş", absf(bip.global_position.y - 4.5) < 0.3 and bip.global_position.x < 6.0, str(bip.global_position))

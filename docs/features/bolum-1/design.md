@@ -81,6 +81,15 @@ Yay Bahçesi yöntemiyle baştan yapıldı. Üretici: `tools/level/ch1_a2_balon_
 
 **Test:** `tests/ch1_areas_test.tscn` (tutamak, zincir, levhalar, çark, Depo, Vinç Kulesi).
 
+## Kaya Ocağı (mağaza kalitesi, 2026-11-21)
+Üretici: `tools/level/ch1_a4_kaya_ocagi.py`. Oynanış omurgası (ağır buton, çatlak zemin, zamanlı kapı, su altı yolu, dört yetenek parkuru) korundu.
+
+**Görünüş:** taş ocağı duvarları ve zemin gövdeleri bej-gri kaya katmanlarıyla boyanır (`qstrata` teması); duvarların üstünde ağaçlı basamak, diplerinde iri kayalar. Zeminlerde KayKit Forest (CC0) taşları, çalılar, çıplak ağaçlar; KayKit Space Base (CC0) maden kamyonu, kasalar, projektör ışıkları; Kenney vinç ve koniler. Yön işareti: bitişte dev **maden kulesi** ve rüzgâr türbini.
+
+**Gizli köşeler (3):** Kaya Rafı (başlangıcın batısı; yanındaki Yay ile 4,5 m; 12 pil); kaya sütunu (U1'in doğusu; Balonla süzül, trambolinle dön; 11 pil); su altı oyuğundaki Altın Vida.
+
+**Test:** `tests/ch1_areas_test.tscn` (buton, çatlak zemin, rampa, su altı, son parkur, iki yeni gizli köşe).
+
 ## Rules
 1. Kontrol noktaları 60–90 saniyede bir ve her alan geçişinde; her biri otomatik kaydeder ([kayıt](../kayit/design.md)).
 2. Bip'in 3 canı vardır. Çukura düşmek 1 can götürür ve Bip son kontrol noktasında belirir. Canlar biterse "oyun bitti" ekranı yoktur: Bip son kontrol noktasından tam canla devam eder.
