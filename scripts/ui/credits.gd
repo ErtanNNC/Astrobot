@@ -7,7 +7,7 @@ const LINES := [
 	["Tasarım ve yapım", 40], ["Bip Ekibi", 30], ["Claude Code ile birlikte", 26], ["", 30],
 	["Bip'in gövdesi", 34], ["Pixabay — Cute robot (Pixabay Content License)", 26], ["Animasyonlar: Mixamo (Adobe)", 26], ["Atölye robotları: Quaternius — Animated Robot (CC0)", 24], ["", 20],
 	["Çevre, düşmanlar, Pırıl", 34], ["Quaternius — Ultimate Platformer Pack (CC0)", 26], ["", 20],
-	["Zemin blokları", 34], ["Kay Lousberg — KayKit Platformer Pack (CC0)", 26], ["", 20],
+	["Zemin blokları", 34], ["Kay Lousberg — KayKit Platformer Pack (CC0)", 26], ["Kay Lousberg — KayKit Restaurant Bits, Furniture Bits (CC0)", 26], ["", 20],
 	["Ağaçlar ve çiçekler", 34], ["Kenney — Platformer Kit (CC0)", 26], ["", 20],
 	["Paslı Kaptan modeli", 34], ["Pixabay — Fish mecha robot (Pixabay Content License)", 26], ["", 20],
 	["Duvar ve zemin dokuları", 34], ["freegameassets.com — Painterly Fantasy Textures (CC0)", 26], ["", 20],

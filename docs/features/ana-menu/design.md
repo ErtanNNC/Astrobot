@@ -18,6 +18,8 @@ Ekranlar bir yığın (stack) gibi çalışır: üstteki ekran girdiyi alır, "G
 - 20 sn dokunulmazsa Pırıl, Bip'in antenine konup kıvılcım çıkarır; sevimli bir bekleme animasyonu.
 
 ## Atölye (ana menü)
+**Görünüş (2026-11-21):** KayKit Restaurant Bits ve Furniture Bits (CC0) parçalarıyla sıcak bir oda: alt duvarlar turkuaz lambri, üstte ahşap kaplama ve tavan kirişleri; kuzeyde gerçek kapı boşluğuna oturan kapı (oyna) ve yağmurlu bahçeye bakan açık pencere; çalışma tezgâhı, raflar, tablolar, halılar, ayaklı lambalar, koltuk. Modeller çarpışmasızdır, çarpışma görünmez kutulardadır. Üretici: `tools/level/hub.py`. Eski sürümde kapı duvardaki boşluğa oturmuyordu ve pencere düz mavi bir levhaydı.
+
 Küçük, sıcak ışıklı bir oda. Bip oyun içindeki kontrollerle yürür ve zıplar. Bir nesnenin önüne gelince nesne parlar, üstünde ne yaptığını gösteren bir simge belirir; Yetenek tuşu seçer.
 
 | Nesne | İşlev |

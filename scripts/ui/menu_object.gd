@@ -49,12 +49,13 @@ func _build() -> void:
 	var icon_y := 2.6
 	match kind:
 		"door":
-			var d: Node3D = load("res://assets/models/quaternius/platformer/Door.gltf").instantiate()
-			d.scale = Vector3.ONE * 0.75
+			# KayKit Restaurant door_A (CC0): menteşesi yerel x=0'da, 1,6 m genişlik; duvardaki kapı boşluğuna oturur
+			var d: Node3D = load("res://assets/models/kaykit/restaurant/door_A.gltf").instantiate()
+			d.position = Vector3(-0.8, 0, 0)
 			add_child(d)
-			bs.size = Vector3(2.8, 3.2, 0.6)
-			shape.position.y = 1.6
-			icon_y = 3.9
+			bs.size = Vector3(1.8, 2.9, 0.6)
+			shape.position.y = 1.45
+			icon_y = 3.4
 		"capsule":
 			var glass := CylinderMesh.new()
 			glass.radial_segments = 16
@@ -84,15 +85,23 @@ func _build() -> void:
 			add_child(_holo)
 			icon_y = 3.3
 		"tv":
+			# Eski tüplü TV: KayKit küçük masa üstünde koyu çerçeveli, parlayan ekran
+			var stand: Node3D = load("res://assets/models/kaykit/furniture/table_small.gltf").instantiate()
+			stand.scale = Vector3(1.6, 0.9, 1.2)
+			add_child(stand)
 			var box := BoxMesh.new()
-			box.size = Vector3(2.0, 1.5, 1.0)
-			add_child(AbilityModels.mesh_node(box, AbilityModels.mat(Color(0.6, 0.42, 0.3)), Vector3(0, 1.55, 0)))
+			box.size = Vector3(1.9, 1.35, 0.9)
+			add_child(AbilityModels.mesh_node(box, AbilityModels.mat(Color(0.28, 0.3, 0.38), 0.5), Vector3(0, 1.6, 0)))
+			var bezel := BoxMesh.new()
+			bezel.size = Vector3(1.75, 1.2, 0.06)
+			add_child(AbilityModels.mesh_node(bezel, AbilityModels.mat(Color(0.95, 0.75, 0.3), 0.5), Vector3(0, 1.6, 0.45)))
 			var scr := BoxMesh.new()
-			scr.size = Vector3(1.6, 1.1, 0.05)
-			add_child(AbilityModels.mesh_node(scr, AbilityModels.mat(Color(0.35, 0.8, 0.9), 0.2, 1.2), Vector3(0, 1.55, 0.5)))
-			var legs := BoxMesh.new()
-			legs.size = Vector3(1.4, 0.8, 0.8)
-			add_child(AbilityModels.mesh_node(legs, AbilityModels.mat(Color(0.45, 0.32, 0.24)), Vector3(0, 0.4, 0)))
+			scr.size = Vector3(1.5, 0.95, 0.05)
+			add_child(AbilityModels.mesh_node(scr, AbilityModels.mat(Color(0.35, 0.8, 0.9), 0.2, 1.2), Vector3(0, 1.6, 0.48)))
+			for k in 2:
+				var ant := BoxMesh.new()
+				ant.size = Vector3(0.05, 0.8, 0.05)
+				add_child(AbilityModels.mesh_node(ant, AbilityModels.mat(Color(0.5, 0.52, 0.6)), Vector3(-0.25 + k * 0.5, 2.6, 0), Vector3(0, 0, 0.5 - k)))
 			bs.size = Vector3(2.0, 2.3, 1.0)
 			shape.position.y = 1.15
 		"showcase":
@@ -114,9 +123,21 @@ func _build() -> void:
 			_holo.position.y = 2.6
 			add_child(_holo)
 		"toybox":
-			var tb := BoxMesh.new()
-			tb.size = Vector3(1.8, 0.9, 1.2)
-			add_child(AbilityModels.mesh_node(tb, AbilityModels.mat(Color(0.95, 0.5, 0.3)), Vector3(0, 0.45, 0)))
+			# KayKit kasa (CC0), kapağı yana açık: içinden oyuncaklar görünür
+			var crate: Node3D = load("res://assets/models/kaykit/restaurant/crate.gltf").instantiate()
+			crate.scale = Vector3(0.9, 1.1, 0.6)
+			add_child(crate)
+			var lid: Node3D = load("res://assets/models/kaykit/restaurant/crate_lid.gltf").instantiate()
+			lid.scale = Vector3(0.9, 1.0, 0.6)
+			lid.position = Vector3(0, 0.95, -0.75)
+			lid.rotation.x = -1.1
+			add_child(lid)
+			for k in 3:
+				var ball := SphereMesh.new()
+				ball.radius = 0.18
+				ball.height = 0.36
+				var c: Color = [Color(1, 0.4, 0.35), Color(0.35, 0.7, 1), Color(1, 0.85, 0.3)][k]
+				add_child(AbilityModels.mesh_node(ball, AbilityModels.mat(c, 0.4), Vector3(-0.45 + k * 0.45, 0.88, 0.05 * k)))
 			bs.size = Vector3(1.8, 0.9, 1.2)
 			shape.position.y = 0.45
 			icon_y = 1.8

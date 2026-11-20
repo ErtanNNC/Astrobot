@@ -163,6 +163,7 @@ class Level:
         self.extra_props = extra_props or {}
         self.rig = rig
         self.nodes = []
+        self.extra_subs = []
         self.ext = {}
         self.used_themes = set()
         self.counters = {}
@@ -216,6 +217,22 @@ class Level:
     def kit(self, model, x, y, z, ry=0.0, s=1.0):
         """KayKit süsü (çarpışmasız), ör. kit("cone_red", 2, 0, 3)."""
         self.kit_items.append((KIT_DIR + model + ".gltf", tf(x, y, z, 0, ry, s)))
+
+    def model(self, path, x, y, z, ry=0.0, s=1.0):
+        """Herhangi bir glTF/GLB süs (çarpışmasız, MultiMesh), ör. model("kaykit/furniture/couch_pillows", ...).
+        Yol assets/models/ altına göredir; uzantı yoksa .gltf eklenir."""
+        if not path.endswith((".gltf", ".glb")):
+            path += ".gltf"
+        self.kit_items.append(("res://assets/models/" + path, tf(x, y, z, 0, ry, s)))
+
+    def solid(self, x, y, z, sx, sy, sz, parent="Level"):
+        """Görünmez çarpışma kutusu (görüntüyü modeller verirken duvar/mobilya çarpışması için)."""
+        sid = "solid_%d" % len(self.extra_subs)
+        self.extra_subs.append('[sub_resource type="BoxShape3D" id="%s"]\nsize = Vector3(%s, %s, %s)\n' % (sid, fmt(sx), fmt(sy), fmt(sz)))
+        name = self._name("Duvar")
+        self.nodes.append('[node name="%s" type="StaticBody3D" parent="%s"]\ntransform = %s\n' % (name, parent, tf(x, y, z)))
+        self.nodes.append('[node name="Shape" type="CollisionShape3D" parent="%s/%s"]\nshape = SubResource("%s")\n' % (parent, name, sid))
+        return name
 
     def _kit_tiles(self, cx, top, cz, sx, sz, color):
         T = 2 if min(sx, sz) >= 1.5 else 1   # 2 m karolar: oyuncak blok görünümü (çizgiler sık)
@@ -450,6 +467,7 @@ adjustment_saturation = 1.12
             ext_lines.append('[ext_resource type="Script" path="res://scripts/level/kit_batch.gd" id="kitb"]')
             arr = ", ".join('"%s", %s' % (p, t) for p, t in self.kit_items)
             self.nodes.append('[node name="KitBatch" type="Node3D" parent="."]\nscript = ExtResource("kitb")\nitems = [%s]\n' % arr)
+        subs += self.extra_subs
         txt = "[gd_scene format=3]\n\n" + "\n".join(ext_lines) + "\n\n" + "\n".join(subs) + "\n" + "\n".join(root) + "\n" + "\n".join(self.nodes)
         path = os.path.join(ROOT, self.out)
         os.makedirs(os.path.dirname(path), exist_ok=True)
