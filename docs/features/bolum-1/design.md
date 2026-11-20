@@ -29,6 +29,27 @@ Gizli **Altın Vida #1:** atölyenin en üst rafında; yalnızca Yay ile ve rafl
 
 Her alanda bir **Altın Vida** (toplam 5), ana yoldan sapan ve alanın yeteneğinin zekice bir kullanımını isteyen bir köşede.
 
+## Yay Bahçesi (mağaza kalitesi örnek alan, 2026-11-20)
+Geliştiricinin isteğiyle baştan yapıldı; diğer alanlar beğenilirse aynı yöntemle yenilenecek. Üretici: `tools/level/ch1_a1_yay_bahcesi.py`.
+
+**Yöntem:** Düz dikdörtgen koridor yerine katmanlı yüzen adalar (`L.island`: üst zemin + 1,3 m aşağıda taşan ikinci kat + daralan alt gövde). Yol bitiş kulesine doğru sağa sola kıvrılır; kule başlangıçtan görünür (yön işareti, kural 7). Her bölümün arasında dinlenme yeri, uzakta süs adaları.
+
+| # | Bölüm | Ne yapılır | Not |
+|---|---|---|---|
+| 0 | Bahçe Kapısı | Yay kopyalanır, sandıklar, çiçek tarhları | arka kenardan aşağı inen pil sırası gizli mağarayı ima eder |
+| 1 | Yaylı Teraslar (öğret) | iki 4 m'lik teras, yalnızca Yay ile | kontrol noktası "teras" |
+| 2 | Basamak Taşları | sağa kıvrılan 4 küçük ada, 2–3 m boşluklar, ilk Vidaböcek | ilk gerçek çukurlar |
+| 3 | Köprü ve Asansör (sına) | hareketli platform, Zıpzıp + Vidaböcek'li plato, dikey asansör | |
+| 4 | Çiçek Tepesi (dinlenme) | pil halkası, kemer, manzara | kontrol noktası "tepe", ikinci Yay kaynağı |
+| 5 | Zıplayan Yaylar (şaşırt) | trambolinli üç platform sağa sola gider | Altın Vida buradan |
+| 6 | Ezme Bahçesi | 5 Vidaböcek + Zıpzıp, Yay ile ez, sandıklar | kontrol noktası "bahce" |
+| 7 | Dönen Kule (ustalık) | dönen üç platform, trambolin, düşmanlar | |
+| 8 | Bitiş | **Dev Yay** (11 m) Bip'i kulenin tepesine fırlatır | set piece |
+
+**Gizli köşeler (3):** başlangıç adasının altındaki mantarlı mağara (arka kenardan atla, trambolinle dön; 13 pil); 1. terasın doğusundaki taş sütun (normal zıplama + kenara tutunma ya da Yay; 8 pil); gökteki sarı ada (B platformu doğudayken trambolinden; **Altın Vida**).
+
+**Sayılar:** ~100 pil; zorunlu boşluklar ≤ 3 m, Yay basamakları 4–4,5 m; 3 kontrol noktası (her birinde kurtarılacak robot); test: `tests/ch1_areas_test.tscn` (teraslar, basamak taşı, sütuna tutunma, mağaradan dönüş, hareketli trambolin, Dev Yay).
+
 ## Rules
 1. Kontrol noktaları 60–90 saniyede bir ve her alan geçişinde; her biri otomatik kaydeder ([kayıt](../kayit/design.md)).
 2. Bip'in 3 canı vardır. Çukura düşmek 1 can götürür ve Bip son kontrol noktasında belirir. Canlar biterse "oyun bitti" ekranı yoktur: Bip son kontrol noktasından tam canla devam eder.
@@ -62,6 +83,7 @@ Her alanda bir **Altın Vida** (toplam 5), ana yoldan sapan ve alanın yeteneği
 - Bölüm sonunda zaman/pil derecelendirmesi (yıldız) olsun mu? Şimdilik hayır.
 
 ## History
+- 2026-11-20: Yay Bahçesi mağaza kalitesinde baştan yapıldı (yukarıdaki bölüm).
 - 2026-11-18: Patron aşamalarının başında ne yapılacağı yazıyla söylenir (patron betiğinde `PHASE_HINTS`); sıradaki hedefin ve gereken yeteneğin kaynağının üstünde sarı ok durur (`goal_nodes()`, `area.gd`). Geliştirici Paslı Kaptan 2. aşamada ne yapacağını bulamadı.
 - 2026-11-18: Kaya Ocağı'nda mağara çıkışı ve havuz çıkışı rampaları ters eğimliydi (oyuncu çatlak zemini kırdıktan sonra uçurum kenarına geliyordu); düzeltildi, test eklendi.
 - 2026-11-18: tasarlandı.

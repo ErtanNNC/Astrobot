@@ -103,19 +103,70 @@ func jump_forward(frames_hold := 30, max_frames := 240, glide := false) -> Vecto
 
 
 func _test_yay() -> void:
+	# Yay ile 4 m'lik teraslar
 	await place(Vector3(0, 0.1, -6.5), PI, "yay")
 	var p := await jump_forward()
-	check("Yay ile 4 m'lik terasa çıkış", absf(p.y - 4.0) < 0.2, str(p))
-	await place(Vector3(0, 8.1, -40.5), PI, "")
-	await step(5)
-	# Trambolinli platform: üstüne düşünce yükseğe sıçrar
+	check("Yay ile 4 m'lik terasa (T1) çıkış", absf(p.y - 4.0) < 0.2, str(p))
+	await place(Vector3(-4, 4.1, -14.5), PI, "yay")
+	p = await jump_forward()
+	check("Yay ile ikinci terasa (T2) çıkış", absf(p.y - 8.0) < 0.2, str(p))
+	# Basamak taşına normal zıplama
+	await place(Vector3(0, 8.1, -20.0), PI, "")
+	Input.action_press("move_forward")
+	await step(12)   # koşarak gel
+	p = await jump_forward(30, 240, false)
+	check("T2'den ilk basamak taşına zıplama", absf(p.y - 8.0) < 0.2 and p.z < -25.5, str(p))
+	# Gizli sütun: normal zıplama + kenara tutunma
+	await place(Vector3(2.0, 4.1, -12.5), PI, "")
+	var turn: float = level.cam.auto_turn_speed
+	level.cam.auto_turn_speed = 0.0   # oyuncu yönünü tutar: kamera dönmesin
+	Input.action_press("move_right")
+	await step(10)
+	Input.action_press("jump")
+	var hung := false
+	for i in 150:
+		await get_tree().physics_frame
+		hung = hung or bip.ledge_hanging
+		if i == 25:
+			Input.action_release("jump")
+		if hung and bip.is_on_floor() and bip.global_position.y > 7.0:
+			break
+	Input.action_release("move_right")
+	Input.action_release("jump")
+	await step(10)
+	level.cam.auto_turn_speed = turn
+	check("Gizli sütuna kenara tutunarak çıkış", hung and bip.global_position.y > 7.0, str(bip.global_position))
+	# Gizli mağaradan trambolinle geri dönüş
+	await place(Vector3(2.0, -3.0, 10.4), PI, "")
+	Input.action_press("move_forward")
+	for i in 200:
+		await get_tree().physics_frame
+		if i > 30 and bip.is_on_floor():
+			break
+	Input.action_release("move_forward")
+	await step(10)
+	check("Mağaradan trambolinle başlangıç adasına dönüş", bip.global_position.y > -1.5, str(bip.global_position))
+	# Trambolinli hareketli platform: üstüne düşünce yükseğe sıçrar
 	var pa := level.find_child("Platform_3", true, false)
-	await place(pa.global_position + Vector3(0, 3.0, 0), PI, "")
+	await place(pa.global_position + Vector3(0, 2.0, 0), PI, "")
+	var base_y: float = pa.global_position.y
 	var peak: float = bip.global_position.y
 	for i in 120:
 		await get_tree().physics_frame
 		peak = maxf(peak, bip.global_position.y)
-	check("Hareketli trambolin sıçratır", peak > pa.global_position.y + 5.0, "tepe %.1f" % peak)
+	check("Hareketli trambolin sıçratır", peak > base_y + 4.5, "tepe %.1f" % peak)
+	# Dev Yay: bitiş kulesine fırlatır
+	await place(Vector3(-1, 32.0, -146.5), PI, "")
+	Input.action_press("move_forward")
+	var top := 0.0
+	for i in 300:
+		await get_tree().physics_frame
+		top = maxf(top, bip.global_position.y)
+		if i > 40 and bip.is_on_floor():
+			break
+	Input.action_release("move_forward")
+	await step(10)
+	check("Dev Yay bitiş kulesine çıkarır", absf(bip.global_position.y - 40.0) < 0.3, "%s tepe %.1f" % [bip.global_position, top])
 
 
 func _test_balon() -> void:

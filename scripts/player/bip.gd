@@ -205,6 +205,8 @@ func _physics_process(delta: float) -> void:
 	invuln = maxf(invuln - delta, 0.0)
 	copy_timer = maxf(copy_timer - delta, 0.0)
 	_ledge_cool = maxf(_ledge_cool - delta, 0.0)
+	if _in_water():
+		_ledge_cool = 1.2   # sudan zıplayıp kıyıya tutunulmaz (Buz Mağarası: çıkış Buz ile)
 	_spin_cool = maxf(_spin_cool - delta, 0.0)
 	_wall_grace = maxf(_wall_grace - delta, 0.0)
 	_wall_lock = maxf(_wall_lock - delta, 0.0)
@@ -1000,7 +1002,8 @@ func _try_ledge_grab(dir: Vector3) -> bool:
 	var inside: Vector3 = hit.position - n * 0.25
 	var top := space.intersect_ray(PhysicsRayQueryParameters3D.create(
 			Vector3(inside.x, p.y + ledge_max + 0.25, inside.z), Vector3(inside.x, p.y + ledge_min - 0.05, inside.z), 1, [get_rid()]))
-	if not top or top.normal.y < 0.7 or not (top.collider is StaticBody3D):
+	# Seviye zeminleri CSG kutular (çarpışmayı kendileri taşır), varlıklar StaticBody3D
+	if not top or top.normal.y < 0.7 or not (top.collider is StaticBody3D or top.collider is CSGShape3D):
 		return false
 	var ledge_y: float = top.position.y
 	var h := ledge_y - p.y

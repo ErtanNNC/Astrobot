@@ -145,7 +145,13 @@ func _run() -> void:
 	await place(base + Vector3(0, 0.1, -10))
 	var dir: Vector3 = bip._camera_relative(Vector2(0, -1)).normalized()
 	var top_y := base.y + 2.6
-	box(bip.global_position + dir * 3.1 + Vector3(0, -1.0 + 1.8, 0), Vector3(5, 3.6, 5))
+	# Bölümlerdeki gibi CSG kutu (tutunma bir ara yalnızca StaticBody3D'de çalışıyordu)
+	var csg := CSGBox3D.new()
+	csg.size = Vector3(5, 3.6, 5)
+	csg.use_collision = true
+	level.add_child(csg)
+	csg.global_position = bip.global_position + dir * 3.1 + Vector3(0, -1.0 + 1.8, 0)
+	await step(2)
 	# kutunun üstü: merkez y = base.y + 0.8 → üst = base.y + 2.6
 	Input.action_press("move_forward")
 	await step(4)

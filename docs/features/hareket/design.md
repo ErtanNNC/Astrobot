@@ -75,6 +75,7 @@ Yerçekimi ve zıplama hızı, yükseklik ve süreden hesaplanır: `g = 2h / t²
 - Hızlı koşarken ayaklardan küçük toz bulutları çıkar.
 
 ## History
+- 2026-11-20: Hata düzeltmesi: kenara tutunma seviyelerin CSG zeminlerinde çalışmıyordu (yalnız StaticBody3D kabul ediliyordu); `moves_test` artık CSG kutuyla dener.
 - 2026-11-18: Geliştirici isteğiyle 5 hareket eklendi, ilerledikçe açılır (kural 9-14). Kod: `bip.gd` "Hareketler" grubu, `GameState.MOVES`; test: `tests/moves_test.tscn`.
 - 2026-11-18: tasarlandı.
 - 2026-11-18: görsel sürüm: robot modeli, animasyonlar, sesler eklendi; sayılar değişmedi.

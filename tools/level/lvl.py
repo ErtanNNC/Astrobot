@@ -197,6 +197,21 @@ class Level:
             theme = "kitside"
         return self.box(cx, top - depth / 2, cz, sx, depth, sz, theme, ry=ry, name=name)
 
+    def island(self, cx, top, cz, sx, sz, theme="grass", skirt=True, under=True, depth=2.5):
+        """Yüzen ada: üst zemin + (isteğe bağlı) 1,3 m aşağıda taşan ikinci kat + daralan alt gövde.
+        Dikdörtgen yerine katmanlı, oyuncak blok gibi bir siluet verir."""
+        self.top(cx, top, cz, sx, sz, depth=depth, theme=theme)
+        if skirt:
+            self.top(cx, top - 1.3, cz, sx + 1.6, sz + 1.6, depth=1.6, theme=theme)
+        if under:
+            b = top - (2.9 if skirt else depth)
+            self.box(cx, b - 1.5, cz, sx * 0.75, 3.0, sz * 0.75, "grass")
+            self.box(cx, b - 3.8, cz, sx * 0.45, 1.6, sz * 0.45, "grass")
+
+    def kenney(self, model, x, y, z, ry=0.0, s=2.4):
+        """Kenney Platformer Kit süsü (çarpışmasız, MultiMesh), ör. kenney("fence-straight", 1, 0, 2)."""
+        self.kit_items.append((KENNEY_DIR + model + ".glb", tf(x, y, z, 0, ry, s)))
+
     def kit(self, model, x, y, z, ry=0.0, s=1.0):
         """KayKit süsü (çarpışmasız), ör. kit("cone_red", 2, 0, 3)."""
         self.kit_items.append((KIT_DIR + model + ".gltf", tf(x, y, z, 0, ry, s)))

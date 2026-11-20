@@ -1,105 +1,194 @@
-# Bölüm 1 · Alan 1: Yay Bahçesi. Tasarım: docs/features/bolum-1/design.md
-# Öğret: yaylarla basamaklar, ilk gerçek çukurlar · Sına: hareketli platformlarda yaylar
-# Şaşırt: yaylar (trambolinler) platformla birlikte hareket eder; Yay ile düşman ezmek
-# Ustalık: Vidaböcek'lerle dolu dönen yay kulesi
+# Bölüm 1 · Alan 1: Yay Bahçesi (mağaza kalitesinde yeniden yapım, 2026-11-20).
+# Tasarım: docs/features/bolum-1/design.md ("Yay Bahçesi" bölümü)
+# Yol, uzakta görünen bitiş kulesine doğru kıvrılan katmanlı yüzen adalardan geçer:
+#   Bahçe Kapısı → Yaylı Teraslar (öğret) → Basamak Taşları (ilk çukurlar) → Hareketli köprü ve asansör (sına)
+#   → Çiçek Tepesi (dinlenme, manzara) → Zıplayan Yaylar (şaşırt: trambolinler platformla gider)
+#   → Ezme Bahçesi (Yay ile düşman ezme) → Dönen Kule (ustalık) → Dev Yay ile bitiş kulesine fırlatılış.
+# Gizli köşeler: başlangıç adasının altındaki mağara, terasın yanındaki taş sütun (kenara tutunma),
+# gökteki Altın Vida adası (hareketli trambolinden).
+# Kurallar: zorunlu boşluklar ≤ 3,2 m (normal zıplama ~%70), Yay ile çıkılan basamaklar ≤ 4,5 m.
 # Çalıştırma: python3 tools/level/ch1_a1_yay_bahcesi.py
 import math, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lvl import Level
 
 L = Level("ch1_yay", "Yay Bahçesi", "scenes/chapter1/a1_yay_bahcesi.tscn", sky="day",
-          music="res://assets/audio/opengameart/happy_clappy_loop.mp3", kill_height=-12, water=-8, seed=11)
+          music="res://assets/audio/opengameart/happy_clappy_loop.mp3", kill_height=-14, water=-10, seed=11)
 PI = math.pi
 
-# ---------- Başlangıç adası ----------
-L.top(0, 0, 0, 16, 16, depth=4, theme="grass")             # x[-8,8] z[8,-8]
+
+def flowerbed(x, y, z, w=2.0, d=2.0, color="flowers"):
+    """Çitle çevrili küçük çiçek tarhı (süs, çarpışmasız)."""
+    for i in range(int(w)):
+        L.kenney("fence-straight", x - w / 2 + 0.5 + i, y, z - d / 2, 0, 1.0)
+    for k in range(3):
+        L.kenney(color, x - w / 2 + 0.5 + k * (w - 1) / 2, y, z, k, 2.0)
+
+
+# =====================================================================================
+# 0 · BAHÇE KAPISI (başlangıç adası)                                    x[-9,9] z[8,-8]
+# =====================================================================================
+L.island(0, 0, 0, 18, 16, "grass", skirt=True)
 L.start(0, 0.1, 5, ry=PI)
-L.ent("copy", 2.5, 0, -3, ability="yay")
-L.ent("hint", 2.5, 0, -3, hint="ability", size=(5, 3, 5))
-L.battery_line((0, 0, 3), (0, 0, -5), 4)
-L.ent("crate", -5, 0, -5, batteries=3)
-L.tree(-6.3, 0, 6.3, 1.0, True); L.tree(6.5, 0, 6.0, 0.9)
-L.bush(-6.5, 0, -1, 0.9); L.bush(6.6, 0, -6.2, 0.8)
-L.grass_patch(-7.5, 7.5, -7.5, 7.5, 0, 14, avoid=[(-2, 4, -8, 8)])
-L.deco("arrow", 0, 0, -6.8, 1.0, ry=PI)
-L.guide(0, 2.2, -6.5)
+L.ent("copy", 3, 0, -2, ability="yay")
+L.ent("hint", 3, 0, -2, hint="ability", size=(5, 3, 5))
+L.battery_line((0, 0, 3), (0, 0, -6), 5)
+L.ent("crate", -6, 0, -5, batteries=3)
+L.ent("crate", -7.2, 0, -3.8, batteries=2)
+L.tree(-7, 0, 6, 1.0); L.tree(7.5, 0, 5.5, 0.9, True); L.tree(-7.5, 0, -6.5, 0.8)
+L.bush(7.5, 0, -2, 0.9)
+L.kit("signage_arrow_stand_yellow", 1.2, 0, -6.8, ry=PI / 2)
+L.kit("pipe_straight_A_green", 7.6, 0, -6.6)
+L.kit("flag_A_red", -8.2, 0, 7.2, ry=0.4)
+flowerbed(5.5, 0, 2.5, 3, 2)
+L.guide(0, 2.2, -7)
+# Geriye bakan oyuncuya ipucu: arka kenardan aşağı inen pil sırası (gizli mağaraya)
+L.battery_line((0, 0.4, 7.4), (0, -1.6, 9.6), 3)
 
-# ---------- Öğret: yaylı teraslar (4 m'lik basamaklar, Yay şart) ----------
-L.top(0, 4, -12, 12, 7, depth=8, theme="grass2")            # T1 z[-8.5,-15.5]
-L.top(0, 8, -19.5, 12, 7, depth=12, theme="grass")          # T2 z[-16,-23]
-L.battery_line((-2, 0.5, -7.5), (-2, 3.8, -7.5), 3)          # yukarı doğru pil sütunu
-L.battery_line((2, 4.5, -15.0), (2, 7.8, -15.0), 3)
-L.ent("checkpoint", 4, 8, -21, checkpoint_id="teras", ry=PI)
-L.bush(-4.5, 4, -10, 0.7); L.bush(-4.8, 8, -18, 0.8)
-L.grass_patch(-5.5, 5.5, -22.5, -16.5, 8, 8, avoid=[(-2, 2, -23, -16), (3, 5, -22, -20)])
-L.guide(0, 6.5, -12)
+# --- Gizli köşe 1: başlangıç adasının altındaki mağara (arka kenardan aşağı atla) ---
+L.island(0, -4.5, 12, 7, 6, "grass2", skirt=False, under=True, depth=2.0)     # z[9,15], başlangıcın taşan katının altı
+L.box(0, -0.6, 15.3, 7, 7.8, 0.6, "grass")                                      # arka duvar (düşmesin)
+L.battery_ring((0, -4.5, 12.6), 1.8, 8)
+L.ent("crate", -2.4, -4.5, 14, batteries=5)
+L.ent("trampoline", 2.0, -4.5, 10.4, height=7.0)                                # geri dönüş
+L.kenney("mushrooms", -2.6, -4.5, 10.2, 0.5, 2.6)
+L.kenney("mushrooms", 1.6, -4.5, 14.2, 2.0, 2.2)
 
-# ---------- İlk gerçek çukurlar (4 m ve 5 m) ----------
-L.top(0, 8, -29, 6, 4, depth=5, theme="grass2")             # I1 z[-27,-31]
-L.top(0, 8, -38.5, 6, 5, depth=5, theme="grass")            # I2 z[-36,-41]
-L.battery_arc((0, 8, -23.5), (0, 8, -27.5), 4, 2.5)
-L.battery_arc((0, 8, -31.5), (0, 8, -35.5), 4, 3.0)
-L.grass_patch(-2.5, 2.5, -40.5, -36.5, 8, 3)
+# =====================================================================================
+# 1 · ÖĞRET: YAYLI TERASLAR (4 m basamaklar, Yay şart)
+# =====================================================================================
+L.top(-2, 4, -12, 12, 7, depth=8, theme="grass2")        # T1 x[-8,4]  z[-8.5,-15.5]
+L.top(-5, 8, -19.5, 12, 7, depth=12, theme="grass")       # T2 x[-11,1] z[-16,-23]
+L.battery_line((-1, 0.5, -7.6), (-1, 3.8, -7.6), 3)       # yukarı doğru pil sütunu
+L.battery_line((-3.5, 4.5, -15.2), (-3.5, 7.8, -15.2), 3)
+L.ent("checkpoint", -1.5, 8, -21.5, checkpoint_id="teras", ry=PI)
+L.bush(-7, 4, -10, 0.8); L.bush(-9.5, 8, -17.5, 0.8)
+L.tree(-9.5, 8, -21.8, 0.8, True)
+L.kit("signage_arrow_stand_green", 2.5, 4, -14.5, ry=PI / 2)
+flowerbed(-6.5, 8, -20.5, 2, 2, "flowers-tall")
 
-# ---------- Sına: hareketli platform ve asansör ----------
-L.ent("platform", 0, 7.75, -44.5, kind="move", size=(4, 0.5, 4), offset=(0, 0, -8), duration=3.0)
-L.battery_line((0, 8.6, -45), (0, 8.6, -51), 3)
-L.top(0, 11, -59.5, 10, 7, depth=6, theme="grass")          # I3 z[-56,-63]
-L.ent("enemy", 0, 11, -59.5, kind="vidabocek", patrol=3.0, speed=1.4, batteries=3)
-L.ent("crate", 4, 11, -57, batteries=3)
-L.ent("crate", -4, 11, -61.8, batteries=2)
-L.tree(-4, 11, -57, 0.6)
-L.ent("platform", 0, 10.75, -65.5, kind="move", size=(3, 0.5, 3), offset=(0, 6, 0), duration=3.0, color=(0.95, 0.75, 0.3, 1))
-L.battery_line((0, 12.5, -65.5), (0, 16.5, -65.5), 3)
-L.top(0, 17, -72, 12, 6, depth=8, theme="grass2")           # I4 z[-69,-75]
-L.ent("checkpoint", 4, 17, -73, checkpoint_id="asansor", ry=PI)
-L.tree(-5, 17, -74, 0.7, True); L.bush(5.2, 17, -70, 0.6)
-L.guide(0, 13.5, -59)
-L.guide(0, 19, -72)
+# --- Gizli köşe 2: taş sütun (normal zıplama + kenara tutunma ile; Yay ile doğrudan) ---
+L.island(6.5, 7.2, -12.5, 3, 3, "stone", skirt=False, under=False, depth=7.2)    # T1'in doğusu
+L.battery_ring((6.5, 7.2, -12.5), 0.9, 5)
+L.ent("crate", 6.5, 7.2, -13.6, batteries=3)
+L.kit("flag_A_blue", 7.6, 7.2, -11.4)
 
-# ---------- Şaşırt: trambolinler platformlarla birlikte gidip gelir ----------
-pa = L.ent("platform", -4, 16.75, -79.5, kind="move", size=(4, 0.5, 4), offset=(8, 0, 0), duration=2.5, color=(0.45, 0.8, 1.0, 1))
+# =====================================================================================
+# 2 · BASAMAK TAŞLARI (ilk gerçek çukurlar, sağa kıvrılır)
+# =====================================================================================
+L.island(0, 8, -28, 4, 4, "grass2")                        # C1 z[-26,-30]
+L.island(4.5, 8.5, -33.5, 3.5, 3.5, "grass")               # C2
+L.island(2, 9, -39.5, 4, 4, "grass2")                      # C3 z[-37.5,-41.5]
+L.island(-1, 9, -47, 7, 6, "grass")                        # C4 z[-44,-50]
+L.battery_arc((-1, 8, -23.5), (0, 8, -26.5), 3, 2.5)
+L.battery_arc((1, 8, -29.5), (4, 8.5, -32), 3, 2.5)
+L.battery_arc((4, 8.5, -35.2), (2, 9, -38), 3, 2.5)
+L.battery_arc((2, 9, -41.5), (0, 9, -44), 3, 2.0)
+L.ent("enemy", -1, 9, -47, kind="vidabocek", patrol=2.0, speed=1.3, batteries=3)
+L.ent("crate", 1.8, 9, -49, batteries=3)
+L.tree(-3.8, 9, -49.2, 0.6)
+L.kenney("flowers", 0.6, 8, -27.3, 0.3, 2.0)
+L.kenney("flowers-tall", 4.9, 8.5, -32.6, 1.2, 1.8)
+
+# =====================================================================================
+# 3 · SINA: HAREKETLİ KÖPRÜ, PLATO VE ASANSÖR
+# =====================================================================================
+L.ent("platform", -1, 8.75, -52.5, kind="move", size=(4, 0.5, 4), offset=(0, 0, -8), duration=3.0)   # Platform_1
+L.battery_line((-1, 9.6, -53), (-1, 9.6, -59), 3)
+L.island(-1, 9, -67, 12, 9, "grass")                       # D x[-7,5] z[-62.5,-71.5]
+L.ent("enemy", 2.5, 9, -66, kind="zipzip", batteries=2)
+L.ent("enemy", -3, 9, -69, kind="vidabocek", patrol=2.5, speed=1.4, batteries=3)
+L.ent("crate", 4, 9, -63.5, batteries=3)
+L.ent("crate", -6, 9, -70.5, batteries=2)
+L.battery_ring((-1, 9, -66.5), 2.0, 6)
+L.tree(-6, 9, -63.5, 0.7, True)
+L.kit("cone_yellow", 4.4, 9, -70.8); L.kit("cone_yellow", 3.8, 9, -71.1)
+L.ent("platform", -1, 8.75, -73.6, kind="move", size=(3, 0.5, 3), offset=(0, 6, 0), duration=3.0, color=(0.95, 0.75, 0.3, 1))  # Platform_2 asansör
+L.battery_line((-1, 10.5, -73.6), (-1, 14.5, -73.6), 3)
+L.guide(-1, 11.5, -66)
+
+# =====================================================================================
+# 4 · ÇİÇEK TEPESİ (dinlenme, manzara, kontrol noktası)
+# =====================================================================================
+L.island(-1, 15, -81, 14, 10, "grass")                     # E x[-8,6] z[-76,-86]
+L.ent("checkpoint", 3, 15, -78, checkpoint_id="tepe", ry=PI)
+L.ent("copy", -5, 15, -78.5, ability="yay")
+L.battery_ring((-1, 15, -81.5), 3.0, 10)
+L.tree(-7, 15, -84.6, 1.1, True); L.tree(5, 15, -85, 0.9)
+flowerbed(-4.5, 15, -83, 3, 2); flowerbed(2.5, 15, -82.5, 2, 2, "flowers-tall")
+L.kit("arch_wide_green", -1, 15, -85.6)
+L.label(-1, 19.5, -86, "Çiçek Tepesi", 64)
+
+# =====================================================================================
+# 5 · ŞAŞIRT: TRAMBOLİNLER PLATFORMLA GİDİP GELİR
+# =====================================================================================
+pa = L.ent("platform", -5, 14.75, -90, kind="move", size=(4, 0.5, 4), offset=(8, 0, 0), duration=2.5, color=(0.45, 0.8, 1.0, 1))   # Platform_3
 L.ent("trampoline", 0, 0.25, 0, parent="Entities/" + pa, height=6.0)
-pb = L.ent("platform", 4, 19.75, -87, kind="move", size=(4, 0.5, 4), offset=(-8, 0, 0), duration=2.5, color=(0.45, 0.8, 1.0, 1))
+pb = L.ent("platform", 3, 17.75, -97.5, kind="move", size=(4, 0.5, 4), offset=(-8, 0, 0), duration=2.5, color=(0.45, 0.8, 1.0, 1))
 L.ent("trampoline", 0, 0.25, 0, parent="Entities/" + pb, height=6.0)
-pc = L.ent("platform", -4, 22.75, -94.5, kind="move", size=(4, 0.5, 4), offset=(8, 0, 0), duration=2.5, color=(0.45, 0.8, 1.0, 1))
+pc = L.ent("platform", -5, 20.75, -105, kind="move", size=(4, 0.5, 4), offset=(8, 0, 0), duration=2.5, color=(0.45, 0.8, 1.0, 1))
 L.ent("trampoline", 0, 0.25, 0, parent="Entities/" + pc, height=6.0)
-L.battery_arc((0, 17, -80), (0, 20, -87), 5, 5.5)
-L.battery_arc((0, 20, -87), (0, 23, -94.5), 5, 5.5)
-L.guide(0, 21, -80)
-# Gizli Altın Vida: platform B'nin sağında yüksek ada (şarjlı Yay gerekir)
-L.top(11.5, 26, -87, 3, 3, depth=1.5, theme="yellow")
-L.ent("screw", 11.5, 26.2, -87)
-L.deco("flag", 12.6, 26, -88, 0.6, ry=PI)
+L.battery_arc((-1, 15, -87), (-1, 18, -96), 6, 5.5)
+L.battery_arc((-1, 18, -98), (-1, 21, -104), 5, 5.5)
+L.guide(-1, 18, -90)
 
-# ---------- Yay ile düşman ezme alanı ----------
-L.top(0, 23, -103.5, 14, 9, depth=6, theme="grass")         # I5 z[-99,-108]
-L.ent("checkpoint", 5, 23, -101, checkpoint_id="kule", ry=PI)
-L.ent("copy", -5, 23, -101, ability="yay")
-for i, x in enumerate((-3, 0, 3)):
-    L.ent("enemy", x, 23, -104 - (i % 2), kind="vidabocek", patrol=1.5, speed=1.0 + 0.3 * i, batteries=2)
-L.ent("crate", 6, 23, -106.5, batteries=3)
-L.battery_ring((0, 23, -104), 2.2, 6)
-L.tree(-6, 23, -107.3, 0.6); L.bush(6.3, 23, -100, 0.6)
+# --- Gizli köşe 3: gökteki Altın Vida adası (B platformu doğuya gelince trambolinden) ---
+L.island(10.5, 22.5, -97.5, 3, 3, "yellow", skirt=False, under=True, depth=1.5)
+L.ent("screw", 10.5, 22.7, -97.5)
+L.kit("flag_C_yellow", 11.6, 22.5, -98.6, ry=PI)
+L.kit("star_yellow", 10.5, 25.5, -97.5, s=1.4)
 
-# ---------- Ustalık: dönen yay kulesi ----------
-s1 = L.ent("platform", 0, 22.75, -114, kind="spin", size=(8, 0.5, 8), duration=10.0, color=(0.55, 0.85, 0.35, 1))
-L.ent("enemy", 2, 23.1, -114, kind="vidabocek", patrol=1.5, speed=1.0, batteries=2)
-s2 = L.ent("platform", 5, 27.25, -121, kind="spin", size=(6, 0.5, 6), duration=-8.0, color=(0.98, 0.84, 0.32, 1))
+# =====================================================================================
+# 6 · EZME BAHÇESİ (Yay ile düşman ezme)
+# =====================================================================================
+L.island(-1, 21, -115, 14, 12, "grass2")                   # G x[-8,6] z[-109,-121]
+L.ent("checkpoint", 4, 21, -110.5, checkpoint_id="bahce", ry=PI)
+L.ent("copy", -6, 21, -110.5, ability="yay")
+for i, (x, z) in enumerate(((-4, -114), (-1, -116.5), (2, -114), (-2.5, -119), (1.5, -119))):
+    L.ent("enemy", x, 21, z, kind="vidabocek", patrol=1.6, speed=1.0 + 0.15 * i, batteries=2)
+L.ent("enemy", 4.5, 21, -117, kind="zipzip", batteries=3)
+for x, z in ((-7, -120.3), (5.3, -120.3), (-7, -113)):
+    L.ent("crate", x, 21, z, batteries=3)
+L.battery_ring((-1, 21, -116), 4.0, 12)
+L.tree(-7, 21, -109.8, 0.7); L.kit("pipe_straight_A_green", 5.6, 21, -113.5)
+L.kit("signage_arrow_stand_red", 3.5, 21, -120.6, ry=PI / 2)
+
+# =====================================================================================
+# 7 · USTALIK: DÖNEN KULE
+# =====================================================================================
+s1 = L.ent("platform", -1, 20.75, -126, kind="spin", size=(8, 0.5, 8), duration=10.0, color=(0.55, 0.85, 0.35, 1))
+L.ent("enemy", 1, 21.1, -126, kind="vidabocek", patrol=1.5, speed=1.0, batteries=2)
+s2 = L.ent("platform", 4, 25.25, -133, kind="spin", size=(6, 0.5, 6), duration=-8.0, color=(0.98, 0.84, 0.32, 1))
 L.ent("trampoline", 1.6, 0.25, 1.6, parent="Entities/" + s2, height=5.5)
-s3 = L.ent("platform", -1, 31.75, -127, kind="spin", size=(6, 0.5, 6), duration=7.0, color=(0.55, 0.85, 0.35, 1))
-L.ent("enemy", -1, 32.1, -127, kind="vidabocek", patrol=1.2, speed=1.0, batteries=2)
-L.battery_line((0, 23, -112), (0, 23, -116), 3)
-L.battery_arc((1, 23.5, -116), (5, 27.5, -120), 4, 3.0)
-L.battery_arc((4, 27.5, -122), (-1, 32, -126), 4, 3.0)
-L.guide(2.5, 27.5, -117)
+s3 = L.ent("platform", -2, 29.75, -139, kind="spin", size=(6, 0.5, 6), duration=7.0, color=(0.55, 0.85, 0.35, 1))
+L.ent("enemy", -2, 30.1, -139, kind="vidabocek", patrol=1.2, speed=1.0, batteries=2)
+L.battery_line((-1, 21, -122.5), (-1, 21, -128), 3)
+L.battery_arc((0, 21.5, -128), (4, 25.5, -132), 4, 3.0)
+L.battery_arc((3, 25.5, -134), (-2, 30, -138), 4, 3.0)
+L.guide(1.5, 27.5, -129)
 
-# ---------- Çıkış ----------
-L.top(0, 32, -136, 10, 8, depth=6, theme="grass2")          # I6 z[-132,-140]
-L.ent("exit", 0, 32, -137.5)
-L.tree(-4, 32, -139, 0.7, True); L.tree(4.2, 32, -139, 0.6)
-L.grass_patch(-4.5, 4.5, -139.5, -132.5, 32, 6, avoid=[(-2, 2, -140, -132)])
-L.guide(0, 34, -133)
+# =====================================================================================
+# 8 · BİTİŞ: DEV YAY ile kulenin tepesine (başlangıçtan görünen yer işareti)
+# =====================================================================================
+L.island(-1, 30, -147, 12, 8, "grass")                     # X x[-7,5] z[-143,-151]
+L.ent("trampoline", -1, 30, -146.5, height=11.0)           # Dev Yay
+L.ent("hint", -1, 30, -146.5, hint="hold_jump", size=(4, 3, 4))
+L.battery_line((-1, 31.5, -146.5), (-1, 39.5, -149.5), 6)
+L.tree(-6, 30, -150.3, 0.8, True); L.tree(4, 30, -150.3, 0.7)
+L.top(-1, 40, -153, 7, 6, depth=10, theme="stone")         # Bitiş kulesi x[-4.5,2.5] z[-150,-156]
+L.ent("exit", -1, 40, -154)
+L.kit("signage_finish_wide", -1, 40, -151.4)
+L.kit("flag_A_red", -4, 40, -155.6); L.kit("flag_A_yellow", 2, 40, -155.6)
+L.kit("star_yellow", -1, 45.5, -154, s=2.2)
+L.guide(-1, 34, -146)
 
-L.clouds(26, xr=(-90, 90), zr=(-200, 60), avoid=(-20, 20, -150, 20), low=(-6, -2), high=(8, 40))
+# =====================================================================================
+# Manzara: uzak adalar, ağaçlar, bulutlar (oynanış yok)
+# =====================================================================================
+for (x, y, z, w, d) in ((-38, -2, -30, 14, 12), (42, 4, -60, 16, 12), (-46, 10, -110, 18, 14),
+                        (40, 18, -140, 14, 14), (-30, -6, 30, 12, 10), (34, -4, 18, 10, 10)):
+    L.island(x, y, z, w, d, "grass2", skirt=True)
+    for k in range(3):
+        L.deco("k_tree" if k % 2 == 0 else "k_pine", x - w / 3 + k * w / 3, y, z + (k - 1) * 2.5, 1.0 + 0.3 * k)
+L.clouds(30, xr=(-110, 110), zr=(-230, 70), avoid=(-22, 22, -165, 25), low=(-8, -3), high=(10, 50))
 L.write()
