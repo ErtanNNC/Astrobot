@@ -188,7 +188,7 @@ func _ready() -> void:
 			# Quaternius Animated Fish (CC0): denizde yaşam. Yunus kavis çizerek zıplar, balina yavaşça yüzer.
 			var file: String = {"dolphin": "Dolphin", "whale": "Whale", "fish": "Fish1"}[kind]
 			var m: Node3D = load("res://assets/models/quaternius/fish/%s.fbx" % file).instantiate()
-			m.scale = Vector3.ONE * size * (0.4 if kind == "whale" else 0.3)
+			m.scale = Vector3.ONE * size * (0.4 if kind == "whale" else 0.38)
 			_part = Node3D.new()
 			add_child(_part)
 			_part.add_child(m)
@@ -258,7 +258,7 @@ func _swim(_delta: float) -> void:
 		var period := 6.0
 		var ph := fmod(_t, period) / period
 		var x := (ph - 0.5) * 10.0 * size
-		var y := sin(ph * PI) * 3.0 * size - 1.2 * size
+		var y := sin(ph * PI) * 4.5 * size - 1.5 * size
 		_part.position = Vector3(0, y, x)
 		_part.rotation.x = -cos(ph * PI) * 0.9
 	else:
