@@ -125,6 +125,9 @@ func _b1() -> void:
 	await place(Vector3(-3.4, 4.1, -77), -PI / 2, "pervane")   # adanın batı kenarı
 	ok = await jump_forward(110, 80, 8.5, 300, 45)
 	check("b1: Altın Vida direğine Pervane ile", ok, str(bip.global_position))
+	await place(Vector3(3.6, 5.6, -18), PI / 2, "pervane")    # iskelenin doğu kenarı → direk tepesi
+	ok = await jump_forward(110, 80, 10.5, 600, 45)
+	check("b1: gizli direk tepesine Pervane ile", ok and bip.global_position.y > 10.8, str(bip.global_position))
 	await place(Vector3(0, 2.6, -107), PI, "pervane")
 	ok = await jump_forward(110, 70, 3.0, 300, 20)
 	check("b1: son geçiş varış rıhtımına", ok and bip.global_position.z < -112, str(bip.global_position))

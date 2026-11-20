@@ -1,7 +1,7 @@
 extends Node3D
 ## Basit süs: bir model ya da şekil, isteğe bağlı dönme/sallanma.
 
-@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator", "balloon") var kind := "gear"
+@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator", "balloon", "dolphin", "whale", "fish") var kind := "gear"
 @export var size := 1.0
 @export var spin := 0.0          ## rad/s
 @export var color := Color(0.75, 0.78, 0.85)
@@ -184,6 +184,23 @@ func _ready() -> void:
 				rope.size = Vector3(0.05, 1.4, 0.05) * size
 				var off := Vector3(0.4 if k % 2 == 0 else -0.4, 0.75, 0.4 if k < 2 else -0.4) * size
 				_part.add_child(AbilityModels.mesh_node(rope, AbilityModels.mat(Color(0.4, 0.3, 0.2)), off))
+		"dolphin", "whale", "fish":
+			# Quaternius Animated Fish (CC0): denizde yaşam. Yunus kavis çizerek zıplar, balina yavaşça yüzer.
+			var file: String = {"dolphin": "Dolphin", "whale": "Whale", "fish": "Fish1"}[kind]
+			var m: Node3D = load("res://assets/models/quaternius/fish/%s.fbx" % file).instantiate()
+			m.scale = Vector3.ONE * size * (0.01 if kind != "whale" else 0.01)
+			_part = Node3D.new()
+			add_child(_part)
+			_part.add_child(m)
+			var ap := m.find_child("AnimationPlayer", true, false) as AnimationPlayer
+			if ap and ap.get_animation_list().size() > 0:
+				var an: String = ap.get_animation_list()[0]
+				for a in ap.get_animation_list():
+					if "swim" in a.to_lower():
+						an = a
+				ap.get_animation(an).loop_mode = Animation.LOOP_LINEAR
+				ap.play(an)
+			_t = randf() * 10.0
 		"storm":
 			# Statik: mor kıvılcımlı bulut (Quaternius Cloud, mora boyanmış)
 			var c: Node3D = load("res://assets/models/quaternius/platformer/Cloud_2.gltf").instantiate()
@@ -220,6 +237,9 @@ func _process(delta: float) -> void:
 			get_child(0).visible = cam.global_position.distance_to(global_position) > 2.2
 	if _part and spin != 0.0:
 		_part.rotate_object_local(Vector3.UP, spin * delta)
+	if kind in ["dolphin", "whale", "fish"]:
+		_swim(delta)
+		return
 	if kind == "balloon":
 		position.y += sin(_t * 0.5 + size) * delta * 0.5
 		if _part:
@@ -228,3 +248,21 @@ func _process(delta: float) -> void:
 	if kind == "storm":
 		position.y += sin(_t * 0.8) * delta * 0.4
 		rotation.z = sin(_t * 0.6) * 0.05
+
+
+## Yunus: 6 sn'de bir kavis çizip sudan sıçrar; balina ve balık daire çizerek yüzer.
+func _swim(_delta: float) -> void:
+	if _part == null:
+		return
+	if kind == "dolphin":
+		var period := 6.0
+		var ph := fmod(_t, period) / period
+		var x := (ph - 0.5) * 10.0 * size
+		var y := sin(ph * PI) * 3.0 * size - 1.2 * size
+		_part.position = Vector3(0, y, x)
+		_part.rotation.x = -cos(ph * PI) * 0.9
+	else:
+		var r := 8.0 * size
+		var w := 0.12 if kind == "whale" else 0.5
+		_part.position = Vector3(cos(_t * w) * r, sin(_t * 0.7) * 0.2, sin(_t * w) * r)
+		_part.rotation.y = -_t * w

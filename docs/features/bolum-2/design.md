@@ -45,3 +45,7 @@ Görünüş: fanusunda bir balığın yüzdüğü dört bacaklı robot (Pixabay 
 - 2026-11-18: Patron aşamalarının başında ne yapılacağı yazıyla söylenir (patron betiğinde `PHASE_HINTS`); sıradaki hedefin ve gereken yeteneğin kaynağının üstünde sarı ok durur (`goal_nodes()`, `area.gd`). Geliştirici Paslı Kaptan 2. aşamada ne yapacağını bulamadı.
 - 2026-11-18: tasarlandı ve Pervane yeteneği uygulandı.
 - 2026-11-18: 3 alan ve Paslı Kaptan uygulandı.
+
+
+## Görsel yenileme (2026-11-21)
+- **Liman Rıhtımı:** batıda kıyı kasabası (KayKit Medieval Hexagon evleri, han, pazar, su ve yel değirmeni, ağaçlar, uzak dağlar), rıhtımda varil/kasa/çuval/palet, suya inen ahşap kazıklar, sudan sıçrayan yunuslar ve uzakta yüzen balina (Quaternius Animated Fish; `prop` kind=dolphin/whale), yön işareti olarak uzakta kırmızı Fener adası. Yeni gizli köşe: iskelenin doğusundaki **direk tepesi** (Pervane ile; 11 pil). Test: `tests/ch2_test.tscn`.

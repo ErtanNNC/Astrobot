@@ -81,6 +81,50 @@ L.deco("bridge", 4.5, 3.5, -124, 0.8, ry=0.0)
 for x in (-5.5, 5.5):
     L.box(x, 4.0, -113, 0.6, 1.0, 0.6, "stone")
 
+# =====================================================================================
+# Liman kasabası ve deniz yaşamı (KayKit Medieval Hexagon + Quaternius Animated Fish, CC0)
+# =====================================================================================
+MD = "kaykit/medieval/"
+
+
+def md(model, x, y, z, ry=0.0, s=5.0):
+    L.model(MD + model, x, y, z, ry, s)
+
+
+# Batıda kıyı kasabası: kara şeridi, evler, değirmen, pazar (oynanış dışı manzara)
+L.top(-29, -3.0, -55, 22, 150, depth=8, theme="grass2", side="stone")
+L.top(-33, -1.0, -55, 14, 150, depth=2, theme="grass")
+for i, (m, z) in enumerate((("building_home_A_blue", 6), ("building_tavern_yellow", -10), ("building_home_B_red", -26),
+                             ("building_market_green", -42), ("building_watermill_blue", -58), ("building_home_A_blue", -74),
+                             ("building_windmill_red", -92), ("building_home_B_red", -108), ("building_tavern_yellow", -124))):
+    md(m, -24.5 if i % 2 == 0 else -29, -3.0, z, PI / 2 + (i % 3) * 0.3, 6.0)
+for z in range(10, -130, -14):
+    L.kenney(random.choice(("tree", "tree-pine")), -36, -1.0, z + random.uniform(-3, 3), random.uniform(0, 6.28), 3.2)
+md("mountain_A_grass_trees", -55, 0, -40, 0.4, 14); md("hills_A_trees", -50, 0, -110, 1.2, 14)
+# Rıhtım eşyaları: varil, kasa, çuval, palet
+for (x, y, z) in ((-4.6, 0, 3.5), (-5.0, 0, 2.6), (4.8, 0, -6.5), (2.6, 5.5, -20.6), (-2.6, 4.5, -45.2), (4.5, 3.5, -113.5)):
+    md(random.choice(("barrel", "crate_A_big", "sack", "crate_B_small")), x, y, z, random.uniform(0, 6.28), 5.0)
+md("pallet", -4.2, 0, -5.8, 0.2, 5.0); md("crate_long_A", 3.4, 0, 6.4, 1.6, 5.0)
+md("wheelbarrow", -4.0, 3.5, -117.5, 0.8, 5.0); md("bucket_water", 3.0, 4.0, -79.2, 0, 5.0)
+# Ahşap kazıklar (iskele ayakları) suya iner
+for (x, z) in ((-5.6, 7.5), (5.6, 7.5), (-5.6, -9.5), (5.6, -9.5), (-3.6, -21.5), (3.6, -21.5), (-3.2, -49.5), (3.2, -49.5)):
+    L.box(x, -4.5, z, 0.5, 8, 0.5, "wood")
+# Yunuslar ve balina
+for (x, z, sc) in ((9, -30, 1.0), (-8, -62, 0.9), (8, -92, 1.0), (-9, -104, 0.8), (14, 5, 1.1)):
+    L.ent("prop", x, -8, z, kind="dolphin", size=sc, parent="Decor")
+L.ent("prop", 45, -8.5, -80, kind="whale", size=2.0, parent="Decor")
+# Yön işareti: uzakta Fener (sonraki alan) adası
+L.top(30, -2, -175, 18, 18, depth=8, theme="sand", side="stone")
+md("building_tower_A_red", 30, -2, -175, 0, 9.0)
+L.ent("prop", 30, 18, -175, kind="lamp", size=3.0)
+
+# --- Gizli köşe: direk tepesi (iskelenin doğusunda, Pervane ile) ---
+L.box(8, 2.3, -18, 0.6, 16.6, 0.6, "wood")
+L.top(8.2, 11.0, -18, 3.6, 3.6, depth=0.4, theme="wood")
+L.ent("crate", 9.1, 11.0, -19.1, batteries=5)
+L.battery_ring((8, 11.0, -18), 1.0, 6)
+md("flag_red", 8.6, 11.0, -17.2, 0, 5.0)
+
 # Uzakta fener ve fırtına (sonraki alan)
 L.ent("prop", 60, -8, -230, kind="dark_tower", size=2.5)
 L.ent("prop", 40, 28, -200, kind="storm", size=4.0)
