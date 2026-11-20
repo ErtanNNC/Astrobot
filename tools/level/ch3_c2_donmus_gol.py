@@ -69,7 +69,7 @@ lake(-73, 22)                                                  # z[-62,-84]
 L.top(-8, 0.9, -63.5, 3, 2, depth=1, theme="ice")              # yüzerek geri çıkış basamağı
 for x, z in ((0, -66), (-2.5, -71), (0, -76)):
     L.ent("platform", x, 1.15, z, kind="fall", size=(3, 0.5, 3), color=(0.7, 0.9, 1.0, 1))
-L.ent("wind", 6, 0, -73, size=(4, 7, 4), force=(0, 9, 0))
+L.ent("wind", 6, 0, -73, size=(4, 7, 4), force=(0, 14, 0))
 L.battery_arc((0, 2.15, -62.5), (0, 2.15, -83.5), 7, 3.0)
 L.top(0, 2.15, -90, 20, 12, depth=5, theme="snow")              # z[-84,-96]
 L.top(0, 2.15, -81, 20, 6, depth=5, theme="snow")                # kıyı uzantısı z[-78,-84]
@@ -89,6 +89,41 @@ L.ent("exit", 0, 6, -129)
 L.guide(0, 4.0, -107); L.guide(0, 8.5, -118)
 L.tree(-7, 6, -131, 0.9); L.tree(7.5, 6, -130, 0.8); L.bush(-4, 6, -133, 0.4)
 
-L.grass_patch(-9, 9, -4, 8, 0, 6, avoid=[(-4, 4, -5, 9)])
+# =====================================================================================
+# Görsel yenileme ve gizli köşeler (2026-11-21)
+# =====================================================================================
+H = "kenney/holiday/"
+KH = "kaykit/holiday/"
+# Çevrede karlı tepeler ve çam ormanı (manzara)
+for (x, z, w, d, y) in ((-26, -20, 18, 40, 3), (27, -40, 18, 50, 5), (-28, -85, 20, 40, 7), (28, -110, 18, 40, 8), (0, 24, 40, 14, 4)):
+    L.top(x, y, z, w, d, depth=y + 10, theme="snow")
+    L.scatter([H + "tree-snow-a.glb", H + "tree-snow-b.glb", H + "tree-snow-c.glb"], x - w / 2 + 1, x + w / 2 - 1, z - d / 2 + 1, z + d / 2 - 1, y, int(w * d / 30), 2.4, 3.6)
+# Göl yüzeyinde buz parçaları (süs)
+for cz, ln in ((-15, 20), (-73, 22), (-108, 24)):
+    for _ in range(5):
+        L.model(H + "snow-flat.glb", random.choice((-1, 1)) * random.uniform(6.5, 9.0), 0.02, cz + random.uniform(-ln / 2 + 1, ln / 2 - 1), random.uniform(0, 6.28), random.uniform(1.6, 2.6))
+# Kıyıda kızak, ren geyiği, kardan adam, fenerler, ışık dizisi
+L.model(H + "reindeer.glb", 7.5, 0, 1.0, -2.2, 2.0); L.model(H + "sled.glb", 6.0, 0, 2.4, -1.2, 1.8)
+L.model(KH + "snowman_B.gltf", -6.5, 2.15, -30.5, 0.6, 2.2)
+for (x, y, z) in ((-9, 0, -4), (9, 0, -4), (-9, 2.15, -84.5), (9, 2.15, -84.5), (-9, 6, -121), (9, 6, -121)):
+    L.model(H + "lantern.glb", x, y, z, 0, 1.8)
+# Yön işareti: uzak kıyıda dev süslü çam (başlangıçtan görünür)
+L.model(KH + "christmas_tree_decorated.gltf", 0, 6, -132, 0, 3.4)
+L.kit("star_yellow", 0, 21.5, -132, s=2.0)
+L.model(KH + "present_A_red.gltf", -2.6, 6, -131, 0.4, 2.0); L.model(KH + "present_C_blue.gltf", 2.4, 6, -131.5, 1.2, 2.0)
+
+# --- Gizli köşe 1: rüzgârın tepesinden doğudaki buz sütununa (Balon) ---
+L.top(12, 6.5, -73, 3.5, 3.5, depth=10, theme="ice")
+L.ent("crate", 12, 6.5, -73.8, batteries=5)
+L.battery_ring((12, 6.5, -73), 1.0, 6)
+L.battery_line((6, 3.5, -73), (6, 6.5, -73), 3)
+
+# --- Gizli köşe 2: başlangıç kıyısının batısında ağaçların ardındaki çukur (keşif ödülü) ---
+L.top(-13, -0.6, 2, 5, 6, depth=3, theme="snow")
+L.ent("crate", -13, -0.6, 3.5, batteries=5)
+L.battery_ring((-13, -0.6, 1.5), 1.2, 6)
+L.model(KH + "snowball_pile.gltf", -14.4, -0.6, 0.0, 0, 2.0)
+
+L.scatter([H + "snow-pile.glb", H + "rocks-small.glb"], -9, 9, -4, 8, 0, 6, 1.4, 2.2, clear=(-4, 4))
 L.clouds(16, avoid=(-30, 30, -150, 20), low=(-6, -4), high=(14, 26))
 L.write()

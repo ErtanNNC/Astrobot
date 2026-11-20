@@ -160,6 +160,31 @@ func _area2() -> void:
 	Input.action_release("move_forward")
 	await step(10)
 	check("Göl: Pervane ile kıyıya (6 m) çıkıldı", absf(bip.global_position.y - 6.0) < 0.2, str(bip.global_position))
+	# Gizli buz sütunu: Balonla rüzgârda yüksel, doğuya süzül
+	await place(Vector3(6, 3.0, -73), PI, "balon")
+	var turn: float = level.cam.auto_turn_speed
+	level.cam.auto_turn_speed = 0.0
+	Input.action_press("jump")
+	var going := false
+	for i in 500:
+		await get_tree().physics_frame
+		if i == 2:
+			Input.action_release("jump")
+		if i == 6:
+			Input.action_press("jump")
+		if not going and bip.global_position.y > 6.6:
+			going = true
+			Input.action_press("move_right")
+		if going and bip.global_position.x > 11.0:
+			Input.action_release("move_right")
+			Input.action_release("jump")
+		if going and bip.is_on_floor():
+			break
+	Input.action_release("move_right")
+	Input.action_release("jump")
+	await step(10)
+	level.cam.auto_turn_speed = turn
+	check("Göl: gizli buz sütununa rüzgâr + Balon", absf(bip.global_position.y - 6.5) < 0.3, str(bip.global_position))
 
 
 # ---------------------------------------------------------------- Kar Zirvesi

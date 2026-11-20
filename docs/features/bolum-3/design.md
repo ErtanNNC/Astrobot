@@ -45,3 +45,4 @@ Hazır model yok: üst üste üç kar topu (küre), kayadan kollar (Quaternius k
 
 ## Görsel yenileme (2026-11-21)
 Kar zeminlerinin yan kenarlarına otomatik süs (`lvl.py` `_edge_dress`): kar yığınları, karlı kayalar, karlı ağaçlar (Kenney Holiday Kit, CC0). Buz Mağarası'nda fenerler, iri karlı kayalar, kardan adam, kızak, kartopu yığını. Düşman görünüşü: Vidaböcek → örümcek, Zıpzıp → kurbağa.
+Donmuş Göl: çevrede çam ormanlı karlı tepeler, göllerde buz parçaları, kıyıda ren geyiği, kızak, kardan adam, fenerler; yön işareti uzak kıyıda **dev süslü çam** ve hediyeler. Yeni gizli köşeler: göl 2'deki rüzgârın tepesinden doğudaki **buz sütunu** (Balon; rüzgâr gücü 9 → 14, eskisi süzülen Bip'i kaldıramıyordu) ve başlangıç kıyısının batısındaki **kar çukuru**. Test: `tests/ch3_test.tscn`.
