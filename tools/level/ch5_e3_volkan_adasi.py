@@ -13,6 +13,8 @@ from lvl import Level
 PI = math.pi
 L = Level("ch5_volkan", "Volkan Adası", "scenes/chapter5/e3_volkan_adasi.tscn", sky="sunset",
           music="res://assets/audio/opengameart/fasttheme.ogg", kill_height=-6, water=None, seed=53)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında. Bkz. lvl.py TURNS
+L.turns([(0, -30, 30), (0, -58, -40), (0, -116, 30)])
 LAVA_Y = 0.0
 
 

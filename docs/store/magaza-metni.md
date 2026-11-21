@@ -25,14 +25,40 @@ During a storm, lightning strikes the antenna of Bip, a tiny repair robot — an
 • **Made for phones:** big thumb-friendly buttons, adjustable size, left-handed mode; gamepad and keyboard supported.
 • No ads, no internet required, no data collected.
 
-## Ekran görüntüleri
-`build/magaza/` (1920×1080, oyun içinden; yazı afişi yok). Telefon için dikey değil yatay görüntüler kullanılır (oyun yatay).
+## Ekran görüntüleri ve öne çıkan görsel
+- Ekran görüntüleri: `build/magaza/01..08_*.png` (1920×1080, oyun içinden, yazı afişi yok). Yeniden üretmek için `GODOT=... tools/store/make_shots.sh`. Oyun yatay olduğu için yatay görüntüler kullanılır.
+- Öne çıkan görsel (Google Play, 1024×500): `build/magaza/one_cikan_tr.png` ve `one_cikan_en.png`. Üretici: `python3 tools/store/feature_graphic.py "Oyun Adı"` (isim değişince tek komutla yenilenir).
+- Simge: `icon.png` (512×512), uyarlanabilir simge katmanları `assets/ui/icon_fg_432.png`, `icon_bg_432.png`.
+
+## Tanıtım videosu (30 saniye, yatay) — çekim listesi
+Video bu ortamda çekilemedi (ekran kaydı yok); telefonda ya da PC'de ekran kaydıyla şu sırayla çekilmeli. Yazılar videoya sonradan eklenir.
+
+| Sn | Görüntü | Alan | Yazı (TR / EN) |
+|---|---|---|---|
+| 0–3 | Bip uyanır, anteni parlar, kameraya el sallar | Uyanış Atölyesi (açılış) | "Bip uyanıyor!" / "Bip wakes up!" |
+| 3–8 | Yay kopyalanır, 4 m'lik zıplayışla terasa çıkılır | Yay Bahçesi | "Yeteneği kopyala" / "Copy the power" |
+| 8–12 | Balon ile kanyonun üstünden süzülüş | Balon Kanyonu | "Süzül" / "Glide" |
+| 12–16 | Mıknatıs zincirinde bloktan bloğa | Mıknatıs Fabrikası | "Çekil" / "Swing" |
+| 16–20 | Buz ile lavın üstünde yürüyüş | Volkan Adası | "Dondur" / "Freeze" |
+| 20–25 | Patron: uyarı diski dolar, Bip kaçar, patrona vurur | Hurdacı Vinç ya da Kardan Dev | "Patronları yen" / "Beat the bosses" |
+| 25–28 | Kostüm Dolabı: renkler ve koşu izleri hızlıca değişir | Atölye | "7 kostüm, 4 iz" / "7 skins, 4 trails" |
+| 28–30 | Öne çıkan görsel + oyun adı + "Ücretsiz" | | |
+
+Kurallar: ilk 3 saniyede oynanış görünmeli (mağaza videoyu sessiz ve otomatik oynatır); dokunmatik butonlar görünür kalsın (gerçek telefon oyunu olduğu anlaşılır); müzik `happy_clappy_loop` (CC0).
+
+## Oyunun adı
+"Bip" tek başına mağazada bulunmaz: Türkiye'de "BiP" bilinen bir mesajlaşma uygulaması, aramada onun altında kalır ve marka itirazı riski var. Öneriler (hiçbiri marka veritabanında kontrol edilmedi; karar ve kontrol geliştiricide):
+1. **Bip: Dişli Adası** / *Bip: Gear Island* — karakter adı kalır, arama ayrışır. Önerilen.
+2. **Robot Bip'in Macerası** / *Bip the Copy Bot*
+3. **Kopya Robot** / *Copy Bot Island*
+İsim seçilince: `project.godot` (uygulama adı), `export_presets.cfg` (paket adı değişirse eski APK'nın üstüne kurulmaz), giriş ekranı başlığı, `tools/store/feature_graphic.py` argümanı, bu dosya.
 
 ## Kategori / yaş
 Oyun › Macera (Platform). Yaş: 3+ / Herkes. İçerik: hafif çizgi film şiddeti (düşmanların üstüne zıplamak).
 
 ## Mağazaya göndermeden önce
-- Ayarlar'daki "Tüm alanlar açık (test)" seçeneğini kaldır (`pause_menu.gd`, `settings.gd`).
+- `export_presets.cfg` içindeki `custom_features="dev"` etiketini sil: "Tüm alanlar açık (test)" seçeneği kendiliğinden kaybolur (2026-11-21'den beri yalnızca bu etiketle görünür).
+- Lisans denetimi: `docs/store/lisans-denetimi.md`.
 - Google Play: AAB gerekir (bu ortamda Android SDK yok; Android Studio + Godot dışa aktarma ile). Yeni bir yükleme anahtarı oluştur ve **repoda tutma**.
 - iOS: Mac + Xcode gerekir.
 - Gizlilik politikası: `docs/store/gizlilik-politikasi.md` bir web sayfasında yayımlanmalı (ör. GitHub Pages).

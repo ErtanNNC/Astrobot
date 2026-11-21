@@ -19,8 +19,10 @@ const LINES := [
 	["cleytonkauffman — Adventure Theme, Snow Theme", 24], ["hydrogene — 8-bit Mechanical Complex", 24],
 	["nihilocrat — Upbeat Chiptune Theme", 24], ["mopz — Platformer Music", 24],
 	["josepharaoh99 — Pacific Ocean", 24], ["zesona — Village of Snow", 24], ["", 20],
+	["Ortam ve adım sesleri (OpenGameArt, CC0)", 34],
+	["TinyWorlds, Thimras, JaggedStone, Kresiek The Furry, gmason, jasinski", 24], ["", 20],
 	["Motor", 34], ["Godot Engine (MIT)", 26], ["", 40],
-	["Oynadığın için teşekkürler!", 44], ["", 20], ["Dişli Adası yeniden ışıl ışıl.", 30],
+	["Oynadığın için teşekkürler!", 44], ["", 20], ["Dişli Adası yeniden ışıl ışıl.", 30], ["", 60],
 ]
 
 var _scroll: VBoxContainer
@@ -47,6 +49,17 @@ func _ready() -> void:
 		if l[1] >= 34:
 			lab.add_theme_color_override("font_color", Color(1.0, 0.8, 0.35))
 		_scroll.add_child(lab)
+	# Godot'nun MIT lisansı metnin ürünle birlikte verilmesini ister (docs/store/lisans-denetimi.md)
+	var lic := Label.new()
+	lic.text = Engine.get_license_text()
+	lic.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	lic.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lic.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lic.add_theme_font_size_override("font_size", 14)
+	lic.add_theme_color_override("font_color", Color(0.75, 0.78, 0.9))
+	lic.custom_minimum_size.x = 900
+	lic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_scroll.add_child(lic)
 	_scroll.position = Vector2(0, get_viewport_rect().size.y + 20)
 	_scroll.size.x = get_viewport_rect().size.x
 	var mp := AudioStreamPlayer.new()

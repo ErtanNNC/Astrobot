@@ -79,6 +79,7 @@ const MESSAGES := {
 	"Paslı Kaptan modeli": "Rusty Captain model", "Duvar ve zemin dokuları": "Wall and ground textures", "Ses efektleri": "Sound effects",
 	"Arayüz": "Interface", "Yazı tipi": "Font", "Müzik (OpenGameArt, CC0)": "Music (OpenGameArt, CC0)", "Motor": "Engine",
 	"Oynadığın için teşekkürler!": "Thanks for playing!", "Dişli Adası yeniden ışıl ışıl.": "Gear Island shines again.",
+	"Ortam ve adım sesleri (OpenGameArt, CC0)": "Ambience and footsteps (OpenGameArt, CC0)",
 	"Yeni rekor!": "New record!", "Pil %d / %d  ·  Süre %s  ·  Yıldız %d / 3": "Batteries %d / %d  ·  Time %s  ·  Stars %d / 3",
 	"  ·  %d/3 yıldız  ·  %s": "  ·  %d/3 stars  ·  %s", "Koşu izi  ·  pilin: %d": "Run trail  ·  your batteries: %d",
 	"İz yok": "No trail", "Kıvılcım": "Sparks", "Buz Tozu": "Ice Dust", "Şeker Pembe": "Candy Pink", "Gökkuşağı": "Rainbow",

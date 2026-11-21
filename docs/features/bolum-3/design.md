@@ -49,3 +49,4 @@ Donmuş Göl: çevrede çam ormanlı karlı tepeler, göllerde buz parçaları, 
 Kar Zirvesi: yağan kar (`prop` kind=snow), teleferik halatı ve asılı kırmızı kabin, etekte çam ormanı; zirvede zencefilli kulübe, fenerler, kardan adam, yıldız (yön işareti).
 - **Patron arenası (2026-11-21):** çevresine temaya uygun manzara eklendi (çarpışmasız süsler; oynanış değişmedi).
 Buz Mağarası (2026-11-21): yeni gizli köşe — havuz 2'deki kristal adacık (Buz ile suyun üstünde yürü, zıpla; 10 pil + sandık).
+- 2026-11-21: Donmuş Göl köşeli yola çevrildi (`L.turns`, iki dönüş: kıyı ve üçüncü göl kıyısı).

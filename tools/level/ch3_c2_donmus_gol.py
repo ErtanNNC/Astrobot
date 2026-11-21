@@ -6,6 +6,8 @@ from lvl import Level
 
 L = Level("ch3_gol", "Donmuş Göl", "scenes/chapter3/c2_donmus_gol.tscn", sky="day",
           music="res://assets/audio/opengameart/happy_clappy_loop.mp3", water=-8, kill_height=-10, seed=32)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında. Bkz. lvl.py TURNS
+L.turns([(0, -30, 30), (0, -90, -35)])
 
 
 def lake(cz, length, floor=-3.0, surface=0.0, width=20):
