@@ -2,7 +2,7 @@ extends Area3D
 ## Atölye'deki menü nesnesi: Bip önüne gelince parlar, üstünde ne yaptığını gösteren simge çıkar;
 ## Yetenek tuşu (ya da telefonda nesneye dokunmak) seçer. Bkz. docs/features/ana-menu/design.md
 
-@export_enum("door", "capsule", "tv", "showcase", "toybox", "switch") var kind := "door"
+@export_enum("door", "capsule", "tv", "showcase", "toybox", "switch", "wardrobe") var kind := "door"
 @export var action := "play"
 @export var arg := ""
 
@@ -141,6 +141,21 @@ func _build() -> void:
 			bs.size = Vector3(1.8, 0.9, 1.2)
 			shape.position.y = 0.45
 			icon_y = 1.8
+		"wardrobe":
+			# Kostüm dolabı: KayKit dolap + üstünde boya kutuları (renkler)
+			var cab: Node3D = load("res://assets/models/kaykit/furniture/cabinet_medium_decorated.gltf").instantiate()
+			cab.scale = Vector3.ONE * 1.1
+			add_child(cab)
+			for k in 4:
+				var pot := CylinderMesh.new()
+				pot.top_radius = 0.16
+				pot.bottom_radius = 0.16
+				pot.height = 0.28
+				var col: Color = [Color(0.35, 0.65, 1), Color(0.45, 0.9, 0.55), Color(1, 0.55, 0.75), Color(1, 0.8, 0.25)][k]
+				add_child(AbilityModels.mesh_node(pot, AbilityModels.mat(col, 0.4), Vector3(-0.6 + k * 0.4, 2.17, 0.1)))
+			bs.size = Vector3(2.3, 2.1, 1.2)
+			shape.position.y = 1.05
+			icon_y = 3.0
 		"switch":
 			var l: Node3D = load("res://assets/models/quaternius/platformer/Lever.gltf").instantiate()
 			l.scale = Vector3.ONE

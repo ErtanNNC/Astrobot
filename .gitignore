@@ -16,3 +16,4 @@ tests/_dbg.*
 tests/_perf.*
 tests/_ui_shots.*
 tests/_hub_shots.*
+tests/_hub_shots2.*

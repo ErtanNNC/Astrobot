@@ -44,6 +44,18 @@ const CHAPTERS := {
 	],
 }
 
+## Bip'in kostümleri (renk). Kilit: kayıt yuvalarındaki en çok pil (ya da Altın Vida) sayısı.
+## hue: ton kaydırma (0..1), sat/val: doygunluk/parlaklık çarpanı. Bkz. docs/features/kostum/design.md
+const SKINS := [
+	{"id": "klasik", "name": "Klasik Sarı", "hue": 0.0, "sat": 1.0, "val": 1.0, "need": 0},
+	{"id": "gok", "name": "Gökyüzü", "hue": 0.45, "sat": 1.0, "val": 1.0, "need": 60},
+	{"id": "nane", "name": "Nane", "hue": 0.22, "sat": 0.9, "val": 1.0, "need": 150},
+	{"id": "seker", "name": "Pamuk Şeker", "hue": 0.78, "sat": 0.75, "val": 1.08, "need": 250},
+	{"id": "lav", "name": "Lav", "hue": -0.11, "sat": 1.15, "val": 0.95, "need": 400},
+	{"id": "gece", "name": "Gece", "hue": 0.6, "sat": 0.35, "val": 0.55, "need": 600},
+	{"id": "altin", "name": "Altın", "hue": -0.02, "sat": 1.25, "val": 1.15, "need_screws": 10, "glow": 0.35},
+]
+
 const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi", 4: "Fırtınanın Gözü"}
 
 var slot := -1
@@ -213,6 +225,43 @@ func add_battery(area_id: String, id: String) -> void:
 		b[area_id].append(id)
 	area_batteries += 1
 	batteries_changed.emit(total_batteries())
+
+
+## Toplam Altın Vida sayısı: patron dışındaki her alanda bir tane.
+func screw_total() -> int:
+	var n := 0
+	for ch in CHAPTERS:
+		for a in CHAPTERS[ch]:
+			if not String(a["id"]).ends_with("patron"):
+				n += 1
+	return n
+
+
+func skin_info(id: String) -> Dictionary:
+	for sk in SKINS:
+		if sk["id"] == id:
+			return sk
+	return SKINS[0]
+
+
+## Kostüm açık mı? Herhangi bir kayıt yuvasındaki en iyi ilerlemeye bakar (kostüm oyuncunundur, yuvanın değil).
+func skin_unlocked(id: String) -> bool:
+	var sk := skin_info(id)
+	var best_b := 0
+	var best_s := 0
+	for i in SLOT_COUNT:
+		var d := slot_summary(i)
+		var b := 0
+		for k in d.get("batteries", {}):
+			b += d["batteries"][k].size()
+		best_b = maxi(best_b, b)
+		best_s = maxi(best_s, d.get("golden_screws", []).size())
+	if data.has("batteries"):
+		best_b = maxi(best_b, total_batteries())
+		best_s = maxi(best_s, data.get("golden_screws", []).size())
+	if sk.has("need_screws"):
+		return best_s >= int(sk["need_screws"])
+	return best_b >= int(sk.get("need", 0))
 
 
 func total_batteries() -> int:

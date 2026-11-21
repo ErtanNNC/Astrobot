@@ -254,6 +254,8 @@ func _activate(m: Node) -> void:
 			get_tree().quit()
 		"toybox":
 			pass
+		"wardrobe":
+			_open_wardrobe()
 
 
 # ---------- Oyna / yuvalar ----------
@@ -453,7 +455,7 @@ func _open_collection() -> void:
 		UIKit.title(v, "Henüz bir şey yok. Kapıdan çıkıp maceraya başla!", 26)
 	else:
 		var d := GameState.slot_summary(best)
-		UIKit.title(v, "Altın Vida  %d / 11" % d.get("golden_screws", []).size(), 28)
+		UIKit.title(v, "Altın Vida  %d / %d" % [d.get("golden_screws", []).size(), GameState.screw_total()], 28)
 		UIKit.title(v, "Çekirdek Pil  %d / 4" % d.get("core_cells", []).size(), 28)
 		var lines := []
 		for ch in GameState.CHAPTERS:
@@ -463,6 +465,29 @@ func _open_collection() -> void:
 			lines.append("Bölüm %d · %s: %d pil" % [ch, GameState.CHAPTER_NAMES[ch], n])
 		var l := UIKit.title(v, "\n".join(lines), 22)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	UIKit.button(v, "Geri", _close_overlay)
+	_focus_first(v)
+
+
+## Kostüm dolabı: Bip'in rengini seç. Kilitli kostümler ne kadar pil (ya da Altın Vida) istediğini söyler.
+func _open_wardrobe() -> void:
+	var v := _new_overlay(560)
+	UIKit.title(v, "Kostüm Dolabı")
+	for sk in GameState.SKINS:
+		var id: String = sk["id"]
+		var open := GameState.skin_unlocked(id)
+		var label: String = sk["name"]
+		if not open:
+			label = "%s  (%s)" % [label, ("%d Altın Vida" % int(sk["need_screws"])) if sk.has("need_screws") else ("%d pil" % int(sk["need"]))]
+		elif Settings.skin == id:
+			label = "✓ " + label
+		var b := UIKit.button(v, label, func():
+			Settings.set_value("skin", id)
+			Sfx.play("select")
+			Haptics.vibrate(20)
+			_close_overlay()
+			_open_wardrobe(), UIKit.GREEN if Settings.skin == id else UIKit.BLUE)
+		b.disabled = not open
 	UIKit.button(v, "Geri", _close_overlay)
 	_focus_first(v)
 
@@ -529,6 +554,7 @@ func open_quick_menu() -> void:
 	UIKit.button(v, "Kayıtlar", _open_slots_list)
 	UIKit.button(v, "Ayarlar", func(): _close_overlay(); _open_settings())
 	UIKit.button(v, "Koleksiyon", _open_collection)
+	UIKit.button(v, "Kostümler", _open_wardrobe)
 	if not OS.has_feature("mobile"):
 		UIKit.button(v, "Çıkış", func(): get_tree().quit(), UIKit.RED)
 	UIKit.button(v, "Kapat", _close_overlay)

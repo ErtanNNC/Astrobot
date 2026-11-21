@@ -52,6 +52,8 @@ const ALIASES := {
 
 static var _lib_cache: AnimationLibrary
 var _new := false
+var _skin_mats: Array[ShaderMaterial] = []
+const SKIN_SHADER := preload("res://assets/shaders/bip_skin.gdshader")
 var _base_scale := 0.2
 
 
@@ -96,6 +98,8 @@ func _ready() -> void:
 	bip.ledge_grabbed.connect(_on_ledge_grabbed)
 	GameState.ability_changed.connect(_apply_ability)
 	_prepare_materials()
+	apply_skin()
+	Settings.changed.connect(func(): apply_skin())
 	_icon_holder = Node3D.new()
 	_icon_holder.position = Vector3(0, 1.75, 0)
 	add_child(_icon_holder)
@@ -246,6 +250,14 @@ func _prepare_materials() -> void:
 		var mi := m as MeshInstance3D
 		for i in mi.mesh.get_surface_count():
 			var mat := mi.get_active_material(i)
+			if _new and mat is StandardMaterial3D and (mat as StandardMaterial3D).albedo_texture:
+				# Kostüm gölgelendiricisi: boyalı yerlerin tonu kaydırılabilir (GameState.SKINS)
+				var sm := ShaderMaterial.new()
+				sm.shader = SKIN_SHADER
+				sm.set_shader_parameter("albedo_tex", (mat as StandardMaterial3D).albedo_texture)
+				mi.set_surface_override_material(i, sm)
+				_skin_mats.append(sm)
+				continue
 			if mat is StandardMaterial3D:
 				var dup: StandardMaterial3D = mat.duplicate()
 				mi.set_surface_override_material(i, dup)
@@ -260,10 +272,12 @@ func _apply_ability(a: String) -> void:
 		# Yalnızca turuncu gövde boyası renk değiştirir; gri metal ve siyah gözler kalır.
 		var is_paint := orig.s > 0.35 and orig.v > 0.35
 		if _new:
-			# Dokulu tek malzeme: bütün gövde yeteneğin rengine hafifçe boyanır
 			mat.albedo_color = Color.WHITE.lerp(c.lightened(0.15), 0.55) if a != "" else orig
 			continue
 		mat.albedo_color = orig.lerp(c, 0.75) if (a != "" and is_paint) else orig
+	for sm in _skin_mats:
+		# Dokulu malzeme: bütün gövde yeteneğin rengine hafifçe boyanır
+		sm.set_shader_parameter("tint", Color.WHITE.lerp(c.lightened(0.15), 0.55) if a != "" else Color.WHITE)
 	if _icon:
 		_icon.queue_free()
 		_icon = null
@@ -453,3 +467,14 @@ func _update_jets() -> void:
 			j.position.y = 0.05 - len * 0.5
 	if on and fmod(_t, 0.08) < 0.02:
 		Fx.burst(bip.global_position + Vector3(0, -0.8, 0), Color(0.5, 0.9, 1.0), 1, 0.8)
+
+
+## Kostüm (renk): Ayarlar'daki seçili kostümü gövdeye uygular. Bkz. GameState.SKINS
+func apply_skin(id := "") -> void:
+	var sk := GameState.skin_info(id if id != "" else Settings.skin)
+	for sm in _skin_mats:
+		sm.set_shader_parameter("hue_shift", float(sk.get("hue", 0.0)))
+		sm.set_shader_parameter("sat_mul", float(sk.get("sat", 1.0)))
+		sm.set_shader_parameter("val_mul", float(sk.get("val", 1.0)))
+		var g := float(sk.get("glow", 0.0))
+		sm.set_shader_parameter("glow", Vector3(1.0, 0.8, 0.3) * g)

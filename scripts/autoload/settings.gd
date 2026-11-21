@@ -20,6 +20,7 @@ var music_vol := 0.8
 var sfx_vol := 1.0
 var quality := 2              ## 0 Düşük, 1 Orta, 2 Yüksek (3B çözünürlük ölçeği)
 var shadows_on := true
+var skin := "klasik"          ## Bip'in kostümü (GameState.SKINS)
 
 
 func _ready() -> void:
@@ -93,6 +94,7 @@ func load_settings() -> void:
 		sfx_vol = 0.0
 		sfx_on = true
 	shadows_on = cfg.get_value("graphics", "shadows_on", shadows_on)
+	skin = cfg.get_value("player", "skin", skin)
 
 
 func save_settings() -> void:
@@ -110,6 +112,7 @@ func save_settings() -> void:
 	cfg.set_value("audio", "music_vol", music_vol)
 	cfg.set_value("audio", "sfx_vol", sfx_vol)
 	cfg.set_value("graphics", "shadows_on", shadows_on)
+	cfg.set_value("player", "skin", skin)
 	# Güvenli yazma: önce geçici dosya, sonra yerine koy (kayıt dokümanı kural 7).
 	var tmp := PATH + ".tmp"
 	if cfg.save(tmp) == OK:
