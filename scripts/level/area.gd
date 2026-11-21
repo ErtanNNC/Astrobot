@@ -33,6 +33,7 @@ const AREA_MUSIC := {
 	"ch4_patron": "res://assets/audio/opengameart/lsc_boss.ogg",
 	"ch5_oyuncak": "res://assets/audio/opengameart/happy_clappy_loop.mp3",
 	"ch5_gozlemevi": "res://assets/audio/opengameart/snow_theme_loop.ogg",
+	"ch5_volkan": "res://assets/audio/opengameart/fasttheme.ogg",
 }
 
 var area_total := 0

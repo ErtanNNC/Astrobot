@@ -6,6 +6,7 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 | # | Alan | Süre | Öğret | Sına | Şaşırt | Ustalık |
 |---|---|---|---|---|---|---|
 | 1 | Oyuncak Kasabası | ~6 dk | Yay ile dev hediye kutuları (4 m) | oyuncak tren (hareketli vagon) | Balon ile kaleye süzülüş | Mıknatıs levhalarıyla kule, Pervane ile Fındıkkıran'ın şapkası |
+| 3 | Volkan Adası | ~6 dk | **lav**: Buz ile lavın üstünde yürümek | düşen bazalt taşları | gayzerlerde Balon ile yükselmek | magma zinciri (Mıknatıs), krater kenarı (Pervane) |
 | 2 | Yıldız Gözlemevi | ~6 dk | Buz ile gölün üstünde yürümek | Kaya ile cam zemini kırıp tünelden geçmek | dönen yıldız platformları (Yay) | teleskop rüzgârında Balon ile kubbeye |
 
 ## Oyuncak Kasabası (2026-11-21)
@@ -34,6 +35,20 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 | 4 | Teleskop Rüzgârı | Balon ile rüzgârda yüksel, kubbe terasına süzül; bitiş |
 
 **Gizli köşeler (3):** göldeki adacık (Buz ile; 10 pil), tünelin doğu duvarındaki oyuk (**Altın Vida**), kayan yıldız tablası (C kıyısının doğusundaki trambolinden; 10 pil).
+
+## Volkan Adası (2026-11-21)
+Üretici: `tools/level/ch5_e3_volkan_adasi.py`, kimlik `ch5_volkan`. **Yeni öğe: lav** (`water_zone.gd` `lava = true`): turuncu yüzey, değen yanar ve son kontrol noktasına döner (1,5 sn bekleme, art arda can gitmez); Buz taşıyan Bip'in ayağının altında lav soğuyup gri **bazalt karolara** döner (suda olduğu gibi). Lav yüzeyi kıyıyla aynı yükseklikte (karodan kıyıya adım yok). Yön işareti: sonda katmanlı dev volkan ve dumanı.
+
+| # | Bölüm | Ne yapılır |
+|---|---|---|
+| 0 | Kara Kumsal | Buz kopyalanır |
+| 1 | Lav Nehri | Buz ile 18 m'lik lavın üstünde yürü; kontrol noktası "nehir" |
+| 2 | Bazalt Basamakları | lavın üstünde üç düşen taş; "bazalt" |
+| 3 | Gayzerler | sıcak hava akımında Balon ile 8 m'lik platoya; "gayzer" |
+| 4 | Magma Zinciri | lavın üstünde üç metal blok + tutamak (Mıknatıs); "zincir" |
+| 5 | Krater Kenarı | Pervane ile 6,5 m, bitiş |
+
+**Gizli köşeler (3):** nehirdeki adacık (Buz; 10 pil), ikinci gayzerin tepesindeki çıkıntı (Balon; 10 pil), krater kenarındaki niş (Pervane; **Altın Vida**).
 
 ## Rules
 1. Bonus bölüm yalnızca final bittikten sonra açılır.

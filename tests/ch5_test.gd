@@ -2,6 +2,7 @@ extends Node
 ## Bölüm 5 (bonus) testi: Oyuncak Kasabası'nın ana geçişleri ve gizli köşeleri.
 ## Çalıştırma: godot --headless --path . tests/ch5_test.tscn
 
+const LAVA_TEST_Y := 0.2
 var level: Node
 var bip
 var fails := 0
@@ -9,7 +10,8 @@ var fails := 0
 
 func _ready() -> void:
 	await get_tree().process_frame
-	for path in ["res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "res://scenes/chapter5/e2_yildiz_gozlemevi.tscn"]:
+	for path in ["res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "res://scenes/chapter5/e2_yildiz_gozlemevi.tscn",
+			"res://scenes/chapter5/e3_volkan_adasi.tscn"]:
 		await _load(path)
 		await _common(path.get_file())
 		match path.get_file():
@@ -17,6 +19,8 @@ func _ready() -> void:
 				await _e1()
 			"e2_yildiz_gozlemevi.tscn":
 				await _e2()
+			"e3_volkan_adasi.tscn":
+				await _e3()
 		level.queue_free()
 		await get_tree().process_frame
 	print("SONUÇ: %s" % ("TÜM TESTLER GEÇTİ" if fails == 0 else "%d test kaldı" % fails))
@@ -310,3 +314,112 @@ func _e2() -> void:
 	Input.action_release("jump")
 	await step(10)
 	check("e2: teleskop rüzgârıyla kubbe terasına", absf(bip.global_position.y - 20.0) < 0.3, str(bip.global_position))
+
+
+## Balonla rüzgârda yüksel, 'rise' üstünde 'dir' yönüne git, hedefin üstünde bırak.
+func ride_wind(at: Vector3, dir: String, rise: float, target: Vector3) -> Vector3:
+	await place(at, PI, "balon")
+	var turn: float = level.cam.auto_turn_speed
+	level.cam.auto_turn_speed = 0.0
+	Input.action_press("jump")
+	var going := false
+	for i in 900:
+		await get_tree().physics_frame
+		if i == 2:
+			Input.action_release("jump")
+		if i == 12:
+			Input.action_press("jump")
+		if not going and bip.global_position.y > rise:
+			going = true
+			Input.action_press(dir)
+		var d := Vector2(bip.global_position.x - target.x, bip.global_position.z - target.z)
+		if going and d.length() < 1.0:
+			Input.action_release(dir)
+			Input.action_release("jump")
+		if going and bip.is_on_floor():
+			break
+	Input.action_release(dir)
+	Input.action_release("jump")
+	await step(10)
+	level.cam.auto_turn_speed = turn
+	return bip.global_position
+
+
+func _e3() -> void:
+	# Buzsuz lava giren yanar (son kontrol noktasına döner)
+	await place(Vector3(0, 0.1, -5.5), PI, "")
+	var cp := level.find_child("Checkpoint_1", true, false)
+	Input.action_press("move_forward")
+	var burned := false
+	for i in 240:
+		await get_tree().physics_frame
+		if bip.global_position.z > -2.0 and i > 60:
+			burned = true
+			break
+	Input.action_release("move_forward")
+	await step(30)
+	check("e3: buzsuz lav yakar, geri döner", burned or bip.global_position.z > -6.0, str(bip.global_position))
+	# Buz ile lav nehri
+	await place(Vector3(0, 0.1, -5.5), PI, "buz")
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.is_on_floor() and bip.global_position.z < -24.5, 400)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e3: Buz ile lav nehri geçildi", bip.global_position.z < -24.0 and absf(bip.global_position.y) < 0.3, str(bip.global_position))
+	# Gizli adacık
+	await place(Vector3(0, LAVA_TEST_Y, -15), PI / 2, "buz")
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.global_position.x > 2.2, 120)
+	await tap("jump", 12)
+	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 0.3, 90)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e3: nehirdeki gizli adacık", bip.global_position.y > 0.3 and bip.global_position.x > 2.8, str(bip.global_position))
+	# Bazalt basamakları: her taşın ucunda zıpla (oyuncu gibi)
+	await place(Vector3(0, 0.1, -34.5), PI, "")
+	Input.action_press("move_forward")
+	var edges := [-35.4, -40.6, -45.1, -49.6]
+	var ei := 0
+	var held := 0
+	for i in 400:
+		await get_tree().physics_frame
+		if held > 0:
+			held -= 1
+			if held == 0:
+				Input.action_release("jump")
+		if ei < edges.size() and bip.is_on_floor() and bip.global_position.z < edges[ei]:
+			Input.action_press("jump")
+			held = 14
+			ei += 1
+		if bip.global_position.z < -53.5 and bip.is_on_floor():
+			break
+	Input.action_release("move_forward")
+	Input.action_release("jump")
+	await step(10)
+	check("e3: bazalt basamaklarından C'ye", bip.global_position.z < -53.0 and absf(bip.global_position.y) < 0.3, str(bip.global_position))
+	# Gayzer: Balon ile D'ye
+	var p := await ride_wind(Vector3(0, 2.5, -68.5), "move_forward", 9.5, Vector3(0, 0, -77))
+	check("e3: gayzerle platoya", absf(p.y - 8.0) < 0.3, str(p))
+	p = await ride_wind(Vector3(5.0, 2.5, -68.5), "move_right", 12.6, Vector3(9.6, 0, -68.5))
+	check("e3: gizli gayzer çıkıntısı", absf(p.y - 12.0) < 0.3, str(p))
+	# Magma zinciri
+	await place(Vector3(0, 8.1, -84.3), PI, "miknatis")
+	var reached := []
+	for k in 5:
+		var stuck := await magnet_pull()
+		await climb_up()
+		reached.append(snappedf(bip.global_position.z, 0.1))
+		if bip.global_position.z < -111.5 and bip.is_on_floor():
+			break
+		if not stuck:
+			break
+	Input.action_press("move_forward"); await step(20); Input.action_release("move_forward"); await step(10)
+	check("e3: magma zinciriyle E'ye", bip.global_position.z < -111.5 and bip.global_position.y > 7.8, str(reached))
+	# Gizli niş (F'nin doğusu)
+	await place(Vector3(3.5, 14.6, -126), PI / 2, "pervane")
+	var ok := await jump_forward(110, 60, 15.5, 300, 30)
+	check("e3: krater kenarındaki gizli niş", ok and absf(bip.global_position.y - 16.0) < 0.3, str(bip.global_position))
+	# Pervane ile krater kenarına (en sonda: çıkış)
+	await place(Vector3(0, 8.1, -119.6), PI, "pervane")
+	ok = await jump_forward(110, 100, 14.0, 300, 40)
+	check("e3: Pervane ile krater kenarına", ok and absf(bip.global_position.y - 14.5) < 0.2, str(bip.global_position))

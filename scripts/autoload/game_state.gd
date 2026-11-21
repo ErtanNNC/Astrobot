@@ -46,6 +46,7 @@ const CHAPTERS := {
 	5: [
 		{"id": "ch5_oyuncak", "scene": "res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "name": "Oyuncak Kasabası"},
 		{"id": "ch5_gozlemevi", "scene": "res://scenes/chapter5/e2_yildiz_gozlemevi.tscn", "name": "Yıldız Gözlemevi"},
+		{"id": "ch5_volkan", "scene": "res://scenes/chapter5/e3_volkan_adasi.tscn", "name": "Volkan Adası"},
 	],
 }
 
