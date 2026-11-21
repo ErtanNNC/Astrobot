@@ -87,3 +87,6 @@ Oyun içinde Duraklat (telefon: sol üst düğme, PC: Esc). Seçenekler: Devam, 
 ## History
 - 2026-11-18: tasarlandı.
 - 2026-11-18: uygulandı (eksikler yukarıda).
+
+**Kolay mod (2026-11-22):** Ayarlar → "Kolay mod". Açıkken düşmek can götürmez ve her kontrol noktası canları doldurur. Yıldız ve rekorlar aynı sayılır (küçük oyuncular cezalandırılmasın). Kod: `Settings.easy_mode`, `area.gd` (`_fall`, `on_checkpoint`).
+**Rekor hayaleti:** Ayarlar'dan kapatılabilir (`docs/features/geri-donme/design.md`). **Başarımlar:** Koleksiyon → Başarımlar.

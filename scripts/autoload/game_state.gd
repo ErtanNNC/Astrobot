@@ -73,6 +73,15 @@ const TRAILS := [
 	{"id": "gokkusagi", "name": "Gökkuşağı", "need": 500, "rainbow": true},
 ]
 
+## Şapkalar: yıldızla açılır (herhangi bir yuvadaki en çok yıldız), Kostüm Dolabı'ndan seçilir (scripts/player/hat_models.gd)
+const HATS := [
+	{"id": "yok", "name": "Şapka yok", "need": 0},
+	{"id": "parti", "name": "Parti Şapkası", "need": 5},
+	{"id": "pervane", "name": "Pervaneli Şapka", "need": 12},
+	{"id": "silindir", "name": "Silindir Şapka", "need": 20},
+	{"id": "tac", "name": "Taç", "need": 35},
+]
+
 ## Hedef süre (s): altında bitiren üçüncü yıldızı alır. Yol uzunluğundan hesaplandı (25 + 0,8 × metre), telefonda
 ## oynanarak ayarlanmalı [ASSUMPTION]. Patron alanları 180.
 const AREA_PAR := {
@@ -323,6 +332,29 @@ func trail_info(id: String) -> Dictionary:
 
 func trail_unlocked(id: String) -> bool:
 	return best_batteries() >= int(trail_info(id).get("need", 0))
+
+
+## Şapka açmada sayılan yıldız: yuvalardaki en çok toplam yıldız.
+func best_stars() -> int:
+	var best_n := total_stars() if data.has("best") else 0
+	for i in SLOT_COUNT:
+		var n := 0
+		var b: Dictionary = slot_summary(i).get("best", {})
+		for k in b:
+			n += int(b[k].get("stars", 0))
+		best_n = maxi(best_n, n)
+	return best_n
+
+
+func hat_info(id: String) -> Dictionary:
+	for h in HATS:
+		if h["id"] == id:
+			return h
+	return HATS[0]
+
+
+func hat_unlocked(id: String) -> bool:
+	return best_stars() >= int(hat_info(id).get("need", 0))
 
 
 # ---------- Yıldızlar ve rekor süre ----------

@@ -39,6 +39,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Ses | implemented | V1 | Alan müziği (yumuşak geçiş), ortam döngüleri, zemine göre adım sesi, duraklatınca kısma | [design](features/ses/design.md) |
 | Geri dönme sebepleri | implemented | V1 | Alan başına 3 yıldız ve rekor süre, günlük görev (bonus pil, seri), pille açılan koşu izleri | [design](features/geri-donme/design.md) |
 | "Vay" anları | implemented | V1 | Her alanda en az bir gösteri: fırlatma topu, manzara kamerası, balina, patlama, havai fişek, meteor, kutup ışığı... | [design](features/vay-anlari/design.md) |
+| Başarımlar | implemented | V1 | 22 başarım, her biri 10 bonus pil; Koleksiyon'da liste, oyun içinde bildirim | [design](features/basarimlar/design.md) |
 | Kostümler | implemented | V1 | Pille açılan 7 renk kostümü (Atölye'deki Kostüm Dolabı), ton kaydıran gölgelendirici | [design](features/kostum/design.md) |
 | Dil | implemented | V1 | Türkçe + İngilizce; cihaz diline göre açılır, Ayarlar'dan değişir | [design](features/dil/design.md) |
 | Performans | in progress | V1 | Uzaklık gizleme, hafif Bip, FPS göstergesi; gerçek cihaz ölçümü bekleniyor | [design](features/performans/design.md) |

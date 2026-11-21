@@ -190,6 +190,10 @@ func _process(delta: float) -> void:
 		Fx.burst(bip.global_position + Vector3(0, 0.08, 0), Color(0.95, 0.92, 0.85), 2, 0.8)
 
 	# Adım sesi: yerde ve hareket ederken
+	if _hat and _hat_id == "pervane":
+		var hb := _hat.get_node_or_null("HatBlades") as Node3D
+		if hb:
+			hb.rotation.y += delta * (6.0 + speed * 4.0)
 	# Koşu izi (Kostüm Dolabı'ndan seçilir): hareket ederken arkada renkli zerreler
 	if Settings.trail != "yok" and speed > 3.0:
 		_trail_t -= delta
@@ -550,7 +554,28 @@ func _update_jets() -> void:
 
 
 ## Kostüm (renk): Ayarlar'daki seçili kostümü gövdeye uygular. Bkz. GameState.SKINS
+var _hat: Node3D
+var _hat_id := ""
+
+
+## Şapka: başın tepesine (kopyalama ucunun bağlandığı yere) oturur. Yalnızca yeni Bip modelinde.
+func apply_hat() -> void:
+	if not _new or _tip == null or _hat_id == Settings.hat:
+		return
+	_hat_id = Settings.hat
+	if _hat:
+		_hat.queue_free()
+		_hat = null
+	if _hat_id == "yok":
+		return
+	_hat = HatModels.make(_hat_id)
+	_tip.get_parent().add_child(_hat)
+	_hat.position = Vector3(0, -0.06, 0)
+	_hat.scale = Vector3.ONE * 1.25
+
+
 func apply_skin(id := "") -> void:
+	apply_hat()
 	var sk := GameState.skin_info(id if id != "" else Settings.skin)
 	for sm in _skin_mats:
 		sm.set_shader_parameter("hue_shift", float(sk.get("hue", 0.0)))

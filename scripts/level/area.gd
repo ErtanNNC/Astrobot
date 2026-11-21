@@ -209,6 +209,7 @@ func _physics_process(_delta: float) -> void:
 ## Yeniden doğma perdesi inerken düşme her karede tekrar sayılmasın (eskiden tek düşüş bütün canları
 ## götürüyor, ölüm sayacını şişiriyor ve sahne değişince boşa düşen geri çağrılar bırakıyordu).
 var _respawning := false
+var _hurt_this_run := false     ## bu turda hasar alındı ya da düşüldü mü ("Çizik Bile Yok" başarımı)
 var _ghost: GhostRun
 var _ghost_rec := PackedFloat32Array()
 var _ghost_ok := false     ## tur alanın başından mı başladı (ortadan devam edilen tur kaydedilmez)
@@ -218,9 +219,10 @@ func _fall() -> void:
 	if _respawning:
 		return
 	_respawning = true
+	_hurt_this_run = true
 	Sfx.play("fall")
 	_count_death()
-	if safe:
+	if safe or Settings.easy_mode:      # kolay mod: düşmek can götürmez
 		respawn(false)
 		return
 	var r := GameState.lose_life()
@@ -228,6 +230,7 @@ func _fall() -> void:
 
 
 func _on_hurt(result: String) -> void:
+	_hurt_this_run = true
 	if result == "dead":
 		_count_death()
 		await get_tree().create_timer(0.5, false).timeout
@@ -271,6 +274,8 @@ func _count_death() -> void:
 func on_checkpoint(cp: Node3D) -> void:
 	_respawn = cp
 	_deaths_here = 0
+	if Settings.easy_mode:
+		GameState.refill_lives()        # kolay mod: her kontrol noktası canları doldurur
 	GameState.reach_checkpoint(area_id, cp.checkpoint_id)
 
 
@@ -373,6 +378,7 @@ func _boss_show(boss: Node3D, intro: bool) -> void:
 
 
 func boss_defeated(cell_pos: Vector3) -> void:
+	get_tree().create_timer(6.0).timeout.connect(func(): Achievements.refresh())
 	var b := get_tree().get_first_node_in_group("boss") as Node3D
 	if b:
 		_boss_show(b, false)
@@ -423,6 +429,7 @@ func complete_area() -> void:
 	# Bu tur alanın en iyi süresiyse hayalet olarak sakla
 	if _ghost_ok and GameState.slot >= 0 and float(res["time"]) <= float(GameState.area_best(area_id).get("time", INF)) + 0.001:
 		GhostRun.save_run(GameState.slot, area_id, _ghost_rec)
+	Achievements.refresh(["hasarsiz"] if (_ghost_ok and not _hurt_this_run and not safe) else [])
 	Daily.add("alan")
 	Daily.add("yildiz", res["stars"], true)
 	Daily.flush()

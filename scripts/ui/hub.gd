@@ -558,11 +558,40 @@ func _open_collection() -> void:
 		for c in GameState.CHAPTERS:
 			areas += GameState.CHAPTERS[c].size()
 		UIKit.title(v, tr("Yıldız %d/%d") % [stars, areas * 3], 24)
+	Achievements.refresh()
+	UIKit.button(v, tr("Başarımlar  %d/%d") % [Achievements.count(), Achievements.LIST.size()], _open_achievements, UIKit.YELLOW)
 	# Gardırop: kostümler minik Bip'ler olarak; dokunan seçer
 	UIKit.title(v, "Kostüm Dolabı", 26)
 	SkinCards.build(v, func(id: String): _pick_skin(id, true))
 	UIKit.button(v, "Geri", _close_overlay)
 	_focus_first_card(v)
+
+
+func _open_achievements() -> void:
+	var v := _new_overlay(760)
+	UIKit.title(v, "Başarımlar")
+	UIKit.title(v, tr("Her başarım %d bonus pil verir") % Achievements.REWARD, 18)
+	var sc := ScrollContainer.new()
+	sc.custom_minimum_size = Vector2(720, 380)
+	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	v.add_child(sc)
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 18)
+	grid.add_theme_constant_override("v_separation", 10)
+	sc.add_child(grid)
+	for a in Achievements.LIST:
+		var got := Achievements.has(a[0])
+		var l := Label.new()
+		l.custom_minimum_size = Vector2(340, 0)
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		l.text = tr(a[1]) + "\n" + tr(a[2])
+		l.add_theme_font_size_override("font_size", 18)
+		l.add_theme_color_override("font_color", Color(0.15, 0.45, 0.15) if got else Color(0.45, 0.4, 0.35, 0.75))
+		grid.add_child(l)
+	UIKit.button(v, "Geri", _open_collection)
+	_focus_first(v)
 
 
 ## Kostüm dolabı: kostümler minik 3B Bip'ler olarak dizilir, dokunan seçer (SkinCards).
@@ -576,6 +605,21 @@ func _open_wardrobe(from_collection := false) -> void:
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 8)
 	v.add_child(row)
+	# Şapka: yıldızla açılır (GameState.HATS)
+	UIKit.title(v, tr("Şapka  ·  yıldızın: %d") % GameState.best_stars(), 20)
+	var hrow := HBoxContainer.new()
+	hrow.alignment = BoxContainer.ALIGNMENT_CENTER
+	hrow.add_theme_constant_override("separation", 8)
+	v.add_child(hrow)
+	for h in GameState.HATS:
+		var hid: String = h["id"]
+		var hopen := GameState.hat_unlocked(hid)
+		var hb := UIKit.button(hrow, tr(h["name"]) if hopen else tr("%d yıldız") % int(h["need"]),
+				func(): Settings.set_value("hat", hid); Sfx.play("select"); _open_wardrobe(from_collection),
+				UIKit.GREEN if Settings.hat == hid else UIKit.BLUE)
+		hb.add_theme_font_size_override("font_size", 16)
+		hb.custom_minimum_size = Vector2(104, 52)
+		hb.disabled = not hopen
 	for t in GameState.TRAILS:
 		var tid: String = t["id"]
 		var open := GameState.trail_unlocked(tid)

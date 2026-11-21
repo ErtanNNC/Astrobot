@@ -131,6 +131,35 @@ func banner(text: String, sub := "", hold := 2.0) -> void:
 		tw.chain().tween_property(l, "modulate:a", 0.0, 0.5)
 
 
+## Küçük bildirim (başarım, ödül): ekranın altında kayarak gelir, sıraya girer, oyunu kapatmaz.
+var _toast_n := 0
+
+
+func toast(text: String) -> void:
+	var k := size.y / 720.0
+	var l := Label.new()
+	l.text = text
+	l.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	l.add_theme_font_size_override("font_size", int(26 * k))
+	l.add_theme_color_override("font_color", Color(1.0, 0.9, 0.4))
+	l.add_theme_color_override("font_outline_color", OUTLINE)
+	l.add_theme_constant_override("outline_size", 10)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.size = Vector2(size.x, 40 * k)
+	l.position = Vector2(0, size.y)
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(l)
+	var delay := _toast_n * 1.6
+	_toast_n += 1
+	var tw := l.create_tween()
+	tw.tween_interval(delay)
+	tw.tween_callback(func(): Sfx.play("secret", -6.0, 1.2))
+	tw.tween_property(l, "position:y", size.y - 150 * k, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(1.4)
+	tw.tween_property(l, "modulate:a", 0.0, 0.4)
+	tw.tween_callback(func(): _toast_n = maxi(_toast_n - 1, 0); l.queue_free())
+
+
 ## Alan sonu: üç yıldız yuvası; kazanılanlar sırayla, sesle patlayarak dolar (docs/features/geri-donme/design.md).
 func show_stars(won: int) -> void:
 	var k := size.y / 720.0

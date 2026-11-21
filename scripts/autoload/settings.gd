@@ -23,6 +23,9 @@ var shadows_on := true
 var skin := "klasik"          ## Bip'in kostümü (GameState.SKINS)
 var language := ""            ## "" = cihaz diline göre (Türkçe cihazda tr, diğerlerinde en), "tr", "en"
 var show_fps := false         ## ekranda kare hızı (performans testi için)
+var hat := "yok"              ## Bip'in şapkası (GameState.HATS)
+var easy_mode := false        ## kolay mod: düşünce can gitmez, her kontrol noktası canları doldurur
+var achievements: Array = []  ## kazanılan başarım kimlikleri (scripts/autoload/achievements.gd)
 var ghost_on := true          ## hayalet yarışı: rekor turun saydam Bip'i seninle koşar
 var trail := "yok"            ## koşu izi (GameState.TRAILS)
 var daily_day := -1           ## günlük görev (scripts/autoload/daily.gd): hangi gün
@@ -143,6 +146,9 @@ func load_settings() -> void:
 	language = cfg.get_value("player", "language", language)
 	trail = cfg.get_value("player", "trail", trail)
 	ghost_on = cfg.get_value("player", "ghost_on", ghost_on)
+	achievements = cfg.get_value("player", "achievements", achievements)
+	easy_mode = cfg.get_value("access", "easy_mode", easy_mode)
+	hat = cfg.get_value("player", "hat", hat)
 	daily_day = cfg.get_value("daily", "day", daily_day)
 	daily_progress = cfg.get_value("daily", "progress", daily_progress)
 	daily_done = cfg.get_value("daily", "done", daily_done)
@@ -171,6 +177,9 @@ func save_settings() -> void:
 	cfg.set_value("player", "language", language)
 	cfg.set_value("player", "trail", trail)
 	cfg.set_value("player", "ghost_on", ghost_on)
+	cfg.set_value("player", "achievements", achievements)
+	cfg.set_value("access", "easy_mode", easy_mode)
+	cfg.set_value("player", "hat", hat)
 	cfg.set_value("daily", "day", daily_day)
 	cfg.set_value("daily", "progress", daily_progress)
 	cfg.set_value("daily", "done", daily_done)

@@ -29,3 +29,17 @@ Oyuncunun topladığı pillerle açılan renk kostümleri. Toplamanın bir ödü
 
 ## History
 - 2026-11-21: ilk sürüm, 7 kostüm.
+
+## Şapkalar (2026-11-22)
+Renk kostümlerinden ayrı, başa takılan parçalar. **Yıldızla** açılır (herhangi bir kayıt yuvasındaki en çok toplam yıldız), Kostüm Dolabı'ndaki "Şapka" satırından seçilir. Basit şekillerden kurulur (`scripts/player/hat_models.gd`), başın tepesindeki kemiğe bağlıdır, kafayla birlikte sallanır.
+
+| Şapka | Gereken yıldız | Not |
+|---|---|---|
+| Şapka yok | 0 | |
+| Parti Şapkası | 5 | |
+| Pervaneli Şapka | 12 | pervanesi koşu hızıyla döner |
+| Silindir Şapka | 20 | |
+| Taç | 35 | |
+
+Kod: `GameState.HATS`, `hat_unlocked`, `best_stars`; `Settings.hat`; `bip_visuals.apply_hat`. Kostüm kartlarındaki minik Bip'lerde şapka görünmez (açık konu).
+

@@ -67,6 +67,36 @@ func _ready() -> void:
 	GhostRun.delete_slot(2)
 	check("yuva silinince hayalet de silindi", GhostRun.load_run(2, "test_alan").is_empty())
 
+	# Başarımlar: veriden hesaplanır, bir kez verilir, bonus pil kazandırır
+	var keep_ach: Array = Settings.achievements.duplicate()
+	Settings.achievements = []
+	Settings.bonus_batteries = 0
+	Settings.daily_streak = 0
+	GameState.data = GameState.new_data()
+	check("boş kayıtta veri başarımı yok", Achievements.earned(GameState.data).filter(func(x): return x not in ["kostum", "iz"]).is_empty())
+	GameState.data["core_cells"] = ["ch1"]
+	GameState.data["golden_screws"] = ["a", "b", "c", "d", "e"]
+	GameState.finish_area("ch1_atolye", 50.0, 0, 0)
+	var e := Achievements.earned(GameState.data)
+	check("patron, vida, ilk adım, 3 yıldız ve hız başarımları hesaplandı", e.has("bolum1") and e.has("vida_5") and e.has("ilk_adim") and e.has("uc_yildiz") and e.has("hizli") and not e.has("bolum2"), str(e))
+	var got_new := Achievements.refresh(["hasarsiz"])
+	check("yeni başarımlar kaydedildi ve ödül verildi", got_new.has("hasarsiz") and Settings.bonus_batteries == Achievements.REWARD * got_new.size(), str(got_new))
+	check("aynı başarım ikinci kez verilmez", Achievements.refresh(["hasarsiz"]).is_empty())
+	Settings.achievements = keep_ach
+
+	# Şapkalar: yıldızla açılır, her biri kurulabilir
+	GameState.data = GameState.new_data()
+	var base_stars := GameState.best_stars()
+	check("şapkasız her zaman açık", GameState.hat_unlocked("yok"))
+	if base_stars < 5:
+		check("Parti Şapkası 5 yıldızdan önce kilitli", not GameState.hat_unlocked("parti"))
+		GameState.finish_area("ch1_patron", 10.0, 0, 0); GameState.finish_area("ch2_patron", 10.0, 0, 0)
+		check("6 yıldızla Parti Şapkası açılır", GameState.hat_unlocked("parti"), str(GameState.best_stars()))
+	for h in GameState.HATS:
+		var hn := HatModels.make(h["id"])
+		check("şapka modeli kuruldu: " + h["id"], hn != null and (h["id"] == "yok" or hn.get_child_count() > 0))
+		hn.free()
+
 	Settings.daily_day = keep[0]; Settings.daily_progress = keep[1]; Settings.daily_done = keep[2]
 	Settings.daily_streak = keep[3]; Settings.bonus_batteries = keep[4]; Settings.trail = keep[5]
 	Settings.save_settings()
