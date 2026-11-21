@@ -225,7 +225,7 @@ const AREA_SURFACE := {
 	"ch1_patron": "gravel", "ch2_rihtim": "wood", "ch2_fener": "grass", "ch2_gemi": "wood", "ch2_patron": "wood",
 	"ch3_magara": "snow", "ch3_gol": "snow", "ch3_zirve": "snow", "ch3_patron": "snow",
 	"ch4_bulut": "cloud", "ch4_kopru": "stone", "ch4_kale": "stone", "ch4_patron": "stone",
-	"ch5_oyuncak": "wood", "ch5_gozlemevi": "stone", "ch5_volkan": "gravel", "ch5_sampiyon": "wood",
+	"ch5_oyuncak": "wood", "ch5_gozlemevi": "stone", "ch5_volkan": "gravel", "ch5_top": "grass", "ch5_sampiyon": "wood",
 }
 var _step_t := 0.0
 var _trail_t := 0.0

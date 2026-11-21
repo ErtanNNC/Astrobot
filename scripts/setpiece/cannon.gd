@@ -7,6 +7,7 @@ extends Area3D
 @export var arc := 6.0                     ## m, kavisin en yüksek noktası (iki uçtan yüksek olanın üstünde)
 @export var time := 1.7                    ## s, uçuş süresi
 @export var windup := 0.6                  ## s, nişan alma
+@export var secret := false                ## gizli köşeye giden top: kaidesi mor
 
 var _barrel: Node3D
 var _bip: Bip
@@ -34,7 +35,7 @@ func _ready() -> void:
 	base.bottom_radius = 1.7
 	base.height = 0.25
 	base.radial_segments = 20
-	add_child(AbilityModels.mesh_node(base, AbilityModels.mat(Color(0.95, 0.75, 0.2), 0.4, 0.6), Vector3(0, 0.12, 0)))
+	add_child(AbilityModels.mesh_node(base, AbilityModels.mat(Color(0.7, 0.4, 0.95) if secret else Color(0.95, 0.75, 0.2), 0.4, 0.6), Vector3(0, 0.12, 0)))
 	_barrel = Node3D.new()
 	_barrel.position.y = 1.1
 	add_child(_barrel)

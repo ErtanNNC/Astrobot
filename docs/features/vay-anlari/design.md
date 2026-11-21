@@ -47,7 +47,18 @@ vardır; bizde üç yapı taşı bunu sağlar. Gösteriler oynanışı durdurmaz
 | Oyuncak Kasabası | Fındıkkıran'ın şapkasında havai fişek |
 | Yıldız Gözlemevi | başta Gözlemevi manzarası; Takımyıldız'dan sonra meteor yağmuru |
 | Volkan Adası | başta Volkan manzarası; krater kenarına yaklaşınca volkan patlar (14 saniyede bir yineler) |
+| Top Adaları | toplar ana yol: A, B ve üçlü zincir (C→D→E); başta Yıldız Adası manzarası, bitişte havai fişek |
 | Şampiyon Yolu | kupa platformunda havai fişek |
+
+## Patronlar
+Dövüş başlarken patrona özel bir gösteri, yenilince havai fişek oynar (`area.gd` `BOSS_SHOW`, `_boss_show`).
+
+| Patron | Giriş gösterisi |
+|---|---|
+| Hurdacı Vinç | tepesinden kızgın hurdalar fışkırır |
+| Paslı Kaptan | arkasında balina sudan fırlar |
+| Kardan Dev | gökte kutup ışıkları belirir |
+| Statik | arkasına yıldırımlar düşer (zararsız; hasar verenlerin yerde uyarı diski olur) |
 
 ## Sayılar
 | Ad | Değer | Birim |
@@ -70,5 +81,5 @@ türü hatasız oynar, geçici olanlar arkasını temizler.
 
 ## Açık konular
 - Hiçbiri telefonda oynanarak denenmedi: topun süresi/kavisi mide bulandırıyor mu, manzara kamerası başta rahatsız ediyor mu bakılmalı.
-- Toplar şimdilik yan yol. Ana yolda zorunlu bir top bölümü (ör. adadan adaya zincirleme toplar) daha güçlü bir an olur.
+- Topların ana yol olduğu alan: Top Adaları (Bölüm 5). Diğer alanlarda toplar yan yol.
 - Gösterilerin kendine özel sesi yok; eldeki efektler alçak perdede kullanılıyor.

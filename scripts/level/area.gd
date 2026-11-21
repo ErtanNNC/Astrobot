@@ -34,6 +34,7 @@ const AREA_MUSIC := {
 	"ch5_oyuncak": "res://assets/audio/opengameart/happy_clappy_loop.mp3",
 	"ch5_gozlemevi": "res://assets/audio/opengameart/snow_theme_loop.ogg",
 	"ch5_volkan": "res://assets/audio/opengameart/fasttheme.ogg",
+	"ch5_top": "res://assets/audio/opengameart/happy_clappy_loop.mp3",
 	"ch5_sampiyon": "res://assets/audio/opengameart/superhero.ogg",
 }
 
@@ -43,7 +44,7 @@ const AREA_AMBIENT := {
 	"ch2_rihtim": "ocean", "ch2_fener": "ocean", "ch2_gemi": "ocean", "ch2_patron": "ocean",
 	"ch3_magara": "cave", "ch3_gol": "wind", "ch3_zirve": "wind", "ch3_patron": "wind",
 	"ch4_bulut": "wind", "ch4_kopru": "rain", "ch4_kale": "rain", "ch4_patron": "rain",
-	"ch5_oyuncak": "birds", "ch5_gozlemevi": "cave", "ch5_volkan": "machine", "ch5_sampiyon": "wind",
+	"ch5_oyuncak": "birds", "ch5_gozlemevi": "cave", "ch5_volkan": "machine", "ch5_top": "ocean", "ch5_sampiyon": "wind",
 }
 const MUSIC_FADE_IN := 1.2       ## s
 const MUSIC_FADE_OUT := 0.8      ## s
@@ -311,6 +312,7 @@ func start_boss() -> void:
 		hud.banner(boss.get("boss_name") if boss.get("boss_name") else "Hurdacı Vinç", _phase_hint(boss, 1), 4.0)
 		var mp: AudioStreamPlayer = $GameRig/Music
 		create_tween().tween_property(mp, "volume_db", 2.0, 0.6)
+		_boss_show(boss, true)
 
 
 func boss_event(what: String) -> void:
@@ -327,7 +329,36 @@ func boss_phase(p: int) -> void:
 	GameState.data["checkpoint_ability"] = GameState.ability
 
 
+## Patron giriş ve zafer gösterisi (vay anı; zararsız). Tür patrona göre: docs/features/vay-anlari/design.md
+const BOSS_SHOW := {
+	"ch1_patron": ["eruption", Vector3(0, 12, 0), 0.8],
+	"ch2_patron": ["whale", Vector3(0, -9, -16), 1.6],
+	"ch3_patron": ["aurora", Vector3(0, 34, -30), 1.3],
+	"ch4_patron": ["lightning", Vector3(0, 0, -14), 1.4],
+}
+
+
+func _boss_show(boss: Node3D, intro: bool) -> void:
+	var sp := SetPiece.new()
+	var cfg: Array = BOSS_SHOW.get(area_id, ["fireworks", Vector3(0, 8, 0), 1.0])
+	sp.kind = cfg[0] if intro else "fireworks"
+	sp.offset = cfg[1] if intro else Vector3(0, 9, 0)
+	sp.big = cfg[2] if intro else 1.2
+	sp.size = Vector3(0.1, 0.1, 0.1)
+	sp.collision_mask = 0
+	add_child(sp)
+	sp.global_position = boss.global_position
+	sp.collision_mask = 0
+	sp.play()
+	if intro:
+		Fx.ring(boss.global_position, Color(1.0, 0.4, 0.3), 9.0, 0.8)
+		cam.shake(0.4)
+
+
 func boss_defeated(cell_pos: Vector3) -> void:
+	var b := get_tree().get_first_node_in_group("boss") as Node3D
+	if b:
+		_boss_show(b, false)
 	var cell := load("res://scripts/entities/core_cell.gd").new() as Node3D
 	cell.cell_id = "ch%d" % GameState.chapter_of(area_id)
 	add_child(cell)

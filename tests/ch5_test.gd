@@ -11,7 +11,7 @@ var fails := 0
 func _ready() -> void:
 	await get_tree().process_frame
 	for path in ["res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "res://scenes/chapter5/e2_yildiz_gozlemevi.tscn",
-			"res://scenes/chapter5/e3_volkan_adasi.tscn", "res://scenes/chapter5/e4_sampiyon_yolu.tscn"]:
+			"res://scenes/chapter5/e3_volkan_adasi.tscn", "res://scenes/chapter5/e3b_top_adalari.tscn", "res://scenes/chapter5/e4_sampiyon_yolu.tscn"]:
 		await _load(path)
 		await _common(path.get_file())
 		match path.get_file():
@@ -23,6 +23,8 @@ func _ready() -> void:
 				await _e3()
 			"e4_sampiyon_yolu.tscn":
 				await _e4()
+			"e3b_top_adalari.tscn":
+				await _e3b()
 		level.queue_free()
 		await get_tree().process_frame
 	print("SONUÇ: %s" % ("TÜM TESTLER GEÇTİ" if fails == 0 else "%d test kaldı" % fails))
@@ -506,3 +508,22 @@ func _e4() -> void:
 	Input.action_release("move_forward")
 	await step(10)
 	check("e4: Dev Yay ile kupa platformuna", absf(dp().y - 23.65) < 0.3, str(dp()))
+
+
+## Top Adaları: toplar ana yol. A topu Kum Adası'na, zincir (C→D→E) Yıldız Adası'na götürür; gizli top Altın Vida'ya.
+func _e3b() -> void:
+	await place(Vector3(0, 0.3, -4.2))
+	await step(int(2.3 * 60) + 50)
+	check("e3b: A topu Kum Adası'na indirdi", bip.is_on_floor() and absf(dp().y - 8.0) < 0.3 and bip.controls_enabled, str(dp()))
+	await place(Vector3(22.6, 8.3, -31.5))
+	await step(int(2.3 * 60) + 50)
+	check("e3b: gizli top Vida Adacığı'na indirdi", bip.is_on_floor() and absf(dp().y - 14.0) < 0.3, str(dp()))
+	await place(Vector3(40.2, 14.3, -19.4))
+	await step(int(2.3 * 60) + 50)
+	check("e3b: dönüş topu Kum Adası'na geri getirdi", bip.is_on_floor() and absf(dp().y - 8.0) < 0.3, str(dp()))
+	await place(Vector3(16.5, 8.3, -35.4))
+	await step(int(2.3 * 60) + 50)
+	check("e3b: B topu Çimen Adası'na indirdi", bip.is_on_floor() and absf(dp().y - 16.0) < 0.3, str(dp()))
+	await place(Vector3(-10, 20.8, -71.6))
+	await step(int(2.3 * 60) * 3 + 120)
+	check("e3b: zincir (C→D→E) Yıldız Adası'na indirdi", bip.is_on_floor() and absf(dp().y - 34.0) < 0.3 and dp().z < -139.0 and bip.controls_enabled, str(dp()))

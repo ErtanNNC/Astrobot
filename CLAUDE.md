@@ -19,7 +19,7 @@
 - **Bu çalışma ortamında erişilebilen kaynaklar:** quaternius.com ve quaternius.itch.io, kaylousberg.itch.io, opengameart.org, Kenney'nin GitHub'ı (github.com/KenneyNL). kenney.nl, Poly Haven, ambientCG, Freesound, Poly Pizza erişilemiyor.
 
 ## Proje durumu ve mimari (2026-11-21)
-- **Oyun:** giriş + Atölye ana menüsü (Kostüm Dolabı, Alan Seç), 4 bölüm (15 alan + 4 patron) + final sonrası bonus Bölüm 5 (4 alan, patronsuz), açılış/kapanış/final, Emeği Geçenler, pille açılan 7 kostüm, 6 yetenek (Yay, Balon, Mıknatıs, Kaya, Pervane, Buz), ilerledikçe açılan 5 hareket (`GameState.MOVES`: tutunma, dönme/Vuruş, atılma, duvar zıplaması, çift zıplama), kurtarılacak robotlar, 3 kayıt yuvası.
+- **Oyun:** giriş + Atölye ana menüsü (Kostüm Dolabı, Alan Seç), 4 bölüm (15 alan + 4 patron) + final sonrası bonus Bölüm 5 (5 alan, patronsuz), açılış/kapanış/final, Emeği Geçenler, pille açılan 7 kostüm, 6 yetenek (Yay, Balon, Mıknatıs, Kaya, Pervane, Buz), ilerledikçe açılan 5 hareket (`GameState.MOVES`: tutunma, dönme/Vuruş, atılma, duvar zıplaması, çift zıplama), kurtarılacak robotlar, 3 kayıt yuvası.
 - **Autoload'lar:** `GameState` (kayıt, can, yetenek, bölüm listesi `CHAPTERS`, yıldız/rekor, izler), `Settings`, `Sfx`, `Fx` (parıltı, halka, konfeti), `Scenes` (geçiş), `TouchInput`, `Haptics`. `Daily` (günlük görev) autoload değil, statik sınıf.
 - **Test seçenekleri** ("Tüm alanlar açık") yalnızca `Settings.dev_mode()` doğruyken görünür: editörde ve `export_presets.cfg` içinde `custom_features="dev"` olan dışa aktarımda. Mağaza sürümünde o etiketi sil.
 - **Oyuncu:** `scripts/player/bip.gd` (hareket + tüm yetenekler, sayılar `@export`), `bip_visuals.gd` (animasyon, ses, renk, iniş gölgesi).

@@ -457,12 +457,42 @@ func _open_area_select(i: int, ch := 0) -> void:
 			var open := Settings.all_areas_open() or GameState.global_index(id) <= furthest
 			var txt: String = tr(a["name"]) if open else tr(a["name"]) + tr(" (kilitli)")
 			var best: Dictionary = d.get("best", {}).get(id, {})
-			if open and not best.is_empty():
-				txt += tr("  ·  %d/3 yıldız  ·  %s") % [int(best.get("stars", 0)), GameState.time_text(float(best.get("time", 0.0)))]
 			var b := UIKit.button(v, txt, func(): _play_area(i, id))
+			if open and not best.is_empty():
+				_area_badge(b, int(best.get("stars", 0)), float(best.get("time", 0.0)))
 			b.disabled = not open
 	UIKit.button(v, "Geri", func(): _open_area_select(i) if ch != 0 else _open_slot(i))
 	_focus_first(v)
+
+
+## Alan düğmesinin sağ ucunda: üç yıldız simgesi (kazanılanlar altın) ve rekor süre.
+func _area_badge(b: Button, stars: int, best_time: float) -> void:
+	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 2)
+	row.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	row.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	row.grow_vertical = Control.GROW_DIRECTION_BOTH
+	row.offset_right = -18
+	var tex: Texture2D = load("res://assets/ui/kenney/icons/star.png")
+	for k in 3:
+		var st := TextureRect.new()
+		st.texture = tex
+		st.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		st.custom_minimum_size = Vector2(30, 30)
+		st.modulate = Color(1.0, 0.85, 0.2) if k < stars else Color(0.1, 0.15, 0.3, 0.35)
+		st.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(st)
+	var tl := Label.new()
+	tl.text = "  " + GameState.time_text(best_time)
+	tl.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	tl.add_theme_font_size_override("font_size", 20)
+	tl.add_theme_color_override("font_color", Color.WHITE)
+	tl.add_theme_color_override("font_outline_color", Color(0.1, 0.2, 0.4))
+	tl.add_theme_constant_override("outline_size", 6)
+	row.add_child(tl)
+	b.add_child(row)
 
 
 func _play_area(i: int, id: String) -> void:

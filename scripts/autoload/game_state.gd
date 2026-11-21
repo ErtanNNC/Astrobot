@@ -47,6 +47,7 @@ const CHAPTERS := {
 		{"id": "ch5_oyuncak", "scene": "res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "name": "Oyuncak Kasabası"},
 		{"id": "ch5_gozlemevi", "scene": "res://scenes/chapter5/e2_yildiz_gozlemevi.tscn", "name": "Yıldız Gözlemevi"},
 		{"id": "ch5_volkan", "scene": "res://scenes/chapter5/e3_volkan_adasi.tscn", "name": "Volkan Adası"},
+		{"id": "ch5_top", "scene": "res://scenes/chapter5/e3b_top_adalari.tscn", "name": "Top Adaları"},
 		{"id": "ch5_sampiyon", "scene": "res://scenes/chapter5/e4_sampiyon_yolu.tscn", "name": "Şampiyon Yolu"},
 	],
 }
@@ -79,13 +80,13 @@ const AREA_PAR := {
 	"ch2_rihtim": 125, "ch2_fener": 150, "ch2_gemi": 135,
 	"ch3_magara": 110, "ch3_gol": 135, "ch3_zirve": 180,
 	"ch4_bulut": 140, "ch4_kopru": 140, "ch4_kale": 130,
-	"ch5_oyuncak": 115, "ch5_gozlemevi": 130, "ch5_volkan": 140, "ch5_sampiyon": 165,
+	"ch5_oyuncak": 115, "ch5_gozlemevi": 130, "ch5_volkan": 140, "ch5_top": 90, "ch5_sampiyon": 165,
 }
 const PAR_DEFAULT := 180
 const STAR_BATTERY_SHARE := 0.8  ## ikinci yıldız: alandaki pillerin bu kadarı
 
 ## Gizli köşe tetikleyicisi sayısı (tools/level/*.py içindeki L.secret çağrıları; yeni ekleyince güncelle)
-const SECRET_TOTAL := 29
+const SECRET_TOTAL := 30
 
 const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi", 4: "Fırtınanın Gözü", 5: "Gizli Adalar"}
 

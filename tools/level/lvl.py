@@ -423,9 +423,9 @@ class Level:
         tx, tz, _ = turn_point(target[0], target[2]) if TURNS else (target[0], target[2], 0)
         return "@raw:Vector3(%.6g, %.6g, %.6g)" % (tx - wx, target[1] - y, tz - wz)
 
-    def cannon(self, x, y, z, target, arc=6.0, time=1.7):
-        """Fırlatma Topu: Bip'i (x,y,z)'den target'a kavisle fırlatır."""
-        return self.ent("cannon", x, y, z, offset=self._world_offset(x, y, z, target), arc=arc, time=time)
+    def cannon(self, x, y, z, target, arc=6.0, time=1.7, secret=False):
+        """Fırlatma Topu: Bip'i (x,y,z)'den target'a kavisle fırlatır. secret=True: mor kaide (gizli köşeye gider)."""
+        return self.ent("cannon", x, y, z, offset=self._world_offset(x, y, z, target), arc=arc, time=time, secret=secret)
 
     def vista(self, x, y, z, target, title="", size=(8, 4, 4)):
         """Manzara anı: Bip buraya ilk girince kamera target'a döner, başlık çıkar."""
