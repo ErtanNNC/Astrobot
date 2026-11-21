@@ -167,7 +167,15 @@ func _physics_process(_delta: float) -> void:
 		_fall()
 
 
+## Yeniden doğma perdesi inerken düşme her karede tekrar sayılmasın (eskiden tek düşüş bütün canları
+## götürüyor, ölüm sayacını şişiriyor ve sahne değişince boşa düşen geri çağrılar bırakıyordu).
+var _respawning := false
+
+
 func _fall() -> void:
+	if _respawning:
+		return
+	_respawning = true
 	Sfx.play("fall")
 	_count_death()
 	if safe:
@@ -186,11 +194,15 @@ func _on_hurt(result: String) -> void:
 
 ## Son kontrol noktasında, o andaki yetenekle başla (Bölüm 1 edge case).
 func respawn(refill: bool) -> void:
+	_respawning = true
 	Scenes.blink(func():
+		if not is_instance_valid(self) or not is_inside_tree():
+			return
 		GameState.set_ability(GameState.data.get("checkpoint_ability", ""))
 		if refill:
 			GameState.refill_lives()
 		_place_bip()
+		_respawning = false
 	)
 
 

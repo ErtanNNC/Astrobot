@@ -103,6 +103,12 @@ func jump_forward(frames_hold := 30, max_frames := 240, glide := false) -> Vecto
 
 
 func _test_yay() -> void:
+	# Bir düşüş tam bir can götürür (eskiden perde inerken her karede sayılıyordu)
+	GameState.lives = GameState.MAX_LIVES
+	await place(Vector3(20, -13.5, 0), PI, "")
+	await step(60)
+	check("Bir düşüş bir can götürür", GameState.lives == GameState.MAX_LIVES - 1, "can %d" % GameState.lives)
+	GameState.refill_lives()
 	# Yay ile 4 m'lik teraslar
 	await place(Vector3(0, 0.1, -6.5), PI, "yay")
 	var p := await jump_forward()
