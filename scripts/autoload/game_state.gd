@@ -450,6 +450,15 @@ func lose_life() -> String:
 	return "life"
 
 
+## Bir can geri kazan (yeni kontrol noktası). Zaten doluysa bir şey olmaz.
+func gain_life() -> bool:
+	if lives >= MAX_LIVES:
+		return false
+	lives += 1
+	lives_changed.emit(lives)
+	return true
+
+
 func refill_lives() -> void:
 	lives = MAX_LIVES
 	lives_changed.emit(lives)

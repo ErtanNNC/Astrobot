@@ -47,7 +47,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Arayüz görünüşü | implemented | MVP | Kenney butonları, Nunito yazı tipi, animasyonlu kartlar, yeni HUD ve sonuç ekranı | [design](features/arayuz/design.md) |
 | Kopyalama | implemented | MVP | Antenle nesneden yetenek kopyalama; Yay, Balon, Mıknatıs, Kaya; hasar alınca yetenek kaybı | [design](features/kopyalama/design.md) |
 | Kamera | implemented | MVP | Kendi kendine takip eden, duvardan kaçan, telefonda elle döndürme gerektirmeyen kamera | [design](features/kamera/design.md) |
-| Can ve hasar | implemented | MVP | 3 can; hasar önce yeteneği alır, yetenek yoksa can gider; kontrol noktasından devam | [bölüm 1](features/bolum-1/design.md) |
+| Can ve hasar | implemented | MVP | 3 can; hasar önce yeteneği alır; can bitince "Pil bitti!": alan baştan başlar; her yeni kontrol noktası 1 can verir; kolay modda kaybetme yok | [bölüm 1](features/bolum-1/design.md) |
 | Toplanabilirler | implemented | MVP | Piller (bölüm başına ~150) ve alan başına 1, toplam 5 gizli altın vida; kırılan sandıklar | [bölüm 1](features/bolum-1/design.md) |
 | Düşmanlar | implemented | MVP | Vidaböcek (yürür), Zıpzıp (seker), Hurda Goblin (kovalar), Atıcı (uzaktan mermi atar), Dikenli (basılmaz; Vuruş ya da Kaya ile yenilir) | [design](features/dusmanlar/design.md) |
 | Mobil kontroller | implemented | MVP | Sol yüzen joystick, sağ altta yay şeklinde Zıpla ve Yetenek butonları, sol üstte Duraklat, titreşim; buton boyutu ve sol el modu | [design](features/mobil-kontroller/design.md) |

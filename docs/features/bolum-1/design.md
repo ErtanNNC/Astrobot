@@ -138,3 +138,19 @@ Alanların çoğu dümdüz bir koridordu (emsal incelemesinin en sert eleştiril
 - 2026-11-21: Uyanış Atölyesi balkon manzarası artık adanın bütün bölümlerini uzakta gösterir (tepeler, kanyon mesaları, fabrika bacaları, fener adası, karlı dağ, bulut kalesi): oyuncu yolculuğun haritasını ilk anda görür.
 - 2026-11-22: Balon Kanyonu köşeli yola çevrildi (iki dönüş: M4 ve M6 kayaları; kanyon duvarı parçaları aynı yerlerden bölündü). Öğretici çıkış halkası yerine alanı bitiren topla sona eriyor.
 - 2026-11-22: öğreticinin başı: koridora 0,45 m'lik eşik (ilk zıplama oyunun ilk saniyelerinde) ve fırtınanın göründüğü pencere + zararsız yıldırım gösterisi eklendi.
+
+## Can ve kaybetme (2026-11-22; geliştirici testinden: "canlar bitince doluyor, kaybetmek yok")
+1. Bip'in 3 canı var. Hasar önce taşınan yeteneği alır; yetenek yoksa bir can gider. Boşluğa düşmek bir can götürür.
+2. Can kalmışsa Bip son kontrol noktasından devam eder.
+3. **Üç can da biterse "Pil bitti!" ekranı çıkar:** kontrol noktası kaybedilir. "Baştan dene" alanı en baştan, dolu canla ve alana girerkenki yetenekle başlatır; "Atölye'ye dön" ana menüye götürür (alan yine baştan başlar). Patron alanında patron 1. aşamadan başlar.
+4. Her **yeni** kontrol noktası bir can geri verir (en çok 3). Alana girişte canlar doludur.
+5. Toplanan piller, Altın Vidalar ve gizli köşeler kaybedilmez (kayıtta kalır).
+6. **Kolay mod** (Ayarlar): düşmek can götürmez, her kontrol noktası canları doldurur, can bitince kontrol noktasından devam edilir (kaybetme yok). **Öğretici**de can gitmez.
+
+| Ad | Değer |
+|---|---|
+| Can | 3 |
+| Kontrol noktasının geri verdiği can | 1 |
+
+Kod: `area.gd` (`game_over`, `restart_area`, `_fall`, `_on_hurt`, `on_checkpoint`), `GameState.gain_life`. Test: `tests/gameover_test.tscn`.
+Açık konu: 3 can + kontrol noktası başına 1 can dengesi telefonda denenmeli; zor gelirse can sayısı ya da geri verilen can artırılır.

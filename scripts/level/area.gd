@@ -113,7 +113,9 @@ func _ready() -> void:
 	GameState.refill_lives()
 	if GameState.data.get("checkpoint_id", "start") == "start":
 		GameState.data["area_time"] = 0.0
+		GameState.data["start_ability"] = GameState.ability
 		_ghost_ok = not safe          # tur baştan başlıyor: kaydedilebilir (öğreticide hayalet yok)
+	_start_ability = GameState.data.get("start_ability", "")
 	if Settings.ghost_on and not safe and GameState.slot >= 0:
 		var run := GhostRun.load_run(GameState.slot, area_id)
 		if run.size() >= 8:
@@ -209,6 +211,7 @@ func _physics_process(_delta: float) -> void:
 ## Yeniden doğma perdesi inerken düşme her karede tekrar sayılmasın (eskiden tek düşüş bütün canları
 ## götürüyor, ölüm sayacını şişiriyor ve sahne değişince boşa düşen geri çağrılar bırakıyordu).
 var _respawning := false
+var _start_ability := ""        ## alana girerkenki yetenek (kaybedince alan bununla baştan başlar)
 var _hurt_this_run := false     ## bu turda hasar alındı ya da düşüldü mü ("Çizik Bile Yok" başarımı)
 var _ghost: GhostRun
 var _ghost_rec := PackedFloat32Array()
@@ -226,7 +229,10 @@ func _fall() -> void:
 		respawn(false)
 		return
 	var r := GameState.lose_life()
-	respawn(r == "dead")
+	if r == "dead":
+		game_over()
+	else:
+		respawn(false)
 
 
 func _on_hurt(result: String) -> void:
@@ -234,7 +240,58 @@ func _on_hurt(result: String) -> void:
 	if result == "dead":
 		_count_death()
 		await get_tree().create_timer(0.5, false).timeout
-		respawn(true)
+		if safe or Settings.easy_mode:
+			respawn(true)           # kolay mod ve öğretici: kaybetmek yok, kontrol noktasından devam
+		else:
+			game_over()
+
+
+## Üç can da bitti: "Pil bitti!" ekranı. Kontrol noktası kaybedilir; alan baştan başlar ya da Atölye'ye dönülür.
+## (Kolay modda ve öğreticide bu ekran çıkmaz.) Kurallar: docs/features/bolum-1/design.md "Can ve kaybetme"
+var is_game_over := false
+var _over_panel: Control
+
+
+func game_over() -> void:
+	if is_game_over or _completing:
+		return
+	is_game_over = true
+	_respawning = true
+	bip.controls_enabled = false
+	bip.velocity = Vector3.ZERO
+	touch.release_all()
+	Sfx.play("ability_lost", 0.0, 0.6)
+	Haptics.vibrate(200)
+	_fade_audio(-14.0, 0.6)
+	Scenes.blink(func():
+		if not is_instance_valid(self) or not is_inside_tree():
+			return
+		_place_bip()
+		bip.visual.visible = false
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		var v := UIKit.panel($GameRig/UI, 520)
+		_over_panel = v.get_parent().get_parent()
+		UIKit.title(v, "Pil bitti!")
+		UIKit.title(v, "Üç can da gitti. Alan baştan başlıyor.", 22)
+		var again := UIKit.button(v, "Baştan dene", restart_area, UIKit.GREEN)
+		UIKit.button(v, "Atölye'ye dön", func(): GameState.refill_lives(); _reset_to_start(); go_home(), UIKit.PURPLE)
+		again.grab_focus.call_deferred()
+	)
+
+
+func _reset_to_start() -> void:
+	GameState.data["checkpoint_id"] = "start"
+	GameState.data["checkpoint_ability"] = _start_ability
+	GameState.data["area_time"] = 0.0
+
+
+## Alanı en baştan yükle (canlar dolu, alana girerkenki yetenekle).
+func restart_area() -> void:
+	_reset_to_start()
+	GameState.set_ability(_start_ability)
+	GameState.refill_lives()
+	GameState.save(true)
+	Scenes.go(GameState.area_info(area_id)["scene"])
 
 
 ## Son kontrol noktasında, o andaki yetenekle başla (Bölüm 1 edge case).
@@ -276,6 +333,9 @@ func on_checkpoint(cp: Node3D) -> void:
 	_deaths_here = 0
 	if Settings.easy_mode:
 		GameState.refill_lives()        # kolay mod: her kontrol noktası canları doldurur
+	elif not safe and GameState.gain_life():
+		# Normal mod: her yeni kontrol noktası bir kalp geri verir (kaybetmek mümkün ama acımasız değil)
+		Fx.burst(cp.global_position + Vector3.UP * 1.5, Color(1.0, 0.4, 0.5), 12, 3.0)
 	GameState.reach_checkpoint(area_id, cp.checkpoint_id)
 
 
@@ -454,6 +514,8 @@ func go_home() -> void:
 
 
 func open_pause() -> void:
+	if is_game_over:
+		return
 	touch.release_all()
 	bip.clear_timers()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
