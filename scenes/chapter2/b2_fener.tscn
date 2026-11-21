@@ -705,6 +705,45 @@ script = ExtResource("e14")
 kind = "whale"
 size = 2
 
+[node name="Kutu_29" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 4.45, -3)
+use_collision = true
+size = Vector3(3.2, 0.3, 3.2)
+material = SubResource("m_wood")
+
+[node name="Crate_4" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.9, 4.6, -3.6)
+script = ExtResource("e3")
+batteries = 5
+
+[node name="Pil_23" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 5.4, -2.6)
+script = ExtResource("e4")
+
+[node name="Pil_24" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.4472, 5.4, -1.83915)
+script = ExtResource("e4")
+
+[node name="Pil_25" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5528, 5.4, -2.12977)
+script = ExtResource("e4")
+
+[node name="Pil_26" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5528, 5.4, -3.07023)
+script = ExtResource("e4")
+
+[node name="Pil_27" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.4472, 5.4, -3.36085)
+script = ExtResource("e4")
+
+[node name="Pil_28" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.6, 1.4, -3)
+script = ExtResource("e4")
+
+[node name="Pil_29" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.6, 4.6, -3)
+script = ExtResource("e4")
+
 [node name="Prop_7" type="Node3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 30, -120)
 script = ExtResource("e14")

@@ -104,6 +104,11 @@ for (x, z, sc) in ((22, 6, 1.0), (-20, -14, 0.9), (6, -24, 1.0), (-14, 22, 0.9))
     L.ent("prop", x, -8, z, kind="dolphin", size=sc, ry=math.atan2(x, z), parent="Decor")
 L.ent("prop", -60, -8.5, 40, kind="whale", size=2.0, parent="Decor")
 
+# --- Gizli köşe: balıkçı evinin çatısındaki martı yuvası (başlangıçtaki Yay ile, 4,6 m) ---
+L.top(12.5, 4.6, -3, 3.2, 3.2, depth=0.3, theme="wood")
+L.ent("crate", 12.9, 4.6, -3.6, batteries=5)
+L.battery_ring((12.2, 4.6, -2.6), 0.8, 5)
+L.battery_line((9.6, 0.6, -3), (10.6, 3.8, -3), 2)
 L.ent("prop", -50, 30, -120, kind="storm", size=4.0)
 L.clouds(24, xr=(-90, 90), zr=(-90, 90), avoid=(-25, 25, -25, 25), low=(-6, -3), high=(18, 50))
 L.write()

@@ -174,6 +174,10 @@ func _b2() -> void:
 	Input.action_release("jump")
 	await step(10)
 	check("b2: rüzgâr Pervane'yi galeriye taşır", bip.is_on_floor() and bip.global_position.y > 35.5, "tepe %.1f, %s" % [peak, bip.global_position])
+	# Gizli martı yuvası: balıkçı evinin çatısına Yay ile
+	await place(Vector3(9.4, 0.1, -3), PI / 2, "yay")
+	ok = await jump_forward(60, 40, 4.0)
+	check("b2: gizli çatı yuvasına Yay ile", ok and absf(bip.global_position.y - 4.6) < 0.25, str(bip.global_position))
 
 
 func _b3() -> void:
@@ -265,7 +269,13 @@ func _b3() -> void:
 	await place(Vector3(0, -0.9, -124.5), PI, "pervane")
 	var ok2 := await jump_forward(110, 100, 5.0, 300, 45)
 	check("b3: Pervane ile son güverte (6,5 m)", ok2 and absf(bip.global_position.y - 5.5) < 0.3, str(bip.global_position))
-
+	# Gizli gözcü yuvası: son metal direkten Mıknatıs ile batıya
+	await place(Vector3(-7.2, 0.1, 1.0), -PI / 2, "miknatis")
+	Input.action_press("ability"); await step(2); Input.action_release("ability")
+	await step(45)
+	Input.action_press("jump"); await step(3); Input.action_release("jump")
+	await step(90)
+	check("b3: gizli gözcü yuvasına Mıknatıs ile", bip.global_position.y > 3.8, str(bip.global_position))
 
 
 func _b4() -> void:

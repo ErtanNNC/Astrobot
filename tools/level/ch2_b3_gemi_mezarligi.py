@@ -130,6 +130,12 @@ L.box(10.5, 13, -146, 0.8, 18, 0.8, "wood", ry=0.35)
 L.box(10.8, 15, -146, 0.12, 7, 6, "stone", ry=0.35)
 L.box(13.5, 10, -156, 0.6, 12, 0.6, "wood", ry=0.35)
 
+# --- Gizli köşe: kumsalın batısındaki batık direğin gözcü yuvası (Mıknatıs ile) ---
+L.ent("metal", -10.6, 3.0, 1.0, size=(2.0, 2.0, 2.0))         # gözcü yuvasının metal gövdesi (üstü 4)
+L.top(-12.6, 4.0, 1.0, 2.0, 2.4, depth=0.4, theme="wood")
+L.box(-12.8, -3.0, 1.0, 0.5, 14, 0.5, "wood")                 # direk
+L.ent("crate", -12.8, 4.0, 0.3, batteries=5)
+L.battery_ring((-11.6, 4.0, 1.0), 1.0, 6)
 L.ent("prop", -40, 25, -150, kind="storm", size=4.0)
 L.clouds(18, xr=(-90, 90), zr=(-200, 50), avoid=(-25, 25, -150, 20), low=(-10, -6), high=(15, 30))
 L.write()

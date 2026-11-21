@@ -52,3 +52,4 @@ Görünüş: fanusunda bir balığın yüzdüğü dört bacaklı robot (Pixabay 
 - **Fener Kulesi:** adanın çevresinde kumsal halkası ve iri kayalar, iki balıkçı evi (çarpışmalı), varil/kasa/çuval, fenerin dibinde gerçek kapı ve kırmızı şeritlerde pencereler, tepede bayrak, çevrede yunuslar ve balina.
 - **Gemi Mezarlığı:** yağmur, yırtık yelkenli batık direkler, güvertelerde toplar (Quaternius Pirate Pack), kumda kurukafalar, varil ve kasalar, suda yüzen variller; bitişin ardında yan yatmış dev batık gemi (yön işareti).
 - **Patron arenası (2026-11-21):** çevresine temaya uygun manzara eklendi (çarpışmasız süsler; oynanış değişmedi).
+- **Yeni gizli köşeler (2026-11-21):** Fener'de balıkçı evinin çatısındaki martı yuvası (başlangıçtaki Yay ile); Gemi Mezarlığı'nda kumsalın batısındaki batık direğin gözcü yuvası (Mıknatıs ile; zincir direklerinden 7 m'den uzak, ana yolu şaşırtmaz).

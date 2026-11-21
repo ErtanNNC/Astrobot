@@ -910,6 +910,52 @@ use_collision = true
 size = Vector3(0.6, 12, 0.6)
 material = SubResource("m_wood")
 
+[node name="Metal_7" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6, 3, 1)
+script = ExtResource("e7")
+size = Vector3(2, 2, 2)
+
+[node name="Kutu_56" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 3.8, 1)
+use_collision = true
+size = Vector3(2, 0.4, 2.4)
+material = SubResource("m_wood")
+
+[node name="Kutu_57" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.8, -3, 1)
+use_collision = true
+size = Vector3(0.5, 14, 0.5)
+material = SubResource("m_wood")
+
+[node name="Crate_4" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.8, 4, 0.3)
+script = ExtResource("e3")
+batteries = 5
+
+[node name="Pil_37" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6, 4.8, 1)
+script = ExtResource("e2")
+
+[node name="Pil_38" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1, 4.8, 1.86603)
+script = ExtResource("e2")
+
+[node name="Pil_39" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1, 4.8, 1.86603)
+script = ExtResource("e2")
+
+[node name="Pil_40" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 4.8, 1)
+script = ExtResource("e2")
+
+[node name="Pil_41" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1, 4.8, 0.133975)
+script = ExtResource("e2")
+
+[node name="Pil_42" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1, 4.8, 0.133975)
+script = ExtResource("e2")
+
 [node name="Prop_5" type="Node3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 25, -150)
 script = ExtResource("e12")
