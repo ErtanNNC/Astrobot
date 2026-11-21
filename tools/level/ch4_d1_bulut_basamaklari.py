@@ -19,6 +19,10 @@ L.deco("cloud", -8.5, -3.0, 2, 0.8)
 L.deco("cloud2", 8.5, -3.2, -2, 0.7)
 L.guide(0, 2, -4)
 
+L.ent("prop", -9, 5, -3, kind="balloon", size=0.6, color=(0.95, 0.4, 0.4, 1), parent="Decor")
+L.ent("prop", 10, 8, -12, kind="balloon", size=0.5, color=(0.4, 0.7, 1.0, 1), parent="Decor")
+L.kit("star_yellow", -4.5, 0.9, 5.5, s=1.1); L.kit("flag_C_blue", 5.2, 0, -5.2)
+
 # ---------- Öğret: Yay ile bulut kulesi (4 m yukarı) ----------
 L.top(0, 4.0, -11, 7, 4, depth=5, theme="cloud")               # z[-9,-13]
 L.battery_arc((0, 0, -5), (0, 4.0, -10), 4, 3.0)

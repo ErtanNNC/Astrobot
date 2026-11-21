@@ -44,6 +44,11 @@ L.ent("crate", -5, 0, -4, batteries=3)
 L.label(0, 5, -6.5, "Fırtına Köprüleri", 60)
 L.guide(0, 2, -5)
 
+for (x, z) in ((-5.6, 5.2), (5.6, 5.2), (-5.6, -5.2), (5.6, -5.2)):
+    L.model("kenney/holiday/lantern.glb", x, 0, z, 0, 1.8)
+L.model("kaykit/medieval/flag_red.gltf", -6.2, 0, -0.5, 0, 4.0); L.model("kaykit/medieval/flag_red.gltf", 6.2, 0, -0.5, 0, 4.0)
+L.model("kaykit/medieval/barrel.gltf", 4.6, 0, 2.6, 0.3, 5.0); L.model("kaykit/medieval/crate_A_big.gltf", 5.4, 0, 1.4, 0.8, 5.0)
+
 # =====================================================================================
 # 1 · ÖĞRET: RÜZGÂRLI KÖPRÜ (yan rüzgâr ritimle eser; Kaya ile dayan)
 # =====================================================================================

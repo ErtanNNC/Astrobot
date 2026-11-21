@@ -19,6 +19,13 @@ L.ent("copy", 3, 0, -3, ability="yay")
 L.label(0, 5, -6.5, "Şampiyon Yolu", 64)
 L.battery_line((-3, 0, 3), (-3, 0, -3), 3)
 
+# başlangıç süsleri: bayraklar, koniler, kupa heykelcikleri
+for (x, z, c) in ((-5.3, 5.3, "red"), (5.3, 5.3, "blue"), (-5.3, -5.3, "yellow"), (5.3, -5.3, "green")):
+    L.kit("flag_A_" + c, x, 0, z, ry=0.6)
+L.kit("star_yellow", -4.2, 0.9, 1.2, s=1.2); L.kit("diamond_blue", 4.4, 0.9, 1.0, s=1.2)
+L.kit("cone_red", 3.8, 0, 4.6); L.kit("cone_yellow", 4.5, 0, 4.0)
+L.ent("prop", -9, 6, -2, kind="balloon", size=0.6, color=(0.95, 0.4, 0.8, 1), parent="Decor")
+
 # A · Yay: iki 4 m'lik teras
 L.top(0, 4, -9, 8, 6, depth=8, theme="red")                       # z[-6,-12]
 L.top(0, 8, -15, 8, 6, depth=12, theme="yellow")                  # z[-12,-18]
