@@ -45,12 +45,14 @@ THEME_TEX = {
 STRATA = {"strata": None, "qstrata": ((0.78,0.74,0.68),(0.92,0.80,0.58),(0.62,0.56,0.50),(0.85,0.70,0.52))}
 
 # Koyu dokuları aydınlat (tema → çarpan)
-TEX_GAIN = {"factory": 1.75, "castle": 1.45}
+TEX_GAIN = {"factory": 1.75, "castle": 1.45, "grass": 1.35, "grass2": 1.35}
 
 # KayKit Platformer Pack (CC0, Kay Lousberg): yürünen zeminlerin üstü bu renkli karolarla kaplanır.
 # Tema → karo rengi. Listede olmayan temalar (kar, bulut, ahşap, iç mekân) eski görünümünde kalır.
 KIT_DIR = "res://assets/models/kaykit/platformer/"
-KIT_COLOR = {"grass": "green", "grass2": "green", "sand": "yellow", "yellow": "yellow", "quarry": "yellow",
+# Doğal temalar: üstü kit_top gölgelendiricisiyle (dokulu, saçaklı) çizilir, gövde temanın kendi dokusunu taşır.
+NATURAL = ("grass", "grass2", "sand", "canyon", "quarry", "stone", "castle", "factory", "snow", "ice", "cloud")
+KIT_COLOR = {"snow": "blue", "cloud": "blue", "castle": "blue", "grass": "green", "grass2": "green", "sand": "yellow", "yellow": "yellow", "quarry": "yellow",
              "canyon": "red", "red": "red", "green": "green", "stone": "blue", "factory": "blue", "blue": "blue", "ice": "blue"}
 
 SKIES = {
@@ -204,10 +206,10 @@ class Level:
             self._edge_dress(cx, top, cz, sx, sz, theme)
         if self.use_kit and theme in KIT_COLOR and abs(math.sin(ry * 2)) < 1e-6 and sx * sz <= 1200:   # uzaktaki dev zeminler karosuz
             if abs(math.sin(ry)) > 0.5:
-                self._kit_tiles(cx, top, cz, sz, sx, KIT_COLOR[theme])
+                self._kit_tiles(cx, top, cz, sz, sx, KIT_COLOR[theme], theme)
             else:
-                self._kit_tiles(cx, top, cz, sx, sz, KIT_COLOR[theme])
-            theme = side or "kitside"
+                self._kit_tiles(cx, top, cz, sx, sz, KIT_COLOR[theme], theme)
+            theme = side or (theme if theme in NATURAL else "kitside")
         return self.box(cx, top - depth / 2, cz, sx, depth, sz, theme, ry=ry, name=name)
 
     def island(self, cx, top, cz, sx, sz, theme="grass", skirt=True, under=True, depth=2.5):
@@ -283,16 +285,20 @@ class Level:
         self.nodes.append('[node name="Shape" type="CollisionShape3D" parent="%s/%s"]\nshape = SubResource("%s")\n' % (parent, name, sid))
         return name
 
-    def _kit_tiles(self, cx, top, cz, sx, sz, color):
-        T = 2 if min(sx, sz) >= 1.5 else 1   # 2 m karolar: oyuncak blok görünümü (çizgiler sık)
-        model = KIT_DIR + "platform_%dx%dx1_%s.gltf" % (T, T, color)
-        nx = max(1, round(sx / T)); nz = max(1, round(sz / T))
-        kx = (sx / nx + 0.04) / T; kz = (sz / nz + 0.04) / T   # 2 cm taşar: kutu kenarıyla titreşmez
-        for i in range(nx):
-            for k in range(nz):
-                x = cx - sx / 2 + (i + 0.5) * sx / nx
-                z = cz - sz / 2 + (k + 0.5) * sz / nz
-                self.kit_items.append((model, tf(x, top - 0.98, z, 0, 0, (kx, 1.0, kz))))
+    def _kit_tiles(self, cx, top, cz, sx, sz, color, theme=""):
+        if theme in NATURAL:
+            # Doğal zemin: tek parça örtü (dikişsiz, 12 üçgen); kit_batch "cap#tema"yı kit_top gölgelendiricisiyle çizer
+            self.kit_items.append(("cap#" + theme, tf(cx, top - 0.48, cz, 0, 0, (sx + 0.04, 1.0, sz + 0.04))))
+        else:
+            T = 2 if min(sx, sz) >= 1.5 else 1   # 2 m karolar: oyuncak blok görünümü (çizgiler sık)
+            model = KIT_DIR + "platform_%dx%dx1_%s.gltf" % (T, T, color)
+            nx = max(1, round(sx / T)); nz = max(1, round(sz / T))
+            kx = (sx / nx + 0.04) / T; kz = (sz / nz + 0.04) / T   # 2 cm taşar: kutu kenarıyla titreşmez
+            for i in range(nx):
+                for k in range(nz):
+                    x = cx - sx / 2 + (i + 0.5) * sx / nx
+                    z = cz - sz / 2 + (k + 0.5) * sz / nz
+                    self.kit_items.append((model, tf(x, top - 0.98, z, 0, 0, (kx, 1.0, kz))))
         # Çiçek ve çimen serpiştir (çarpışmasız, MultiMesh): boş zeminler canlansın. Kenarlardan uzak.
         if color in ("green", "yellow") and sx * sz >= 16:
             n = int(sx * sz / 11)

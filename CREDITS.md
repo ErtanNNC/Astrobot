@@ -66,3 +66,5 @@ Ticari kullanım serbest, isim vermek zorunlu değil; modelin kendisi tek başı
 
 ## Mixamo (Adobe)
 Bip'in animasyonları (Idle, Walking, Running, Jump, Falling Idle, Hanging Idle, Waving Gesture, Victory Idle) https://www.mixamo.com — Adobe'nin koşullarına göre oyunlarda ve ticari projelerde telifsiz kullanılabilir; animasyon dosyaları tek başına dağıtılamaz. Oyunun içinde kullanmak serbest.
+
+- 2026-11-21: `assets/models/kenney/platformer/Textures/colormap.png` ve `kenney/holiday/Textures/colormap.png` içindeki turkuaz yeşiller çimen yeşiline kaydırıldı (CC0, değişiklik serbest).

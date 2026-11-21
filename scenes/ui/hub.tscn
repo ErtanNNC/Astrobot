@@ -36,6 +36,7 @@ shader_parameter/use_side_tex = true
 shader_parameter/side_tex = ExtResource("tex_mossy_earth")
 shader_parameter/use_top_tex = true
 shader_parameter/top_tex = ExtResource("tex_lush_meadow_grass")
+shader_parameter/tex_gain = 1.35
 
 [sub_resource type="ShaderMaterial" id="m_wood"]
 render_priority = 0
@@ -70,7 +71,7 @@ subdivide_depth = 60
 sky_top_color = Color(0.300, 0.350, 0.500, 1)
 sky_horizon_color = Color(0.550, 0.550, 0.650, 1)
 sky_curve = 0.12
-ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_bottom_color = Color(0.200, 0.450, 0.750, 1)
 ground_horizon_color = Color(0.550, 0.550, 0.650, 1)
 sun_angle_max = 20.0
 

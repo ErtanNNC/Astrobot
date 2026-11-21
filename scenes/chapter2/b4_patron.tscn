@@ -86,7 +86,7 @@ subdivide_depth = 60
 sky_top_color = Color(0.120, 0.100, 0.220, 1)
 sky_horizon_color = Color(0.300, 0.250, 0.420, 1)
 sky_curve = 0.12
-ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_bottom_color = Color(0.200, 0.450, 0.750, 1)
 ground_horizon_color = Color(0.300, 0.250, 0.420, 1)
 sun_angle_max = 20.0
 
