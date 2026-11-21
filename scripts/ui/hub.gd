@@ -410,10 +410,46 @@ func _open_slot(i: int) -> void:
 		UIKit.button(v, "Yeni Oyun", func(): _start_game(i, true), UIKit.GREEN)
 	else:
 		UIKit.button(v, "Devam", func(): _start_game(i, false), UIKit.GREEN)
+		UIKit.button(v, "Alan Seç", func(): _open_area_select(i))
 		UIKit.button(v, "Yeni Oyun", func(): _confirm("Bu yuvadaki kayıt silinip yeni oyun başlasın mı?", func(): _start_game(i, true)))
 		UIKit.button(v, "Sil", func(): _confirm("Yuva %d silinsin mi?" % (i + 1), func(): _confirm("Emin misin? Bu geri alınamaz.", func(): _delete(i))), UIKit.RED)
 	UIKit.button(v, "Geri", _close_overlay)
 	_focus_first(v)
+
+
+## Ulaşılan alanlardan birini yeniden oyna (Astro Bot'taki gibi). Ayarlardaki test seçeneği hepsini açar.
+func _open_area_select(i: int, ch := 0) -> void:
+	var d := GameState.slot_summary(i)
+	var furthest := GameState.global_index(d.get("furthest", d.get("area", "ch1_atolye")))
+	var v := _new_overlay(620)
+	if ch == 0:
+		UIKit.title(v, "Alan Seç")
+		for c in GameState.CHAPTERS:
+			var first := GameState.global_index(GameState.CHAPTERS[c][0]["id"])
+			var open := Settings.dev_all_areas or first <= furthest
+			var b := UIKit.button(v, "Bölüm %d · %s" % [c, GameState.CHAPTER_NAMES[c]], func(): _open_area_select(i, c))
+			b.disabled = not open
+	else:
+		UIKit.title(v, "Bölüm %d · %s" % [ch, GameState.CHAPTER_NAMES[ch]], 32)
+		for a in GameState.CHAPTERS[ch]:
+			var id: String = a["id"]
+			var open := Settings.dev_all_areas or GameState.global_index(id) <= furthest
+			var b := UIKit.button(v, a["name"] if open else a["name"] + " (kilitli)", func(): _play_area(i, id))
+			b.disabled = not open
+	UIKit.button(v, "Geri", func(): _open_area_select(i) if ch != 0 else _open_slot(i))
+	_focus_first(v)
+
+
+func _play_area(i: int, id: String) -> void:
+	_close_overlay()
+	bip.controls_enabled = false
+	GameState.start_slot(i, false)
+	GameState.data["area"] = id
+	GameState.data["chapter"] = GameState.chapter_of(id)
+	GameState.data["checkpoint_id"] = "start"
+	GameState.data["checkpoint_ability"] = ""
+	GameState.set_ability("")
+	Scenes.go(GameState.area_info(id)["scene"])
 
 
 func _delete(i: int) -> void:
