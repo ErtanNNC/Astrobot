@@ -30,3 +30,4 @@ pzUH Free Game GUI (CC0, itch.io; sprite'lar paketin büyük PNG sayfalarından 
 ## History
 - 2026-11-18: Kenney butonları yerine pzUH Free Game GUI (daha yumuşak, şekerli görünüm).
 - 2026-11-18: oluşturuldu ve uygulandı.
+- 2026-11-21: Uzun pencereler (çok düğmeli hızlı menü, Alan Seç) kısa ekrana sığmıyordu; `UIKit.pop_in` artık gerekirse pencereyi küçültüp ortalar.
