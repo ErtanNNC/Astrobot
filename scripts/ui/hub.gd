@@ -378,7 +378,7 @@ func _spawn_rescued_robots() -> void:
 		if i < 12:
 			m.position = Vector3(-5.6 + (i % 4) * 1.25, 0, 3.4 + (i / 4) * 1.3)
 		else:
-			m.position = Vector3(-6.0 + ((i - 12) % 6) * 1.6, 0, -6.4 + ((i - 12) / 6) * 1.4)
+			m.position = Vector3(-4.9 + ((i - 12) % 6) * 1.6, 0, -6.2 + ((i - 12) / 6) * 1.4)
 		m.rotation.y = PI + randf_range(-0.4, 0.4)
 		add_child(m)
 		var ap: AnimationPlayer = m.find_child("AnimationPlayer", true, false)
