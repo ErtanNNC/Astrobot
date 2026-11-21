@@ -137,9 +137,15 @@ func collect() -> void:
 	if not _ghost:
 		GameState.add_battery(area_id, _id())
 	_combo = mini(_combo + 1, 12)
+	Daily.add("pil")
 	_combo_time = 0.6
 	Sfx.play("pickup", -6.0 if _ghost else -2.0, 1.0 + _combo * 0.04, 0.0)
 	Fx.burst(global_position, Color(0.4, 1.0, 0.55), 8, 2.5)
+	if _combo >= 5 and _combo % 5 == 0:
+		# Pil zinciri: art arda 5 ve 10 pilde altın halka + parıltı
+		Fx.ring(global_position, Color(1.0, 0.9, 0.35), 1.4, 0.35, false)
+		Fx.burst(global_position, Color(1.0, 0.9, 0.35), 10, 4.0)
+		Haptics.vibrate(20)
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(_model, "scale", Vector3.ONE * 1.6, 0.12)

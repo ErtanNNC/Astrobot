@@ -33,6 +33,12 @@ Yine de teşekkür olarak burada ve ileride oyunun "Emeği Geçenler" ekranında
 | `assets/audio/opengameart/pacific_ocean.ogg` (müzik) | https://opengameart.org/content/pacific-ocean | josepharaoh99 | CC0 1.0 | 2026-11-18 |
 | `assets/audio/opengameart/snow_theme_loop.ogg` (müzik) | https://opengameart.org/content/snow-theme | cleytonkauffman | CC0 1.0 | 2026-11-18 |
 | `assets/audio/opengameart/village_of_snow.ogg` (müzik) | https://opengameart.org/content/village-of-snow | zesona | CC0 1.0 | 2026-11-18 |
+| `assets/audio/opengameart/steps/*.ogg` (adım sesleri: tahta, taş, yaprak, çakıl, çamur) | https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud | TinyWorlds | CC0 1.0 | 2026-11-21 |
+| `assets/audio/opengameart/ambient/amb_birds.ogg`, `amb_wind.ogg` (ortam; özgün kayıttan 24 sn'lik döngü kesildi) | https://opengameart.org/content/park-ambiences | Thimras | CC0 1.0 | 2026-11-21 |
+| `assets/audio/opengameart/ambient/amb_cave.ogg` (ortam; kısaltıldı) | https://opengameart.org/content/loopable-dungeon-ambience | JaggedStone | CC0 1.0 | 2026-11-21 |
+| `assets/audio/opengameart/ambient/amb_rain.ogg` (ortam; kısaltıldı) | https://opengameart.org/content/amb-rain-loop-1 | Kresiek The Furry | CC0 1.0 | 2026-11-21 |
+| `assets/audio/opengameart/ambient/amb_machine.ogg` (ortam; "deep_rumble" kısaltıldı) | https://opengameart.org/content/underwater-or-space-engine-rumble | gmason | CC0 1.0 | 2026-11-21 |
+| `assets/audio/opengameart/ambient/amb_ocean.ogg` (ortam; dört dalga kaydı birleştirildi) | https://opengameart.org/content/beach-ocean-waves | jasinski (yükleyen: qubodup) | CC0 1.0 | 2026-11-21 |
 | `assets/audio/kenney/*` (efektler: Digital SFX, Interface Sounds, Jingles, Starter Kit sesleri) | https://opengameart.org/users/kenney , https://github.com/KenneyNL/Starter-Kit-3D-Platformer | Kenney (kenney.nl) | CC0 1.0 | 2026-11-18 |
 | `assets/models/quaternius/enemies/*.gltf` (Vidaböcek, Zıpzıp, Hurda Goblin, Pırıl) ve platformer paketinden ek modeller (Bouncer, Spikes, Saw, Crate, Gem, Door, Lever, Tower …) | https://quaternius.itch.io/ultimate-platformer-pack | Quaternius | CC0 1.0 | 2026-11-18 |
 

@@ -70,6 +70,8 @@ func _light_up(fx: bool) -> void:
 	(_flag.material_override as StandardMaterial3D).albedo_color = Color(0.3, 0.85, 1.0)
 	if fx:
 		Sfx.play("checkpoint")
+		Fx.ring(global_position, Color(0.4, 0.9, 1.0), 2.4, 0.5)
+		Fx.confetti(global_position + Vector3.UP * 1.6)
 		Haptics.vibrate(40)
 		var tw := create_tween()
 		tw.tween_property(_flag, "scale", Vector3(1.4, 1.4, 1), 0.12)

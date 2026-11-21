@@ -37,6 +37,18 @@ const AREA_MUSIC := {
 	"ch5_sampiyon": "res://assets/audio/opengameart/superhero.ogg",
 }
 
+## Ortam sesi (müziğin altında, kısık): alan nerede geçiyorsa oranın sesi. Bkz. docs/features/ses/design.md
+const AREA_AMBIENT := {
+	"ch1_yay": "birds", "ch1_balon": "wind", "ch1_miknatis": "machine", "ch1_kaya": "wind", "ch1_patron": "wind",
+	"ch2_rihtim": "ocean", "ch2_fener": "ocean", "ch2_gemi": "ocean", "ch2_patron": "ocean",
+	"ch3_magara": "cave", "ch3_gol": "wind", "ch3_zirve": "wind", "ch3_patron": "wind",
+	"ch4_bulut": "wind", "ch4_kopru": "rain", "ch4_kale": "rain", "ch4_patron": "rain",
+	"ch5_oyuncak": "birds", "ch5_gozlemevi": "cave", "ch5_volkan": "machine", "ch5_sampiyon": "wind",
+}
+const MUSIC_FADE_IN := 1.2       ## s
+const MUSIC_FADE_OUT := 0.8      ## s
+const AMBIENT_DB := -9.0
+
 var area_total := 0
 var bip: Bip
 var cam
@@ -98,6 +110,8 @@ func _ready() -> void:
 	GameState.note_progress(area_id)
 	GameState.set_ability(ability)
 	GameState.refill_lives()
+	if GameState.data.get("checkpoint_id", "start") == "start":
+		GameState.data["area_time"] = 0.0
 	_place_bip()
 	hud.visible = not safe or GameState.data.get("seen_cutscenes", []).has("health_shown")
 	if AREA_MUSIC.has(area_id) and ResourceLoader.exists(AREA_MUSIC[area_id]):
@@ -107,7 +121,11 @@ func _ready() -> void:
 		mp.stream = music
 		if music is AudioStreamMP3 or music is AudioStreamOggVorbis:
 			music.loop = true
+		mp.add_to_group("music")
+		mp.volume_db = -30.0
 		mp.play()
+		create_tween().tween_property(mp, "volume_db", 0.0, MUSIC_FADE_IN)
+	_start_ambient()
 	if title != "":
 		hud.banner.call_deferred(title, "", 2.2)
 	_announce_moves()
@@ -167,6 +185,8 @@ func _place_bip() -> void:
 
 func _physics_process(_delta: float) -> void:
 	_update_goals(_delta)
+	if not _completing and bip.controls_enabled:
+		GameState.data["area_time"] = float(GameState.data.get("area_time", 0.0)) + _delta
 	if bip.global_position.y < kill_height and not _completing:
 		_fall()
 
@@ -207,6 +227,9 @@ func respawn(refill: bool) -> void:
 			GameState.refill_lives()
 		_place_bip()
 		_respawning = false
+		var vis := bip.get_node_or_null("Visual")
+		if vis and vis.has_method("pop_in"):
+			vis.pop_in()
 	)
 
 
@@ -253,6 +276,33 @@ func vista() -> void:
 
 # ---------- Patron ----------
 
+func _start_ambient() -> void:
+	if not AREA_AMBIENT.has(area_id):
+		return
+	var path := "res://assets/audio/opengameart/ambient/amb_%s.ogg" % AREA_AMBIENT[area_id]
+	if not ResourceLoader.exists(path):
+		return
+	var st: AudioStreamOggVorbis = load(path)
+	st.loop = true
+	var ap := AudioStreamPlayer.new()
+	ap.name = "Ambient"
+	ap.bus = &"SFX"
+	ap.stream = st
+	ap.volume_db = -40.0
+	$GameRig.add_child(ap)
+	ap.play()
+	create_tween().tween_property(ap, "volume_db", AMBIENT_DB, 2.0)
+
+
+## Müziği ve ortam sesini yumuşakça kıs (alan sonu).
+func _fade_audio(to_db: float, seconds: float) -> void:
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property($GameRig/Music, "volume_db", to_db, seconds)
+	var ap: Node = $GameRig.get_node_or_null("Ambient")
+	if ap:
+		tw.tween_property(ap, "volume_db", -40.0, seconds)
+
+
 func start_boss() -> void:
 	var boss := get_tree().get_first_node_in_group("boss")
 	if boss:
@@ -260,7 +310,7 @@ func start_boss() -> void:
 		cam.look_toward(boss.global_position + Vector3.UP * 8.0, 2.5)
 		hud.banner(boss.get("boss_name") if boss.get("boss_name") else "Hurdacı Vinç", _phase_hint(boss, 1), 4.0)
 		var mp: AudioStreamPlayer = $GameRig/Music
-		mp.volume_db = 2.0
+		create_tween().tween_property(mp, "volume_db", 2.0, 0.6)
 
 
 func boss_event(what: String) -> void:
@@ -312,10 +362,18 @@ func complete_area() -> void:
 	bip.velocity = Vector3.ZERO
 	Sfx.play("clear")
 	Haptics.vibrate(120)
+	Fx.confetti(bip.global_position + Vector3.UP * 1.8)
+	Fx.ring(bip.global_position, Color(1.0, 0.9, 0.35), 3.0, 0.6)
+	_fade_audio(-16.0, MUSIC_FADE_OUT)        # bitiş cıngılı duyulsun
 	var anim: AnimationPlayer = bip.get_node("Visual/Model/AnimationPlayer")
 	anim.play("RobotArmature|Robot_Dance", 0.2)
 	var got := GameState.area_battery_count(area_id)
-	hud.banner("Tamam!", tr("Pil %d / %d") % [got, area_total], 2.5)
+	var res := GameState.finish_area(area_id, float(GameState.data.get("area_time", 0.0)), got, area_total)
+	var line := tr("Pil %d / %d  ·  Süre %s  ·  Yıldız %d / 3") % [got, area_total, GameState.time_text(res["time"]), res["stars"]]
+	hud.banner("Yeni rekor!" if res["record"] else "Tamam!", line, 3.0)
+	Daily.add("alan")
+	Daily.add("yildiz", res["stars"], true)
+	Daily.flush()
 	await get_tree().create_timer(3.2).timeout
 	var nxt := GameState.next_area(area_id)
 	if nxt.is_empty():

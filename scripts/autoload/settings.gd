@@ -23,7 +23,23 @@ var shadows_on := true
 var skin := "klasik"          ## Bip'in kostümü (GameState.SKINS)
 var language := ""            ## "" = cihaz diline göre (Türkçe cihazda tr, diğerlerinde en), "tr", "en"
 var show_fps := false         ## ekranda kare hızı (performans testi için)
-var dev_all_areas := false    ## test: Alan Seç'te bütün alanlar açık (mağaza sürümünden önce kaldırılacak)
+var trail := "yok"            ## koşu izi (GameState.TRAILS)
+var daily_day := -1           ## günlük görev (scripts/autoload/daily.gd): hangi gün
+var daily_progress := 0
+var daily_done := false
+var daily_streak := 0         ## art arda bitirilen gün
+var bonus_batteries := 0      ## günlük görevlerden kazanılan pil (kostüm/iz açmaya sayılır)
+var dev_all_areas := false    ## test: Alan Seç'te bütün alanlar açık; yalnızca test sürümünde görünür (dev_mode)
+
+
+## Test sürümü mü? Editörde ve "dev" özellik etiketiyle dışa aktarılan APK'da doğru. Mağaza sürümünde
+## export_presets.cfg içindeki custom_features="dev" silinir; test seçenekleri kendiliğinden kaybolur.
+func dev_mode() -> bool:
+	return OS.has_feature("dev") or OS.has_feature("editor")
+
+
+func all_areas_open() -> bool:
+	return dev_mode() and dev_all_areas
 
 
 func _ready() -> void:
@@ -124,6 +140,12 @@ func load_settings() -> void:
 	dev_all_areas = cfg.get_value("dev", "all_areas", dev_all_areas)
 	show_fps = cfg.get_value("graphics", "show_fps", show_fps)
 	language = cfg.get_value("player", "language", language)
+	trail = cfg.get_value("player", "trail", trail)
+	daily_day = cfg.get_value("daily", "day", daily_day)
+	daily_progress = cfg.get_value("daily", "progress", daily_progress)
+	daily_done = cfg.get_value("daily", "done", daily_done)
+	daily_streak = cfg.get_value("daily", "streak", daily_streak)
+	bonus_batteries = cfg.get_value("daily", "bonus_batteries", bonus_batteries)
 
 
 func save_settings() -> void:
@@ -145,6 +167,12 @@ func save_settings() -> void:
 	cfg.set_value("dev", "all_areas", dev_all_areas)
 	cfg.set_value("graphics", "show_fps", show_fps)
 	cfg.set_value("player", "language", language)
+	cfg.set_value("player", "trail", trail)
+	cfg.set_value("daily", "day", daily_day)
+	cfg.set_value("daily", "progress", daily_progress)
+	cfg.set_value("daily", "done", daily_done)
+	cfg.set_value("daily", "streak", daily_streak)
+	cfg.set_value("daily", "bonus_batteries", bonus_batteries)
 	# Güvenli yazma: önce geçici dosya, sonra yerine koy (kayıt dokümanı kural 7).
 	var tmp := PATH + ".tmp"
 	if cfg.save(tmp) == OK:

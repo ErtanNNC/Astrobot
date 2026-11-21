@@ -335,7 +335,9 @@ func die() -> void:
 	_hurt_area.set_deferred("monitoring", false)
 	Sfx.play("pop")
 	Haptics.vibrate(40)
+	Daily.add("dusman")
 	Fx.burst(global_position + Vector3.UP * 0.5, Color(1, 0.9, 0.4), 16, 4.0)
+	Fx.ring(global_position, Color(1, 0.9, 0.4), 1.6, 0.3)
 	Fx.hitstop(0.06)
 	var cam := get_tree().get_first_node_in_group("follow_camera")
 	if cam and cam.has_method("shake"):

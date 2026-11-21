@@ -447,15 +447,19 @@ func _open_area_select(i: int, ch := 0) -> void:
 		UIKit.title(v, "Alan Seç")
 		for c in GameState.CHAPTERS:
 			var first := GameState.global_index(GameState.CHAPTERS[c][0]["id"])
-			var open := Settings.dev_all_areas or first <= furthest
+			var open := Settings.all_areas_open() or first <= furthest
 			var b := UIKit.button(v, tr("Bölüm %d · %s") % [c, tr(GameState.CHAPTER_NAMES[c])], func(): _open_area_select(i, c))
 			b.disabled = not open
 	else:
 		UIKit.title(v, tr("Bölüm %d · %s") % [ch, tr(GameState.CHAPTER_NAMES[ch])], 32)
 		for a in GameState.CHAPTERS[ch]:
 			var id: String = a["id"]
-			var open := Settings.dev_all_areas or GameState.global_index(id) <= furthest
-			var b := UIKit.button(v, tr(a["name"]) if open else tr(a["name"]) + tr(" (kilitli)"), func(): _play_area(i, id))
+			var open := Settings.all_areas_open() or GameState.global_index(id) <= furthest
+			var txt: String = tr(a["name"]) if open else tr(a["name"]) + tr(" (kilitli)")
+			var best: Dictionary = d.get("best", {}).get(id, {})
+			if open and not best.is_empty():
+				txt += tr("  ·  %d/3 yıldız  ·  %s") % [int(best.get("stars", 0)), GameState.time_text(float(best.get("time", 0.0)))]
+			var b := UIKit.button(v, txt, func(): _play_area(i, id))
 			b.disabled = not open
 	UIKit.button(v, "Geri", func(): _open_area_select(i) if ch != 0 else _open_slot(i))
 	_focus_first(v)
@@ -529,6 +533,21 @@ func _open_wardrobe(from_collection := false) -> void:
 	var v := _new_overlay(600)
 	UIKit.title(v, "Kostüm Dolabı")
 	SkinCards.build(v, func(id: String): _pick_skin(id, from_collection))
+	# Koşu izi: pille açılır (GameState.TRAILS)
+	UIKit.title(v, tr("Koşu izi  ·  pilin: %d") % GameState.best_batteries(), 20)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 8)
+	v.add_child(row)
+	for t in GameState.TRAILS:
+		var tid: String = t["id"]
+		var open := GameState.trail_unlocked(tid)
+		var tb := UIKit.button(row, tr(t["name"]) if open else tr("%d pil") % int(t["need"]),
+				func(): Settings.set_value("trail", tid); Sfx.play("select"); _open_wardrobe(from_collection),
+				UIKit.GREEN if Settings.trail == tid else UIKit.BLUE)
+		tb.add_theme_font_size_override("font_size", 18)
+		tb.custom_minimum_size = Vector2(104, 52)
+		tb.disabled = not open
 	UIKit.button(v, "Geri", _open_collection if from_collection else _close_overlay)
 	_focus_first_card(v)
 
@@ -605,6 +624,8 @@ func open_quick_menu() -> void:
 	touch.release_all()
 	var v := _new_overlay()
 	UIKit.title(v, "Atölye")
+	var dl := UIKit.title(v, Daily.line(), 20)
+	dl.add_theme_color_override("font_color", Color(0.25, 0.5, 0.2) if Settings.daily_done else Color(0.35, 0.3, 0.25))
 	var has := GameState.has_any_save()
 	if has:
 		UIKit.button(v, "Devam", func(): _start_game(GameState.last_played_slot(), false), UIKit.GREEN)

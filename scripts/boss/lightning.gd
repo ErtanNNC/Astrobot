@@ -4,23 +4,17 @@ extends Node3D
 const WARN := 1.1
 
 var _t := 0.0
-var _ring: MeshInstance3D
+var _ring: WarnMark
 var _done := false
 
 
 func _ready() -> void:
-	var t := TorusMesh.new()
-	t.rings = 16
-	t.ring_segments = 8
-	t.inner_radius = 1.0
-	t.outer_radius = 1.25
-	_ring = AbilityModels.mesh_node(t, AbilityModels.mat(Color(0.8, 0.4, 1.0), 0.4, 2.5), Vector3(0, 0.05, 0), Vector3.ZERO, Vector3(1, 0.2, 1))
+	_ring = WarnMark.make(Color(0.8, 0.4, 1.0), 1.12, WARN)
 	add_child(_ring)
 
 
 func _physics_process(delta: float) -> void:
 	_t += delta
-	_ring.scale = Vector3(1, 0.2, 1) * (1.0 + 0.15 * sin(_t * 22.0))
 	if _t >= WARN and not _done:
 		_done = true
 		_strike()
@@ -48,6 +42,8 @@ func _strike() -> void:
 		seg.basis = Basis(Quaternion(Vector3.UP, dir)) if absf(dir.dot(Vector3.UP)) < 0.999 else Basis()
 		prev = nxt
 	Sfx.play("break", -2.0, 0.5)
+	_ring.finish()
+	Fx.ring(global_position, Color(0.85, 0.6, 1.0), 1.8)
 	Fx.burst(global_position + Vector3.UP * 0.3, Color(0.85, 0.6, 1.0), 14, 4.0)
 	var bip := get_tree().get_first_node_in_group("player") as Bip
 	if bip and Vector2(bip.global_position.x - global_position.x, bip.global_position.z - global_position.z).length() < 1.3 \

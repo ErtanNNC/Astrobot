@@ -63,6 +63,27 @@ const SKINS := [
 	{"id": "altin", "name": "Altın", "hue": -0.02, "sat": 1.25, "val": 1.15, "need_screws": 10, "glow": 0.35},
 ]
 
+## Koşu izleri: pille açılır, Kostüm Dolabı'ndan seçilir (docs/features/geri-donme/design.md)
+const TRAILS := [
+	{"id": "yok", "name": "İz yok", "need": 0},
+	{"id": "kivilcim", "name": "Kıvılcım", "need": 100, "color": Color(1.0, 0.85, 0.3)},
+	{"id": "buz", "name": "Buz Tozu", "need": 200, "color": Color(0.6, 0.9, 1.0)},
+	{"id": "kalp", "name": "Şeker Pembe", "need": 350, "color": Color(1.0, 0.5, 0.75)},
+	{"id": "gokkusagi", "name": "Gökkuşağı", "need": 500, "rainbow": true},
+]
+
+## Hedef süre (s): altında bitiren üçüncü yıldızı alır. Yol uzunluğundan hesaplandı (25 + 0,8 × metre), telefonda
+## oynanarak ayarlanmalı [ASSUMPTION]. Patron alanları 180.
+const AREA_PAR := {
+	"ch1_atolye": 110, "ch1_yay": 180, "ch1_balon": 185, "ch1_miknatis": 170, "ch1_kaya": 160,
+	"ch2_rihtim": 125, "ch2_fener": 150, "ch2_gemi": 135,
+	"ch3_magara": 110, "ch3_gol": 135, "ch3_zirve": 180,
+	"ch4_bulut": 140, "ch4_kopru": 140, "ch4_kale": 130,
+	"ch5_oyuncak": 115, "ch5_gozlemevi": 130, "ch5_volkan": 140, "ch5_sampiyon": 165,
+}
+const PAR_DEFAULT := 180
+const STAR_BATTERY_SHARE := 0.8  ## ikinci yıldız: alandaki pillerin bu kadarı
+
 ## Gizli köşe tetikleyicisi sayısı (tools/level/*.py içindeki L.secret çağrıları; yeni ekleyince güncelle)
 const SECRET_TOTAL := 29
 
@@ -95,6 +116,8 @@ static func new_data() -> Dictionary:
 		"unlocked_abilities": [],
 		"batteries": {},
 		"secrets": [],
+		"best": {},              # alan → {"time": s, "stars": 0-3}
+		"area_time": 0.0,        # şu anki alanda geçen süre (kontrol noktasıyla birlikte kaydedilir)
 		"golden_screws": [],
 		"core_cells": [],
 		"seen_cutscenes": [],
@@ -272,7 +295,73 @@ func skin_unlocked(id: String) -> bool:
 		best_s = maxi(best_s, data.get("golden_screws", []).size())
 	if sk.has("need_screws"):
 		return best_s >= int(sk["need_screws"])
-	return best_b >= int(sk.get("need", 0))
+	return best_b + Settings.bonus_batteries >= int(sk.get("need", 0))
+
+
+## Kostüm ve iz açmada sayılan pil: yuvalardaki en iyi toplam + günlük görev bonusu.
+func best_batteries() -> int:
+	var best_b := 0
+	for i in SLOT_COUNT:
+		var d := slot_summary(i)
+		var b := 0
+		for k in d.get("batteries", {}):
+			b += d["batteries"][k].size()
+		best_b = maxi(best_b, b)
+	if data.has("batteries"):
+		best_b = maxi(best_b, total_batteries())
+	return best_b + Settings.bonus_batteries
+
+
+func trail_info(id: String) -> Dictionary:
+	for t in TRAILS:
+		if t["id"] == id:
+			return t
+	return TRAILS[0]
+
+
+func trail_unlocked(id: String) -> bool:
+	return best_batteries() >= int(trail_info(id).get("need", 0))
+
+
+# ---------- Yıldızlar ve rekor süre ----------
+
+func area_par(area_id: String) -> int:
+	return int(AREA_PAR.get(area_id, PAR_DEFAULT))
+
+
+func area_best(area_id: String) -> Dictionary:
+	return data.get("best", {}).get(area_id, {})
+
+
+func total_stars() -> int:
+	var n := 0
+	for k in data.get("best", {}):
+		n += int(data["best"][k].get("stars", 0))
+	return n
+
+
+static func time_text(seconds: float) -> String:
+	var s := int(round(seconds))
+	return "%d:%02d" % [s / 60, s % 60]
+
+
+## Alan bitti: yıldızları hesapla, rekoru sakla. Dönen: {"stars", "time", "record", "par"}
+##   1. yıldız: alanı bitir · 2. yıldız: pillerin %80'i · 3. yıldız: hedef sürenin altı
+func finish_area(area_id: String, seconds: float, got: int, total: int) -> Dictionary:
+	var stars := 1
+	if total <= 0 or got >= int(ceil(total * STAR_BATTERY_SHARE)):
+		stars += 1
+	if seconds <= area_par(area_id):
+		stars += 1
+	if not data.has("best"):
+		data["best"] = {}
+	var old: Dictionary = data["best"].get(area_id, {})
+	var record: bool = old.is_empty() or seconds < float(old.get("time", INF))
+	data["best"][area_id] = {
+		"time": seconds if record else float(old["time"]),
+		"stars": maxi(stars, int(old.get("stars", 0))),
+	}
+	return {"stars": stars, "time": seconds, "record": record and not old.is_empty(), "par": area_par(area_id)}
 
 
 func total_batteries() -> int:

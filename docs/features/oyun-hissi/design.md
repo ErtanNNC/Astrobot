@@ -34,6 +34,21 @@ Geliştirici oyunu oynadı: "Astro Bot ya da Mario Odyssey'den farklı bir his v
 
 **Kodda:** `bip.gd` ("Jet süzülme" grubu), `bip_visuals.gd` (`_make_jets`), `battery.gd` (`VACUUM_RANGE`), `scripts/level/decor_react.gd`, `follow_camera.gd`.
 
+## Geri bildirim efektleri (2026-11-21)
+Her önemli olay ekranda bir işaret bırakır. Hepsi `Fx` autoload'ında: `burst` (parıltı), `ring` (genişleyip sönen halka), `confetti`, `hitstop`.
+
+| Olay | Efekt | Kodda |
+|---|---|---|
+| Zıplama | ayak dibinde 5 toz zerresi (uzama `bip.gd`) | `bip_visuals._on_jumped` |
+| Sert iniş (düşme hızı > 7 m/s) | toz halkası, hıza göre 1,2–1,8 m (ezilme ve toz `bip.gd`) | `bip_visuals._on_landed` |
+| Çift zıplama | havada mavi halka | `_on_double_jumped` |
+| Hasar | kırmızı parıltı + halka (yetenek gittiyse sarı) | `_on_hurt` |
+| Yeniden doğma | Bip küçükten büyür, yerde mavi halka | `pop_in` (`area.respawn`) |
+| Pil zinciri | 0,6 sn içinde art arda 5. ve 10. pilde altın halka + titreşim; ses her pilde incelir | `battery.collect` |
+| Kontrol noktası | mavi halka (2,4 m) + dört renkli konfeti | `checkpoint._light_up` |
+| Düşman yenildi | sarı halka + parıltı + 0,06 sn donma + kamera sarsıntısı | `enemy.die` |
+| Patron saldırısı | yerde halka + içinde büyüyen disk; disk halkayı doldurduğu an darbe iner, son üçte birde hızlı yanıp söner | `scripts/boss/warn_mark.gd` |
+
 ## Sıradaki iş (önerilen)
 - **Seviye yoğunluğu:** geniş boş zeminlere para dizileri, kırılabilir nesneler, gizli köşeler, tekmelenebilir küçük nesneler (fizik topları, kutular) eklemek.
 - **Bölüme özel güç-yükü anı:** Astro Bot'ta her bölümün bir sürpriz oyuncağı var; bizde yetenekler bu rolde, bölüm içinde daha fazla "vay" anı (set-piece) eklenebilir.
@@ -41,3 +56,4 @@ Geliştirici oyunu oynadı: "Astro Bot ya da Mario Odyssey'den farklı bir his v
 
 ## History
 - 2026-11-18: oluşturuldu; jet süzülme, pil çekimi, canlı süsler, sakin kamera eklendi (D-017).
+- 2026-11-21: geri bildirim efektleri tablosu; halka/konfeti efektleri, patron uyarı diski.

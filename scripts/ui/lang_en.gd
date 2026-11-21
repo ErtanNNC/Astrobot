@@ -79,6 +79,13 @@ const MESSAGES := {
 	"Paslı Kaptan modeli": "Rusty Captain model", "Duvar ve zemin dokuları": "Wall and ground textures", "Ses efektleri": "Sound effects",
 	"Arayüz": "Interface", "Yazı tipi": "Font", "Müzik (OpenGameArt, CC0)": "Music (OpenGameArt, CC0)", "Motor": "Engine",
 	"Oynadığın için teşekkürler!": "Thanks for playing!", "Dişli Adası yeniden ışıl ışıl.": "Gear Island shines again.",
+	"Yeni rekor!": "New record!", "Pil %d / %d  ·  Süre %s  ·  Yıldız %d / 3": "Batteries %d / %d  ·  Time %s  ·  Stars %d / 3",
+	"  ·  %d/3 yıldız  ·  %s": "  ·  %d/3 stars  ·  %s", "Koşu izi  ·  pilin: %d": "Run trail  ·  your batteries: %d",
+	"İz yok": "No trail", "Kıvılcım": "Sparks", "Buz Tozu": "Ice Dust", "Şeker Pembe": "Candy Pink", "Gökkuşağı": "Rainbow",
+	"Bugün %d pil topla": "Collect %d batteries today", "Bugün %d düşman yen": "Defeat %d enemies today",
+	"Bugün %d alan bitir": "Finish %d areas today", "Bir alanı %d yıldızla bitir": "Finish an area with %d stars",
+	"Günlük görev tamam!": "Daily quest done!", "+%d pil": "+%d batteries",
+	"Günlük görev tamam! Seri: %d gün": "Daily quest done! Streak: %d days", "Günlük görev: %s (%d/%d)": "Daily quest: %s (%d/%d)",
 }
 
 

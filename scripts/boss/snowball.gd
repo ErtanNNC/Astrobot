@@ -2,20 +2,16 @@ extends Node3D
 ## Kardan Dev'in kartopu: yerde mavi uyarı halkası, sonra kartopu düşer. Değerse hasar.
 
 const WARN := 0.9
+const IMPACT := 1.03   ## s, kartopunun yere değdiği an
 
 var _t := 0.0
-var _ring: MeshInstance3D
+var _ring: WarnMark
 var _ball: MeshInstance3D
 var _hit_done := false
 
 
 func _ready() -> void:
-	var t := TorusMesh.new()
-	t.rings = 16
-	t.ring_segments = 8
-	t.inner_radius = 0.9
-	t.outer_radius = 1.1
-	_ring = AbilityModels.mesh_node(t, AbilityModels.mat(Color(1, 0.35, 0.2), 0.4, 2.0), Vector3(0, 0.05, 0), Vector3.ZERO, Vector3(1, 0.2, 1))
+	_ring = WarnMark.make(Color(1, 0.35, 0.2), 1.0, IMPACT)
 	add_child(_ring)
 	var s := SphereMesh.new()
 	s.radial_segments = 12
@@ -28,7 +24,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_t += delta
-	_ring.scale = Vector3(1, 0.2, 1) * (1.0 + 0.15 * sin(_t * 20.0))
 	if _t > WARN * 0.4:
 		_ball.position.y = maxf(_ball.position.y - delta * 20.0, 0.6)
 		_ball.rotation.x += delta * 5.0
@@ -39,7 +34,8 @@ func _physics_process(delta: float) -> void:
 		if bip and Vector2(bip.global_position.x - global_position.x, bip.global_position.z - global_position.z).length() < 1.1 \
 				and bip.global_position.y - global_position.y < 1.5:
 			bip.take_hit(global_position)
-		_ring.visible = false
+		_ring.finish()
+		Fx.ring(global_position, Color(0.9, 0.95, 1.0), 1.6)
 		var tw := create_tween()
 		tw.tween_property(_ball, "scale", Vector3(1.6, 0.2, 1.6), 0.15)
 		tw.tween_property(_ball, "scale", Vector3.ZERO, 0.3)

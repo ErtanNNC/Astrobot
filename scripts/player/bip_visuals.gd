@@ -87,6 +87,8 @@ func _swap_model() -> void:
 			(mi as MeshInstance3D).mesh = load(LITE_MESH)
 
 
+const DUST := Color(0.95, 0.92, 0.85)
+
 func _ready() -> void:
 	if NEW_BIP:
 		_swap_model()
@@ -188,13 +190,71 @@ func _process(delta: float) -> void:
 		Fx.burst(bip.global_position + Vector3(0, 0.08, 0), Color(0.95, 0.92, 0.85), 2, 0.8)
 
 	# Adım sesi: yerde ve hareket ederken
+	# Koşu izi (Kostüm Dolabı'ndan seçilir): hareket ederken arkada renkli zerreler
+	if Settings.trail != "yok" and speed > 3.0:
+		_trail_t -= delta
+		if _trail_t <= 0.0:
+			_trail_t = 0.07
+			var ti := GameState.trail_info(Settings.trail)
+			var tc: Color = Color.from_hsv(fmod(_t * 0.6, 1.0), 0.75, 1.0) if ti.get("rainbow", false) else ti.get("color", Color.WHITE)
+			Fx.burst(bip.global_position + Vector3(0, 0.35, 0), tc, 2, 0.7)
+
+	# Her adımda zemine göre ayrı bir örnek çalar (bkz. docs/features/ses/design.md)
 	var walking := on_floor and speed > 1.0
-	if walking and not sfx_steps.playing:
-		sfx_steps.play()
-	elif not walking and sfx_steps.playing:
-		sfx_steps.stop()
-	if walking:
-		sfx_steps.pitch_scale = clampf(0.8 + speed / bip.run_speed * 0.45, 0.8, 1.25)
+	_step_t -= delta
+	if walking and _step_t <= 0.0:
+		_step_t = clampf(STEP_LENGTH / speed, 0.2, 0.45)
+		_play_step()
+	elif not walking:
+		_step_t = minf(_step_t, 0.06)
+
+
+const STEP_LENGTH := 1.75        ## m, iki adım sesi arası yol
+## yüzey: [örnekler, ses (dB), perde]
+const STEP_SETS := {
+	"grass": [["leaves01", "leaves02"], -9.0, 1.0],
+	"wood": [["wood01", "wood02", "wood03"], -5.0, 1.0],
+	"stone": [["stone01"], -4.0, 1.0],
+	"metal": [["stone01"], -5.0, 1.5],
+	"gravel": [["gravel"], -11.0, 1.15],
+	"snow": [["mud02", "leaves02"], -7.0, 0.75],
+	"cloud": [["leaves01"], -16.0, 0.7],
+}
+const AREA_SURFACE := {
+	"ch1_atolye": "wood", "ch1_yay": "grass", "ch1_balon": "gravel", "ch1_miknatis": "stone", "ch1_kaya": "gravel",
+	"ch1_patron": "gravel", "ch2_rihtim": "wood", "ch2_fener": "grass", "ch2_gemi": "wood", "ch2_patron": "wood",
+	"ch3_magara": "snow", "ch3_gol": "snow", "ch3_zirve": "snow", "ch3_patron": "snow",
+	"ch4_bulut": "cloud", "ch4_kopru": "stone", "ch4_kale": "stone", "ch4_patron": "stone",
+	"ch5_oyuncak": "wood", "ch5_gozlemevi": "stone", "ch5_volkan": "gravel", "ch5_sampiyon": "wood",
+}
+var _step_t := 0.0
+var _trail_t := 0.0
+var _step_cache := {}
+
+
+## Bip'in bastığı yüzey: metal blok ve hareketli platformlar kendi sesini verir, gerisi alanın zemini.
+func surface() -> String:
+	var fc: Object = bip._floor_collider()
+	if fc is Node:
+		if (fc as Node).is_in_group("metal"):
+			return "metal"
+		if fc is AnimatableBody3D:
+			return "wood"
+	var sc := get_tree().current_scene
+	var id: String = sc.area_id if sc and "area_id" in sc else ""
+	return AREA_SURFACE.get(id, "wood")
+
+
+func _play_step() -> void:
+	var set_: Array = STEP_SETS[surface()]
+	var names: Array = set_[0]
+	var n: String = names[randi() % names.size()]
+	if not _step_cache.has(n):
+		_step_cache[n] = load("res://assets/audio/opengameart/steps/%s.ogg" % n)
+	sfx_steps.stream = _step_cache[n]
+	sfx_steps.volume_db = set_[1]
+	sfx_steps.pitch_scale = float(set_[2]) * randf_range(0.92, 1.08)
+	sfx_steps.play()
 
 
 func _play(n: String) -> void:
@@ -203,6 +263,8 @@ func _play(n: String) -> void:
 
 
 func _on_jumped() -> void:
+	if bip.is_on_floor() or bip.velocity.y > 0.0:
+		Fx.burst(bip.global_position + Vector3(0, 0.1, 0), DUST, 5, 1.6)
 	sfx_jump.pitch_scale = randf_range(0.95, 1.08)
 	sfx_jump.play()
 
@@ -212,6 +274,10 @@ func _on_landed(fall_speed: float) -> void:
 		sfx_land.volume_db = lerpf(-14.0, -2.0, clampf(fall_speed / bip.max_fall_speed, 0.0, 1.0))
 		sfx_land.pitch_scale = randf_range(0.92, 1.05)
 		sfx_land.play()
+	if fall_speed > 7.0:
+		# Sert iniş: toz halkası (ezilme ve toz bulutu bip.gd'de; bkz. oyun-hissi "Geri bildirim")
+		var k := clampf(fall_speed / bip.max_fall_speed, 0.3, 1.0)
+		Fx.ring(bip.global_position, Color(DUST.r, DUST.g, DUST.b, 0.8), 0.9 + k * 0.9, 0.3)
 
 
 ## Bip'in anteni: kafanın tepesine, kafayla birlikte sallanan bir çubuk ve parlayan uç.
@@ -398,8 +464,17 @@ func _on_copied(a: String) -> void:
 	anim.queue(A_IDLE)
 
 
-func _on_hurt(_result: String) -> void:
-	pass
+func _on_hurt(result: String) -> void:
+	var c := Color(1.0, 0.35, 0.3) if result != "ability" else Color(1.0, 0.8, 0.3)
+	Fx.burst(bip.global_position + Vector3.UP * 0.7, c, 14, 4.5)
+	Fx.ring(bip.global_position + Vector3.UP * 0.7, c, 1.5, 0.3, false)
+
+
+## Yeniden doğma: Bip küçükten büyüyerek belirir, yerde mavi halka.
+func pop_in() -> void:
+	model.scale = Vector3.ONE * _base_scale * 0.15
+	Fx.ring(bip.global_position, Color(0.4, 0.9, 1.0), 1.6, 0.45)
+	Fx.burst(bip.global_position + Vector3.UP * 0.6, Color(0.5, 0.95, 1.0), 12, 3.0)
 
 
 
@@ -422,6 +497,7 @@ func _on_spun() -> void:
 
 
 func _on_double_jumped() -> void:
+	Fx.ring(bip.global_position + Vector3.UP * 0.05, Color(0.6, 0.95, 1.0), 1.0, 0.3, false)
 	_spin_model(1.0, 0.3)
 
 

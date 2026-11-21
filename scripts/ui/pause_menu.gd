@@ -67,7 +67,8 @@ func _ready() -> void:
 	_row("quality", "Görüntü kalitesi")
 	_row("shadows_on", "Gölgeler")
 	_row("show_fps", "Kare hızını göster")
-	_row("dev_all_areas", "Tüm alanlar açık (test)")
+	if Settings.dev_mode():
+		_row("dev_all_areas", "Tüm alanlar açık (test)")
 	_slider("master_vol", "Genel ses")
 	_slider("music_vol", "Müzik")
 	_slider("sfx_vol", "Efektler")
@@ -82,6 +83,7 @@ func open() -> void:
 	_settings_only = false
 	visible = true
 	get_tree().paused = true
+	_duck_music(true)
 	_show_main()
 	UIKit.pop_in(_panel)
 
@@ -95,9 +97,21 @@ func open_settings_only() -> void:
 	UIKit.pop_in(_panel)
 
 
+## Duraklatınca müzik kısılır (oyun "bekliyor" hissi), devam edince geri gelir.
+func _duck_music(on: bool) -> void:
+	for mp in get_tree().get_nodes_in_group("music"):
+		if on and not mp.has_meta("duck"):
+			mp.set_meta("duck", mp.volume_db)
+			mp.volume_db -= 9.0
+		elif not on and mp.has_meta("duck"):
+			mp.volume_db = mp.get_meta("duck")
+			mp.remove_meta("duck")
+
+
 func resume() -> void:
 	visible = false
 	get_tree().paused = false
+	_duck_music(false)
 	resumed.emit()
 
 
