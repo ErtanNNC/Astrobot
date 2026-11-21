@@ -122,7 +122,9 @@ for x in (3.6, 14.4):
 L.box(9, 9.1, -98.85, 11, 1.2, 0.3, "wood")
 L.ent("checkpoint", 5.5, 8.5, -91.5, checkpoint_id="kapi", ry=math.pi)
 L.ent("trigger", 9, 8.5, -90.5, size=(10, 4, 2), method_name="vista")
-L.ent("exit", 9, 8.5, -96.5)
+# Bitiş: çıkış halkası yerine top. Bip vadiye, Yay Bahçesi'ne doğru fırlatılır; alan uçarken biter (ilk "vay" anı).
+L.cannon(9, 8.5, -95.8, (24, -6, -165), arc=12.0, time=3.6, finish=True)
+L.battery_line((9.7, 13, -99), (12.5, 19, -112), 4)
 L.bush(4.3, 8.5, -97.8, 0.4); L.bush(13.6, 8.5, -97.5, 0.35)
 L.grass_patch(4, 14, -98, -90, 8.5, 10, avoid=[(7, 11, -98, -90)])
 # Uzakta vadi, karanlık kule ve Statik

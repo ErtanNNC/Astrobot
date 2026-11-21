@@ -16,7 +16,7 @@
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e8"]
 [ext_resource type="Script" path="res://scripts/entities/enemy.gd" id="e9"]
 [ext_resource type="Script" path="res://scripts/entities/gate.gd" id="e10"]
-[ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e11"]
+[ext_resource type="Script" path="res://scripts/setpiece/cannon.gd" id="e11"]
 [ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/flowers-tall.glb" id="e12"]
 [ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/flowers.glb" id="e13"]
 [ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/plant.glb" id="e14"]
@@ -937,9 +937,30 @@ script = ExtResource("e8")
 size = Vector3(10, 4, 2)
 method_name = "vista"
 
-[node name="Exit_1" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 8.5, -96.5)
+[node name="Cannon_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 8.5, -95.8)
 script = ExtResource("e11")
+offset = Vector3(15, -14.5, -69.2)
+arc = 12
+time = 3.6
+secret = false
+finish = true
+
+[node name="Pil_36" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.7, 13.8, -99)
+script = ExtResource("e3")
+
+[node name="Pil_37" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.6333, 15.8, -103.333)
+script = ExtResource("e3")
+
+[node name="Pil_38" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5667, 17.8, -107.667)
+script = ExtResource("e3")
+
+[node name="Pil_39" type="Area3D" parent="Batteries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 19.8, -112)
+script = ExtResource("e3")
 
 [node name="KFlowersTall_1" parent="Decor" instance=ExtResource("e12")]
 transform = Transform3D(-0.801908, 0, 0.527772, -0, 0.96, 0, -0.527772, 0, -0.801908, 4.3, 8.5, -97.8)

@@ -15,6 +15,9 @@ from lvl import Level
 L = Level("ch1_balon", "Balon Kanyonu", "scenes/chapter1/a2_balon_kanyonu.tscn", sky="sunset",
           music="res://assets/audio/opengameart/happy_adventure_loop.mp3", kill_height=-12, water=-8, seed=22)
 PI = math.pi
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar M4 ve M6 dinlenme kayalarının ortasında.
+# Kanyon duvarı parçaları da aynı z'lerde bölünür ki her parça kendi yol parçasıyla birlikte dönsün. Bkz. lvl.py TURNS
+L.turns([(-3, -73, 30), (-3, -108, -40)])
 FLOOR = -9.0          # kanyon dibi (su -8)
 STRATA = ("canyon", "sand", "canyon", "quarry")
 
@@ -49,7 +52,7 @@ def wind(x, z, top, w=5.0, force=14.0, **kw):
 # Kanyon duvarları: iki yanda basamaklı, renkli katmanlı kayalar (oynanış dışı, yön verir)
 # =====================================================================================
 for side in (-1, 1):
-    for seg, (z0, z1) in enumerate(((20, -30), (-30, -80), (-80, -130), (-130, -185))):
+    for seg, (z0, z1) in enumerate(((20, -30), (-30, -73), (-73, -108), (-108, -185))):
         h_top = (30, 33, 29, 26)[seg]
         off = (seg % 2) * 1.2
         # üç basamaklı teras: alt geniş, üst geride

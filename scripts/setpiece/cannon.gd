@@ -7,6 +7,7 @@ extends Area3D
 @export var arc := 6.0                     ## m, kavisin en yüksek noktası (iki uçtan yüksek olanın üstünde)
 @export var time := 1.7                    ## s, uçuş süresi
 @export var windup := 0.6                  ## s, nişan alma
+@export var finish := false                ## alanı bitiren top: Bip uçarken alan tamamlanır (öğreticinin sonu)
 @export var secret := false                ## gizli köşeye giden top: kaidesi mor
 
 var _barrel: Node3D
@@ -131,6 +132,11 @@ func _fire() -> void:
 	var cam := get_tree().get_first_node_in_group("follow_camera")
 	if cam and cam.has_method("shake"):
 		cam.shake(0.45)
+	if finish:
+		get_tree().create_timer(0.7, false).timeout.connect(func():
+			var sc := get_tree().current_scene
+			if sc and sc.has_method("complete_area"):
+				sc.complete_area())
 
 
 func _physics_process(delta: float) -> void:
@@ -159,6 +165,8 @@ func _physics_process(delta: float) -> void:
 func _land() -> void:
 	_t = -1.0
 	_bip.visual.rotation.x = 0.0
+	if finish:
+		return                     # alan bitti; Bip havada kalır, sahne değişir
 	_bip.reset_state(_to)
 	_bip.set_physics_process(true)
 	_bip.controls_enabled = true
