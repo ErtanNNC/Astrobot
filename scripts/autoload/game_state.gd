@@ -45,6 +45,7 @@ const CHAPTERS := {
 	# Bonus bölüm (2026-11-21): final sonrası açılır, patron yok; bütün yetenekler karışık
 	5: [
 		{"id": "ch5_oyuncak", "scene": "res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "name": "Oyuncak Kasabası"},
+		{"id": "ch5_gozlemevi", "scene": "res://scenes/chapter5/e2_yildiz_gozlemevi.tscn", "name": "Yıldız Gözlemevi"},
 	],
 }
 

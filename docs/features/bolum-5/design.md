@@ -6,6 +6,7 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 | # | Alan | Süre | Öğret | Sına | Şaşırt | Ustalık |
 |---|---|---|---|---|---|---|
 | 1 | Oyuncak Kasabası | ~6 dk | Yay ile dev hediye kutuları (4 m) | oyuncak tren (hareketli vagon) | Balon ile kaleye süzülüş | Mıknatıs levhalarıyla kule, Pervane ile Fındıkkıran'ın şapkası |
+| 2 | Yıldız Gözlemevi | ~6 dk | Buz ile gölün üstünde yürümek | Kaya ile cam zemini kırıp tünelden geçmek | dönen yıldız platformları (Yay) | teleskop rüzgârında Balon ile kubbeye |
 
 ## Oyuncak Kasabası (2026-11-21)
 Üretici: `tools/level/ch5_e1_oyuncak_kasabasi.py`, kimlik `ch5_oyuncak`. Dev bir oyun masasının üstünde havada duran oyuncaklar: KayKit Holiday hediye kutuları (görüntü) + ölçülü çarpışma kutuları, ahşap raflar, kırmızı vagon + lokomotif modelli hareketli platform (`prop` kind=model platformun çocuğu), oyuncak kale. Yön işareti: masanın üstünde duran dev **Fındıkkıran** (Kenney Holiday Kit), bitiş platformu şapkasının hemen önünde.
@@ -21,6 +22,19 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 
 **Gizli köşeler (3):** top havuzu (başlangıcın arkasında aşağıda; trambolinle dön; 12 pil), şeker kamışı sütunu (yeşil kutudan doğuya Yay; **Altın Vida**), trenin altındaki gizli raf (raf 1'in ucundan in; trambolinle dön; 10 pil).
 
+## Yıldız Gözlemevi (2026-11-21)
+Üretici: `tools/level/ch5_e2_yildiz_gozlemevi.py`, kimlik `ch5_gozlemevi`. Gece; gökte ay kayaları, parlayan yıldızlar (KayKit yıldızları), fenerler. Yön işareti: sonda kubbeli **gözlemevi** ve dev teleskop. (Gece göğünde ufkun altı da koyu: `lvl.py` gökyüzüne `ground` rengi eklendi.)
+
+| # | Bölüm | Ne yapılır |
+|---|---|---|
+| 0 | Ay Kayası | Buz kopyalanır |
+| 1 | Yıldız Gölü | Buz ile suyun üstünde yürü, 2,15 m'lik kıyıya zıpla (yüzerek çıkılmaz); kontrol noktası "gol" |
+| 2 | Meteor Çukuru | Kaya ile cam zemini kır, tünelden geç, trambolinle çık; "meteor" |
+| 3 | Takımyıldız | üç dönen yıldız platformu, Yay ile 4 m'lik basamaklar; "takimyildiz" |
+| 4 | Teleskop Rüzgârı | Balon ile rüzgârda yüksel, kubbe terasına süzül; bitiş |
+
+**Gizli köşeler (3):** göldeki adacık (Buz ile; 10 pil), tünelin doğu duvarındaki oyuk (**Altın Vida**), kayan yıldız tablası (C kıyısının doğusundaki trambolinden; 10 pil).
+
 ## Rules
 1. Bonus bölüm yalnızca final bittikten sonra açılır.
 2. Bölüm 1'in kuralları geçerlidir (kontrol noktaları, 3 can, piller kaybolmaz, testere dişi zorluk).
@@ -34,7 +48,7 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 | Öldürme yüksekliği | −6 | m | masa −8'de, görünür ama ölümcül |
 
 ## Test
-`tests/ch5_test.tscn`: üç kutu, Altın Vida sütunu, tren, Balon, Mıknatıs, Pervane, iki gizli köşeden dönüş.
+`tests/ch5_test.tscn`: Oyuncak Kasabası (üç kutu, Altın Vida sütunu, tren, Balon, Mıknatıs, Pervane, iki gizli köşeden dönüş); Yıldız Gözlemevi (Buz ile göl, adacık, Kaya ile cam zemin ve tünel, oyuk, yıldız tablası, teleskop rüzgârı).
 
 ## History
-- 2026-11-21: bölüm ve ilk alan (Oyuncak Kasabası) eklendi.
+- 2026-11-21: bölüm ve ilk alan (Oyuncak Kasabası) eklendi; ikinci alan Yıldız Gözlemevi eklendi.

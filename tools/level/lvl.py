@@ -59,7 +59,7 @@ SKIES = {
     "indoor":  dict(top=(0.30,0.35,0.50), hor=(0.55,0.55,0.65), sun=(1,0.9,0.75), sun_e=1.0, amb=1.3, fog=(0.45,0.45,0.55), fog_d=0.006, sun_rx=-60, sun_ry=20),
     "factory": dict(top=(0.30,0.40,0.60), hor=(0.65,0.70,0.80), sun=(0.95,0.95,1.0), sun_e=1.15, amb=1.15, fog=(0.6,0.65,0.75), fog_d=0.005, sun_rx=-55, sun_ry=-40),
     "quarry":  dict(top=(0.35,0.60,0.95), hor=(0.95,0.88,0.75), sun=(1,0.93,0.8), sun_e=1.3, amb=1.05, fog=(0.95,0.88,0.78), fog_d=0.004, sun_rx=-45, sun_ry=10),
-    "night":   dict(top=(0.04,0.06,0.16), hor=(0.15,0.18,0.32), sun=(0.6,0.7,1.0), sun_e=0.35, amb=0.5, fog=(0.1,0.12,0.25), fog_d=0.01, sun_rx=-40, sun_ry=30),
+    "night":   dict(ground=(0.03,0.04,0.12), top=(0.04,0.06,0.16), hor=(0.15,0.18,0.32), sun=(0.6,0.7,1.0), sun_e=0.35, amb=0.5, fog=(0.1,0.12,0.25), fog_d=0.01, sun_rx=-40, sun_ry=30),
     "storm":   dict(top=(0.12,0.10,0.22), hor=(0.30,0.25,0.42), sun=(0.8,0.7,1.0), sun_e=0.6, amb=0.8, fog=(0.25,0.22,0.38), fog_d=0.006, sun_rx=-50, sun_ry=30),
 }
 
@@ -471,7 +471,7 @@ subdivide_depth = 60
 sky_top_color = %s
 sky_horizon_color = %s
 sky_curve = 0.12
-ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_bottom_color = %s
 ground_horizon_color = %s
 sun_angle_max = 20.0
 
@@ -496,7 +496,7 @@ fog_density = %.4f
 fog_sky_affect = 0.0
 adjustment_enabled = true
 adjustment_saturation = 1.12
-''' % (c3(S["top"]), c3(S["hor"]), c3(S["hor"]), S["amb"], c3(S["fog"]), S["fog_d"]))
+''' % (c3(S["top"]), c3(S["hor"]), c3(S.get("ground", (0.2, 0.45, 0.75))), c3(S["hor"]), S["amb"], c3(S["fog"]), S["fog_d"]))
         props = ['area_id = "%s"' % self.area_id, 'title = "%s"' % self.title, "kill_height = %s" % fmt(self.kill)]
         if self.safe:
             props.append("safe = true")

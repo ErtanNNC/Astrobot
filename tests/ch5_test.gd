@@ -9,12 +9,14 @@ var fails := 0
 
 func _ready() -> void:
 	await get_tree().process_frame
-	for path in ["res://scenes/chapter5/e1_oyuncak_kasabasi.tscn"]:
+	for path in ["res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "res://scenes/chapter5/e2_yildiz_gozlemevi.tscn"]:
 		await _load(path)
 		await _common(path.get_file())
 		match path.get_file():
 			"e1_oyuncak_kasabasi.tscn":
 				await _e1()
+			"e2_yildiz_gozlemevi.tscn":
+				await _e2()
 		level.queue_free()
 		await get_tree().process_frame
 	print("SONUÇ: %s" % ("TÜM TESTLER GEÇTİ" if fails == 0 else "%d test kaldı" % fails))
@@ -232,3 +234,79 @@ func _e1() -> void:
 	await place(Vector3(0, 16.1, -84.6), PI, "pervane")
 	ok = await jump_forward(110, 100, 22.0, 300, 40)
 	check("e1: Pervane ile Fındıkkıran'ın şapkasına", ok and absf(bip.global_position.y - 22.5) < 0.2, str(bip.global_position))
+
+
+func run_until(cond: Callable, max_frames: int) -> void:
+	for i in max_frames:
+		await get_tree().physics_frame
+		if cond.call():
+			return
+
+
+func _e2() -> void:
+	# Buz ile gölü yürüyerek geç, uzak kıyıya zıpla
+	await place(Vector3(0, 0.1, -5.5), PI, "buz")
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.global_position.z < -19.6, 300)
+	await tap("jump", 25)
+	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 2.0, 90)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e2: Buz ile Yıldız Gölü", bip.is_on_floor() and absf(bip.global_position.y - 2.15) < 0.2, str(bip.global_position))
+	# Gizli adacık
+	await place(Vector3(0, 0.3, -15), PI / 2, "buz")
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.global_position.x > 2.0, 120)
+	await tap("jump", 12)
+	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 0.6, 90)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e2: göldeki gizli adacık", bip.global_position.y > 0.6 and bip.global_position.x > 2.8, str(bip.global_position))
+	# Kaya ile cam zemini kır, tünelden geç, trambolinle C kıyısına
+	await place(Vector3(0, 2.3, -33.5), PI, "kaya")
+	await tap("jump", 3)
+	await step(10)
+	await tap("ability")
+	await step(120)
+	check("e2: Kaya cam zemini kırdı", bip.global_position.y < -3.0, str(bip.global_position))
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 2.0 and bip.global_position.z < -52.0, 600)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e2: tünel ve trambolinle C kıyısına", bip.global_position.z < -52.0 and absf(bip.global_position.y - 2.15) < 0.3, str(bip.global_position))
+	# Gizli oyuk (Altın Vida)
+	await place(Vector3(0, -3.9, -44), PI / 2, "")
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.global_position.x > 3.6, 120)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e2: tünelin gizli oyuğuna girildi", bip.global_position.x > 3.4, str(bip.global_position))
+	# Kayan yıldız tablası: trambolinden doğuya
+	await place(Vector3(5.0, 3.5, -59.5), PI / 2, "")
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 8.0, 240)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e2: kayan yıldız tablasına", absf(bip.global_position.y - 9.0) < 0.3, str(bip.global_position))
+	# Teleskop rüzgârı: Balon ile yüksel, kubbe terasına süzül (en sonda: çıkışa yakın)
+	await place(Vector3(0, 12.0, -100.5), PI, "balon")
+	Input.action_press("jump")
+	var going := false
+	for i in 900:
+		await get_tree().physics_frame
+		if i == 2:
+			Input.action_release("jump")
+		if i == 12:
+			Input.action_press("jump")
+		if not going and bip.global_position.y > 21.0:
+			going = true
+			Input.action_press("move_forward")
+		if going and bip.global_position.z < -106.0:
+			Input.action_release("move_forward")
+			Input.action_release("jump")
+		if going and bip.is_on_floor():
+			break
+	Input.action_release("move_forward")
+	Input.action_release("jump")
+	await step(10)
+	check("e2: teleskop rüzgârıyla kubbe terasına", absf(bip.global_position.y - 20.0) < 0.3, str(bip.global_position))

@@ -31,6 +31,8 @@ const AREA_MUSIC := {
 	"ch4_kopru": "res://assets/audio/opengameart/fasttheme.ogg",
 	"ch4_kale": "res://assets/audio/opengameart/mechanical_complex.ogg",
 	"ch4_patron": "res://assets/audio/opengameart/lsc_boss.ogg",
+	"ch5_oyuncak": "res://assets/audio/opengameart/happy_clappy_loop.mp3",
+	"ch5_gozlemevi": "res://assets/audio/opengameart/snow_theme_loop.ogg",
 }
 
 var area_total := 0
