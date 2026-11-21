@@ -23,9 +23,9 @@
 [ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e15"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Bridge_Small.gltf" id="e16"]
 [ext_resource type="Script" path="res://scripts/entities/prop.gd" id="e17"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e18"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e19"]
-[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e20"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e18"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e19"]
+[ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e20"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e21"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/mossy-earth.png" id="tex_mossy_earth"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/lush-meadow-grass.png" id="tex_lush_meadow_grass"]
@@ -162,6 +162,7 @@ script = ExtResource("area")
 area_id = "ch2_rihtim"
 title = "Liman Rıhtımı"
 kill_height = -6
+metadata/turns = [Vector3(0, -18, -35), Vector3(0, -77, 45)]
 music = ExtResource("music")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -177,7 +178,7 @@ directional_shadow_mode = 0
 directional_shadow_max_distance = 45.0
 
 [node name="Sea" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -40)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 12.6187, -8, -36.0213)
 mesh = SubResource("water_mesh")
 cast_shadow = 0
 
@@ -317,12 +318,12 @@ text = "5,5 m"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, -16)
 
 [node name="Checkpoint_1" type="Area3D" parent="Entities"]
-transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -2.5, 5.5, -19)
+transform = Transform3D(-0.819152, 0, 0.573576, -0, 1, 0, -0.573576, 0, -0.819152, -1.4743, 5.5, -20.2531)
 script = ExtResource("e6")
 checkpoint_id = "iskele"
 
 [node name="Goal_Flag_1" parent="Decor" instance=ExtResource("e7")]
-transform = Transform3D(0.458383, 0, -0.774522, 0, 0.9, 0, 0.774522, 0, 0.458383, 3.2, 5.5, -21)
+transform = Transform3D(-0.0687623, 0, -0.897369, 0, 0.9, -0, 0.897369, 0, -0.0687623, 4.34202, 5.5, -18.622)
 
 [node name="Crate_4" type="StaticBody3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 5.5, -16)
@@ -330,132 +331,132 @@ script = ExtResource("e4")
 batteries = 3
 
 [node name="Platform_1" type="AnimatableBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.25, -29)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 6.30934, 5.25, -27.0107)
 script = ExtResource("e8")
 kind = "move"
 size = Vector3(3.5, 0.5, 3.5)
-offset = Vector3(5, 0, 0)
+offset = Vector3(4.09576, 0, 2.86788)
 duration = 2.4
 color = Vector3(0.8, 0.55, 0.32)
 
 [node name="Pil_8" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 6.9, -29)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 7.29232, 6.9, -26.3224)
 script = ExtResource("e2")
 
 [node name="Pil_9" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.34788e-17, 6.9, -27.8)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 5.62105, 6.9, -26.0277)
 script = ExtResource("e2")
 
 [node name="Pil_10" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 6.9, -29)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 5.32636, 6.9, -27.699)
 script = ExtResource("e2")
 
 [node name="Pil_11" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.20436e-16, 6.9, -30.2)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 6.99763, 6.9, -27.9937)
 script = ExtResource("e2")
 
 [node name="Platform_2" type="AnimatableBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 5.25, -38)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 13.5194, 5.25, -32.9491)
 script = ExtResource("e8")
 kind = "move"
 size = Vector3(3.5, 0.5, 3.5)
-offset = Vector3(-5, 0, 0)
+offset = Vector3(-4.09576, 0, -2.86788)
 duration = 2.8
 color = Vector3(0.8, 0.55, 0.32)
 
 [node name="Kutu_7" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, -47)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 16.6337, -2, -41.7554)
 use_collision = true
 size = Vector3(7, 13, 6)
 material = SubResource("m_wood")
 
 [node name="Pil_12" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.3, -33)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 8.60365, 6.3, -30.2873)
 script = ExtResource("e2")
 
 [node name="Pil_13" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.46421, -35.75)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 10.181, 7.46421, -32.5399)
 script = ExtResource("e2")
 
 [node name="Pil_14" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.8, -38.5)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 11.7583, 7.8, -34.7926)
 script = ExtResource("e2")
 
 [node name="Pil_15" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.96421, -41.25)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 13.3357, 6.96421, -37.0453)
 script = ExtResource("e2")
 
 [node name="Pil_16" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.3, -44)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 14.913, 5.3, -39.298)
 script = ExtResource("e2")
 
 [node name="Enemy_1" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -47)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 16.6337, 4.5, -41.7554)
 script = ExtResource("e9")
 kind = "zipzip"
 batteries = 3
 
 [node name="Pirilnokta_3" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, -47)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 16.6337, 6.5, -41.7554)
 
 [node name="Platform_3" type="AnimatableBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3.25, -56)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 20.1576, 3.25, -50.2749)
 script = ExtResource("e8")
 kind = "fall"
 size = Vector3(3, 0.5, 3)
 color = Vector3(0.45, 0.7, 1)
 
 [node name="Pil_17" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 4.3, -56)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 20.1576, 4.3, -50.2749)
 script = ExtResource("e2")
 
 [node name="Platform_4" type="AnimatableBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.75, -62)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 26.8757, 2.75, -52.8955)
 script = ExtResource("e8")
 kind = "fall"
 size = Vector3(3, 0.5, 3)
 color = Vector3(0.45, 0.7, 1)
 
 [node name="Pil_18" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3.8, -62)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 26.8757, 3.8, -52.8955)
 script = ExtResource("e2")
 
 [node name="Platform_5" type="AnimatableBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 3.25, -68)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 27.4501, 3.25, -59.818)
 script = ExtResource("e8")
 kind = "fall"
 size = Vector3(3, 0.5, 3)
 color = Vector3(0.45, 0.7, 1)
 
 [node name="Pil_19" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 4.3, -68)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 27.4501, 4.3, -59.818)
 script = ExtResource("e2")
 
 [node name="Enemy_2" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 4.5, -60)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 27.7764, 4.5, -49.8233)
 script = ExtResource("e9")
 kind = "zipzip"
 batteries = 2
 
 [node name="Kutu_8" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3.5, -60)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 27.7764, 3.5, -49.8233)
 use_collision = true
 size = Vector3(2.5, 2, 2.5)
 material = SubResource("m_stone")
 
 [node name="Kutu_9" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, -77)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 33.841, -2, -66.33)
 use_collision = true
 size = Vector3(8, 12, 8)
 material = SubResource("m_sand")
 
 [node name="Checkpoint_2" type="Area3D" parent="Entities"]
-transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -2.5, 4, -78)
+transform = Transform3D(-0.984808, 0, -0.173648, 0, 1, -0, 0.173648, 0, -0.984808, 31.2053, 4, -66.8807)
 script = ExtResource("e6")
 checkpoint_id = "ada"
 
 [node name="KTreePine_1" type="StaticBody3D" parent="Decor"]
-transform = Transform3D(-0.369486, 0, 0.929236, -0, 1, 0, -0.929236, 0, -0.369486, -2.8, 4, -80.5)
+transform = Transform3D(-0.525233, 0, 0.850959, -0, 1, 0, -0.850959, 0, -0.525233, 31.2229, 4, -68.5084)
 
 [node name="Model" parent="Decor/KTreePine_1" instance=ExtResource("e10")]
 transform = Transform3D(1.92, 0, 0, 0, 1.92, 0, 0, 0, 1.92, 0, 0, 0)
@@ -465,170 +466,170 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("trunk")
 
 [node name="KMushrooms_1" parent="Decor" instance=ExtResource("e11")]
-transform = Transform3D(-1.90347, 0, -0.251402, 0, 1.92, -0, 0.251402, 0, -1.90347, 2.6, 4, -80.3)
+transform = Transform3D(-1.8309, 0, -0.578117, 0, 1.92, -0, 0.578117, 0, -1.8309, 35.8285, 4, -70.0313)
 
 [node name="KPlant_1" parent="Decor" instance=ExtResource("e12")]
-transform = Transform3D(-2.49311, 0, 0.435896, -0, 2.53092, 0, -0.435896, 0, -2.49311, -1.9879, 4, -75.3479)
+transform = Transform3D(-1.79221, 0, 1.78705, -0, 2.53092, 0, -1.78705, 0, -1.79221, 31.265, 4, -66.1168)
 
 [node name="KPlant_2" parent="Decor" instance=ExtResource("e12")]
-transform = Transform3D(1.70822, 0, -2.2, 0, 2.78532, 0, 2.2, 0, 1.70822, 2.01882, 4, -80.4082)
+transform = Transform3D(2.06429, 0, -1.86995, 0, 2.78532, 0, 1.86995, 0, 2.06429, 35.2373, 4, -70.037)
 
 [node name="KPlant_3" parent="Decor" instance=ExtResource("e12")]
-transform = Transform3D(2.38375, 0, 0.0365299, 0, 2.38403, 0, -0.0365299, 0, 2.38375, 1.75924, 4, -74.5103)
+transform = Transform3D(1.97361, 0, -1.33734, 0, 2.38403, 0, 1.33734, 0, 1.97361, 33.8541, 4, -63.2815)
 
 [node name="KPlant_4" parent="Decor" instance=ExtResource("e12")]
-transform = Transform3D(2.69686, 0, 0.751166, 0, 2.79951, 0, -0.751166, 0, 2.69686, 1.67081, 4, -74.8122)
+transform = Transform3D(2.63999, 0, -0.931534, 0, 2.79951, 0, 0.931534, 0, 2.63999, 33.9548, 4, -63.5795)
 
 [node name="KGrass_1" parent="Decor" instance=ExtResource("e13")]
-transform = Transform3D(2.05019, 0, 0.997296, 0, 2.27988, 0, -0.997296, 0, 2.05019, -3.33743, 4, -75.6834)
+transform = Transform3D(2.25144, 0, -0.359002, 0, 2.27988, 0, 0.359002, 0, 2.25144, 30.352, 4, -67.1657)
 
 [node name="KGrass_2" parent="Decor" instance=ExtResource("e13")]
-transform = Transform3D(0.724493, 0, -2.11076, 0, 2.23164, 0, 2.11076, 0, 0.724493, -2.19164, 4, -80.2586)
+transform = Transform3D(1.08002, 0, -1.95289, 0, 2.23164, 0, 1.95289, 0, 1.08002, 31.1168, 4, -69.1585)
 
 [node name="KGrass_3" parent="Decor" instance=ExtResource("e13")]
-transform = Transform3D(-2.25243, 0, -0.337546, 0, 2.27758, -0, 0.337546, 0, -2.25243, 2.78175, 4, -74.0727)
+transform = Transform3D(-2.03869, 0, 1.01544, -0, 2.27758, 0, -1.01544, 0, -2.03869, 34.4406, 4, -62.3365)
 
 [node name="KGrass_4" parent="Decor" instance=ExtResource("e13")]
-transform = Transform3D(-2.53912, 0, -1.6203, 0, 3.01206, -0, 1.6203, 0, -2.53912, 2.28913, 4, -79.193)
+transform = Transform3D(-2.21918, 0, -2.0366, 0, 3.01206, -0, 2.0366, 0, -2.21918, 35.7146, 4, -68.8871)
 
 [node name="Copy_2" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 4, -75.5)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 34.9466, 4, -63.7247)
 script = ExtResource("e0")
 ability = "pervane"
 
 [node name="Kutu_10" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3, 8.8, -77)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 27.8612, 8.8, -70.5171)
 use_collision = true
 size = Vector3(2.4, 0.4, 2.4)
 material = SubResource("m_wood")
 
 [node name="Screw_1" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3, 9.1, -77)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 27.8612, 9.1, -70.5171)
 script = ExtResource("e14")
 
 [node name="Kutu_11" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -88)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 31.9309, 2.5, -77.1629)
 use_collision = true
 size = Vector3(3.5, 1, 3.5)
 material = SubResource("m_kitside")
 
 [node name="Kutu_12" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, -97)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 30.368, 5.5, -86.0261)
 use_collision = true
 size = Vector3(3.5, 1, 3.5)
 material = SubResource("m_kitside")
 
 [node name="Kutu_13" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -106.5)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 28.7184, 2, -95.3818)
 use_collision = true
 size = Vector3(3.5, 1, 3.5)
 material = SubResource("m_kitside")
 
 [node name="Pil_20" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.8, -81)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 33.1464, 4.8, -70.2692)
 script = ExtResource("e2")
 
 [node name="Pil_21" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.63173, -83.3333)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 32.7412, 6.63173, -72.5671)
 script = ExtResource("e2")
 
 [node name="Pil_22" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.2984, -85.6667)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 32.3361, 6.2984, -74.865)
 script = ExtResource("e2")
 
 [node name="Pil_23" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, -88)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 31.9309, 3.8, -77.1629)
 script = ExtResource("e2")
 
 [node name="Pil_24" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, -88)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 31.9309, 3.8, -77.1629)
 script = ExtResource("e2")
 
 [node name="Pil_25" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2641, -91)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 31.4099, 8.2641, -80.1173)
 script = ExtResource("e2")
 
 [node name="Pil_26" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.2641, -94)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 30.889, 9.2641, -83.0717)
 script = ExtResource("e2")
 
 [node name="Pil_27" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.8, -97)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 30.368, 6.8, -86.0261)
 script = ExtResource("e2")
 
 [node name="Pil_28" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.8, -97)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 30.368, 6.8, -86.0261)
 script = ExtResource("e2")
 
 [node name="Pil_29" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.23141, -100.167)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 29.8182, 8.23141, -89.1447)
 script = ExtResource("e2")
 
 [node name="Pil_30" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.06474, -103.333)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 29.2683, 7.06474, -92.2632)
 script = ExtResource("e2")
 
 [node name="Pil_31" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3, -106.5)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 28.7184, 3.3, -95.3818)
 script = ExtResource("e2")
 
 [node name="Enemy_3" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -97)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 30.368, 6, -86.0261)
 script = ExtResource("e9")
 kind = "zipzip"
 batteries = 2
 
 [node name="Pirilnokta_4" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -97)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 30.368, 8, -86.0261)
 
 [node name="Kutu_14" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, -119)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 26.5478, -2.5, -107.692)
 use_collision = true
 size = Vector3(12, 12, 14)
 material = SubResource("m_wood")
 
 [node name="Checkpoint_3" type="Area3D" parent="Entities"]
-transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -3.5, 3.5, -115)
+transform = Transform3D(-0.984808, 0, -0.173648, 0, 1, -0, 0.173648, 0, -0.984808, 23.7956, 3.5, -103.145)
 script = ExtResource("e6")
 checkpoint_id = "varis"
 
 [node name="Crate_5" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3.5, -116)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 31.008, 3.5, -105.432)
 script = ExtResource("e4")
 batteries = 3
 
 [node name="Exit_1" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -122)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 26.0268, 3.5, -110.646)
 script = ExtResource("e15")
 
 [node name="Goal_Flag_2" parent="Decor" instance=ExtResource("e7")]
-transform = Transform3D(-0.596116, 0, -0.674275, 0, 0.9, -0, 0.674275, 0, -0.596116, -4.5, 3.5, -124)
+transform = Transform3D(-0.469973, 0, -0.767545, 0, 0.9, -0, 0.767545, 0, -0.469973, 21.2479, 3.5, -111.835)
 
 [node name="Bridge_Small_1" parent="Decor" instance=ExtResource("e16")]
-transform = Transform3D(0.48, 0, 0, 0, 0.48, 0, 0, 0, 0.48, 4.5, 3.5816, -124)
+transform = Transform3D(0.472708, 0, 0.0833511, 0, 0.48, 0, -0.0833511, 0, 0.472708, 30.1112, 3.5816, -113.397)
 
 [node name="Kutu_15" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 4, -113)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 22.1732, 4, -100.828)
 use_collision = true
 size = Vector3(0.6, 1, 0.6)
 material = SubResource("m_stone")
 
 [node name="Kutu_16" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 4, -113)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 33.0061, 4, -102.738)
 use_collision = true
 size = Vector3(0.6, 1, 0.6)
 material = SubResource("m_stone")
 
 [node name="Kutu_17" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, -7, -55)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, -7, -10)
 use_collision = true
-size = Vector3(22, 8, 150)
+size = Vector3(22, 8, 64)
 material = SubResource("m_grass2")
 
 [node name="Kutu_18" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, -2, -55)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, -2, -10)
 use_collision = true
-size = Vector3(14, 2, 150)
+size = Vector3(14, 2, 64)
 material = SubResource("m_grass")
 
 [node name="Kutu_19" type="CSGBox3D" parent="Level"]
@@ -656,49 +657,49 @@ size = Vector3(0.5, 8, 0.5)
 material = SubResource("m_wood")
 
 [node name="Kutu_23" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, -4.5, -21.5)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, -0.94143, -4.5, -22.9319)
 use_collision = true
 size = Vector3(0.5, 8, 0.5)
 material = SubResource("m_wood")
 
 [node name="Kutu_24" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, -4.5, -21.5)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 4.95646, -4.5, -18.8022)
 use_collision = true
 size = Vector3(0.5, 8, 0.5)
 material = SubResource("m_wood")
 
 [node name="Kutu_25" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, -4.5, -49.5)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 15.4464, -4.5, -45.6387)
 use_collision = true
 size = Vector3(0.5, 8, 0.5)
 material = SubResource("m_wood")
 
 [node name="Kutu_26" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, -4.5, -49.5)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 20.6889, -4.5, -41.9678)
 use_collision = true
 size = Vector3(0.5, 8, 0.5)
 material = SubResource("m_wood")
 
 [node name="Prop_1" type="Node3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -8, -30)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 14.2553, -8, -22.6676)
 script = ExtResource("e17")
 kind = "dolphin"
 size = 1
 
 [node name="Prop_2" type="Node3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -8, -62)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 18.6841, -8, -58.6313)
 script = ExtResource("e17")
 kind = "dolphin"
 size = 0.9
 
 [node name="Prop_3" type="Node3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -8, -92)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 39.1147, -8, -82.4913)
 script = ExtResource("e17")
 kind = "dolphin"
 size = 1
 
 [node name="Prop_4" type="Node3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -8, -104)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 20.2892, -8, -91.3569)
 script = ExtResource("e17")
 kind = "dolphin"
 size = 0.8
@@ -710,19 +711,19 @@ kind = "dolphin"
 size = 1.1
 
 [node name="Prop_6" type="Node3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, -8.5, -80)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 77.6364, -8.5, -77.0986)
 script = ExtResource("e17")
 kind = "whale"
 size = 2
 
 [node name="Kutu_27" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, -6, -175)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 46.3677, -6, -168.051)
 use_collision = true
 size = Vector3(18, 8, 18)
 material = SubResource("m_stone")
 
 [node name="Prop_7" type="Node3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 18, -175)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 46.3677, 18, -168.051)
 script = ExtResource("e17")
 kind = "lamp"
 size = 3
@@ -740,7 +741,7 @@ size = Vector3(3.6, 0.4, 3.6)
 material = SubResource("m_wood")
 
 [node name="Crate_6" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.1, 11, -19.1)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 8.08522, 11, -13.6815)
 script = ExtResource("e4")
 batteries = 5
 
@@ -761,90 +762,90 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 11.8, -18)
 script = ExtResource("e2")
 
 [node name="Pil_36" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 11.8, -18.866)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 6.64037, 11.8, -14.4076)
 script = ExtResource("e2")
 
 [node name="Pil_37" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 11.8, -18.866)
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, 7.45952, 11.8, -13.834)
 script = ExtResource("e2")
 
 [node name="Prop_8" type="Node3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -8, -230)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 66.3613, -8, -227.424)
 script = ExtResource("e17")
 kind = "dark_tower"
 size = 2.5
 
 [node name="Prop_9" type="Node3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 28, -200)
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 51.8746, 28, -194.407)
 script = ExtResource("e17")
 kind = "storm"
 size = 4
 
-[node name="Cloud_1_1" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(-1.5828, 0, 2.44042, -0, 2.90876, 0, -2.44042, 0, -1.5828, -86.133, 19.7308, 5.4789)
+[node name="Cloud_3_1" parent="Clouds" instance=ExtResource("e18")]
+transform = Transform3D(0.0389598, 0, -2.22046, 0, 2.22081, 0, 2.22046, 0, 0.0389598, 97.8219, 26.1307, 49.2003)
 
-[node name="Cloud_1_2" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(-2.73002, 0, -0.362791, 0, 2.75402, -0, 0.362791, 0, -2.73002, -93.0477, -4.81642, -150.394)
+[node name="Cloud_1_1" parent="Clouds" instance=ExtResource("e19")]
+transform = Transform3D(2.85145, 0, -0.440536, 0, 2.88528, 0, 0.440536, 0, 2.85145, 90.9863, 24.8845, -175.469)
 
-[node name="Cloud_1_3" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(-1.97767, 0, -2.22274, 0, 2.97519, -0, 2.22274, 0, -1.97767, -49.557, -4.42312, 48.4857)
+[node name="Cloud_2_1" parent="Clouds" instance=ExtResource("e20")]
+transform = Transform3D(1.92075, 0, -1.7663, 0, 2.60943, 0, 1.7663, 0, 1.92075, -24.5658, -4.74135, -118.82)
 
-[node name="Cloud_2_1" parent="Clouds" instance=ExtResource("e19")]
-transform = Transform3D(-1.59719, 0, 0.9914, -0, 1.87986, 0, -0.9914, 0, -1.59719, -69.2317, 19.7513, -116.748)
+[node name="Cloud_1_2" parent="Clouds" instance=ExtResource("e19")]
+transform = Transform3D(2.46284, 0, 1.80266, 0, 3.05207, 0, -1.80266, 0, 2.46284, -69.7602, 14.2334, -16.028)
 
-[node name="Cloud_2_2" parent="Clouds" instance=ExtResource("e19")]
-transform = Transform3D(-1.56798, 0, 1.99178, -0, 2.53491, 0, -1.99178, 0, -1.56798, -72.1378, -4.8529, -18.1851)
+[node name="Cloud_3_2" parent="Clouds" instance=ExtResource("e18")]
+transform = Transform3D(-2.82847, 0, -0.937306, 0, 2.97973, -0, 0.937306, 0, -2.82847, -9.95773, 24.3642, -160.073)
 
-[node name="Cloud_1_4" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(-1.50311, 0, -1.13655, 0, 1.88443, -0, 1.13655, 0, -1.50311, 70.3364, -5.22841, -56.3847)
+[node name="Cloud_3_3" parent="Clouds" instance=ExtResource("e18")]
+transform = Transform3D(0.716703, 0, 1.71775, 0, 1.86127, 0, -1.71775, 0, 0.716703, -37.8138, 23.5323, -89.9446)
 
-[node name="Cloud_3_1" parent="Clouds" instance=ExtResource("e20")]
-transform = Transform3D(-0.694293, 0, -1.96614, 0, 2.08513, -0, 1.96614, 0, -0.694293, -62.6639, -3.64156, -40.3136)
+[node name="Cloud_2_2" parent="Clouds" instance=ExtResource("e20")]
+transform = Transform3D(-0.435551, 0, 2.62788, -0, 2.66373, 0, -2.62788, 0, -0.435551, -21.5318, 27.2908, -109.036)
 
-[node name="Cloud_1_5" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(0.872441, 0, -2.78116, 0, 2.91479, 0, 2.78116, 0, 0.872441, 88.4181, -3.33613, -109.041)
+[node name="Cloud_1_3" parent="Clouds" instance=ExtResource("e19")]
+transform = Transform3D(0.136844, 0, 2.6005, 0, 2.6041, 0, -2.6005, 0, 0.136844, 77.2256, -5.5741, -179.804)
 
-[node name="Cloud_1_6" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(1.47448, 0, 1.68389, 0, 2.23821, 0, -1.68389, 0, 1.47448, 48.8397, -4.18831, -8.02428)
+[node name="Cloud_2_3" parent="Clouds" instance=ExtResource("e20")]
+transform = Transform3D(0.854625, 0, -2.23323, 0, 2.39117, 0, 2.23323, 0, 0.854625, -69.5225, 16.8644, -159.456)
 
-[node name="Cloud_3_2" parent="Clouds" instance=ExtResource("e20")]
-transform = Transform3D(-1.33306, 0, -1.11883, 0, 1.74035, -0, 1.11883, 0, -1.33306, -20.4126, 15.7331, -61.2561)
+[node name="Cloud_3_4" parent="Clouds" instance=ExtResource("e18")]
+transform = Transform3D(1.53498, 0, 2.22567, 0, 2.70366, 0, -2.22567, 0, 1.53498, -47.8164, -4.86657, -144.839)
 
-[node name="Cloud_3_3" parent="Clouds" instance=ExtResource("e20")]
-transform = Transform3D(-1.466, 0, 1.0818, -0, 1.82193, 0, -1.0818, 0, -1.466, -38.1177, 20.0499, 32.2112)
+[node name="Cloud_2_4" parent="Clouds" instance=ExtResource("e20")]
+transform = Transform3D(1.25749, 0, -2.47939, 0, 2.78004, 0, 2.47939, 0, 1.25749, 54.8498, -5.97653, 1.40314)
 
-[node name="Cloud_1_7" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(-1.17637, 0, -2.28238, 0, 2.5677, -0, 2.28238, 0, -1.17637, 93.4223, -3.90166, -133.156)
+[node name="Cloud_1_4" parent="Clouds" instance=ExtResource("e19")]
+transform = Transform3D(-0.442294, 0, -2.19587, 0, 2.23997, -0, 2.19587, 0, -0.442294, 62.9609, -3.9098, -144.765)
 
-[node name="Cloud_3_4" parent="Clouds" instance=ExtResource("e20")]
-transform = Transform3D(0.702234, 0, 1.64171, 0, 1.7856, 0, -1.64171, 0, 0.702234, -59.7355, -4.02612, -201.712)
+[node name="Cloud_3_5" parent="Clouds" instance=ExtResource("e18")]
+transform = Transform3D(-2.52649, 0, -0.31216, 0, 2.5457, -0, 0.31216, 0, -2.52649, 102.287, -4.49064, -139.723)
 
-[node name="Cloud_2_3" parent="Clouds" instance=ExtResource("e19")]
-transform = Transform3D(-1.86274, 0, -1.55283, 0, 2.42509, -0, 1.55283, 0, -1.86274, 51.9827, 12.3165, -94.5435)
+[node name="Cloud_1_5" parent="Clouds" instance=ExtResource("e19")]
+transform = Transform3D(-1.17637, 0, -2.28238, 0, 2.5677, -0, 2.28238, 0, -1.17637, 46.9145, -5.06953, 50.7912)
 
-[node name="Cloud_2_4" parent="Clouds" instance=ExtResource("e19")]
-transform = Transform3D(1.10548, 0, 2.45675, 0, 2.69402, 0, -2.45675, 0, 1.10548, -19.6972, -5.85354, -156.864)
+[node name="Cloud_3_6" parent="Clouds" instance=ExtResource("e18")]
+transform = Transform3D(0.406484, 0, 1.73872, 0, 1.7856, 0, -1.73872, 0, 0.406484, -46.643, -4.02612, -178.774)
 
-[node name="Cloud_1_8" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(2.52062, 0, 0.594689, 0, 2.58983, 0, -0.594689, 0, 2.52062, 44.7519, 18.1665, -92.3222)
+[node name="Cloud_2_5" parent="Clouds" instance=ExtResource("e20")]
+transform = Transform3D(-1.5648, 0, -1.8527, 0, 2.42509, -0, 1.8527, 0, -1.5648, 81.9876, 12.3165, -92.6337)
 
-[node name="Cloud_2_5" parent="Clouds" instance=ExtResource("e19")]
-transform = Transform3D(0.13828, 0, 2.5789, 0, 2.5826, 0, -2.5789, 0, 0.13828, -82.9187, -4.52435, -85.682)
+[node name="Cloud_2_6" parent="Clouds" instance=ExtResource("e20")]
+transform = Transform3D(0.662076, 0, 2.6114, 0, 2.69402, 0, -2.6114, 0, 0.662076, 0.574798, -5.85354, -141.56)
 
-[node name="Cloud_2_6" parent="Clouds" instance=ExtResource("e19")]
+[node name="Cloud_1_6" parent="Clouds" instance=ExtResource("e19")]
+transform = Transform3D(2.37906, 0, 1.02336, 0, 2.58983, 0, -1.02336, 0, 2.37906, 75.2524, 18.1665, -89.1905)
+
+[node name="Cloud_2_7" parent="Clouds" instance=ExtResource("e20")]
+transform = Transform3D(-0.311641, 0, 2.56373, -0, 2.5826, 0, -2.56373, 0, -0.311641, -49.3256, -4.52435, -60.4814)
+
+[node name="Cloud_2_8" parent="Clouds" instance=ExtResource("e20")]
 transform = Transform3D(-2.26218, 0, -1.97044, 0, 3.00002, -0, 1.97044, 0, -2.26218, 33.6057, -3.90292, 20.4937)
 
-[node name="Cloud_1_9" parent="Clouds" instance=ExtResource("e18")]
+[node name="Cloud_1_7" parent="Clouds" instance=ExtResource("e19")]
 transform = Transform3D(-0.805682, 0, -1.97193, 0, 2.13017, -0, 1.97193, 0, -0.805682, 22.9419, -3.10889, 10.9537)
 
-[node name="Cloud_3_5" parent="Clouds" instance=ExtResource("e20")]
-transform = Transform3D(-0.145897, 0, 3.03517, -0, 3.03868, 0, -3.03517, 0, -0.145897, -21.7554, 13.2723, -179.282)
-
-[node name="Cloud_3_6" parent="Clouds" instance=ExtResource("e20")]
-transform = Transform3D(-1.36205, 0, 1.68006, -0, 2.16282, 0, -1.68006, 0, -1.36205, -7.53021, -3.13199, -189.699)
-
-[node name="Cloud_1_10" parent="Clouds" instance=ExtResource("e18")]
-transform = Transform3D(-2.97268, 0, 0.131748, -0, 2.9756, 0, -0.131748, 0, -2.97268, 36.3262, 17.1538, -146.957)
+[node name="Cloud_3_7" parent="Clouds" instance=ExtResource("e18")]
+transform = Transform3D(-0.670732, 0, 2.96372, -0, 3.03868, 0, -2.96372, 0, -0.670732, -5.34496, 13.2723, -163.28)
 
 [node name="Trigger_1" type="Area3D" parent="Entities"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.2, 11, -18)
@@ -855,4 +856,4 @@ arg = "direk"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")
-items = ["cap#stone", Transform3D(2.54, 0, 0, 0, 1, 0, 0, 0, 2.54, 4.5, 4.02, -60), "cap#sand", Transform3D(8.04, 0, 0, 0, 1, 0, 0, 0, 8.04, 0, 3.52, -77), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.339405, 0, 0.8238, 0, 0.890979, 0, -0.8238, 0, 0.339405, 2.07237, 4, -74.4707), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-0.0845354, 0, 1.39723, -0, 1.39979, 0, -1.39723, 0, -0.0845354, -2.26999, 4, -77.5114), "res://assets/models/kenney/platformer/stones.glb", Transform3D(0.561994, 0, 1.09493, 0, 1.23074, 0, -1.09493, 0, 0.561994, 2.75437, 4, -77.3647), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.21133, 0, -0.750524, 0, 1.42499, 0, 0.750524, 0, 1.21133, -2.3085, 4, -74.8816), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.387522, 0, 1.17132, 0, 1.23376, 0, -1.17132, 0, 0.387522, -1.27652, 4, -77.9988), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, -0.875, 2.02, -88.875), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, -0.875, 2.02, -87.125), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, 0.875, 2.02, -88.875), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, 0.875, 2.02, -87.125), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, -0.875, 5.02, -97.875), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, -0.875, 5.02, -96.125), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, 0.875, 5.02, -97.875), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, 0.875, 5.02, -96.125), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, -0.875, 1.52, -107.375), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, -0.875, 1.52, -105.625), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, 0.875, 1.52, -107.375), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.895, 0, 0, 0, 1, 0, 0, 0, 0.895, 0.875, 1.52, -105.625), "res://assets/models/kaykit/medieval/building_home_A_blue.gltf", Transform3D(3.67394e-16, 0, -6, 0, 6, 0, 6, 0, 3.67394e-16, -24.5, -3, 6), "res://assets/models/kaykit/medieval/building_tavern_yellow.gltf", Transform3D(-1.77312, 0, -5.73202, 0, 6, -0, 5.73202, 0, -1.77312, -29, -3, -10), "res://assets/models/kaykit/medieval/building_home_B_red.gltf", Transform3D(-3.38785, 0, -4.95201, 0, 6, -0, 4.95201, 0, -3.38785, -24.5, -3, -26), "res://assets/models/kaykit/medieval/building_market_green.gltf", Transform3D(3.67394e-16, 0, -6, 0, 6, 0, 6, 0, 3.67394e-16, -29, -3, -42), "res://assets/models/kaykit/medieval/building_watermill_blue.gltf", Transform3D(-1.77312, 0, -5.73202, 0, 6, -0, 5.73202, 0, -1.77312, -24.5, -3, -58), "res://assets/models/kaykit/medieval/building_home_A_blue.gltf", Transform3D(-3.38785, 0, -4.95201, 0, 6, -0, 4.95201, 0, -3.38785, -29, -3, -74), "res://assets/models/kaykit/medieval/building_windmill_red.gltf", Transform3D(3.67394e-16, 0, -6, 0, 6, 0, 6, 0, 3.67394e-16, -24.5, -3, -92), "res://assets/models/kaykit/medieval/building_home_B_red.gltf", Transform3D(-1.77312, 0, -5.73202, 0, 6, -0, 5.73202, 0, -1.77312, -29, -3, -108), "res://assets/models/kaykit/medieval/building_tavern_yellow.gltf", Transform3D(-3.38785, 0, -4.95201, 0, 6, -0, 4.95201, 0, -3.38785, -24.5, -3, -124), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(-1.32217, 0, -2.91408, 0, 3.2, -0, 2.91408, 0, -1.32217, -36, -1, 10.0086), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(3.15466, 0, -0.53674, 0, 3.2, 0, 0.53674, 0, 3.15466, -36, -1, -4.68044), "res://assets/models/kenney/platformer/tree.glb", Transform3D(-0.685593, 0, 3.12569, -0, 3.2, 0, -3.12569, 0, -0.685593, -36, -1, -20.0463), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(2.89475, 0, -1.36397, 0, 3.2, 0, 1.36397, 0, 2.89475, -36, -1, -34.983), "res://assets/models/kenney/platformer/tree.glb", Transform3D(-1.33477, 0, -2.90833, 0, 3.2, -0, 2.90833, 0, -1.33477, -36, -1, -45.5709), "res://assets/models/kenney/platformer/tree.glb", Transform3D(1.54151, 0, -2.80424, 0, 3.2, 0, 2.80424, 0, 1.54151, -36, -1, -61.9159), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(-1.58039, 0, -2.78251, 0, 3.2, -0, 2.78251, 0, -1.58039, -36, -1, -71.998), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(1.5661, 0, -2.79058, 0, 3.2, 0, 2.79058, 0, 1.5661, -36, -1, -89.5254), "res://assets/models/kenney/platformer/tree.glb", Transform3D(-2.25827, 0, -2.26721, 0, 3.2, -0, 2.26721, 0, -2.25827, -36, -1, -100.338), "res://assets/models/kenney/platformer/tree.glb", Transform3D(2.56792, 0, 1.90939, 0, 3.2, 0, -1.90939, 0, 2.56792, -36, -1, -114.945), "res://assets/models/kaykit/medieval/mountain_A_grass_trees.gltf", Transform3D(12.8949, 0, -5.45186, 0, 14, 0, 5.45186, 0, 12.8949, -55, 0, -40), "res://assets/models/kaykit/medieval/hills_A_trees.gltf", Transform3D(5.07301, 0, -13.0485, 0, 14, 0, 13.0485, 0, 5.07301, -50, 0, -110), "res://assets/models/kaykit/medieval/crate_A_big.gltf", Transform3D(-4.16707, 0, -2.76325, 0, 5, -0, 2.76325, 0, -4.16707, -4.6, 0, 3.5), "res://assets/models/kaykit/medieval/crate_A_big.gltf", Transform3D(4.85019, 0, 1.21475, 0, 5, 0, -1.21475, 0, 4.85019, -5, 0, 2.6), "res://assets/models/kaykit/medieval/barrel.gltf", Transform3D(3.70284, 0, 3.3599, 0, 5, 0, -3.3599, 0, 3.70284, 4.8, 0, -6.5), "res://assets/models/kaykit/medieval/crate_B_small.gltf", Transform3D(-4.99659, 0, 0.1846, -0, 5, 0, -0.1846, 0, -4.99659, 2.6, 5.5, -20.6), "res://assets/models/kaykit/medieval/crate_A_big.gltf", Transform3D(4.59885, 0, 1.96228, 0, 5, 0, -1.96228, 0, 4.59885, -2.6, 4.5, -45.2), "res://assets/models/kaykit/medieval/crate_A_big.gltf", Transform3D(2.62025, 0, -4.25844, 0, 5, 0, 4.25844, 0, 2.62025, 4.5, 3.5, -113.5), "res://assets/models/kaykit/medieval/pallet.gltf", Transform3D(4.90033, 0, -0.993347, 0, 5, 0, 0.993347, 0, 4.90033, -4.2, 0, -5.8), "res://assets/models/kaykit/medieval/crate_long_A.gltf", Transform3D(-0.145998, 0, -4.99787, 0, 5, -0, 4.99787, 0, -0.145998, 3.4, 0, 6.4), "res://assets/models/kaykit/medieval/wheelbarrow.gltf", Transform3D(3.48353, 0, -3.58678, 0, 5, 0, 3.58678, 0, 3.48353, -4, 3.5, -117.5), "res://assets/models/kaykit/medieval/bucket_water.gltf", Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 3, 4, -79.2), "cap#sand", Transform3D(18.04, 0, 0, 0, 1, 0, 0, 0, 18.04, 30, -2.48, -175), "res://assets/models/kenney/platformer/stones.glb", Transform3D(-1.29444, 0, 0.711207, -0, 1.47695, 0, -0.711207, 0, -1.29444, 25.1698, -2, -178.74), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.27175, 0, -0.280225, 0, 1.30226, 0, 0.280225, 0, 1.27175, 38.1249, -2, -173.505), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.112829, 0, 1.26627, 0, 1.27129, 0, -1.26627, 0, 0.112829, 26.6965, -2, -179.939), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.48198, 0, -0.731281, 0, 1.65259, 0, 0.731281, 0, 1.48198, 37.5604, -2, -182.485), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(-0.664177, 0, -0.618672, 0, 0.907682, -0, 0.618672, 0, -0.664177, 35.2031, -2, -174.383), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.772092, 0, 1.53103, 0, 1.7147, 0, -1.53103, 0, 0.772092, 22.9409, -2, -167.923), "res://assets/models/kenney/platformer/grass.glb", Transform3D(1.77587, 0, 0.214849, 0, 1.78882, 0, -0.214849, 0, 1.77587, 32.6564, -2, -167.147), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.10283, 0, -1.08354, 0, 1.54605, -0, 1.08354, 0, -1.10283, 32.74, -2, -171.165), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.790569, 0, 0.472685, 0, 0.921103, 0, -0.472685, 0, 0.790569, 27.8116, -2, -168.055), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-0.694727, 0, 1.18438, -0, 1.3731, 0, -1.18438, 0, -0.694727, 28.9534, -2, -175.28), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(-1.09564, 0, 0.210153, -0, 1.11561, 0, -0.210153, 0, -1.09564, 22.2054, -2, -177.402), "res://assets/models/kenney/platformer/stones.glb", Transform3D(0.705452, 0, 1.18424, 0, 1.37844, 0, -1.18424, 0, 0.705452, 22.8555, -2, -169.365), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.64784, 0, 0.364612, 0, 1.68769, 0, -0.364612, 0, 1.64784, 25.8996, -2, -167.357), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.691607, 0, -1.4053, 0, 1.56626, 0, 1.4053, 0, 0.691607, 25.7257, -2, -167.717), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.26555, 0, -0.0269399, 0, 1.26584, 0, 0.0269399, 0, 1.26555, 27.8151, -2, -177.54), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.30484, 0, 0.960653, -0, 1.62033, 0, -0.960653, 0, -1.30484, 31.5051, -2, -171.569), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.899893, 0, 0.994224, 0, 1.341, 0, -0.994224, 0, 0.899893, 29.6295, -2, -181.343), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(-0.918961, 0, 0.397592, -0, 1.00128, 0, -0.397592, 0, -0.918961, 24.4415, -2, -181.332), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.493162, 0, 0.960316, 0, 1.07954, 0, -0.960316, 0, 0.493162, 24.7342, -2, -170.69), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-1.25076, 0, -0.336005, 0, 1.29511, -0, 0.336005, 0, -1.25076, 24.4182, -2, -181.535), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-1.14648, 0, -1.13844, 0, 1.6157, -0, 1.13844, 0, -1.14648, 22.0288, -2, -171.711), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-0.343497, 0, 1.1956, -0, 1.24397, 0, -1.1956, 0, -0.343497, 25.9853, -2, -181.871), "res://assets/models/kenney/platformer/stones.glb", Transform3D(0.382773, 0, -1.21061, 0, 1.26969, 0, 1.21061, 0, 0.382773, 27.0566, -2, -172.857), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.215213, 0, -0.773349, 0, 0.802737, 0, 0.773349, 0, 0.215213, 25.3632, -2, -174.055), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.671109, 0, 1.10353, 0, 1.29157, 0, -1.10353, 0, 0.671109, 38.1875, -2, -177.048), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(-0.623161, 0, -0.643438, 0, 0.895735, -0, 0.643438, 0, -0.623161, 29.3087, -2, -174.193), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.802945, 0, -0.749047, 0, 1.09809, 0, 0.749047, 0, 0.802945, 22.5007, -2, -182.272), "res://assets/models/kenney/platformer/stones.glb", Transform3D(0.396268, 0, -1.58293, 0, 1.63178, 0, 1.58293, 0, 0.396268, 28.7514, -2, -177.999), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.298387, 0, -1.31028, 0, 1.34382, 0, 1.31028, 0, 0.298387, 25.095, -2, -176.556), "res://assets/models/kaykit/platformer/flag_A_red.gltf", Transform3D(0.452305, 0, 0.891864, 0, 1, 0, -0.891864, 0, 0.452305, 38.4, -2, -166.6), "res://assets/models/kaykit/medieval/building_tower_A_red.gltf", Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 30, -2, -175), "res://assets/models/kaykit/medieval/flag_red.gltf", Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 8.6, 11, -17.2)]
+items = ["cap#stone", Transform3D(2.08065, 0, -1.45688, 0, 1, 0, 1.45688, 0, 2.08065, 27.7764, 4.02, -49.8233), "cap#sand", Transform3D(6.58598, 0, -4.61155, 0, 1, 0, 4.61155, 0, 6.58598, 33.841, 3.52, -66.33), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.750537, 0, 0.480143, 0, 0.890979, 0, -0.480143, 0, 0.750537, 34.0878, 4, -63.0694), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.732172, 0, 1.19303, 0, 1.39979, 0, -1.19303, 0, 0.732172, 32.2749, 4, -68.0509), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.08839, 0, 0.574571, 0, 1.23074, 0, -0.574571, 0, 1.08839, 36.3065, 4, -65.0489), "res://assets/models/kenney/platformer/stones.glb", Transform3D(0.561778, 0, -1.30958, 0, 1.42499, 0, 1.30958, 0, 0.561778, 30.7349, 4, -65.9188), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.989282, 0, 0.737218, 0, 1.23376, 0, -0.737218, 0, 0.989282, 33.3683, 4, -67.8803), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 30.9172, 2.02, -77.8726), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 31.2211, 2.02, -76.1492), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 32.6406, 2.02, -78.1765), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 32.9445, 2.02, -76.4531), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 29.3544, 5.02, -86.7359), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 29.6583, 5.02, -85.0125), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 31.0778, 5.02, -87.0398), "res://assets/models/kaykit/platformer/platform_2x2x1_red.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 31.3817, 5.02, -85.3164), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 27.7047, 1.52, -96.0916), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 28.0086, 1.52, -94.3682), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 29.4282, 1.52, -96.3954), "res://assets/models/kaykit/platformer/platform_2x2x1_blue.gltf", Transform3D(0.881403, 0, 0.155415, 0, 1, 0, -0.155415, 0, 0.881403, 29.732, 1.52, -94.672), "cap#grass", Transform3D(14.04, 0, 0, 0, 1, 0, 0, 0, 64.04, -33, -1.48, -10), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.29444, 0, 0.711207, -0, 1.47695, 0, -0.711207, 0, -1.29444, -36.6521, -1, -24.231), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.27175, 0, -0.280225, 0, 1.30226, 0, 0.280225, 0, 1.27175, -26.8568, -1, -4.31164), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.112829, 0, 1.26627, 0, 1.27129, 0, -1.26627, 0, 0.112829, -35.4978, -1, -28.7935), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.48198, 0, -0.731281, 0, 1.65259, 0, 0.731281, 0, 1.48198, -27.2836, -1, -38.4805), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-0.996266, 0, -0.928009, 0, 1.36152, -0, 0.928009, 0, -0.996266, -29.066, -1, -7.6508), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.772092, 0, 1.53103, 0, 1.7147, 0, -1.53103, 0, 0.772092, -38.3374, -1, 16.9272), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.77587, 0, 0.214849, 0, 1.78882, 0, -0.214849, 0, 1.77587, -30.9915, -1, 19.8815), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.10283, 0, -1.08354, 0, 1.54605, -0, 1.08354, 0, -1.10283, -30.9283, -1, 4.59013), "res://assets/models/kenney/platformer/grass.glb", Transform3D(1.18585, 0, 0.709028, 0, 1.38165, 0, -0.709028, 0, 1.18585, -34.6547, -1, 16.4241), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-0.694727, 0, 1.18438, -0, 1.3731, 0, -1.18438, 0, -0.694727, -33.7914, -1, -11.0672), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-1.64346, 0, 0.315229, -0, 1.67341, 0, -0.315229, 0, -1.64346, -38.8935, -1, -19.1397), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.705452, 0, 1.18424, 0, 1.37844, 0, -1.18424, 0, 0.705452, -38.402, -1, 11.4406), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.64784, 0, 0.364612, 0, 1.68769, 0, -0.364612, 0, 1.64784, -36.1003, -1, 19.0801), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.691607, 0, -1.4053, 0, 1.56626, 0, 1.4053, 0, 0.691607, -36.2318, -1, 17.71), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.26555, 0, -0.0269399, 0, 1.26584, 0, 0.0269399, 0, 1.26555, -34.652, -1, -19.6653), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.30484, 0, 0.960653, -0, 1.62033, 0, -0.960653, 0, -1.30484, -31.862, -1, 3.05397), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.899893, 0, 0.994224, 0, 1.341, 0, -0.994224, 0, 0.899893, -33.2802, -1, -34.1334), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-1.37844, 0, 0.596388, -0, 1.50193, 0, -0.596388, 0, -1.37844, -37.2028, -1, -34.094), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.739743, 0, 1.44047, 0, 1.61932, 0, -1.44047, 0, 0.739743, -36.9815, -1, 6.39978), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.25076, 0, -0.336005, 0, 1.29511, -0, 0.336005, 0, -1.25076, -37.2204, -1, -34.8659), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.14648, 0, -1.13844, 0, 1.6157, -0, 1.13844, 0, -1.14648, -39.027, -1, 2.51486), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-0.343497, 0, 1.1956, -0, 1.24397, 0, -1.1956, 0, -0.343497, -36.0355, -1, -36.1417), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.382773, 0, -1.21061, 0, 1.26969, 0, 1.21061, 0, 0.382773, -35.2255, -1, -1.84487), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.32282, 0, -1.16002, 0, 1.2041, 0, 1.16002, 0, 0.32282, -36.5059, -1, -6.40313), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.671109, 0, 1.10353, 0, 1.29157, 0, -1.10353, 0, 0.671109, -26.8094, -1, -17.7939), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-0.934742, 0, -0.965157, 0, 1.3436, -0, 0.965157, 0, -0.934742, -33.5227, -1, -6.92914), "res://assets/models/kenney/platformer/grass.glb", Transform3D(1.20442, 0, -1.12357, 0, 1.64713, 0, 1.12357, 0, 1.20442, -38.6702, -1, -37.6687), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.396268, 0, -1.58293, 0, 1.63178, 0, 1.58293, 0, 0.396268, -33.9441, -1, -21.4093), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.298387, 0, -1.31028, 0, 1.34382, 0, 1.31028, 0, 0.298387, -36.7086, -1, -15.9188), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-0.289035, 0, -1.49549, 0, 1.52317, -0, 1.49549, 0, -0.289035, -37.9984, -1, 21.08), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.854155, 0, 1.11294, 0, 1.40293, 0, -1.11294, 0, 0.854155, -33.5395, -1, -9.56053), "res://assets/models/kenney/platformer/grass.glb", Transform3D(1.43066, 0, -0.311396, 0, 1.46416, 0, 0.311396, 0, 1.43066, -30.7364, -1, -1.82331), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.69264, 0, -0.126034, 0, 1.69732, -0, 0.126034, 0, -1.69264, -26.9438, -1, 3.06108), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.35536, 0, 0.763653, -0, 1.55569, 0, -0.763653, 0, -1.35536, -30.8579, -1, -25.7597), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.24392, 0, 1.03258, -0, 1.61665, 0, -1.03258, 0, -1.24392, -27.1188, -1, 20.7617), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.41288, 0, 0.604614, -0, 1.53681, 0, -0.604614, 0, -1.41288, -27.2887, -1, 20.006), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.12515, 0, -0.497064, 0, 1.23005, 0, 0.497064, 0, 1.12515, -35.3926, -1, -35.9903), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.24883, 0, -0.613975, 0, 1.39159, 0, 0.613975, 0, 1.24883, -36.3101, -1, -15.5873), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.48979, 0, -0.960359, 0, 1.77251, -0, 0.960359, 0, -1.48979, -37.3141, -1, -18.3648), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.358348, 0, -1.23034, 0, 1.28146, 0, 1.23034, 0, 0.358348, -32.809, -1, -13.9729), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.64414, 0, 0.260397, -0, 1.66464, 0, -0.260397, 0, -1.64414, -36.8758, -1, 3.17954), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.44284, 0, 0.949176, 0, 1.72706, 0, -0.949176, 0, 1.44284, -29.956, -1, -30.7418), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-0.683168, 0, -1.24784, 0, 1.42261, -0, 1.24784, 0, -0.683168, -39.0216, -1, -12.8981), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.06022, 0, -1.22172, 0, 1.61761, 0, 1.22172, 0, 1.06022, -28.7168, -1, 3.95459), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.76131, 0, -0.132639, 0, 1.7663, 0, 0.132639, 0, 1.76131, -33.4863, -1, 10.382), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.61252, 0, -0.129418, 0, 1.6177, -0, 0.129418, 0, -1.61252, -34.908, -1, 3.63701), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.36365, 0, 0.791965, -0, 1.57694, 0, -0.791965, 0, -1.36365, -28.4186, -1, -34.854), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.05678, 0, -0.882339, 0, 1.3767, 0, 0.882339, 0, 1.05678, -28.4373, -1, -15.7047), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.15215, 0, -0.498127, 0, 1.25522, 0, 0.498127, 0, 1.15215, -37.1266, -1, -32.8121), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-0.0774076, 0, -1.58771, 0, 1.5896, -0, 1.58771, 0, -0.0774076, -37.1726, -1, 11.8342), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-0.974003, 0, 0.765901, -0, 1.23907, 0, -0.765901, 0, -0.974003, -37.5105, -1, 19.6864), "res://assets/models/kenney/platformer/plant.glb", Transform3D(0.60285, 0, -1.2307, 0, 1.37042, 0, 1.2307, 0, 0.60285, -39.0982, -1, 4.35909), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.400924, 0, -1.41893, 0, 1.47448, 0, 1.41893, 0, 0.400924, -31.6226, -1, -28.9532), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-0.922508, 0, 0.991703, -0, 1.35444, 0, -0.991703, 0, -0.922508, -37.8294, -1, -25.8571), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.07721, 0, -1.14575, 0, 1.57262, 0, 1.14575, 0, 1.07721, -33.9501, -1, -30.2218), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-0.320169, 0, -1.74717, 0, 1.77627, -0, 1.74717, 0, -0.320169, -33.4813, -1, -14.774), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-0.883324, 0, -1.24996, 0, 1.53058, -0, 1.24996, 0, -0.883324, -35.47, -1, -28.0402), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.32296, 0, -0.659263, 0, 1.47813, -0, 0.659263, 0, -1.32296, -29.0859, -1, 19.3062), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.51595, 0, 0.012932, -0, 1.51601, 0, -0.012932, 0, -1.51595, -28.282, -1, -18.3089), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.6492, 0, 0.147839, -0, 1.65581, 0, -0.147839, 0, -1.6492, -30.7227, -1, -20.7141), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.43094, 0, 0.515983, 0, 1.52112, 0, -0.515983, 0, 1.43094, -36.1091, -1, -22.9928), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-0.997802, 0, -0.76692, 0, 1.25848, -0, 0.76692, 0, -0.997802, -36.2678, -1, -23.4678), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.41326, 0, -0.386082, 0, 1.46505, -0, 0.386082, 0, -1.41326, -34.6591, -1, -24.7474), "res://assets/models/kenney/platformer/grass.glb", Transform3D(1.3335, 0, 0.748833, 0, 1.52937, 0, -0.748833, 0, 1.3335, -37.8276, -1, -18.5698), "res://assets/models/kenney/platformer/grass.glb", Transform3D(1.181, 0, 1.25071, 0, 1.72019, 0, -1.25071, 0, 1.181, -33.5425, -1, -3.44203), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.59185, 0, -0.746066, 0, 1.75801, -0, 0.746066, 0, -1.59185, -37.4376, -1, 13.042), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.212278, 0, -1.54287, 0, 1.5574, 0, 1.54287, 0, 0.212278, -38.1899, -1, 18.9931), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.444478, 0, -1.65889, 0, 1.7174, 0, 1.65889, 0, 0.444478, -35.7728, -1, -32.9444), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(1.63073, 0, -0.588822, 0, 1.73378, 0, 0.588822, 0, 1.63073, -31.9443, -1, 11.2516), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.57668, 0, -0.751027, 0, 1.74642, -0, 0.751027, 0, -1.57668, -30.9622, -1, -34.4506), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.338086, 0, -1.74168, 0, 1.77419, 0, 1.74168, 0, 0.338086, -30.743, -1, -36.6057), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.197089, 0, 1.35453, 0, 1.3688, 0, -1.35453, 0, 0.197089, -33.8286, -1, -26.5079), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.54572, 0, -0.677386, 0, 1.68763, -0, 0.677386, 0, -1.54572, -31.6916, -1, -24.4493), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-0.648549, 0, 1.52614, -0, 1.65823, 0, -1.52614, 0, -0.648549, -34.7408, -1, -28.1911), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.53571, 0, -0.787715, 0, 1.72595, 0, 0.787715, 0, 1.53571, -36.3917, -1, -17.971), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.0372145, 0, -1.39066, 0, 1.39116, 0, 1.39066, 0, 0.0372145, -36.1728, -1, -16.0778), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.598477, 0, -1.36938, 0, 1.49445, 0, 1.36938, 0, 0.598477, -32.6483, -1, -23.1689), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-1.33927, 0, 0.571781, -0, 1.45622, 0, -0.571781, 0, -1.33927, -37.4153, -1, 7.16928), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(-0.0274464, 0, -1.27915, 0, 1.27945, -0, 1.27915, 0, -0.0274464, -27.0184, -1, -7.2062), "res://assets/models/kenney/platformer/grass.glb", Transform3D(1.01292, 0, -1.4129, 0, 1.73847, 0, 1.4129, 0, 1.01292, -37.8659, -1, 20.154), "res://assets/models/kenney/platformer/flowers.glb", Transform3D(0.643388, 0, 1.03578, 0, 1.21934, 0, -1.03578, 0, 0.643388, -31.8479, -1, -41.1052), "res://assets/models/kaykit/medieval/building_home_A_blue.gltf", Transform3D(3.67394e-16, 0, -6, 0, 6, 0, 6, 0, 3.67394e-16, -24.5, -3, 6), "res://assets/models/kaykit/medieval/building_tavern_yellow.gltf", Transform3D(-1.77312, 0, -5.73202, 0, 6, -0, 5.73202, 0, -1.77312, -29, -3, -10), "res://assets/models/kaykit/medieval/building_home_B_red.gltf", Transform3D(-5.61553, 0, -2.11326, 0, 6, -0, 2.11326, 0, -5.61553, -15.4806, -3, -38.6058), "res://assets/models/kaykit/medieval/building_market_green.gltf", Transform3D(-3.44146, 0, -4.91491, 0, 6, -0, 4.91491, 0, -3.44146, -12.2839, -3, -51.0168), "res://assets/models/kaykit/medieval/building_watermill_blue.gltf", Transform3D(-1.77312, 0, -5.73202, 0, 6, -0, 5.73202, 0, -1.77312, -24.5, -3, 16), "res://assets/models/kaykit/medieval/building_windmill_red.gltf", Transform3D(-3.38785, 0, -4.95201, 0, 6, -0, 4.95201, 0, -3.38785, -29, -3, -18), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(-1.32217, 0, -2.91408, 0, 3.2, -0, 2.91408, 0, -1.32217, -36, -1, 18.0086), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(3.15466, 0, -0.53674, 0, 3.2, 0, 0.53674, 0, 3.15466, -36, -1, 8.31956), "res://assets/models/kenney/platformer/tree.glb", Transform3D(-0.685593, 0, 3.12569, -0, 3.2, 0, -3.12569, 0, -0.685593, -36, -1, -2.04634), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(2.89475, 0, -1.36397, 0, 3.2, 0, 1.36397, 0, 2.89475, -36, -1, -11.983), "res://assets/models/kenney/platformer/tree.glb", Transform3D(-1.33477, 0, -2.90833, 0, 3.2, -0, 2.90833, 0, -1.33477, -36, -1, -17.5709), "res://assets/models/kenney/platformer/tree.glb", Transform3D(-0.34571, 0, -3.18127, 0, 3.2, -0, 3.18127, 0, -0.34571, -23.2284, -1, -47.5906), "res://assets/models/kenney/platformer/tree-pine.glb", Transform3D(-2.89056, 0, -1.37282, 0, 3.2, -0, 1.37282, 0, -2.89056, -20.3134, -1, -51.7536), "res://assets/models/kaykit/medieval/mountain_A_grass_trees.gltf", Transform3D(7.43579, 0, -11.8621, 0, 14, 0, 11.8621, 0, 7.43579, -32.4347, 0, -67.568), "res://assets/models/kaykit/medieval/hills_A_trees.gltf", Transform3D(7.26179, 0, -11.9694, 0, 14, 0, 11.9694, 0, 7.26179, -21.1298, 0, -90.1462), "res://assets/models/kaykit/medieval/sack.gltf", Transform3D(0.136931, 0, -4.99812, 0, 5, 0, 4.99812, 0, 0.136931, -4.6, 0, 3.5), "res://assets/models/kaykit/medieval/crate_A_big.gltf", Transform3D(4.58112, 0, -2.00333, 0, 5, 0, 2.00333, 0, 4.58112, -5, 0, 2.6), "res://assets/models/kaykit/medieval/crate_A_big.gltf", Transform3D(0.832543, 0, 4.9302, 0, 5, 0, -4.9302, 0, 0.832543, 4.8, 0, -6.5), "res://assets/models/kaykit/medieval/sack.gltf", Transform3D(-0.220664, 0, -4.99513, 0, 5, -0, 4.99513, 0, -0.220664, 3.62109, 5.5, -18.6385), "res://assets/models/kaykit/medieval/barrel.gltf", Transform3D(0.713256, 0, 4.94887, 0, 5, 0, -4.94887, 0, 0.713256, 13.4715, 4.5, -41.7722), "res://assets/models/kaykit/medieval/crate_A_big.gltf", Transform3D(-3.62393, 0, -3.44487, 0, 5, -0, 3.44487, 0, -3.62393, 31.9345, 3.5, -103.057), "res://assets/models/kaykit/medieval/pallet.gltf", Transform3D(4.90033, 0, -0.993347, 0, 5, 0, 0.993347, 0, 4.90033, -4.2, 0, -5.8), "res://assets/models/kaykit/medieval/crate_long_A.gltf", Transform3D(-0.145998, 0, -4.99787, 0, 5, -0, 4.99787, 0, -0.145998, 3.4, 0, 6.4), "res://assets/models/kaykit/medieval/wheelbarrow.gltf", Transform3D(4.05345, 0, -2.92738, 0, 5, 0, 2.92738, 0, 4.05345, 22.869, 3.5, -105.52), "res://assets/models/kaykit/medieval/bucket_water.gltf", Transform3D(4.92404, 0, 0.868241, 0, 5, 0, -0.868241, 0, 4.92404, 36.4134, 4, -69.0175), "cap#sand", Transform3D(17.7659, 0, 3.13261, 0, 1, 0, -3.13261, 0, 17.7659, 46.3677, -2.48, -168.051), "res://assets/models/kenney/platformer/stones.glb", Transform3D(-1.13019, 0, -0.94998, 0, 1.47641, -0, 0.94998, 0, -1.13019, 37.9167, -2, -173.307), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(-1.05392, 0, 0.357136, -0, 1.11278, 0, -0.357136, 0, -1.05392, 52.8939, -2, -161.701), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.2345, 0, -0.659376, 0, 1.39956, 0, 0.659376, 0, 1.2345, 38.4554, -2, -166.183), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.368003, 0, 1.53117, 0, 1.57477, 0, -1.53117, 0, 0.368003, 41.5855, -2, -163.405), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-0.543181, 0, 1.18876, -0, 1.30698, 0, -1.18876, 0, -0.543181, 46.0073, -2, -164.259), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(-1.02208, 0, -0.0148048, 0, 1.02219, -0, 0.0148048, 0, -1.02208, 47.7629, -2, -166.453), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.357059, 0, 1.05863, 0, 1.11722, 0, -1.05863, 0, 0.357059, 43.73, -2, -160.516), "res://assets/models/kenney/platformer/stones.glb", Transform3D(0.913482, 0, -1.2451, 0, 1.54426, 0, 1.2451, 0, 0.913482, 55.4417, -2, -163.131), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.33759, 0, 0.644922, 0, 1.48495, 0, -0.644922, 0, 1.33759, 43.8774, -2, -171.312), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.66374, 0, 0.467658, 0, 1.72821, 0, -0.467658, 0, 1.66374, 40.8558, -2, -166.496), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.4229, 0, -0.0852531, 0, 1.42545, 0, 0.0852531, 0, 1.4229, 42.4191, -2, -171.891), "res://assets/models/kenney/platformer/grass.glb", Transform3D(-0.215971, 0, 1.28399, -0, 1.30202, 0, -1.28399, 0, -0.215971, 45.6963, -2, -168.05), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(-0.716535, 0, -0.509737, 0, 0.879348, -0, 0.509737, 0, -0.716535, 47.6693, -2, -160.532), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.15477, 0, 0.548106, 0, 1.27825, 0, -0.548106, 0, 1.15477, 46.8834, -2, -165.138), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.343901, 0, -0.771182, 0, 0.844387, 0, 0.771182, 0, 0.343901, 49.732, -2, -171.548), "res://assets/models/kenney/platformer/stones.glb", Transform3D(-1.64599, 0, -0.496905, 0, 1.71936, -0, 0.496905, 0, -1.64599, 39.9295, -2, -163.39), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.868491, 0, 1.31089, 0, 1.57248, 0, -1.31089, 0, 0.868491, 50.148, -2, -162.49), "res://assets/models/kenney/platformer/grass.glb", Transform3D(0.628697, 0, 1.3371, 0, 1.47753, 0, -1.3371, 0, 0.628697, 39.5266, -2, -174.557), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.50034, 0, 0.801241, 0, 1.70089, 0, -0.801241, 0, 1.50034, 53.6332, -2, -168.455), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.23447, 0, 0.42865, 0, 1.30678, 0, -0.42865, 0, 1.23447, 42.2342, -2, -166.369), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.483878, 0, -0.767766, 0, 0.907525, 0, 0.767766, 0, 0.483878, 37.5382, -2, -173.007), "res://assets/models/kenney/platformer/stones.glb", Transform3D(1.36527, 0, 0.0434855, 0, 1.36596, 0, -0.0434855, 0, 1.36527, 48.23, -2, -164.901), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(-0.0869946, 0, 1.13978, -0, 1.14309, 0, -1.13978, 0, -0.0869946, 49.9854, -2, -165.157), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.62591, 0, -0.600059, 0, 1.73311, 0, 0.600059, 0, 1.62591, 43.2138, -2, -172.179), "res://assets/models/kenney/platformer/stones.glb", Transform3D(-1.36298, 0, -0.143248, 0, 1.37049, -0, 0.143248, 0, -1.36298, 42.9664, -2, -174.985), "res://assets/models/kenney/platformer/rocks.glb", Transform3D(0.877557, 0, -0.324527, 0, 0.935641, 0, 0.324527, 0, 0.877557, 38.4673, -2, -171.564), "res://assets/models/kenney/platformer/plant.glb", Transform3D(1.60413, 0, 0.470952, 0, 1.67183, 0, -0.470952, 0, 1.60413, 40.7056, -2, -164.774), "res://assets/models/kenney/platformer/grass.glb", Transform3D(1.4548, 0, -0.259854, 0, 1.47783, 0, 0.259854, 0, 1.4548, 53.2695, -2, -168.917), "res://assets/models/kenney/platformer/plant.glb", Transform3D(-1.03944, 0, 1.05655, -0, 1.48214, 0, -1.05655, 0, -1.03944, 44.4774, -2, -163.542), "res://assets/models/kaykit/platformer/flag_A_red.gltf", Transform3D(-0.108631, 0, 0.994082, -0, 1, 0, -0.994082, 0, -0.108631, 39.554, -2, -158.32), "res://assets/models/kaykit/medieval/building_tower_A_red.gltf", Transform3D(8.86327, 0, 1.56283, 0, 9, 0, -1.56283, 0, 8.86327, 46.3677, -2, -168.051), "res://assets/models/kaykit/medieval/flag_red.gltf", Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 8.6, 11, -17.2)]

@@ -14,6 +14,9 @@ from lvl import Level
 PI = math.pi
 L = Level("ch5_oyuncak", "Oyuncak Kasabası", "scenes/chapter5/e1_oyuncak_kasabasi.tscn", sky="day",
           music="res://assets/audio/opengameart/happy_clappy_loop.mp3", kill_height=-6, water=None, seed=51)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -51, 45), (0, -80, -40)])
 KH = "kaykit/holiday/"
 H = "kenney/holiday/"
 PRESENT_H = 4.0                       # hediye kutusu basamağı (Yay ile çıkılır)

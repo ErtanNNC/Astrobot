@@ -55,7 +55,15 @@ func check(name: String, ok: bool, info := "") -> void:
 		fails += 1
 
 
+## Bip'in tasarım uzayındaki konumu (köşeli alanlarda yol dümdüzmüş gibi; bkz. tests/turns.gd)
+func dp() -> Vector3:
+	return Turns.design(level, bip.global_position)
+
+
+## p ve yaw tasarım uzayındadır; köşeli alanlarda dünya uzayına çevrilir.
 func place(p: Vector3, yaw := PI, ability := "") -> void:
+	yaw += Turns.yaw(level, p)
+	p = Turns.world(level, p)
 	GameState.set_ability(ability)
 	bip.reset_state(p)
 	bip.facing_yaw = yaw
@@ -73,7 +81,7 @@ func floor_under(p: Vector3) -> bool:
 
 func _common() -> void:
 	await step(20)
-	check("Başlangıçta zeminde", bip.is_on_floor(), str(bip.global_position))
+	check("Başlangıçta zeminde", bip.is_on_floor(), str(dp()))
 	for cp in get_tree().get_nodes_in_group("checkpoint"):
 		check("Kontrol noktası zeminde: " + cp.checkpoint_id, floor_under(cp.global_position))
 	var ex := level.find_child("Exit_1", true, false)
@@ -99,7 +107,7 @@ func jump_forward(frames_hold := 30, max_frames := 240, glide := false) -> Vecto
 	Input.action_release("jump")
 	Input.action_release("move_forward")
 	await step(10)
-	return bip.global_position
+	return dp()
 
 
 func _test_yay() -> void:
@@ -135,13 +143,13 @@ func _test_yay() -> void:
 		hung = hung or bip.ledge_hanging
 		if i == 25:
 			Input.action_release("jump")
-		if hung and bip.is_on_floor() and bip.global_position.y > 7.0:
+		if hung and bip.is_on_floor() and dp().y > 7.0:
 			break
 	Input.action_release("move_right")
 	Input.action_release("jump")
 	await step(10)
 	level.cam.auto_turn_speed = turn
-	check("Gizli sütuna kenara tutunarak çıkış", hung and bip.global_position.y > 7.0, str(bip.global_position))
+	check("Gizli sütuna kenara tutunarak çıkış", hung and dp().y > 7.0, str(dp()))
 	check("Gizli köşe bulununca kaydedildi", GameState.data.get("secrets", []).has("ch1_yay_sutun"), str(GameState.data.get("secrets", [])))
 	# Gizli mağaradan trambolinle geri dönüş
 	await place(Vector3(2.0, -3.0, 10.4), PI, "")
@@ -152,15 +160,15 @@ func _test_yay() -> void:
 			break
 	Input.action_release("move_forward")
 	await step(10)
-	check("Mağaradan trambolinle başlangıç adasına dönüş", bip.global_position.y > -1.5, str(bip.global_position))
+	check("Mağaradan trambolinle başlangıç adasına dönüş", dp().y > -1.5, str(dp()))
 	# Trambolinli hareketli platform: üstüne düşünce yükseğe sıçrar
 	var pa := level.find_child("Platform_3", true, false)
-	await place(pa.global_position + Vector3(0, 2.0, 0), PI, "")
+	await place(Turns.design(level, pa.global_position) + Vector3(0, 2.0, 0), PI, "")
 	var base_y: float = pa.global_position.y
-	var peak: float = bip.global_position.y
+	var peak: float = dp().y
 	for i in 120:
 		await get_tree().physics_frame
-		peak = maxf(peak, bip.global_position.y)
+		peak = maxf(peak, dp().y)
 	check("Hareketli trambolin sıçratır", peak > base_y + 4.5, "tepe %.1f" % peak)
 	# Dev Yay: bitiş kulesine fırlatır
 	await place(Vector3(-1, 32.0, -146.5), PI, "")
@@ -168,12 +176,12 @@ func _test_yay() -> void:
 	var top := 0.0
 	for i in 300:
 		await get_tree().physics_frame
-		top = maxf(top, bip.global_position.y)
+		top = maxf(top, dp().y)
 		if i > 40 and bip.is_on_floor():
 			break
 	Input.action_release("move_forward")
 	await step(10)
-	check("Dev Yay bitiş kulesine çıkarır", absf(bip.global_position.y - 40.0) < 0.3, "%s tepe %.1f" % [bip.global_position, top])
+	check("Dev Yay bitiş kulesine çıkarır", absf(dp().y - 40.0) < 0.3, "%s tepe %.1f" % [dp(), top])
 
 
 func _test_balon() -> void:
@@ -215,10 +223,10 @@ func _ride_wind(at: Vector3, dir: String, rise: float, target: Vector3) -> Vecto
 			Input.action_release("jump")
 		if i == 12:
 			Input.action_press("jump")
-		if not going and bip.global_position.y > rise:
+		if not going and dp().y > rise:
 			going = true
 			Input.action_press(dir)
-		var d := Vector2(bip.global_position.x - target.x, bip.global_position.z - target.z)
+		var d := Vector2(dp().x - target.x, dp().z - target.z)
 		if going and d.length() < 1.0:
 			Input.action_release(dir)
 			Input.action_release("jump")
@@ -228,7 +236,7 @@ func _ride_wind(at: Vector3, dir: String, rise: float, target: Vector3) -> Vecto
 	Input.action_release("jump")
 	await step(10)
 	level.cam.auto_turn_speed = turn
-	return bip.global_position
+	return dp()
 
 
 func _test_miknatis() -> void:
@@ -238,38 +246,38 @@ func _test_miknatis() -> void:
 	check("Mıknatısla tutamağa yapıştı", bip.magnet_state == 2, "durum %d" % bip.magnet_state)
 	Input.action_press("jump"); await step(3); Input.action_release("jump")
 	await step(80)
-	check("Tutamağın üstüne tırmandı", bip.is_on_floor() and bip.global_position.y > 4.9, str(bip.global_position))
+	check("Tutamağın üstüne tırmandı", bip.is_on_floor() and dp().y > 4.9, str(dp()))
 	# Zincir: B1 üstünden B2'ye
 	await place(Vector3(0, 5.1, -28.5), PI, "miknatis")
 	Input.action_press("ability"); await step(2); Input.action_release("ability")
 	await step(50)
-	check("Zincir: sıradaki bloğa yapıştı", bip.magnet_state == 2 and bip.global_position.z < -33.5, str(bip.global_position))
+	check("Zincir: sıradaki bloğa yapıştı", bip.magnet_state == 2 and dp().z < -33.5, str(dp()))
 	Input.action_press("jump"); await step(3); Input.action_release("jump")
 	await step(80)
-	check("Zincir: bloğun üstüne çıktı", bip.is_on_floor() and absf(bip.global_position.z + 36.0) < 1.2 and bip.global_position.y > 4.9, str(bip.global_position))
+	check("Zincir: bloğun üstüne çıktı", bip.is_on_floor() and absf(dp().z + 36.0) < 1.2 and dp().y > 4.9, str(dp()))
 	# Dikey levhalar
 	await place(Vector3(0, 5.1, -72.4), PI, "miknatis")
 	for i in 3:
 		Input.action_press("ability"); await step(2); Input.action_release("ability")
 		await step(40)
-		print("   levha %d: durum %d konum %s" % [i, bip.magnet_state, bip.global_position])
+		print("   levha %d: durum %d konum %s" % [i, bip.magnet_state, dp()])
 	Input.action_press("jump"); await step(3); Input.action_release("jump")
 	await step(90)
-	check("Levhalarla duvarın üstüne", bip.global_position.y > 11.8, str(bip.global_position))
+	check("Levhalarla duvarın üstüne", dp().y > 11.8, str(dp()))
 	# Dönen çark
 	await place(Vector3(0, 21.1, -123.3), PI, "miknatis")
 	Input.action_press("ability"); await step(2); Input.action_release("ability")
 	await step(40)
 	Input.action_press("jump"); await step(3); Input.action_release("jump")
 	await step(90)
-	check("Dönen çarka tırmandı", bip.global_position.y > 21.8 and bip.global_position.z < -127.5, str(bip.global_position))
+	check("Dönen çarka tırmandı", dp().y > 21.8 and dp().z < -127.5, str(dp()))
 	# Gizli Depo: C2'nin doğu kenarından deponun tutamağına çekil, tırman
 	await place(Vector3(6.3, 12.1, -79.5), PI / 2, "miknatis")
 	Input.action_press("ability"); await step(2); Input.action_release("ability")
 	await step(40)
 	Input.action_press("jump"); await step(3); Input.action_release("jump")
 	await step(90)
-	check("Gizli Depo'ya mıknatısla çıkış", absf(bip.global_position.y - 12.0) < 0.3 and bip.global_position.x > 9.0, str(bip.global_position))
+	check("Gizli Depo'ya mıknatısla çıkış", absf(dp().y - 12.0) < 0.3 and dp().x > 9.0, str(dp()))
 	# Gizli Vinç Kulesi: üç levha
 	await place(Vector3(5.5, 26.1, -153), PI / 2, "miknatis")
 	for i in 3:
@@ -277,7 +285,7 @@ func _test_miknatis() -> void:
 		await step(40)
 	Input.action_press("jump"); await step(3); Input.action_release("jump")
 	await step(90)
-	check("Vinç Kulesi'ne levhalarla çıkış", bip.global_position.y > 32.8, str(bip.global_position))
+	check("Vinç Kulesi'ne levhalarla çıkış", dp().y > 32.8, str(dp()))
 
 
 func _test_kaya() -> void:
@@ -299,27 +307,27 @@ func _test_kaya() -> void:
 	Input.action_press("jump"); await step(10); Input.action_release("jump")
 	Input.action_press("ability"); await step(2); Input.action_release("ability")
 	await step(90)
-	check("Çakılma çatlak zemini kırdı", bip.global_position.y < -4.0, str(bip.global_position))
+	check("Çakılma çatlak zemini kırdı", dp().y < -4.0, str(dp()))
 	# Mağaradan rampayla meydana çıkış (rampa ters eğimliydi: oyuncu boşluğa düşüyordu)
 	Input.action_press("move_forward"); await step(480); Input.action_release("move_forward")
-	check("Mağaradan rampayla meydana çıktı", bip.global_position.y > -0.3 and bip.global_position.z < -51.0, str(bip.global_position))
+	check("Mağaradan rampayla meydana çıktı", dp().y > -0.3 and dp().z < -51.0, str(dp()))
 	# Su: Kaya batar ve duvarın altından geçer
 	await place(Vector3(0, 0.3, -82.5), PI, "kaya")
 	await step(90)
-	check("Kaya suda dibe battı", bip.global_position.y < -4.5, str(bip.global_position))
+	check("Kaya suda dibe battı", dp().y < -4.5, str(dp()))
 	Input.action_press("move_forward"); await step(150); Input.action_release("move_forward")
-	check("Su altından bölmeyi geçti", bip.global_position.z < -91.0, str(bip.global_position))
+	check("Su altından bölmeyi geçti", dp().z < -91.0, str(dp()))
 	Input.action_press("move_forward")
 	for i in 300:
 		await step(1)
-		if bip.global_position.y > -0.3 and bip.global_position.z < -102.0:
+		if dp().y > -0.3 and dp().z < -102.0:
 			break
 	Input.action_release("move_forward")
-	check("Havuzdan rampayla çıktı", bip.global_position.y > -0.3 and bip.global_position.z < -102.0, str(bip.global_position))
+	check("Havuzdan rampayla çıktı", dp().y > -0.3 and dp().z < -102.0, str(dp()))
 	# Kayasız yüzer, bölmeyi geçemez
 	await place(Vector3(0, 0.3, -82.5), PI, "")
 	Input.action_press("move_forward"); await step(150); Input.action_release("move_forward")
-	check("Kayasız yüzer, geçemez", bip.global_position.y > -1.5 and bip.global_position.z > -88.5, str(bip.global_position))
+	check("Kayasız yüzer, geçemez", dp().y > -1.5 and dp().z > -88.5, str(dp()))
 	# Son parkur: Balon ile 7 m
 	await place(Vector3(0, 4.6, -115.5), PI, "balon")
 	var p := await jump_forward(30, 400, true)
@@ -340,4 +348,4 @@ func _test_kaya() -> void:
 			break
 	Input.action_release("move_forward")
 	await step(10)
-	check("Sütundan trambolinle U1'e dönüş", absf(bip.global_position.y - 4.5) < 0.3 and bip.global_position.x < 6.0, str(bip.global_position))
+	check("Sütundan trambolinle U1'e dönüş", absf(dp().y - 4.5) < 0.3 and dp().x < 6.0, str(dp()))

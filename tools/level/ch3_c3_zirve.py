@@ -6,6 +6,9 @@ from lvl import Level
 
 L = Level("ch3_zirve", "Kar Zirvesi", "scenes/chapter3/c3_zirve.tscn", sky="storm",
           music="res://assets/audio/opengameart/happy_adventure_loop.mp3", water=None, kill_height=-14, seed=33)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -24, 40), (0, -99, -50)])
 
 # ---------- S1: etek, Yay ile kar tepeleri ----------
 L.top(0, 0, 0, 16, 16, depth=3, theme="snow")                  # z[8,-8]

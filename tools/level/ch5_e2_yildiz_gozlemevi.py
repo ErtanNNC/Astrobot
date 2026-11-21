@@ -12,6 +12,9 @@ from lvl import Level
 PI = math.pi
 L = Level("ch5_gozlemevi", "Yıldız Gözlemevi", "scenes/chapter5/e2_yildiz_gozlemevi.tscn", sky="night",
           music="res://assets/audio/opengameart/snow_theme_loop.ogg", kill_height=-10, water=None, seed=52)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -58, 40), (0, -92, -50)])
 
 
 def lamp(x, y, z, s=1.0):

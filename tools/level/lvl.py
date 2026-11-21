@@ -144,7 +144,37 @@ def fmt(v):
     raise ValueError(v)
 
 
+# ---- Dönüşler: yol tasarımda dümdüz (-Z) yazılır, alan gerçekte köşeli/kıvrımlı kurulur ----
+# TURNS: [(pivot_x, pivot_z, derece), ...] tasarım uzayında, pivot_z büyükten küçüğe. Tasarım z'si pivot_z'den
+# küçük olan (yolun ilerisindeki) her şey o pivot etrafında döner; derece > 0 sola (batıya), < 0 sağa.
+# Level.turns([...]) ile kurulur; sahne köküne metadata/turns olarak yazılır (testler tests/turns.gd ile okur).
+TURNS = []
+RAW = [False]     # True iken tf dönüş uygulamaz (ebeveynine göre yerel konumlar)
+ZREF = [None]     # ayarlıysa bölge bu z'ye göre seçilir: bir zeminin karoları ve süsleri zeminle birlikte döner
+
+
+def turn_point(x, z):
+    """Tasarım noktası → dünya noktası ve toplam dönüş (radyan, Godot rotation.y yönünde)."""
+    yaw = 0.0
+    zr = z if ZREF[0] is None else ZREF[0]
+    for (px, pz, deg) in reversed([t for t in TURNS if zr < t[1]]):
+        a = math.radians(deg)
+        dx, dz = x - px, z - pz
+        x, z = px + dx * math.cos(a) + dz * math.sin(a), pz - dx * math.sin(a) + dz * math.cos(a)
+        yaw += a
+    return x, z, yaw
+
+
+def turn_vec(v, z):
+    """Tasarım yön vektörü (ör. platform ofseti) → dünya yönü; z: nesnenin tasarım z'si."""
+    a = sum(math.radians(t[2]) for t in TURNS if z < t[1])
+    return (v[0] * math.cos(a) + v[2] * math.sin(a), v[1], -v[0] * math.sin(a) + v[2] * math.cos(a))
+
+
 def tf(x, y, z, rx=0.0, ry=0.0, s=1.0, rz=0.0):
+    if TURNS and not RAW[0]:
+        x, z, yaw = turn_point(x, z)
+        ry -= yaw          # tf'in ry'si Godot'un rotation.y'sinin tersi yönde yazılır (bkz. ramp notu)
     cx, sx = math.cos(rx), math.sin(rx)
     cy, sy = math.cos(ry), math.sin(ry)
     cz, sz = math.cos(rz), math.sin(rz)
@@ -202,6 +232,13 @@ class Level:
     def top(self, cx, top, cz, sx, sz, depth=3.0, theme="grass", name=None, ry=0.0, side=None):
         """Üst yüzeyi 'top' yüksekliğinde olan kutu (çoğu zemin böyle).
         kit açıksa üstü KayKit platform karolarıyla kaplanır; kutu gri gövde olur."""
+        ZREF[0] = cz      # örtü, karolar ve kenar süsleri zeminin kendisiyle aynı bölgede kalsın
+        try:
+            return self._top(cx, top, cz, sx, sz, depth, theme, name, ry, side)
+        finally:
+            ZREF[0] = None
+
+    def _top(self, cx, top, cz, sx, sz, depth, theme, name, ry, side):
         if abs(math.sin(ry * 2)) < 1e-6:
             self._edge_dress(cx, top, cz, sx, sz, theme)
         if self.use_kit and theme in KIT_COLOR and abs(math.sin(ry * 2)) < 1e-6 and sx * sz <= 1200:   # uzaktaki dev zeminler karosuz
@@ -330,8 +367,40 @@ class Level:
         return self.box(cx, base + rise / 2 - 0.2 * math.cos(a), cz, width, 0.4, L, theme, rx=a, ry=ry)
 
     # ---- Varlıklar ----
+    def turns(self, lst):
+        """Alanın dönüşlerini kur (betiğin başında, her şeyden önce). Bkz. TURNS."""
+        TURNS[:] = sorted(lst, key=lambda t: -t[1])
+        self._turns = list(TURNS)
+
+    def wall_spans(self, z0, z1, dist=16.0, margin=6.0):
+        """Yol boyunca yan duvar/bina dilimleri: [(yan, za, zb), ...] (yan -1 sol/batı, +1 sağ/doğu; tasarım z'si).
+        Dilimler dönüş noktalarında bölünür ve dönüşün iç tarafında kısaltılır ki komşu yol kesiminin
+        üstüne taşmasın. Dönüşsüz alanda iki yan için tek dilim döner."""
+        cuts = [z0] + [t[1] for t in TURNS if z1 < t[1] < z0] + [z1]
+        degs = [0.0] + [t[2] for t in TURNS if z1 < t[1] < z0] + [0.0]
+        out = []
+        for i in range(len(cuts) - 1):
+            za, zb = cuts[i], cuts[i + 1]
+            for side in (-1, 1):
+                a, b = za, zb
+                d_in, d_out = degs[i], degs[i + 1]
+                # giriş dönüşünün iç tarafı: sola dönüşte sol yan; çıkış dönüşü için de aynı
+                if d_in * -side > 0:
+                    a -= min(dist * math.tan(math.radians(min(abs(d_in), 80))), 60) + margin
+                if d_out * -side > 0:
+                    b += min(dist * math.tan(math.radians(min(abs(d_out), 80))), 60) + margin
+                if a - b >= 4:
+                    out.append((side, a, b))
+        return out
+
     def ent(self, etype, x, y, z, ry=0.0, name=None, parent="Entities", groups=None, meta=None, **props):
         typ, path = ENTITIES[etype]
+        local = parent not in self.groups        # ebeveynine göre yerel konum: dönüş uygulanmaz
+        if TURNS and not local:
+            for k in ("offset", "move"):          # hareket yönleri de yolla birlikte döner
+                if k in props and isinstance(props[k], tuple) and len(props[k]) == 3:
+                    props[k] = turn_vec(props[k], z)
+        RAW[0] = local
         e = self._ext("Script", path)
         name = name or self._name(etype.capitalize())
         g = (' groups=[%s]' % ", ".join('"%s"' % x for x in groups)) if groups else ""
@@ -341,6 +410,7 @@ class Level:
         for k, v in (meta or {}).items():
             lines.append("metadata/%s = %s" % (k, fmt(v)))
         self.nodes.append("\n".join(lines) + "\n")
+        RAW[0] = False
         return name
 
     def secret(self, sid, x, y, z, sx, sz):
@@ -508,6 +578,8 @@ adjustment_enabled = true
 adjustment_saturation = 1.12
 ''' % (c3(S["top"]), c3(S["hor"]), c3(S.get("ground", (0.2, 0.45, 0.75))), c3(S["hor"]), S["amb"], c3(S["fog"]), S["fog_d"]))
         props = ['area_id = "%s"' % self.area_id, 'title = "%s"' % self.title, "kill_height = %s" % fmt(self.kill)]
+        if getattr(self, "_turns", None):
+            props.append("metadata/turns = [%s]" % ", ".join("Vector3(%s, %s, %s)" % (fmt(t[0]), fmt(t[1]), fmt(t[2])) for t in self._turns))
         if self.safe:
             props.append("safe = true")
         if self.start_ability:

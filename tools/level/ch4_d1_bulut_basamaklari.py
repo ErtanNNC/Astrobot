@@ -8,6 +8,9 @@ from lvl import Level
 PI = math.pi
 L = Level("ch4_bulut", "Bulut Basamakları", "scenes/chapter4/d1_bulut_basamaklari.tscn", sky="sunset",
           kill_height=-10, water=None, seed=41)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -11, 35), (0, -30.5, -50), (0, -69, 40)])
 
 # ---------- Başlangıç bulutu ----------
 L.top(0, 0, 1, 12, 14, depth=3, theme="cloud")                 # x[-6,6] z[8,-6]
@@ -36,7 +39,7 @@ for i, z in enumerate((-15.5, -19.5, -23.5)):
 L.top(0, 4.0, -30.5, 9, 9, depth=5, theme="cloud")             # z[-26,-35]
 L.ent("checkpoint", -3, 4.0, -29, checkpoint_id="bulut1", ry=PI)
 L.ent("enemy", 2.5, 4.0, -32, kind="zipzip", batteries=2)
-L.ent("crate", -3.5, 4.0, -33.5, batteries=3)
+L.ent("crate", -3.0, 4.0, -33.0, batteries=3)
 L.guide(0, 6, -31)
 
 # ---------- Şaşırt: Balon ile süzülme, ortada yukarı rüzgâr ----------

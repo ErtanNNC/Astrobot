@@ -14,6 +14,8 @@ from lvl import Level
 
 L = Level("ch1_yay", "Yay Bahçesi", "scenes/chapter1/a1_yay_bahcesi.tscn", sky="day",
           music="res://assets/audio/opengameart/happy_clappy_loop.mp3", kill_height=-14, water=-10, seed=11)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar boşluklarda, yol ekseninde. Bkz. lvl.py TURNS
+L.turns([(-1, -62, 35), (-1, -108.5, -45)])
 PI = math.pi
 
 

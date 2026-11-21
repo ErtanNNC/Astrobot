@@ -41,7 +41,7 @@ func load_area(path: String) -> void:
 	get_tree().current_scene = level
 	bip = level.get_node("GameRig/Bip")
 	await step(20)
-	check("%s: başlangıç zeminde" % level.area_id, bip.is_on_floor(), str(bip.global_position))
+	check("%s: başlangıç zeminde" % level.area_id, bip.is_on_floor(), str(dp()))
 	var space: PhysicsDirectSpaceState3D = level.get_world_3d().direct_space_state
 	var nodes := get_tree().get_nodes_in_group("checkpoint")
 	for n in level.find_children("*", "Area3D", true, false):
@@ -55,7 +55,15 @@ func load_area(path: String) -> void:
 		check("%s: %s altı dolu" % [level.area_id, n.name], not hit.is_empty(), str(p))
 
 
+## Bip'in tasarım uzayındaki konumu (köşeli alanlarda yol dümdüzmüş gibi; bkz. tests/turns.gd)
+func dp() -> Vector3:
+	return Turns.design(level, bip.global_position)
+
+
+## p ve yaw tasarım uzayındadır; köşeli alanlarda dünya uzayına çevrilir.
 func place(p: Vector3, yaw := PI, ability := "") -> void:
+	yaw += Turns.yaw(level, p)
+	p = Turns.world(level, p)
 	GameState.set_ability(ability)
 	bip.reset_state(p)
 	bip.facing_yaw = yaw
@@ -85,12 +93,12 @@ func _area1() -> void:
 	# Buz ile havuzu yürüyerek geç
 	await place(Vector3(0, 0.1, -8), PI, "buz")
 	Input.action_press("move_forward")
-	await run_until(func(): return bip.global_position.z < -18.6, 240)
+	await run_until(func(): return dp().z < -18.6, 240)
 	await tap("jump", 25)
-	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 2.0, 90)
+	await run_until(func(): return bip.is_on_floor() and dp().y > 2.0, 90)
 	Input.action_release("move_forward")
 	await step(10)
-	check("Mağara: Buz ile havuz 1 geçildi", bip.is_on_floor() and absf(bip.global_position.y - 2.15) < 0.2, str(bip.global_position))
+	check("Mağara: Buz ile havuz 1 geçildi", bip.is_on_floor() and absf(dp().y - 2.15) < 0.2, str(dp()))
 	# Buz olmadan uzak kıyıya yüzerek çıkılamaz
 	await place(Vector3(-4, -0.2, -18.5), PI, "")
 	await step(40)
@@ -100,34 +108,34 @@ func _area1() -> void:
 	Input.action_release("jump")
 	Input.action_release("move_forward")
 	await step(30)
-	check("Mağara: yüzerek kıyıya çıkılamaz", bip.global_position.y < 1.0, str(bip.global_position))
+	check("Mağara: yüzerek kıyıya çıkılamaz", dp().y < 1.0, str(dp()))
 	# Düşmanı dondur, buz kütlesinden 3,2 m çıkıntıya çık
 	var e := level.find_child("Enemy_1", true, false)
-	await place(e.global_position + Vector3(0, 0.1, 2.2), PI, "buz")
+	await place(Turns.design(level, e.global_position) + Vector3(0, 0.1, 2.2), PI, "buz")
 	await tap("ability")
 	await step(5)
 	check("Mağara: düşman dondu", e._frozen > 0.0)
-	await place(e.global_position + Vector3(0, 1.8, 0), PI, "buz")
+	await place(Turns.design(level, e.global_position) + Vector3(0, 1.8, 0), PI, "buz")
 	await step(20)
-	var y_block: float = bip.global_position.y
+	var y_block: float = dp().y
 	Input.action_press("jump")
 	Input.action_press("move_forward")
 	await step(30)
 	Input.action_release("jump")
-	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 5.0, 90)
+	await run_until(func(): return bip.is_on_floor() and dp().y > 5.0, 90)
 	Input.action_release("move_forward")
 	await step(15)
-	check("Mağara: buz kütlesinden çıkıntıya çıkıldı", absf(bip.global_position.y - 5.35) < 0.2, "kütle %.2f → %s" % [y_block, bip.global_position])
+	check("Mağara: buz kütlesinden çıkıntıya çıkıldı", absf(dp().y - 5.35) < 0.2, "kütle %.2f → %s" % [y_block, dp()])
 	# Gizli kristal adacık: havuz 2'de Buz ile yürü, sağa zıpla
 	await place(Vector3(0, 5.6, -51), PI / 2, "buz")
 	Input.action_press("move_forward")
-	await run_until(func(): return bip.global_position.x > 1.6, 120)
+	await run_until(func(): return dp().x > 1.6, 120)
 	await tap("jump", 12)
-	await run_until(func(): return bip.global_position.x > 3.6, 60)
+	await run_until(func(): return dp().x > 3.6, 60)
 	Input.action_release("move_forward")
 	await run_until(func(): return bip.is_on_floor(), 90)
 	await step(10)
-	check("Mağara: gizli kristal adacık", bip.global_position.y > 6.0 and bip.global_position.x > 2.8, str(bip.global_position))
+	check("Mağara: gizli kristal adacık", dp().y > 6.0 and dp().x > 2.8, str(dp()))
 
 
 # ---------------------------------------------------------------- Donmuş Göl
@@ -139,19 +147,19 @@ func _area2() -> void:
 	await step(10)
 	await tap("ability")
 	await step(120)
-	check("Göl: Kaya buzu kırıp dibe battı", bip.global_position.y < -3.0, str(bip.global_position))
+	check("Göl: Kaya buzu kırıp dibe battı", dp().y < -3.0, str(dp()))
 	Input.action_press("move_forward")
-	await run_until(func(): return bip.global_position.y > 2.0 and bip.is_on_floor() and bip.global_position.z < -50.0, 600)
+	await run_until(func(): return dp().y > 2.0 and bip.is_on_floor() and dp().z < -50.0, 600)
 	Input.action_release("move_forward")
 	await step(20)
-	check("Göl: tünel ve trambolinle duvarın ötesine çıkıldı", bip.global_position.z < -50.0 and bip.global_position.y > 1.5, str(bip.global_position))
+	check("Göl: tünel ve trambolinle duvarın ötesine çıkıldı", dp().z < -50.0 and dp().y > 1.5, str(dp()))
 	# Balon ile kaybolan buz kütleleri üzerinden süzül
 	await place(Vector3(0, 2.25, -61.5), PI, "balon")
 	Input.action_press("move_forward")
 	Input.action_press("jump")
 	for i in 400:
 		await get_tree().physics_frame
-		if bip.global_position.z < -78.2 and bip.is_on_floor() and bip.global_position.y > 2.0:
+		if dp().z < -78.2 and bip.is_on_floor() and dp().y > 2.0:
 			break
 		if bip.is_on_floor() and i % 10 == 0:   # platformda yeniden zıpla
 			Input.action_release("jump")
@@ -160,16 +168,16 @@ func _area2() -> void:
 	Input.action_release("jump")
 	Input.action_release("move_forward")
 	await step(10)
-	check("Göl: Balon ile göl 2 geçildi", bip.global_position.z < -76.0 and bip.global_position.y > 2.0, str(bip.global_position))
+	check("Göl: Balon ile göl 2 geçildi", dp().z < -76.0 and dp().y > 2.0, str(dp()))
 	# Pervane ile adacıktan yüksek kıyıya
 	await place(Vector3(0, 2.25, -109), PI, "pervane")
 	Input.action_press("move_forward")
 	Input.action_press("jump")
-	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 5.5, 240)
+	await run_until(func(): return bip.is_on_floor() and dp().y > 5.5, 240)
 	Input.action_release("jump")
 	Input.action_release("move_forward")
 	await step(10)
-	check("Göl: Pervane ile kıyıya (6 m) çıkıldı", absf(bip.global_position.y - 6.0) < 0.2, str(bip.global_position))
+	check("Göl: Pervane ile kıyıya (6 m) çıkıldı", absf(dp().y - 6.0) < 0.2, str(dp()))
 	# Gizli buz sütunu: Balonla rüzgârda yüksel, doğuya süzül
 	await place(Vector3(6, 3.0, -73), PI, "balon")
 	var turn: float = level.cam.auto_turn_speed
@@ -182,10 +190,10 @@ func _area2() -> void:
 			Input.action_release("jump")
 		if i == 6:
 			Input.action_press("jump")
-		if not going and bip.global_position.y > 6.6:
+		if not going and dp().y > 6.6:
 			going = true
 			Input.action_press("move_right")
-		if going and bip.global_position.x > 11.0:
+		if going and dp().x > 11.0:
 			Input.action_release("move_right")
 			Input.action_release("jump")
 		if going and bip.is_on_floor():
@@ -194,7 +202,7 @@ func _area2() -> void:
 	Input.action_release("jump")
 	await step(10)
 	level.cam.auto_turn_speed = turn
-	check("Göl: gizli buz sütununa rüzgâr + Balon", absf(bip.global_position.y - 6.5) < 0.3, str(bip.global_position))
+	check("Göl: gizli buz sütununa rüzgâr + Balon", absf(dp().y - 6.5) < 0.3, str(dp()))
 
 
 # ---------------------------------------------------------------- Kar Zirvesi
@@ -209,14 +217,14 @@ func _area3() -> void:
 	await run_until(func(): return bip.is_on_floor(), 120)
 	Input.action_release("jump")
 	await step(5)
-	check("Zirve: Yay ile tepe 1", absf(bip.global_position.y - 4.5) < 0.2, str(bip.global_position))
+	check("Zirve: Yay ile tepe 1", absf(dp().y - 4.5) < 0.2, str(dp()))
 	# Mıknatıs ile teleferik direkleri
 	await place(Vector3(0, 13.6, -27.2), PI, "miknatis")
 	var heights := []
 	await tap("ability")
 	for k in 4:
 		await run_until(func(): return bip.magnet_state == 2, 90)
-		heights.append(snappedf(bip.global_position.z, 0.1))
+		heights.append(snappedf(dp().z, 0.1))
 		if k == 3:
 			Input.action_press("move_forward")
 		await tap("jump", 3)
@@ -226,39 +234,39 @@ func _area3() -> void:
 	await run_until(func(): return bip.is_on_floor(), 120)
 	Input.action_release("move_forward")
 	await step(10)
-	check("Zirve: Mıknatıs ile direklerden inişe", bip.global_position.z < -51.5 and absf(bip.global_position.y - 16.0) < 0.3, "direkler %s → %s" % [heights, bip.global_position])
+	check("Zirve: Mıknatıs ile direklerden inişe", dp().z < -51.5 and absf(dp().y - 16.0) < 0.3, "direkler %s → %s" % [heights, dp()])
 	# Parkur: Balon boşluğu
 	await place(Vector3(0, 15.6, -101.0), PI, "balon")
 	Input.action_press("move_forward")
 	Input.action_press("jump")
-	await run_until(func(): return bip.is_on_floor() and bip.global_position.z < -113.0, 300)
+	await run_until(func(): return bip.is_on_floor() and dp().z < -113.0, 300)
 	Input.action_release("jump")
 	await step(6)
 	Input.action_release("move_forward")
-	check("Zirve: Balon ile 12 m boşluk", absf(bip.global_position.y - 13.0) < 0.2 and bip.global_position.z < -113.0, str(bip.global_position))
+	check("Zirve: Balon ile 12 m boşluk", absf(dp().y - 13.0) < 0.2 and dp().z < -113.0, str(dp()))
 	# Parkur: Kaya ile çatlak buz → alt geçit
 	await place(Vector3(0, 11.6, -139.5), PI, "kaya")
 	await tap("jump", 3)
 	await step(10)
 	await tap("ability")
 	await step(80)
-	check("Zirve: Kaya ile alt geçide inildi", absf(bip.global_position.y - 7.0) < 0.2, str(bip.global_position))
+	check("Zirve: Kaya ile alt geçide inildi", absf(dp().y - 7.0) < 0.2, str(dp()))
 	# Parkur: Buz ile havuz
 	await place(Vector3(0, 7.1, -148.5), PI, "buz")
 	Input.action_press("move_forward")
-	await run_until(func(): return bip.global_position.z < -159.0, 200)
+	await run_until(func(): return dp().z < -159.0, 200)
 	await tap("jump", 20)
-	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 9.0, 90)
+	await run_until(func(): return bip.is_on_floor() and dp().y > 9.0, 90)
 	Input.action_release("move_forward")
-	check("Zirve: Buz ile havuz geçildi", absf(bip.global_position.y - 9.15) < 0.2, str(bip.global_position))
+	check("Zirve: Buz ile havuz geçildi", absf(dp().y - 9.15) < 0.2, str(dp()))
 	# Parkur: Pervane ile zirve
 	await place(Vector3(0, 9.25, -170.5), PI, "pervane")
 	Input.action_press("move_forward")
 	Input.action_press("jump")
-	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 14.0, 240)
+	await run_until(func(): return bip.is_on_floor() and dp().y > 14.0, 240)
 	Input.action_release("jump")
 	Input.action_release("move_forward")
-	check("Zirve: Pervane ile zirveye çıkıldı", absf(bip.global_position.y - 15.0) < 0.2, str(bip.global_position))
+	check("Zirve: Pervane ile zirveye çıkıldı", absf(dp().y - 15.0) < 0.2, str(dp()))
 
 
 # ---------------------------------------------------------------- Kardan Dev
@@ -278,16 +286,16 @@ func _boss() -> void:
 			break
 	for n in get_tree().get_nodes_in_group("enemy"):
 		if n != e and not n._dead:
-			n.global_position = Vector3(-8, 0.1, 20)
+			n.global_position = Turns.world(level, Vector3(-8, 0.1, 20))
 			n._hop_timer = 99.0
-	e.global_position = Vector3(4.6, 0.05, 2.3)
+	e.global_position = Turns.world(level, Vector3(4.6, 0.05, 2.3))
 	e.velocity = Vector3.ZERO
 	e._hop_timer = 99.0
 	await place(Vector3(4.6, 0.1, 4.6), PI, "buz")
 	await tap("ability")
 	await step(5)
 	check("Dev: Zıpzıp dondu", e._frozen > 0.0)
-	await place(e.global_position + Vector3(0, 1.8, 0), PI, "buz")
+	await place(Turns.design(level, e.global_position) + Vector3(0, 1.8, 0), PI, "buz")
 	await step(20)
 	Input.action_press("jump")
 	Input.action_press("move_forward")
@@ -295,18 +303,18 @@ func _boss() -> void:
 	Input.action_release("move_forward")
 	await run_until(func(): return boss.phase >= 2, 90)
 	Input.action_release("jump")
-	check("Dev aşama 1: buz kütlesinden yumruğa çıkıldı", boss.phase == 2, "aşama %d, bip %s" % [boss.phase, bip.global_position])
+	check("Dev aşama 1: buz kütlesinden yumruğa çıkıldı", boss.phase == 2, "aşama %d, bip %s" % [boss.phase, dp()])
 	if boss.phase < 2:
 		boss._hit()
 	await step(40)
 	# Aşama 2: Buz ile göl üstünde şalter adasına
 	await place(Vector3(7.5, 0.1, 0), PI / 2, "buz")
 	Input.action_press("move_forward")
-	await run_until(func(): return bip.global_position.x > 20.8, 240)
+	await run_until(func(): return dp().x > 20.8, 240)
 	await tap("jump", 20)
 	await run_until(func(): return boss.phase >= 3, 120)
 	Input.action_release("move_forward")
-	check("Dev aşama 2: Buz ile şaltere ulaşıldı", boss.phase == 3, "aşama %d, bip %s" % [boss.phase, bip.global_position])
+	check("Dev aşama 2: Buz ile şaltere ulaşıldı", boss.phase == 3, "aşama %d, bip %s" % [boss.phase, dp()])
 	if boss.phase < 3:
 		boss._hit()
 	await step(30)
@@ -320,18 +328,18 @@ func _boss() -> void:
 	for i in 150:
 		await get_tree().physics_frame
 		if i % 15 == 0:
-			ys.append(snappedf(bip.global_position.y, 0.1))
-		if bip.global_position.y > 10.6:
+			ys.append(snappedf(dp().y, 0.1))
+		if dp().y > 10.6:
 			break
 	Input.action_press("move_forward")
-	await run_until(func(): return Vector2(bip.global_position.x - perch.x, bip.global_position.z - perch.z).length() < 0.6 or (bip.is_on_floor() and bip.global_position.y > 9.5), 200)
+	await run_until(func(): return Vector2(dp().x - perch.x, dp().z - perch.z).length() < 0.6 or (bip.is_on_floor() and dp().y > 9.5), 200)
 	Input.action_release("move_forward")
 	await run_until(func(): return bip.is_on_floor(), 120)
 	Input.action_release("jump")
 	await step(5)
-	check("Dev aşama 3: Pervane ile tüneğe çıkıldı", absf(bip.global_position.y - 10.2) < 0.25, str(bip.global_position))
+	check("Dev aşama 3: Pervane ile tüneğe çıkıldı", absf(dp().y - 10.2) < 0.25, str(dp()))
 	# Tünekte Kaya kopyala, başa çakıl
-	bip.global_position = Vector3(0, 10.3, -2.4)
+	bip.global_position = Turns.world(level, Vector3(0, 10.3, -2.4))
 	await step(5)
 	await tap("ability")
 	await step(5)
@@ -345,7 +353,7 @@ func _boss() -> void:
 	Input.action_release("move_forward")
 	await tap("ability")
 	await step(40)
-	check("Dev aşama 3: başa çakılınca yenildi", boss.phase >= 4, "aşama %d, bip %s" % [boss.phase, bip.global_position])
+	check("Dev aşama 3: başa çakılınca yenildi", boss.phase >= 4, "aşama %d, bip %s" % [boss.phase, dp()])
 	await step(150)
 	var cells := 0
 	for c in level.get_children():

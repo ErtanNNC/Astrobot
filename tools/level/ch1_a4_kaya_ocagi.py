@@ -9,6 +9,9 @@ from lvl import Level
 
 L = Level("ch1_kaya", "Kaya Ocağı", "scenes/chapter1/a4_kaya_ocagi.tscn", sky="quarry",
           music="res://assets/audio/opengameart/happy_adventure_loop.mp3", kill_height=-14, water=-9, seed=44)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -113, 35), (0, -126, -45)])
 PI = math.pi
 Q = "quarry"
 
@@ -48,13 +51,13 @@ def rocks(x0, x1, z0, z1, y, n):
 
 
 # Ocak duvarları (arka plan)
-for side in (-1, 1):
-    for z0, z1, h in [(12, -60, 14), (-60, -120, 18), (-120, -175, 16)]:
-        L.box(side * 18, h / 2 - 8, (z0 + z1) / 2, 10, h + 16, abs(z1 - z0), "qstrata")
-        L.top(side * 21, h + 2, (z0 + z1) / 2, 6, abs(z1 - z0), depth=4, theme="grass", side="qstrata")   # basamaklı üst kat
-        for z in range(int(z0) - 6, int(z1), -9):
-            fm(random.choice(("Tree_1_A_Color1", "Tree_3_A_Color1", "Tree_Bare_1_A_Color1")), side * random.uniform(19.5, 22.5), h + 2, z, random.uniform(0, 6.28), random.uniform(2.0, 2.8))
-            fm(random.choice(ROCKS), side * random.uniform(13.4, 14.5), h, z + 3, random.uniform(0, 6.28), random.uniform(3.0, 5.0))
+for side, z0, z1 in L.wall_spans(12, -175, dist=13):
+    h = 14 if z0 > -60 else (18 if z0 > -120 else 16)
+    L.box(side * 18, h / 2 - 8, (z0 + z1) / 2, 10, h + 16, abs(z1 - z0), "qstrata")
+    L.top(side * 21, h + 2, (z0 + z1) / 2, 6, abs(z1 - z0), depth=4, theme="grass", side="qstrata")   # basamaklı üst kat
+    for z in range(int(z0) - 6, int(z1), -9):
+        fm(random.choice(("Tree_1_A_Color1", "Tree_3_A_Color1", "Tree_Bare_1_A_Color1")), side * random.uniform(19.5, 22.5), h + 2, z, random.uniform(0, 6.28), random.uniform(2.0, 2.8))
+        fm(random.choice(ROCKS), side * random.uniform(13.4, 14.5), h, z + 3, random.uniform(0, 6.28), random.uniform(3.0, 5.0))
 
 # ---------- Başlangıç ----------
 L.top(0, 0, -0.5, 14, 15, depth=6, theme=Q, side="qstrata")                   # x[-7,7] z[7,-8]

@@ -16,6 +16,9 @@ from lvl import Level
 L = Level("ch1_miknatis", "Mıknatıs Fabrikası", "scenes/chapter1/a3_miknatis_fabrikasi.tscn", sky="factory",
           music="res://assets/audio/opengameart/happy_clappy_loop.mp3", kill_height=-12, water=-8, seed=33)
 PI = math.pi
+# Yol üç yerde döner (tasarım koordinatları dümdüz kalır): zincir köprüde sola, levha duvarından sonra sağa,
+# çarklardan önce yine sola. Pivotlar boşluklarda, yol ekseninde.
+L.turns([(0, -25, 40), (0, -85, -70), (0, -126.5, 50)])
 K = "kenney/factory/"
 SEA = -8.0
 
@@ -62,12 +65,14 @@ def line(x, y, z, n, ry=0.0, s=2.0):
 # =====================================================================================
 # Fabrika binaları (arka plan): pencereli çelik duvarlar, dev dişliler, bacalar
 # =====================================================================================
+# Binalar dönüş noktalarında bölünür, dönüşün iç tarafında kısalır (L.wall_spans); her parça kendi yol kesimiyle döner
+for side, z0, z1 in L.wall_spans(14, -172):
+    h = 18 + int((14 - z0) / 186 * 12)
+    L.box(side * 20, (h + SEA) / 2, (z0 + z1) / 2, 8, h - SEA, abs(z1 - z0), "factory")
+    for z in range(int(z0) - 3, int(z1), -6):
+        km("structure-window-wide", side * 15.9, h - 9.5, z, -side * PI / 2, 3.0)
+    gear_wall(side * 15.6, h - 3, (z0 + z1) / 2, 2.4, 0.3 * side)
 for side in (-1, 1):
-    for z0, z1, h in [(14, -45, 18), (-45, -100, 24), (-100, -170, 30)]:
-        L.box(side * 20, (h + SEA) / 2, (z0 + z1) / 2, 8, h - SEA, abs(z1 - z0), "factory")
-        for z in range(int(z0) - 3, int(z1), -6):
-            km("structure-window-wide", side * 15.9, h - 9.5, z, -side * PI / 2, 3.0)
-        gear_wall(side * 15.6, h - 3, (z0 + z1) / 2, 2.4, 0.3 * side)
     for z, hh in ((-20, 36), (-80, 42), (-140, 48)):
         L.box(side * 26, hh / 2, z, 4, hh, 4, "factory")
         L.box(side * 26, hh + 0.4, z, 4.6, 0.8, 4.6, "red")

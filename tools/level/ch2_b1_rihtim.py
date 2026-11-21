@@ -6,6 +6,9 @@ from lvl import Level
 
 L = Level("ch2_rihtim", "Liman Rıhtımı", "scenes/chapter2/b1_rihtim.tscn", sky="day",
           music="res://assets/audio/opengameart/happy_clappy_loop.mp3", kill_height=-6, water=-8, seed=21)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -18, -35), (0, -77, 45)])
 
 PI = math.pi
 
@@ -52,7 +55,7 @@ L.ent("enemy", 4.5, 4.5, -60, kind="zipzip", batteries=2)  # su üstünde zıpla
 L.top(4.5, 4.5, -60, 2.5, 2.5, depth=2, theme="stone")
 L.top(0, 4.0, -77, 8, 8, depth=12, theme="sand")              # orta ada z[-73,-81]
 L.ent("checkpoint", -2.5, 4.0, -78, checkpoint_id="ada", ry=PI)
-L.tree(-2.8, 4.0, -80.5, 0.8, fruit=True)
+L.tree(-2.2, 4.0, -79.6, 0.8, fruit=True)
 L.bush(2.6, 4.0, -80.3, 0.8)
 L.grass_patch(-3.5, 3.5, -80.5, -74, 4.0, 8, avoid=[(-1.5, 1.5, -81, -73)])
 L.ent("copy", 2.4, 4.0, -75.5, ability="pervane")             # kaybedene yedek
@@ -92,13 +95,12 @@ def md(model, x, y, z, ry=0.0, s=5.0):
 
 
 # Batıda kıyı kasabası: kara şeridi, evler, değirmen, pazar (oynanış dışı manzara)
-L.top(-29, -3.0, -55, 22, 150, depth=8, theme="grass2", side="stone")
-L.top(-33, -1.0, -55, 14, 150, depth=2, theme="grass")
+L.top(-29, -3.0, -10, 22, 64, depth=8, theme="grass2", side="stone")     # z[22,-42]: yol -25,5'te doğuya döner
+L.top(-33, -1.0, -10, 14, 64, depth=2, theme="grass")
 for i, (m, z) in enumerate((("building_home_A_blue", 6), ("building_tavern_yellow", -10), ("building_home_B_red", -26),
-                             ("building_market_green", -42), ("building_watermill_blue", -58), ("building_home_A_blue", -74),
-                             ("building_windmill_red", -92), ("building_home_B_red", -108), ("building_tavern_yellow", -124))):
+                             ("building_market_green", -38), ("building_watermill_blue", 16), ("building_windmill_red", -18))):
     md(m, -24.5 if i % 2 == 0 else -29, -3.0, z, PI / 2 + (i % 3) * 0.3, 6.0)
-for z in range(10, -130, -14):
+for z in range(18, -40, -9):
     L.kenney(random.choice(("tree", "tree-pine")), -36, -1.0, z + random.uniform(-3, 3), random.uniform(0, 6.28), 3.2)
 md("mountain_A_grass_trees", -55, 0, -40, 0.4, 14); md("hills_A_trees", -50, 0, -110, 1.2, 14)
 # Rıhtım eşyaları: varil, kasa, çuval, palet

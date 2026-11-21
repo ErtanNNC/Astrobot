@@ -6,6 +6,9 @@ from lvl import Level
 
 L = Level("ch2_gemi", "Gemi Mezarlığı", "scenes/chapter2/b3_gemi_mezarligi.tscn", sky="storm",
           music="res://assets/audio/opengameart/happy_adventure_loop.mp3", kill_height=-9, water=-12, seed=23)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, 2, 30), (0, -79, -40)])
 PI = math.pi
 
 

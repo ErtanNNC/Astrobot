@@ -134,6 +134,7 @@ script = ExtResource("area")
 area_id = "ch3_zirve"
 title = "Kar Zirvesi"
 kill_height = -14
+metadata/turns = [Vector3(0, -24, 40), Vector3(0, -99, -50)]
 music = ExtResource("music")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -306,133 +307,133 @@ script = ExtResource("e5")
 checkpoint_id = "tepe"
 
 [node name="Copy_2" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 13.5, -25.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, 0.95093, 13.5, -26.756)
 script = ExtResource("e0")
 ability = "miknatis"
 
 [node name="Hint_1" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, -26)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -1.28558, 13.5, -25.5321)
 script = ExtResource("e6")
 hint = "ability"
 size = Vector3(10, 3, 4)
 delay = 6
 
 [node name="Metal_1" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.5, -33)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -5.78509, 12.5, -30.8944)
 script = ExtResource("e7")
 size = Vector3(1, 1, 1)
 
 [node name="Kutu_6" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -5.78509, 0, -30.8944)
 use_collision = true
 size = Vector3(0.5, 24, 0.5)
 material = SubResource("m_stone")
 
 [node name="Pil_13" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.4, -33)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -5.78509, 14.4, -30.8944)
 script = ExtResource("e1")
 
 [node name="Metal_2" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.7, -38.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -9.32042, 13.7, -35.1076)
 script = ExtResource("e7")
 size = Vector3(1, 1, 1)
 
 [node name="Kutu_7" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -38.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -9.32042, 0.6, -35.1076)
 use_collision = true
 size = Vector3(0.5, 25.2, 0.5)
 material = SubResource("m_stone")
 
 [node name="Pil_14" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.6, -38.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -9.32042, 15.6, -35.1076)
 script = ExtResource("e1")
 
 [node name="Metal_3" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.9, -44)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -12.8558, 14.9, -39.3209)
 script = ExtResource("e7")
 size = Vector3(1, 1, 1)
 
 [node name="Kutu_8" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -44)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -12.8558, 1.2, -39.3209)
 use_collision = true
 size = Vector3(0.5, 26.4, 0.5)
 material = SubResource("m_stone")
 
 [node name="Pil_15" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.8, -44)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -12.8558, 16.8, -39.3209)
 script = ExtResource("e1")
 
 [node name="Metal_4" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.1, -49.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -16.3911, 16.1, -43.5341)
 script = ExtResource("e7")
 size = Vector3(1, 1, 1)
 
 [node name="Kutu_9" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -49.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -16.3911, 1.8, -43.5341)
 use_collision = true
 size = Vector3(0.5, 27.6, 0.5)
 material = SubResource("m_stone")
 
 [node name="Pil_16" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, -49.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -16.3911, 18, -43.5341)
 script = ExtResource("e1")
 
 [node name="Kutu_10" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5, -57)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -21.212, 11.5, -49.2795)
 use_collision = true
 size = Vector3(14, 9, 10)
 material = SubResource("m_snow")
 
 [node name="Kutu_11" type="CSGBox3D" parent="Level"]
-transform = Transform3D(-1, 0, -1.22465e-16, 5.47679e-17, 0.894427, -0.447214, 1.09536e-16, -0.447214, -0.894427, 0, 13.3211, -67)
+transform = Transform3D(-0.766044, 0, -0.642788, 0.287463, 0.894427, -0.342585, 0.574927, -0.447214, -0.685171, -27.6399, 13.3211, -56.9399)
 use_collision = true
 size = Vector3(6, 0.4, 11.1803)
 material = SubResource("m_snow")
 
 [node name="Pirilnokta_3" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, -42)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -11.5702, 16, -37.7888)
 
 [node name="Kutu_12" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -79)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -35.3533, 8, -66.1324)
 use_collision = true
 size = Vector3(14, 6, 30)
 material = SubResource("m_snow")
 
 [node name="Checkpoint_2" type="Area3D" parent="Entities"]
-transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -4.5, 16, -56)
+transform = Transform3D(-0.766044, 0, -0.642788, 0, 1, -0, 0.642788, 0, -0.766044, -24.0164, 16, -45.6209)
 script = ExtResource("e5")
 checkpoint_id = "direk"
 
 [node name="Hazard_1" type="Area3D" parent="Entities"]
-transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, -5, 11, -75)
+transform = Transform3D(0.642788, 0, -0.766044, 0, 1, 0, 0.766044, 0, 0.642788, -36.6124, 11, -59.8543)
 script = ExtResource("e8")
 kind = "saw"
-move = Vector3(0, 0, -14)
+move = Vector3(-8.99903, 0, -10.7246)
 period = 3
 
 [node name="Hazard_2" type="Area3D" parent="Entities"]
-transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, -1.7, 11, -75)
+transform = Transform3D(0.642788, 0, -0.766044, 0, 1, 0, 0.766044, 0, 0.642788, -34.0844, 11, -61.9755)
 script = ExtResource("e8")
 kind = "saw"
-move = Vector3(0, 0, -14)
+move = Vector3(-8.99903, 0, -10.7246)
 period = 3.7
 
 [node name="Hazard_3" type="Area3D" parent="Entities"]
-transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 1.7, 11, -75)
+transform = Transform3D(0.642788, 0, -0.766044, 0, 1, 0, 0.766044, 0, 0.642788, -31.4799, 11, -64.161)
 script = ExtResource("e8")
 kind = "saw"
-move = Vector3(0, 0, -14)
+move = Vector3(-8.99903, 0, -10.7246)
 period = 4.4
 
 [node name="Hazard_4" type="Area3D" parent="Entities"]
-transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 5, 11, -75)
+transform = Transform3D(0.642788, 0, -0.766044, 0, 1, 0, 0.766044, 0, 0.642788, -28.9519, 11, -66.2822)
 script = ExtResource("e8")
 kind = "saw"
-move = Vector3(0, 0, -14)
+move = Vector3(-8.99903, 0, -10.7246)
 period = 3.4
 
 [node name="KRocks_3" type="StaticBody3D" parent="Decor"]
-transform = Transform3D(-0.94142, 0, -0.337235, 0, 1, -0, 0.337235, 0, -0.94142, -6.2, 11, -73)
+transform = Transform3D(-0.504399, 0, -0.863471, 0, 1, -0, 0.863471, 0, -0.504399, -36.2461, 11, -57.5509)
 
 [node name="Model" parent="Decor/KRocks_3" instance=ExtResource("e4")]
 transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
@@ -442,7 +443,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
 [node name="KRocks_4" type="StaticBody3D" parent="Decor"]
-transform = Transform3D(-0.316742, 0, -0.948512, 0, 1, -0, 0.948512, 0, -0.316742, 6.2, 11, -69)
+transform = Transform3D(0.367053, 0, -0.9302, 0, 1, 0, 0.9302, 0, 0.367053, -24.176, 11, -62.4573)
 
 [node name="Model" parent="Decor/KRocks_4" instance=ExtResource("e4")]
 transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
@@ -452,7 +453,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
 [node name="KRocks_5" type="StaticBody3D" parent="Decor"]
-transform = Transform3D(-0.993439, 0, 0.114365, -0, 1, 0, -0.114365, 0, -0.993439, -6.2, 11, -83)
+transform = Transform3D(-0.834531, 0, -0.550961, 0, 1, -0, 0.550961, 0, -0.834531, -42.6739, 11, -65.2113)
 
 [node name="Model" parent="Decor/KRocks_5" instance=ExtResource("e4")]
 transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
@@ -462,7 +463,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
 [node name="KRocks_6" type="StaticBody3D" parent="Decor"]
-transform = Transform3D(-0.0434377, 0, 0.999056, -0, 1, 0, -0.999056, 0, -0.0434377, 6.2, 11, -79)
+transform = Transform3D(-0.675456, 0, 0.7374, -0, 1, 0, -0.7374, 0, -0.675456, -30.6038, 11, -70.1177)
 
 [node name="Model" parent="Decor/KRocks_6" instance=ExtResource("e4")]
 transform = Transform3D(1.76, 0, 0, 0, 1.76, 0, 0, 0, 1.76, 0, 0, 0)
@@ -472,316 +473,316 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
 shape = SubResource("rockshape")
 
 [node name="Pil_17" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -75)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -35.3484, 11.8, -60.9149)
 script = ExtResource("e1")
 
 [node name="Pil_18" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -78.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -37.5982, 11.8, -63.5961)
 script = ExtResource("e1")
 
 [node name="Pil_19" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -82)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -39.8479, 11.8, -66.2772)
 script = ExtResource("e1")
 
 [node name="Pil_20" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -85.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -42.0977, 11.8, -68.9584)
 script = ExtResource("e1")
 
 [node name="Pil_21" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.35, 11.8, -89)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -44.3474, 11.8, -71.6396)
 script = ExtResource("e1")
 
 [node name="Checkpoint_3" type="Area3D" parent="Entities"]
-transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -4.5, 11, -92)
+transform = Transform3D(-0.766044, 0, -0.642788, 0, 1, -0, 0.642788, 0, -0.766044, -47.1568, 11, -73.1985)
 script = ExtResource("e5")
 checkpoint_id = "cig"
 
 [node name="Pirilnokta_4" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, -80)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -35.9961, 13, -66.8985)
 
 [node name="Copy_3" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 11, -92.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -41.7328, 11, -78.4024)
 script = ExtResource("e0")
 ability = "yay"
 
 [node name="Kutu_13" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, -99)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -48.2091, 10.5, -81.4533)
 use_collision = true
 size = Vector3(8, 10, 6)
 material = SubResource("m_snow")
 
 [node name="Pil_22" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.3, -97.5)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -47.2449, 16.3, -80.3043)
 script = ExtResource("e1")
 
 [node name="Pil_23" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.3, -100.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -47.9486, 16.3, -82.9305)
 script = ExtResource("e1")
 
 [node name="Copy_4" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 15.5, -100.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -45.4866, 15.5, -82.4964)
 script = ExtResource("e0")
 ability = "balon"
 
 [node name="Pil_24" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.3, -103)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -47.5145, 16.3, -85.3926)
 script = ExtResource("e1")
 
 [node name="Pil_25" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.4428, -105.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -47.0804, 17.4428, -87.8546)
 script = ExtResource("e1")
 
 [node name="Pil_26" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.55, -108)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -46.6462, 17.55, -90.3166)
 script = ExtResource("e1")
 
 [node name="Pil_27" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.1928, -110.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -46.2121, 16.1928, -92.7786)
 script = ExtResource("e1")
 
 [node name="Pil_28" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.8, -113)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -45.778, 13.8, -95.2406)
 script = ExtResource("e1")
 
 [node name="Kutu_14" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -117)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -45.0834, 11, -99.1799)
 use_collision = true
 size = Vector3(8, 4, 6)
 material = SubResource("m_ice")
 
 [node name="Copy_5" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 13, -118.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -42.3609, 13, -100.223)
 script = ExtResource("e0")
 ability = "miknatis"
 
 [node name="Metal_5" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7, -125)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -43.6942, 11.7, -107.058)
 script = ExtResource("e7")
 size = Vector3(1.6, 1.6, 1.6)
 
 [node name="Metal_6" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2, -131)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -42.6523, 11.2, -112.967)
 script = ExtResource("e7")
 size = Vector3(1.6, 1.6, 1.6)
 
 [node name="Kutu_15" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -135.75)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -41.8275, 10, -117.645)
 use_collision = true
 size = Vector3(8, 3, 3.5)
 material = SubResource("m_snow")
 
 [node name="Kutu_16" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 10, -139.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -44.1307, 10, -121.859)
 use_collision = true
 size = Vector3(2, 3, 4)
 material = SubResource("m_snow")
 
 [node name="Kutu_17" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 10, -139.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -38.2219, 10, -120.817)
 use_collision = true
 size = Vector3(2, 3, 4)
 material = SubResource("m_snow")
 
 [node name="Kutu_18" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -141.75)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -40.7856, 10, -123.554)
 use_collision = true
 size = Vector3(8, 3, 0.5)
 material = SubResource("m_snow")
 
 [node name="Cracked_1" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2, -139.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -41.1763, 11.2, -121.338)
 script = ExtResource("e9")
 size = Vector3(4, 0.6, 4)
 
 [node name="Copy_6" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 11.5, -135.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -39.1135, 11.5, -116.913)
 script = ExtResource("e0")
 ability = "kaya"
 
 [node name="Kutu_19" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.25, -142.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -40.6554, 14.25, -124.292)
 use_collision = true
 size = Vector3(10, 11.5, 1)
 material = SubResource("m_ice")
 
 [node name="Kutu_20" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -136.75)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -41.6539, 7, -118.63)
 use_collision = true
 size = Vector3(8, 3, 0.5)
 material = SubResource("m_stone")
 
 [node name="Kutu_21" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, -143.5)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -40.4817, 5.5, -125.277)
 use_collision = true
 size = Vector3(8, 3, 13)
 material = SubResource("m_stone")
 
 [node name="Kutu_22" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 8.5, -155)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -42.9164, 8.5, -137.384)
 use_collision = true
 size = Vector3(1, 6, 36)
 material = SubResource("m_stone")
 
 [node name="Kutu_23" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 8.5, -155)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -34.0531, 8.5, -135.821)
 use_collision = true
 size = Vector3(1, 6, 36)
 material = SubResource("m_stone")
 
 [node name="Copy_7" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -146)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -40.0476, 7, -127.739)
 script = ExtResource("e0")
 ability = "buz"
 
 [node name="Kutu_24" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -155)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -38.4848, 3.5, -136.603)
 use_collision = true
 size = Vector3(8, 1, 10)
 material = SubResource("m_stone")
 
 [node name="Water_1" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -155)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -38.4848, 7, -136.603)
 script = ExtResource("e10")
 size = Vector3(8, 3, 10)
 
 [node name="Kutu_25" type="CSGBox3D" parent="Level"]
-transform = Transform3D(-1, 0, -1.22465e-16, 5.47679e-17, 0.894427, -0.447214, 1.09536e-16, -0.447214, -0.894427, 3.25, 5.32111, -153)
+transform = Transform3D(-0.984808, 0, 0.173648, -0.0776578, 0.894427, -0.440419, -0.155316, -0.447214, -0.880839, -35.6314, 5.32111, -134.069)
 use_collision = true
 size = Vector3(1.5, 0.4, 6.7082)
 material = SubResource("m_stone")
 
 [node name="Kutu_26" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.65, -166)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -36.5746, 6.65, -147.435)
 use_collision = true
 size = Vector3(8, 5, 12)
 material = SubResource("m_snow")
 
 [node name="Pil_29" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -151)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -39.1794, 8.1, -132.663)
 script = ExtResource("e1")
 
 [node name="Pil_30" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -153.667)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -38.7163, 8.1, -135.289)
 script = ExtResource("e1")
 
 [node name="Pil_31" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -156.333)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -38.2532, 8.1, -137.916)
 script = ExtResource("e1")
 
 [node name="Pil_32" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.1, -159)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -37.7902, 8.1, -140.542)
 script = ExtResource("e1")
 
 [node name="Copy_8" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 9.15, -164)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -34.3614, 9.15, -145.014)
 script = ExtResource("e0")
 ability = "pervane"
 
 [node name="Checkpoint_4" type="Area3D" parent="Entities"]
-transform = Transform3D(-1, 0, -1.22465e-16, 0, 1, -0, 1.22465e-16, 0, -1, -3, 9.15, -162)
+transform = Transform3D(-0.984808, 0, 0.173648, -0, 1, 0, -0.173648, 0, -0.984808, -40.2237, 9.15, -144.017)
 script = ExtResource("e5")
 checkpoint_id = "gecit"
 
 [node name="Kutu_27" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -179)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -34.3172, 9, -160.238)
 use_collision = true
 size = Vector3(14, 12, 14)
 material = SubResource("m_snow")
 
 [node name="Pil_33" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.95, -169)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -36.0537, 9.95, -150.39)
 script = ExtResource("e1")
 
 [node name="Pil_34" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.9311, -171)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -35.7064, 14.9311, -152.359)
 script = ExtResource("e1")
 
 [node name="Pil_35" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.8811, -173)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -35.3591, 16.8811, -154.329)
 script = ExtResource("e1")
 
 [node name="Pil_36" type="Area3D" parent="Batteries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.8, -175)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -35.0118, 15.8, -156.299)
 script = ExtResource("e1")
 
 [node name="Exit_1" type="Area3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -181)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -33.9699, 15, -162.208)
 script = ExtResource("e11")
 
 [node name="Goal_Flag_1" parent="Decor" instance=ExtResource("e12")]
-transform = Transform3D(1.37568, 0, -0.425549, 0, 1.44, 0, 0.425549, 0, 1.37568, 4.5, 15, -183)
+transform = Transform3D(1.28089, 0, -0.657969, 0, 1.44, 0, 0.657969, 0, 1.28089, -29.191, 15, -163.396)
 
 [node name="Prop_1" type="Node3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 38, -200)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -50.3668, 38, -184.392)
 script = ExtResource("e13")
 kind = "storm"
 size = 5
 
 [node name="Pirilnokta_5" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.5, -99)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -48.2091, 17.5, -81.4533)
 
 [node name="Pirilnokta_6" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, -117)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -45.0834, 16, -99.1799)
 
 [node name="Pirilnokta_7" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, -136)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -41.7841, 13.5, -117.891)
 
 [node name="Pirilnokta_8" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -146)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -40.0476, 9, -127.739)
 
 [node name="Pirilnokta_9" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -165)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -36.7483, 11, -146.451)
 
 [node name="Kutu_28" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.1524, -4, -25.9293)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, 15.7296, -4, -39.7172)
 use_collision = true
 size = Vector3(6.12193, 23.1114, 9.05904)
 material = SubResource("m_snow")
 
 [node name="Kutu_29" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.1931, -2, -139.561)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -58.0977, -2, -124.383)
 use_collision = true
 size = Vector3(8.55061, 33.9234, 9.96204)
 material = SubResource("m_snow")
 
 [node name="Kutu_30" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2318, 0, -172.748)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -20.4025, 0, -151.436)
 use_collision = true
 size = Vector3(6.28668, 21.8829, 7.09082)
 material = SubResource("m_snow")
 
 [node name="Kutu_31" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5505, -4, -183.821)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -14.2266, -4, -161.591)
 use_collision = true
 size = Vector3(6.55617, 28.9986, 9.51675)
 material = SubResource("m_snow")
 
 [node name="Kutu_32" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6332, -2, -117.553)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -59.3983, -2, -102.265)
 use_collision = true
 size = Vector3(5.37306, 30.9306, 6.01216)
 material = SubResource("m_snow")
 
 [node name="Kutu_33" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.0289, 0, -109.152)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -30.6608, 0, -88.6674)
 use_collision = true
 size = Vector3(5.77135, 28.4597, 7.8312)
 material = SubResource("m_snow")
 
 [node name="Kutu_34" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.8963, -4, -97.4062)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -31.9431, -4, -93.0215)
 use_collision = true
 size = Vector3(6.8171, 31.7751, 7.94443)
 material = SubResource("m_snow")
 
 [node name="Kutu_35" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.7917, -2, -183.206)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -16.0654, -2, -161.291)
 use_collision = true
 size = Vector3(8.12202, 19.7759, 9.49091)
 material = SubResource("m_snow")
 
 [node name="Kutu_36" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.2303, 0, -182.257)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -12.8439, 0, -159.759)
 use_collision = true
 size = Vector3(8.49052, 31.4996, 9.45298)
 material = SubResource("m_snow")
@@ -793,31 +794,31 @@ size = Vector3(5.34987, 27.6278, 8.91803)
 material = SubResource("m_snow")
 
 [node name="Kutu_38" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4682, -2, -99.4025)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -25.0275, -2, -77.7745)
 use_collision = true
 size = Vector3(6.62555, 25.5604, 8.48863)
 material = SubResource("m_snow")
 
 [node name="Kutu_39" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.2053, 0, -44.8527)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -2.52193, 0, -49.1051)
 use_collision = true
 size = Vector3(6.58844, 30.8488, 7.29982)
 material = SubResource("m_snow")
 
 [node name="Kutu_40" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1498, -4, -165.47)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -59.4648, -4, -150.934)
 use_collision = true
 size = Vector3(6.27884, 33.2378, 9.63067)
 material = SubResource("m_snow")
 
 [node name="Kutu_41" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.313, -2, -153.09)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -16.8424, -2, -130.847)
 use_collision = true
 size = Vector3(6.73588, 30.9531, 9.70164)
 material = SubResource("m_snow")
 
 [node name="KTreeSnow_3" type="StaticBody3D" parent="Decor"]
-transform = Transform3D(0.00306715, 0, 0.999995, 0, 1, 0, -0.999995, 0, 0.00306715, -5, 11, -95)
+transform = Transform3D(-0.640435, 0, 0.768012, -0, 1, 0, -0.768012, 0, -0.640435, -49.4681, 11, -75.1752)
 
 [node name="Model" parent="Decor/KTreeSnow_3" instance=ExtResource("e3")]
 transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, 0, 0, 0)
@@ -827,7 +828,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("trunk")
 
 [node name="KTreeSnow_4" type="StaticBody3D" parent="Decor"]
-transform = Transform3D(-0.997415, 0, 0.0718622, -0, 1, 0, -0.0718622, 0, -0.997415, 5.5, 15, -184)
+transform = Transform3D(-0.969783, 0, 0.24397, -0, 1, 0, -0.24397, 0, -0.969783, -28.0325, 15, -164.207)
 
 [node name="Model" parent="Decor/KTreeSnow_4" instance=ExtResource("e3")]
 transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, 0, 0, 0)
@@ -843,139 +844,139 @@ kind = "snow"
 size = 1
 
 [node name="Prop_3" type="Node3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24, -60)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -23.1404, 24, -51.5776)
 script = ExtResource("e13")
 kind = "snow"
 size = 1
 
 [node name="Prop_4" type="Node3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24, -110)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -46.2989, 24, -92.2862)
 script = ExtResource("e13")
 kind = "snow"
 size = 1
 
 [node name="Prop_5" type="Node3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24, -160)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -37.6165, 24, -141.527)
 script = ExtResource("e13")
 kind = "snow"
 size = 1
 
 [node name="Kutu_42" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 18.9923, -29)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -1.52864, 18.9923, -29.2444)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_43" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 18.9815, -31)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -2.81422, 18.9815, -30.7764)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_44" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 18.9839, -33)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -4.09979, 18.9839, -32.3085)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_45" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 19.008, -35)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -5.38537, 19.008, -33.8406)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_46" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 19.0612, -37)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -6.67094, 19.0612, -35.3727)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_47" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 19.1499, -39)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -7.95652, 19.1499, -36.9048)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_48" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 19.2791, -41)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -9.24209, 19.2791, -38.4369)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_49" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 19.4522, -43)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -10.5277, 19.4522, -39.969)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_50" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 19.6709, -45)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -11.8132, 19.6709, -41.5011)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_51" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 19.9353, -47)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -13.0988, 19.9353, -43.0332)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_52" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 20.2437, -49)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -14.3844, 20.2437, -44.5652)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_53" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 20.5925, -51)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -15.67, 20.5925, -46.0973)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_54" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 20.9768, -53)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -16.9555, 20.9768, -47.6294)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_55" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 21.3902, -55)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -18.2411, 21.3902, -49.1615)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_56" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 21.8252, -57)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -19.5267, 21.8252, -50.6936)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_57" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 22.2736, -59)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -20.8123, 22.2736, -52.2257)
 use_collision = true
 size = Vector3(0.08, 0.08, 2.05)
 material = SubResource("m_stone")
 
 [node name="Kutu_58" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 18.2, -41)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -9.24209, 18.2, -38.4369)
 use_collision = true
 size = Vector3(1.6, 1.4, 2)
 material = SubResource("m_red")
 
 [node name="Kutu_59" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 19.25, -41)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -9.24209, 19.25, -38.4369)
 use_collision = true
 size = Vector3(0.1, 0.8, 0.1)
 material = SubResource("m_stone")
 
 [node name="Kutu_60" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 18.4, -40)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -8.5993, 18.4, -37.6708)
 use_collision = true
 size = Vector3(1.3, 0.6, 0.05)
 material = SubResource("m_blue")
 
 [node name="Kutu_61" type="CSGBox3D" parent="Level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19, -186.2)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -33.0669, 19, -167.329)
 use_collision = true
 size = Vector3(0.3, 8, 0.3)
 material = SubResource("m_stone")
@@ -990,22 +991,22 @@ transform = Transform3D(-2.49801, 0, 1.24647, -0, 2.79172, 0, -1.24647, 0, -2.49
 transform = Transform3D(1.17112, 0, 2.76188, 0, 2.99992, 0, -2.76188, 0, 1.17112, 79.2921, 39.1475, -10.4516)
 
 [node name="Cloud_3_2" parent="Clouds" instance=ExtResource("e15")]
-transform = Transform3D(-1.2313, 0, -1.37044, 0, 1.84234, -0, 1.37044, 0, -1.2313, -57.9038, -11.8751, -151.269)
+transform = Transform3D(-1.45057, 0, -1.13581, 0, 1.84234, -0, 1.13581, 0, -1.45057, -96.1567, -11.8751, -142.983)
 
 [node name="Cloud_1_2" parent="Clouds" instance=ExtResource("e16")]
 transform = Transform3D(-0.603462, 0, -2.31932, 0, 2.39654, -0, 2.31932, 0, -0.603462, 47.8943, -6.79754, 2.96911)
 
 [node name="Cloud_1_3" parent="Clouds" instance=ExtResource("e16")]
-transform = Transform3D(-2.88461, 0, 0.510285, -0, 2.92939, 0, -0.510285, 0, -2.88461, 35.0407, 36.521, -138.467)
+transform = Transform3D(-2.75217, 0, 1.00344, -0, 2.92939, 0, -1.00344, 0, -2.75217, -6.84726, 36.521, -114.236)
 
 [node name="Cloud_2_2" parent="Clouds" instance=ExtResource("e14")]
-transform = Transform3D(-2.38737, 0, -0.611538, 0, 2.46445, -0, 0.611538, 0, -2.38737, 54.0673, -10.959, -103.158)
+transform = Transform3D(-2.45729, 0, -0.187685, 0, 2.46445, -0, 0.187685, 0, -2.45729, 5.7589, -10.959, -76.1599)
 
 [node name="Cloud_1_4" parent="Clouds" instance=ExtResource("e16")]
-transform = Transform3D(1.06502, 0, 1.83454, 0, 2.12128, 0, -1.83454, 0, 1.06502, -76.2536, 31.0573, -142.697)
+transform = Transform3D(1.36741, 0, 1.62173, 0, 2.12128, 0, -1.62173, 0, 1.36741, -115.716, 31.0573, -137.728)
 
 [node name="Cloud_1_5" parent="Clouds" instance=ExtResource("e16")]
-transform = Transform3D(-0.621937, 0, -2.7071, 0, 2.77763, -0, 2.7071, 0, -0.621937, -78.619, 29.9486, -61.2094)
+transform = Transform3D(1.26366, 0, -2.47353, 0, 2.77763, 0, 2.47353, 0, 1.26366, -84.1434, 29.9486, -1.96876)
 
 [node name="Cloud_2_3" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(-1.47694, 0, -1.38722, 0, 2.02626, -0, 1.38722, 0, -1.47694, -66.7822, 39.2635, 20.6713)
@@ -1023,17 +1024,17 @@ transform = Transform3D(-2.05995, 0, -0.80387, 0, 2.21124, -0, 0.80387, 0, -2.05
 transform = Transform3D(1.51366, 0, 2.58117, 0, 2.99225, 0, -2.58117, 0, 1.51366, -35.2298, 28.6133, 21.5386)
 
 [node name="Cloud_1_7" parent="Clouds" instance=ExtResource("e16")]
-transform = Transform3D(-2.72259, 0, 1.26347, -0, 3.00148, 0, -1.26347, 0, -2.72259, -58.9512, 39.2532, -107.962)
+transform = Transform3D(-2.46183, 0, 1.71704, -0, 3.00148, 0, -1.71704, 0, -2.46183, -104.708, 39.2532, -100.516)
 
 [node name="Cloud_2_6" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(1.38421, 0, -0.960931, 0, 1.68506, 0, 0.960931, 0, 1.38421, -65.34, 38.5902, 32.2242)
 
 [node name="Cloud_3_4" parent="Clouds" instance=ExtResource("e15")]
-transform = Transform3D(-2.82023, 0, -1.26786, 0, 3.09212, -0, 1.26786, 0, -2.82023, 74.6582, -10.7341, -62.8796)
+transform = Transform3D(-1.34546, 0, -2.78405, 0, 3.09212, -0, 2.78405, 0, -1.34546, 32.2002, -10.7341, -101.773)
 
 [node name="Cloud_2_7" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(-1.91306, 0, -0.198844, 0, 1.92336, -0, 0.198844, 0, -1.91306, 15.3995, -7.93407, 42.3056)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")
-items = ["res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-1.85289, 0, 0.0641331, -0, 1.854, 0, -0.0641331, 0, -1.85289, -7.4597, 0, -3.38745), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-1.0166, 0, -1.46219, 0, 1.78086, -0, 1.46219, 0, -1.0166, -6.94766, 0, 5.33105), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-0.612773, 0, 1.40615, -0, 1.53387, 0, -1.40615, 0, -0.612773, -7.44561, 0, 1.61388), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(1.3617, 0, -0.155046, 0, 1.3705, 0, 0.155046, 0, 1.3617, -7.03532, 0, 4.00858), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(-0.0092465, 0, 1.55233, -0, 1.55235, 0, -1.55233, 0, -0.0092465, -7.42059, 0, -2.90323), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(0.77129, 0, 1.36739, 0, 1.56992, 0, -1.36739, 0, 0.77129, 7.20216, 0, -2.85423), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-0.918198, 0, 1.24896, -0, 1.55016, 0, -1.24896, 0, -0.918198, -7.49654, 0, 6.93542), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.461333, 0, 1.80043, 0, 1.8586, 0, -1.80043, 0, 0.461333, 7.28541, 0, 1.75536), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.326849, 0, 1.77777, -0, 1.80757, 0, -1.77777, 0, -0.326849, 6.99838, 0, -5.75048), "cap#snow", Transform3D(16.04, 0, 0, 0, 1, 0, 0, 0, 16.04, 0, -0.48, 0), "res://assets/models/kaykit/platformer/flag_A_blue.gltf", Transform3D(0.931947, 0, -0.362595, 0, 1, 0, 0.362595, 0, 0.931947, 7.4, 0, 7.4), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-1.09208, 0, -0.918972, 0, 1.42729, -0, 0.918972, 0, -1.09208, -0.868917, 4.5, -8.98155), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(0.976649, 0, 1.42133, 0, 1.72454, 0, -1.42133, 0, 0.976649, 0.122172, 4.5, -13.1068), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.62386, 0, 0.599196, 0, 1.73088, 0, -0.599196, 0, 1.62386, -0.0380917, 4.5, -8.57095), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.44031, 0, -1.13917, 0, 1.83635, 0, 1.13917, 0, 1.44031, 4.03511, 4.5, -9.59581), "cap#snow", Transform3D(10.04, 0, 0, 0, 1, 0, 0, 0, 6.04, 0, 4.02, -11), "res://assets/models/kaykit/platformer/flag_A_green.gltf", Transform3D(0.73804, 0, 0.674756, 0, 1, 0, -0.674756, 0, 0.73804, 4.4, 4.5, -13.4), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-1.57197, 0, 0.836681, -0, 1.78077, 0, -0.836681, 0, -1.57197, -0.589604, 9, -14.9139), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(0.218331, 0, -1.50549, 0, 1.52124, 0, 1.50549, 0, 0.218331, -0.721898, 9, -19.0788), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-0.524519, 0, 1.45838, -0, 1.54984, 0, -1.45838, 0, -0.524519, -3.96091, 9, -18.4258), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.641854, 0, -1.4492, 0, 1.58498, -0, 1.4492, 0, -0.641854, 2.86553, 9, -18.9794), "cap#snow", Transform3D(10.04, 0, 0, 0, 1, 0, 0, 0, 6.04, 0, 8.52, -17), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-1.23836, 0, -0.708863, 0, 1.4269, -0, 0.708863, 0, -1.23836, -4.14303, 13.5, -26.659), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.25878, 0, 0.106305, -0, 1.26326, 0, -0.106305, 0, -1.25878, -4.44598, 13.5, -24.1221), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-1.20078, 0, -1.12629, 0, 1.64634, -0, 1.12629, 0, -1.20078, 3.91992, 13.5, -26.238), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-0.832747, 0, -1.43215, 0, 1.65666, -0, 1.43215, 0, -0.832747, 4.30609, 13.5, -25.6683), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-1.18683, 0, -0.670608, 0, 1.36318, -0, 0.670608, 0, -1.18683, 4.08826, 13.5, -20.4733), "cap#snow", Transform3D(10.04, 0, 0, 0, 1, 0, 0, 0, 8.04, 0, 13.02, -24), "res://assets/models/kaykit/platformer/flag_A_blue.gltf", Transform3D(0.975064, 0, -0.221924, 0, 1, 0, 0.221924, 0, 0.975064, 4.4, 13.5, -20.6), "cap#snow", Transform3D(2.04, 0, 0, 0, 1, 0, 0, 0, 2.04, 8, 8.52, -12), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.959246, 0, 1.20831, 0, 1.54278, 0, -1.20831, 0, 0.959246, -5.9267, 16, -57.6064), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-0.415393, 0, 1.48451, -0, 1.54154, 0, -1.48451, 0, -0.415393, -6.20358, 16, -53.2326), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(1.41201, 0, -0.968528, 0, 1.71226, 0, 0.968528, 0, 1.41201, 6.44852, 16, -53.4897), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.983579, 0, -1.59541, 0, 1.87424, 0, 1.59541, 0, 0.983579, -6.0628, 16, -53.9508), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-0.739483, 0, -1.55153, 0, 1.71874, -0, 1.55153, 0, -0.739483, -5.8377, 16, -53.3314), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(-1.23096, 0, -0.629164, 0, 1.38243, -0, 0.629164, 0, -1.23096, -6.045, 16, -53.8213), "cap#snow", Transform3D(14.04, 0, 0, 0, 1, 0, 0, 0, 10.04, 0, 15.52, -57), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(1.40873, 0, -0.0142618, 0, 1.4088, 0, 0.0142618, 0, 1.40873, 5.9222, 11, -75.9028), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-0.0725791, 0, 1.60852, -0, 1.61016, 0, -1.60852, 0, -0.0725791, -5.90829, 11, -73.0691), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-0.499726, 0, 1.68111, -0, 1.75381, 0, -1.68111, 0, -0.499726, -5.912, 11, -71.652), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-1.43889, 0, 0.513167, -0, 1.52766, 0, -0.513167, 0, -1.43889, 5.81589, 11, -69.7117), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.04429, 0, 0.926328, -0, 1.39593, 0, -0.926328, 0, -1.04429, 5.84787, 11, -67.9288), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-1.30148, 0, -1.07535, 0, 1.68826, -0, 1.07535, 0, -1.30148, 6.26729, 11, -87.2825), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.452501, 0, -1.54677, 0, 1.6116, -0, 1.54677, 0, -0.452501, -6.41361, 11, -91.5272), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.55295, 0, -0.791804, 0, 1.74316, 0, 0.791804, 0, 1.55295, -5.83231, 11, -88.5764), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(-0.465487, 0, -1.53652, 0, 1.60548, -0, 1.53652, 0, -0.465487, -5.81623, 11, -67.985), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-1.2469, 0, -0.456532, 0, 1.32784, -0, 0.456532, 0, -1.2469, 6.29336, 11, -69.3602), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-0.697224, 0, 1.22648, -0, 1.41081, 0, -1.22648, 0, -0.697224, 5.8635, 11, -88.4226), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.05237, 0, -1.19113, 0, 1.58943, -0, 1.19113, 0, -1.05237, -6.37303, 11, -67.1203), "cap#snow", Transform3D(14.04, 0, 0, 0, 1, 0, 0, 0, 30.04, 0, 10.52, -79), "res://assets/models/kaykit/platformer/flag_A_red.gltf", Transform3D(0.99196, 0, 0.126554, 0, 1, 0, -0.126554, 0, 0.99196, 6.4, 11, -93.4), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-0.722268, 0, -0.963848, 0, 1.20444, -0, 0.963848, 0, -0.722268, -2.98342, 15.5, -98.739), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-1.11049, 0, -1.15211, 0, 1.60017, -0, 1.15211, 0, -1.11049, 3.00611, 15.5, -97.6437), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-1.01896, 0, -1.17714, 0, 1.5569, -0, 1.17714, 0, -1.01896, 3.40672, 15.5, -101.143), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-0.119387, 0, 1.55064, -0, 1.55523, 0, -1.55064, 0, -0.119387, 2.88578, 15.5, -99.9153), "cap#snow", Transform3D(8.04, 0, 0, 0, 1, 0, 0, 0, 6.04, 0, 15.02, -99), "res://assets/models/kaykit/platformer/flag_A_blue.gltf", Transform3D(0.471103, 0, -0.882078, 0, 1, 0, 0.882078, 0, 0.471103, -3.4, 15.5, -101.4), "cap#ice", Transform3D(8.04, 0, 0, 0, 1, 0, 0, 0, 6.04, 0, 12.52, -117), "cap#snow", Transform3D(8.04, 0, 0, 0, 1, 0, 0, 0, 3.54, 0, 11.02, -135.75), "cap#snow", Transform3D(2.04, 0, 0, 0, 1, 0, 0, 0, 4.04, -3, 11.02, -139.5), "cap#snow", Transform3D(2.04, 0, 0, 0, 1, 0, 0, 0, 4.04, 3, 11.02, -139.5), "cap#snow", Transform3D(8.04, 0, 0, 0, 1, 0, 0, 0, 0.54, 0, 11.02, -141.75), "cap#stone", Transform3D(8.04, 0, 0, 0, 1, 0, 0, 0, 13.04, 0, 6.52, -143.5), "cap#stone", Transform3D(8.04, 0, 0, 0, 1, 0, 0, 0, 10.04, 0, 3.52, -155), "res://assets/models/kaykit/platformer/flag_A_yellow.gltf", Transform3D(0.313853, 0, 0.949472, 0, 1, 0, -0.949472, 0, 0.313853, -3.4, 4, -159.4), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(1.19535, 0, 0.764866, 0, 1.41911, 0, -0.764866, 0, 1.19535, -3.07745, 9.15, -170.374), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(0.576733, 0, -1.67247, 0, 1.76911, 0, 1.67247, 0, 0.576733, -3.07057, 9.15, -161.794), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-1.09939, 0, 0.996565, -0, 1.48385, 0, -0.996565, 0, -1.09939, 3.39304, 9.15, -160.831), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(1.34214, 0, -0.743445, 0, 1.53429, 0, 0.743445, 0, 1.34214, 3.31487, 9.15, -169.094), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(1.45388, 0, -0.628361, 0, 1.58386, 0, 0.628361, 0, 1.45388, -3.41129, 9.15, -167.197), "cap#snow", Transform3D(8.04, 0, 0, 0, 1, 0, 0, 0, 12.04, 0, 8.67, -166), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.242, 0, 0.420122, -0, 1.31113, 0, -0.420122, 0, -1.242, -6.25698, 15, -181.631), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.61136, 0, -0.072019, 0, 1.61297, 0, 0.072019, 0, 1.61136, -6.15541, 15, -180.253), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(-1.52321, 0, -0.260556, 0, 1.54534, -0, 0.260556, 0, -1.52321, 5.82072, 15, -176.199), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(0.639276, 0, -1.71142, 0, 1.82692, 0, 1.71142, 0, 0.639276, -6.23643, 15, -182.825), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.321578, 0, 1.47122, -0, 1.50596, 0, -1.47122, 0, -0.321578, -6.13984, 15, -177.547), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-0.750402, 0, 1.09454, -0, 1.32707, 0, -1.09454, 0, -0.750402, 6.46907, 15, -179.175), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(1.19589, 0, 0.955831, 0, 1.53094, 0, -0.955831, 0, 1.19589, -6.42785, 15, -174.18), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(1.30116, 0, -0.686298, 0, 1.47106, 0, 0.686298, 0, 1.30116, 6.17228, 15, -179.374), "cap#snow", Transform3D(14.04, 0, 0, 0, 1, 0, 0, 0, 14.04, 0, 14.52, -179), "res://assets/models/kaykit/platformer/flag_A_yellow.gltf", Transform3D(0.522258, 0, -0.852787, 0, 1, 0, 0.852787, 0, 0.522258, -6.4, 15, -172.6), "res://assets/models/kaykit/holiday/gingerbread_house_decorated.gltf", Transform3D(2.86601, 0, -0.886561, 0, 3, 0, 0.886561, 0, 2.86601, -4, 15, -184), "res://assets/models/kenney/holiday/lantern.glb", Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 4.8, 15, -174.5), "res://assets/models/kenney/holiday/lantern.glb", Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -4.8, 15, -174.5), "res://assets/models/kaykit/holiday/snowman_A.gltf", Transform3D(1.04506, 0, 1.07603, 0, 1.5, 0, -1.07603, 0, 1.04506, 5.6, 15, -184), "res://assets/models/kaykit/platformer/star_yellow.gltf", Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 0, 23, -181), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.866816, 0, 1.76972, 0, 1.9706, 0, -1.76972, 0, 0.866816, 4.60434, 0, 5.15528), "res://assets/models/kenney/holiday/tree-snow-c.glb", Transform3D(0.406933, 0, -2.13939, 0, 2.17775, 0, 2.13939, 0, 0.406933, 3.34886, 0, 2.43628), "res://assets/models/kenney/holiday/tree-snow-c.glb", Transform3D(0.737807, 0, -2.04611, 0, 2.17507, 0, 2.04611, 0, 0.737807, 4.17862, 0, 6.66094), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(2.0328, 0, 0.222757, 0, 2.04497, 0, -0.222757, 0, 2.0328, 4.7316, 0, 3.37438), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-0.622221, 0, -1.62933, 0, 1.7441, -0, 1.62933, 0, -0.622221, 5.44198, 0, 5.97223), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.155632, 0, -2.21866, 0, 2.22411, 0, 2.21866, 0, 0.155632, -6.95371, 0, 3.39173)]
+items = ["res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-1.85289, 0, 0.0641331, -0, 1.854, 0, -0.0641331, 0, -1.85289, -7.4597, 0, -3.38745), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-1.0166, 0, -1.46219, 0, 1.78086, -0, 1.46219, 0, -1.0166, -6.94766, 0, 5.33105), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-0.612773, 0, 1.40615, -0, 1.53387, 0, -1.40615, 0, -0.612773, -7.44561, 0, 1.61388), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(1.3617, 0, -0.155046, 0, 1.3705, 0, 0.155046, 0, 1.3617, -7.03532, 0, 4.00858), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(-0.0092465, 0, 1.55233, -0, 1.55235, 0, -1.55233, 0, -0.0092465, -7.42059, 0, -2.90323), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(0.77129, 0, 1.36739, 0, 1.56992, 0, -1.36739, 0, 0.77129, 7.20216, 0, -2.85423), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-0.918198, 0, 1.24896, -0, 1.55016, 0, -1.24896, 0, -0.918198, -7.49654, 0, 6.93542), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.461333, 0, 1.80043, 0, 1.8586, 0, -1.80043, 0, 0.461333, 7.28541, 0, 1.75536), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.326849, 0, 1.77777, -0, 1.80757, 0, -1.77777, 0, -0.326849, 6.99838, 0, -5.75048), "cap#snow", Transform3D(16.04, 0, 0, 0, 1, 0, 0, 0, 16.04, 0, -0.48, 0), "res://assets/models/kaykit/platformer/flag_A_blue.gltf", Transform3D(0.931947, 0, -0.362595, 0, 1, 0, 0.362595, 0, 0.931947, 7.4, 0, 7.4), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-1.09208, 0, -0.918972, 0, 1.42729, -0, 0.918972, 0, -1.09208, -0.868917, 4.5, -8.98155), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(0.976649, 0, 1.42133, 0, 1.72454, 0, -1.42133, 0, 0.976649, 0.122172, 4.5, -13.1068), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.62386, 0, 0.599196, 0, 1.73088, 0, -0.599196, 0, 1.62386, -0.0380917, 4.5, -8.57095), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.44031, 0, -1.13917, 0, 1.83635, 0, 1.13917, 0, 1.44031, 4.03511, 4.5, -9.59581), "cap#snow", Transform3D(10.04, 0, 0, 0, 1, 0, 0, 0, 6.04, 0, 4.02, -11), "res://assets/models/kaykit/platformer/flag_A_green.gltf", Transform3D(0.73804, 0, 0.674756, 0, 1, 0, -0.674756, 0, 0.73804, 4.4, 4.5, -13.4), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-1.57197, 0, 0.836681, -0, 1.78077, 0, -0.836681, 0, -1.57197, -0.589604, 9, -14.9139), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(0.218331, 0, -1.50549, 0, 1.52124, 0, 1.50549, 0, 0.218331, -0.721898, 9, -19.0788), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-0.524519, 0, 1.45838, -0, 1.54984, 0, -1.45838, 0, -0.524519, -3.96091, 9, -18.4258), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.641854, 0, -1.4492, 0, 1.58498, -0, 1.4492, 0, -0.641854, 2.86553, 9, -18.9794), "cap#snow", Transform3D(10.04, 0, 0, 0, 1, 0, 0, 0, 6.04, 0, 8.52, -17), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-1.23836, 0, -0.708863, 0, 1.4269, -0, 0.708863, 0, -1.23836, -4.14303, 13.5, -26.659), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.25878, 0, 0.106305, -0, 1.26326, 0, -0.106305, 0, -1.25878, -4.44598, 13.5, -24.1221), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-1.20078, 0, -1.12629, 0, 1.64634, -0, 1.12629, 0, -1.20078, 3.91992, 13.5, -26.238), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-0.832747, 0, -1.43215, 0, 1.65666, -0, 1.43215, 0, -0.832747, 4.30609, 13.5, -25.6683), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-1.18683, 0, -0.670608, 0, 1.36318, -0, 0.670608, 0, -1.18683, 4.08826, 13.5, -20.4733), "cap#snow", Transform3D(10.04, 0, 0, 0, 1, 0, 0, 0, 8.04, 0, 13.02, -24), "res://assets/models/kaykit/platformer/flag_A_blue.gltf", Transform3D(0.975064, 0, -0.221924, 0, 1, 0, 0.221924, 0, 0.975064, 4.4, 13.5, -20.6), "cap#snow", Transform3D(2.04, 0, 0, 0, 1, 0, 0, 0, 2.04, 8, 8.52, -12), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.0418622, 0, 1.54221, -0, 1.54278, 0, -1.54221, 0, -0.0418622, -26.1419, 16, -45.9344), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(-1.27244, 0, 0.870195, -0, 1.54154, 0, -0.870195, 0, -1.27244, -23.5426, 16, -42.4059), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(1.70422, 0, 0.165688, 0, 1.71226, 0, -0.165688, 0, 1.70422, -14.0158, 16, -50.7355), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.77898, 0, -0.589925, 0, 1.87424, 0, 0.589925, 0, 1.77898, -23.8964, 16, -43.0466), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(0.430825, 0, -1.66387, 0, 1.71874, 0, 1.66387, 0, 0.430825, -23.3258, 16, -42.7167), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(-0.538551, 0, -1.27321, 0, 1.38243, -0, 1.27321, 0, -0.538551, -23.7995, 16, -42.9588), "cap#snow", Transform3D(10.7553, 0, 9.02474, 0, 1, 0, -6.45359, 0, 7.69109, -21.212, 15.52, -49.2795), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(1.08832, 0, 0.89459, 0, 1.4088, 0, -0.89459, 0, 1.08832, -28.8258, 11, -67.5666), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.08954, 0, 1.18555, -0, 1.61016, 0, -1.18555, 0, -1.08954, -36.067, 11, -57.7913), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-1.46341, 0, 0.966585, -0, 1.75381, 0, -0.966585, 0, -1.46341, -35.1589, 11, -56.7034), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-1.43211, 0, -0.531791, 0, 1.52766, -0, 0.531791, 0, -1.43211, -24.9277, 11, -62.7555), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.39541, 0, 0.0383516, -0, 1.39593, 0, -0.0383516, 0, -1.39541, -23.7572, 11, -61.4103), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-0.305766, 0, -1.66034, 0, 1.68826, -0, 1.66034, 0, -0.305766, -35.8762, 11, -76.5058), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.647609, 0, -1.47576, 0, 1.6116, 0, 1.47576, 0, 0.647609, -48.3188, 11, -71.6063), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.69859, 0, 0.391657, 0, 1.74316, 0, -0.391657, 0, 1.69859, -45.9767, 11, -69.7195), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(0.631074, 0, -1.47625, 0, 1.60548, 0, 1.47625, 0, 0.631074, -32.7285, 11, -53.9559), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.661724, 0, -1.15121, 0, 1.32784, -0, 1.15121, 0, -0.661724, -24.336, 11, -62.7932), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.32247, 0, 0.491373, -0, 1.41081, 0, -0.491373, 0, -1.32247, -36.9184, 11, -77.1196), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-0.0405239, 0, -1.58891, 0, 1.58943, -0, 1.58891, 0, -0.0405239, -32.5992, 11, -52.9356), "cap#snow", Transform3D(10.7553, 0, 9.02474, 0, 1, 0, -19.3093, 0, 23.012, -35.3533, 10.52, -66.1324), "res://assets/models/kaykit/platformer/flag_A_red.gltf", Transform3D(0.678538, 0, 0.734566, 0, 1, 0, -0.734566, 0, 0.678538, -39.7068, 11, -81.2773), "res://assets/models/kenney/holiday/rocks-small.glb", Transform3D(0.0662607, 0, -1.20262, 0, 1.20444, 0, 1.20262, 0, 0.0662607, -50.3267, 15.5, -79.3357), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.110128, 0, -1.59637, 0, 1.60017, -0, 1.59637, 0, -0.110128, -45.0345, 15.5, -82.3467), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-0.0239176, 0, -1.55671, 0, 1.5569, -0, 1.55671, 0, -0.0239176, -46.9767, 15.5, -85.2846), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(-1.08819, 0, 1.11112, -0, 1.55523, 0, -1.11112, 0, -1.08819, -46.5868, 15.5, -84.0094), "cap#snow", Transform3D(6.159, 0, 5.16801, 0, 1, 0, -3.88244, 0, 4.62691, -48.2091, 15.02, -81.4533), "res://assets/models/kaykit/platformer/flag_A_blue.gltf", Transform3D(0.927875, 0, -0.372892, 0, 1, 0, 0.372892, 0, 0.927875, -52.3563, 15.5, -81.1064), "cap#ice", Transform3D(7.91785, 0, -1.39613, 0, 1, 0, 1.04883, 0, 5.94824, -45.0834, 12.52, -99.1799), "cap#snow", Transform3D(7.91785, 0, -1.39613, 0, 1, 0, 0.614715, 0, 3.48622, -41.8275, 11.02, -117.645), "cap#snow", Transform3D(2.00901, 0, -0.354242, 0, 1, 0, 0.701539, 0, 3.97862, -44.1307, 11.02, -121.859), "cap#snow", Transform3D(2.00901, 0, -0.354242, 0, 1, 0, 0.701539, 0, 3.97862, -38.2219, 11.02, -120.817), "cap#snow", Transform3D(7.91785, 0, -1.39613, 0, 1, 0, 0.09377, 0, 0.531796, -40.7856, 11.02, -123.554), "cap#stone", Transform3D(7.91785, 0, -1.39613, 0, 1, 0, 2.26437, 0, 12.8419, -40.4817, 6.52, -125.277), "cap#stone", Transform3D(7.91785, 0, -1.39613, 0, 1, 0, 1.74343, 0, 9.88747, -38.4848, 3.52, -136.603), "res://assets/models/kaykit/platformer/flag_A_yellow.gltf", Transform3D(0.473959, 0, 0.880547, 0, 1, 0, -0.880547, 0, 0.473959, -41.0691, 4, -141.526), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(1.31, 0, 0.545676, 0, 1.41911, 0, -0.545676, 0, 1.31, -38.8458, 9.15, -152.277), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(0.277551, 0, -1.74721, 0, 1.76911, 0, 1.74721, 0, 0.277551, -40.3289, 9.15, -143.827), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.909636, 0, 1.17233, -0, 1.48385, 0, -1.17233, 0, -0.909636, -34.1308, 9.15, -141.756), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(1.19265, 0, -0.965209, 0, 1.53429, 0, 0.965209, 0, 1.19265, -32.773, 9.15, -149.906), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(1.32268, 0, -0.871278, 0, 1.58386, 0, 0.871278, 0, 1.32268, -39.7263, 9.15, -149.206), "cap#snow", Transform3D(7.91785, 0, -1.39613, 0, 1, 0, 2.09072, 0, 11.8571, -36.5746, 8.67, -147.435), "res://assets/models/kenney/holiday/rocks-medium.glb", Transform3D(-1.15017, 0, 0.62941, -0, 1.31113, 0, -0.62941, 0, -1.15017, -40.0222, 15, -163.916), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(1.57438, 0, -0.350735, 0, 1.61297, 0, 0.350735, 0, 1.57438, -40.1615, 15, -162.541), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(-1.54532, 0, 0.00790528, -0, 1.54534, 0, -0.00790528, 0, -1.54532, -29.0713, 15, -156.469), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(0.332378, 0, -1.79643, 0, 1.82692, 0, 1.79643, 0, 0.332378, -39.7947, 15, -165.088), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(-0.0612177, 0, 1.50471, -0, 1.50596, 0, -1.50471, 0, -0.0612177, -40.6161, 15, -159.873), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-0.548937, 0, 1.20822, -0, 1.32707, 0, -1.20822, 0, -0.548937, -27.916, 15, -159.287), "res://assets/models/kenney/holiday/snow-pile.glb", Transform3D(1.3437, 0, 0.733645, 0, 1.53094, 0, -0.733645, 0, 1.3437, -41.4845, 15, -156.607), "res://assets/models/kenney/holiday/snow-flat.glb", Transform3D(1.16222, 0, -0.901816, 0, 1.47106, 0, 0.901816, 0, 1.16222, -28.1738, 15, -159.534), "cap#snow", Transform3D(13.8267, 0, -2.43802, 0, 1, 0, 2.43802, 0, 13.8267, -34.3172, 14.52, -160.238), "res://assets/models/kaykit/platformer/flag_A_yellow.gltf", Transform3D(0.366239, 0, -0.930521, 0, 1, 0, 0.930521, 0, 0.366239, -41.7313, 15, -155.047), "res://assets/models/kaykit/holiday/gingerbread_house_decorated.gltf", Transform3D(2.66852, 0, -1.37077, 0, 3, 0, 1.37077, 0, 2.66852, -37.3882, 15, -165.857), "res://assets/models/kenney/holiday/lantern.glb", Transform3D(1.96962, 0, -0.347296, 0, 2, 0, 0.347296, 0, 1.96962, -30.3716, 15, -154.973), "res://assets/models/kenney/holiday/lantern.glb", Transform3D(1.96962, 0, -0.347296, 0, 2, 0, 0.347296, 0, 1.96962, -39.8257, 15, -156.64), "res://assets/models/kaykit/holiday/snowman_A.gltf", Transform3D(1.21603, 0, 0.878214, 0, 1.5, 0, -0.878214, 0, 1.21603, -27.9341, 15, -164.19), "res://assets/models/kaykit/platformer/star_yellow.gltf", Transform3D(2.36354, 0, -0.416756, 0, 2.4, 0, 0.416756, 0, 2.36354, -33.9699, 23, -162.208), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.866816, 0, 1.76972, 0, 1.9706, 0, -1.76972, 0, 0.866816, 4.60434, 0, 5.15528), "res://assets/models/kenney/holiday/tree-snow-c.glb", Transform3D(0.406933, 0, -2.13939, 0, 2.17775, 0, 2.13939, 0, 0.406933, 3.34886, 0, 2.43628), "res://assets/models/kenney/holiday/tree-snow-c.glb", Transform3D(0.737807, 0, -2.04611, 0, 2.17507, 0, 2.04611, 0, 0.737807, 4.17862, 0, 6.66094), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(2.0328, 0, 0.222757, 0, 2.04497, 0, -0.222757, 0, 2.0328, 4.7316, 0, 3.37438), "res://assets/models/kenney/holiday/tree-snow-a.glb", Transform3D(-0.622221, 0, -1.62933, 0, 1.7441, -0, 1.62933, 0, -0.622221, 5.44198, 0, 5.97223), "res://assets/models/kenney/holiday/tree-snow-b.glb", Transform3D(0.155632, 0, -2.21866, 0, 2.22411, 0, 2.21866, 0, 0.155632, -6.95371, 0, 3.39173)]

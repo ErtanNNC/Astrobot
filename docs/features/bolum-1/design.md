@@ -93,6 +93,9 @@ Yay Bahçesi yöntemiyle baştan yapıldı. Üretici: `tools/level/ch1_a2_balon_
 ## Gizli köşe anı (2026-11-21)
 Her alanın gizli köşesinde görünmez bir tetikleyici var (`L.secret(id, ...)`, `area.gd secret_found`). Bip oraya ilk kez girince özel müzik (Sfx "secret"), titreşim ve **"Gizli köşe!"** afişi; kayıtta `secrets` listesine yazılır, Atölye Koleksiyon'unda "Gizli Köşe X / 29" görünür. Yeni gizli köşe eklenince `GameState.SECRET_TOTAL` güncellenir.
 
+## Köşeli yollar (2026-11-21)
+Alanların çoğu dümdüz bir koridordu (emsal incelemesinin en sert eleştirilerinden biri). Seviye üreticisine dönüş desteği eklendi (`lvl.py` `TURNS`): betik yolu dümdüz yazar, alan köşeli kurulur. 12 alanda 2–3 dönüş var (35–70°). **Kural:** pivot bir dinlenme platformunun ortasına konur; oyuncu platforma varır, orada yönü değişir, atlayışlar düz kalır (boşluğun ortasındaki pivot düz atlayışı hedeften kaçırıyordu). Dönüşsüz kalanlar: Balon Kanyonu (zaten kıvrımlı, duvarlı), Fener (dikey), mağara ve göl alanları (bitişik duvarlı yapılar), Volkan Adası (bitişik lav havuzları).
+
 ## Rules
 1. Kontrol noktaları 60–90 saniyede bir ve her alan geçişinde; her biri otomatik kaydeder ([kayıt](../kayit/design.md)).
 2. Bip'in 3 canı vardır. Çukura düşmek 1 can götürür ve Bip son kontrol noktasında belirir. Canlar biterse "oyun bitti" ekranı yoktur: Bip son kontrol noktasından tam canla devam eder.

@@ -14,6 +14,9 @@ from lvl import Level
 PI = math.pi
 L = Level("ch4_kopru", "Fırtına Köprüleri", "scenes/chapter4/d1b_firtina_kopruleri.tscn", sky="storm",
           kill_height=-12, water=None, seed=43)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -33, 45), (0, -46, -60), (0, -82, 40)])
 MD = "kaykit/medieval/"
 
 

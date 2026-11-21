@@ -9,6 +9,9 @@ from lvl import Level
 PI = math.pi
 L = Level("ch4_kale", "Kıvılcım Kalesi", "scenes/chapter4/d2_kivilcim_kalesi.tscn", sky="storm",
           kill_height=-8, water=None, seed=42)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -55, 40), (0, -61.5, -55), (0, -80, 35)])
 
 
 def wall(x0, x1, z0, z1, top, bottom, theme="castle"):

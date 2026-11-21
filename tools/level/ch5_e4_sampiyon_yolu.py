@@ -10,6 +10,9 @@ from lvl import Level
 PI = math.pi
 L = Level("ch5_sampiyon", "Şampiyon Yolu", "scenes/chapter5/e4_sampiyon_yolu.tscn", sky="sunset",
           music="res://assets/audio/opengameart/superhero.ogg", kill_height=-10, water=None, seed=54)
+# Yol köşeli kurulur (tasarım koordinatları dümdüz kalır): pivotlar dinlenme platformlarının ortasında;
+# oyuncu platforma varır, orada döner, atlayışlar düz kalır. Bkz. lvl.py TURNS
+L.turns([(0, -15, 40), (0, -34.5, -55), (0, -128.5, 35)])
 RB = ("red", "yellow", "green", "blue", "purple")
 
 # 0 · Başlangıç                                                     z[6,-6]
