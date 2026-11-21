@@ -17,3 +17,6 @@ Hedef: orta sınıf Android telefonda 60 kare/sn (en az 30). Gerçek cihazda öl
 
 ## History
 - 2026-11-21: ilk performans turu (uzaklık gizleme, gölge azaltma, hafif Bip, tek parça zemin örtüsü, FPS göstergesi). Gerçek telefon ölçümü geliştiriciden bekleniyor.
+
+## Ölçüm (2026-11-22, masaüstü, alan başlangıcı)
+Çizim çağrısı 130–455 (en yüksek Gemi Mezarlığı 455), üçgen 45–140 bin (en yüksek Paslı Kaptan arenası 140 bin). Süs çarpışmaları alan başına tek üçgen şeklinde birleştirildi. Gerçek cihaz kare hızı artık oynanış kaydına yazılıyor (`docs/features/oynanis-kaydi/design.md`); iyileştirme o veriye göre yapılacak.

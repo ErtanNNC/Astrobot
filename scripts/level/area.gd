@@ -138,6 +138,7 @@ func _ready() -> void:
 		create_tween().tween_property(mp, "volume_db", 0.0, MUSIC_FADE_IN)
 	_start_ambient()
 	DecorSolid.cover_decor(self)        # iri süslerin içinden geçilmesin
+	PlayLog.begin(area_id, GameState.data.get("checkpoint_id", "start") == "start")
 	if title != "":
 		hud.banner.call_deferred(title, "", 2.2)
 	_announce_moves()
@@ -200,6 +201,7 @@ func _physics_process(_delta: float) -> void:
 	if not _completing and bip.controls_enabled:
 		var at: float = float(GameState.data.get("area_time", 0.0)) + _delta
 		GameState.data["area_time"] = at
+		PlayLog.tick(_delta, at)
 		# Hayalet: bu turu kaydet, rekor turu oynat
 		if _ghost_ok and at >= _ghost_rec.size() / 4 * GhostRun.STEP and _ghost_rec.size() / 4 < GhostRun.MAX_SAMPLES:
 			_ghost_rec.append_array(PackedFloat32Array([bip.global_position.x, bip.global_position.y, bip.global_position.z, bip.rotation.y]))
@@ -224,6 +226,7 @@ func _fall() -> void:
 		return
 	_respawning = true
 	_hurt_this_run = true
+	PlayLog.fall(Vector3(bip.global_position.x, bip.last_floor_y, bip.global_position.z))
 	Sfx.play("fall")
 	_count_death()
 	if safe or Settings.easy_mode:      # kolay mod: düşmek can götürmez
@@ -238,6 +241,7 @@ func _fall() -> void:
 
 func _on_hurt(result: String) -> void:
 	_hurt_this_run = true
+	PlayLog.hit(bip.global_position, result)
 	if result == "dead":
 		_count_death()
 		await get_tree().create_timer(0.5, false).timeout
@@ -258,6 +262,8 @@ func game_over() -> void:
 		return
 	is_game_over = true
 	_respawning = true
+	PlayLog.game_over()
+	PlayLog.end("over")
 	bip.controls_enabled = false
 	bip.velocity = Vector3.ZERO
 	touch.release_all()
@@ -331,6 +337,7 @@ func _count_death() -> void:
 
 func on_checkpoint(cp: Node3D) -> void:
 	_respawn = cp
+	PlayLog.checkpoint(String(cp.checkpoint_id), float(GameState.data.get("area_time", 0.0)))
 	_deaths_here = 0
 	if Settings.easy_mode:
 		GameState.refill_lives()        # kolay mod: her kontrol noktası canları doldurur
@@ -487,6 +494,7 @@ func complete_area() -> void:
 	var line := tr("Pil %d / %d  ·  Süre %s") % [got, area_total, GameState.time_text(res["time"])]
 	hud.banner("Yeni rekor!" if res["record"] else "Tamam!", line, 3.0)
 	hud.show_stars(res["stars"])
+	PlayLog.end("done", int(res["stars"]), got, area_total)
 	# Bu tur alanın en iyi süresiyse hayalet olarak sakla
 	if _ghost_ok and GameState.slot >= 0 and float(res["time"]) <= float(GameState.area_best(area_id).get("time", INF)) + 0.001:
 		GhostRun.save_run(GameState.slot, area_id, _ghost_rec)
@@ -509,6 +517,7 @@ func complete_area() -> void:
 
 ## Duraklatmadan "Atölye'ye dön": kaydet ve Atölye'ye git (kayıt kural 2).
 func go_home() -> void:
+	PlayLog.end("home")
 	GameState.save(true)
 	load("res://scripts/ui/hub.gd").skip_title = true
 	Scenes.go("res://scenes/ui/hub.tscn")

@@ -56,6 +56,7 @@ func _build_colliders(groups: Dictionary) -> void:
 			if body == null:
 				body = DecorSolid.new_body(self)
 			body.add_child(cs)
+	DecorSolid.merge(body)
 
 
 static func _parts(path: String) -> Array:

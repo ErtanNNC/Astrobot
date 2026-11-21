@@ -50,3 +50,4 @@ Kar Zirvesi: yağan kar (`prop` kind=snow), teleferik halatı ve asılı kırmı
 - **Patron arenası (2026-11-21):** çevresine temaya uygun manzara eklendi (çarpışmasız süsler; oynanış değişmedi).
 Buz Mağarası (2026-11-21): yeni gizli köşe — havuz 2'deki kristal adacık (Buz ile suyun üstünde yürü, zıpla; 10 pil + sandık).
 - 2026-11-21: Donmuş Göl köşeli yola çevrildi (`L.turns`, iki dönüş: kıyı ve üçüncü göl kıyısı).
+- 2026-11-22: Buz Mağarası'na bir dönemeç eklendi (pivot ikinci havuzdan sonraki sahanlıkta, 30°); duvarlar pivotta bölündü, dış yanda üst üste bindirildi, zemindeki kama boşluğu dolgu zeminle kapatıldı.

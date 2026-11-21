@@ -66,3 +66,16 @@ Karakterler bulunabilen CC0 asset'lerle yapılır; tarif asset'e uyarlanır (D-0
 - 2026-11-18: tasarlandı.
 - 2026-11-18: karakterlerin asset karşılıkları eklendi (D-010).
 - 2026-11-18: açılış (`scripts/story/opening.gd`) ve kapanış (`scripts/story/closing.gd`) sahneleri uygulandı; basılı tutarak atlanır. Ara sahnelerin TV'den tekrar izlenmesi henüz yok.
+
+## Bölüm içi karşılaşmalar (2026-11-22)
+Hikâye yalnızca açılış ve kapanışta anlatılıyordu; bölümlerin içinde de sözsüz kısa anlar var. Statik (mor fırtına bulutu) yolun ilerisinde gökten iner, bir an durup kıvılcım saçar ve yolun devamına doğru kaçar. Oynanışı durdurmaz, hasar vermez (4,6 sn). Amaç: oyuncu kimi kovaladığını ve nereye gittiğini hatırlasın.
+
+| Alan | Nerede |
+|---|---|
+| Yay Bahçesi | Ezme Bahçesi kontrol noktasında, Dönen Kule'nin önünde |
+| Liman Rıhtımı | başlangıçta |
+| Donmuş Göl | başlangıçta |
+| Bulut Basamakları | başlangıçta |
+
+Kaya Ocağı girişindeki ve Kıvılcım Kalesi'ndeki görünüşleri eskisi gibi. Kod: `scripts/setpiece/setpiece.gd` (`statik` türü), betiklerde `L.setpiece("statik", ...)`.
+

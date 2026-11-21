@@ -141,4 +141,6 @@ L.secret("kemer", -6.5, 16.5, -84, 2.6, 2.6)
 L.secret("alt_bulut", 0, -6, 13.5, 6, 5)
 # "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
 L.setpiece("skywhale", 0, 5, -72, (0, 17, -96), size=(18, 12, 3), ry=0.6)
+# Hikâye anı (2026-11-22; docs/features/hikaye/design.md): Statik yolun ilerisinde belirir ve kaçar
+L.setpiece("statik", 0, 0, 2.0, (0, 9, -9), size=(10, 4, 2))
 L.write()

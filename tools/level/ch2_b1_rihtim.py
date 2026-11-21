@@ -136,4 +136,6 @@ L.clouds(22, xr=(-100, 100), zr=(-220, 60), avoid=(-20, 20, -140, 20), low=(-6, 
 L.secret("direk", 8.2, 11, -18, 3.6, 3.6)
 # "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
 L.setpiece("whale", 0, 4.0, -80, (0, -7, -90), size=(10, 5, 3), big=1.5)
+# Hikâye anı (2026-11-22; docs/features/hikaye/design.md): Statik yolun ilerisinde belirir ve kaçar
+L.setpiece("statik", 0, 0, 2.0, (4, 9, -14), size=(10, 4, 2))
 L.write()

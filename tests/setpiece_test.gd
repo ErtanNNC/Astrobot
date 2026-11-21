@@ -75,7 +75,7 @@ func _ready() -> void:
 	# 4) Gösteriler: her tür oynar, kalıcı olmayanlar arkasını temizler
 	bip.reset_state(base + Vector3(0, 0.2, 2.5))
 	await step(5)
-	for kind in ["whale", "eruption", "fireworks", "meteor", "lightning", "balloons", "beacon", "aurora", "crystals", "skywhale"]:
+	for kind in ["whale", "eruption", "fireworks", "meteor", "lightning", "balloons", "beacon", "aurora", "crystals", "skywhale", "statik"]:
 		var sp := SetPiece.new()
 		sp.kind = kind
 		sp.offset = Vector3(0, 4, -20)

@@ -97,6 +97,24 @@ func _ready() -> void:
 		check("şapka modeli kuruldu: " + h["id"], hn != null and (h["id"] == "yok" or hn.get_child_count() > 0))
 		hn.free()
 
+	# Oynanış kaydı: tur yazılır, dışa aktarılır, geri çözülür
+	PlayLog.clear()
+	PlayLog.begin("test_alan", true)
+	PlayLog.fall(Vector3(1.23, 4.0, -56.78))
+	PlayLog.hit(Vector3(2, 0, -3), "life")
+	PlayLog.checkpoint("orta", 12.34)
+	PlayLog.tick(0.5, 20.0)
+	PlayLog.end("done", 2, 30, 40)
+	check("kayıtta bir tur var", PlayLog.count() == 1)
+	var txt := PlayLog.export_text()
+	check("dışa aktarma BIPLOG1 ile başlar", txt.begins_with("BIPLOG1:") and txt.length() > 40)
+	var raw := Marshalls.base64_to_raw(txt.substr(8)).decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
+	var back_log = JSON.parse_string(raw.get_string_from_utf8())
+	var run0: Dictionary = back_log["runs"][0] if back_log is Dictionary and back_log["runs"].size() > 0 else {}
+	check("kayıt geri çözüldü: alan, düşme yeri, yıldız", run0.get("a", "") == "test_alan" and run0.get("falls", []).size() == 1 and is_equal_approx(run0["falls"][0][2], -56.8) and int(run0.get("stars", 0)) == 2, str(run0))
+	PlayLog.clear()
+	check("kayıt silindi", PlayLog.count() == 0)
+
 	Settings.daily_day = keep[0]; Settings.daily_progress = keep[1]; Settings.daily_done = keep[2]
 	Settings.daily_streak = keep[3]; Settings.bonus_batteries = keep[4]; Settings.trail = keep[5]
 	Settings.save_settings()

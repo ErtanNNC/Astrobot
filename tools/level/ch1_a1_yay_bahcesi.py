@@ -207,4 +207,6 @@ L.battery_ring((-24, 26, -84), 2.2, 8)
 L.ent("crate", -26.3, 26, -82.2, batteries=5)
 L.battery_arc((-9, 18, -81), (-22, 28, -85), 6, 5.0)
 L.cannon(-21.8, 26, -82.2, (-1, 15, -80.5))
+# Hikâye anı (2026-11-22; docs/features/hikaye/design.md): Statik yolun ilerisinde belirir ve kaçar
+L.setpiece("statik", 3, 21, -111.5, (-1, 30, -128), size=(12, 5, 3))
 L.write()

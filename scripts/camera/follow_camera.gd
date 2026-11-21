@@ -238,10 +238,24 @@ func _auto_yaw(hvel: Vector3, speed_frac: float, delta: float) -> void:
 			_return_pending = false
 
 
+## Sıkışma: kamera kolu duvara çarpıp kısalınca kamera Bip'e yapışıyordu (ekranı Bip dolduruyordu).
+## Kol ne kadar kısalırsa kamera o kadar yukarıdan bakar; böylece dar yerde de Bip ve önü görünür.
+@export_group("Sıkışma")
+@export var squeeze_start := 0.7        ## kol, istenen uzunluğun bu oranının altına inince başlar
+@export var squeeze_pitch_deg := 30.0   ## tam sıkışmada eklenen eğim (derece)
+@export var squeeze_smoothing := 3.0    ## 1/s
+var _squeeze := 0.0
+
+
 func _apply_transform() -> void:
 	global_position = Vector3(_focus.x, _focus_y + target_height, _focus.z)
 	rotation = Vector3(0.0, _yaw, 0.0)
-	pitch_node.rotation = Vector3(-_pitch, 0.0, 0.0)
+	var want := 0.0
+	if _cur_distance > 0.5 and not _hold_front and _zone == null:
+		want = clampf(1.0 - arm.get_hit_length() / (_cur_distance * squeeze_start), 0.0, 1.0)
+	_squeeze = lerpf(_squeeze, want, 1.0 - exp(-squeeze_smoothing * get_physics_process_delta_time()))
+	var p := minf(_pitch + deg_to_rad(squeeze_pitch_deg) * _squeeze, deg_to_rad(72.0))
+	pitch_node.rotation = Vector3(-p, 0.0, 0.0)
 	arm.spring_length = _cur_distance
 
 

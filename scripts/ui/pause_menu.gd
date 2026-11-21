@@ -80,6 +80,15 @@ func _ready() -> void:
 	foot.add_theme_constant_override("separation", 14)
 	_settings.add_child(foot)
 	_button(foot, "Lisanslar", _show_licenses).custom_minimum_size = Vector2(288, 62)
+	var foot2 := HBoxContainer.new()
+	foot2.alignment = BoxContainer.ALIGNMENT_CENTER
+	foot2.add_theme_constant_override("separation", 14)
+	_settings.add_child(foot2)
+	_settings.move_child(foot2, foot.get_index())
+	_log_btn = _button(foot2, "Oynanış kaydını kopyala", _copy_log, UIKit.PURPLE)
+	_log_btn.custom_minimum_size = Vector2(380, 62)
+	_wipe_btn = _button(foot2, "Tüm ilerlemeyi sil", _wipe, UIKit.RED)
+	_wipe_btn.custom_minimum_size = Vector2(380, 62)
 	_button(foot, "Geri", _show_main, UIKit.GREEN).custom_minimum_size = Vector2(288, 62)
 	_settings.visible = false
 	_licenses = _column(stack)
@@ -136,6 +145,29 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 var _licenses: VBoxContainer
+var _log_btn: Button
+var _wipe_btn: Button
+var _wipe_armed := 0.0
+
+
+## Oynanış kaydını panoya al (geliştirici test notu olarak yapıştırır). Kayıt telefondan çıkmaz, biz göndermeyiz.
+func _copy_log() -> void:
+	DisplayServer.clipboard_set(PlayLog.export_text())
+	_log_btn.text = tr("Kopyalandı (%d tur)") % PlayLog.count()
+	Sfx.play("select")
+
+
+## Tüm ilerlemeyi sil: iki kez basılır (yanlışlıkla silinmesin). Ses ve kontrol ayarları kalır.
+func _wipe() -> void:
+	if Time.get_ticks_msec() / 1000.0 > _wipe_armed:
+		_wipe_armed = Time.get_ticks_msec() / 1000.0 + 4.0
+		_wipe_btn.text = tr("Emin misin? Bir daha bas")
+		return
+	Settings.reset_progress()
+	get_tree().paused = false
+	visible = false
+	load("res://scripts/ui/hub.gd").skip_title = false
+	Scenes.go("res://scenes/ui/hub.tscn")
 
 
 ## Lisanslar: motorun ve içindeki kitaplıkların yasal bildirimleri + asset kaynakları (mağaza şartı).

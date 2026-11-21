@@ -31,6 +31,30 @@ static func skipped(model_name: String) -> bool:
 	return false
 
 
+## Bir gövdedeki bütün üçgen şekillerini tek şekilde birleştir: yüzlerce küçük şekil yerine tek ağaç yapısı
+## (fizik motoru için daha ucuz). Kutu ve silindirler olduğu gibi kalır.
+static func merge(body: StaticBody3D) -> void:
+	if body == null:
+		return
+	var all := PackedVector3Array()
+	var n := 0
+	for c in body.get_children():
+		var cs := c as CollisionShape3D
+		if cs and cs.shape is ConcavePolygonShape3D:
+			all.append_array((cs.shape as ConcavePolygonShape3D).get_faces())
+			body.remove_child(cs)
+			cs.free()
+			n += 1
+	if n == 0:
+		return
+	var sh := ConcavePolygonShape3D.new()
+	sh.backface_collision = true
+	sh.set_faces(all)
+	var one := CollisionShape3D.new()
+	one.shape = sh
+	body.add_child(one)
+
+
 static func new_body(parent: Node3D) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = "SusCarpisma"
@@ -145,4 +169,5 @@ static func cover_decor(level: Node3D) -> int:
 			body = new_body(level)
 		body.add_child(cs)
 		n += 1
+	merge(body)
 	return n

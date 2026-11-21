@@ -85,7 +85,7 @@ const MESSAGES := {
 	"Top Adaları": "Cannon Isles", "Yıldız Adası": "Star Isle",
 	"Şapka yok": "No hat", "Parti Şapkası": "Party Hat", "Pervaneli Şapka": "Propeller Cap", "Silindir Şapka": "Top Hat", "Taç": "Crown",
 	"Şapka  ·  yıldızın: %d": "Hat  ·  your stars: %d", "%d yıldız": "%d stars",
-	"Rekor hayaleti": "Record ghost", "Kolay mod": "Easy mode", "Pil bitti!": "Out of power!", "Üç can da gitti. Alan baştan başlıyor.": "All three hearts are gone. The area starts over.", "Baştan dene": "Try again", "Büyük arayüz": "Large interface",
+	"Rekor hayaleti": "Record ghost", "Kolay mod": "Easy mode", "Oynanış kaydını kopyala": "Copy play log", "Kopyalandı (%d tur)": "Copied (%d runs)", "Tüm ilerlemeyi sil": "Erase all progress", "Emin misin? Bir daha bas": "Sure? Press again", "Pil bitti!": "Out of power!", "Üç can da gitti. Alan baştan başlıyor.": "All three hearts are gone. The area starts over.", "Baştan dene": "Try again", "Büyük arayüz": "Large interface",
 	"Yeni rekor!": "New record!", "Pil %d / %d  ·  Süre %s": "Batteries %d / %d  ·  Time %s",
 	"  ·  %d/3 yıldız  ·  %s": "  ·  %d/3 stars  ·  %s", "Koşu izi  ·  pilin: %d": "Run trail  ·  your batteries: %d",
 	"İz yok": "No trail", "Kıvılcım": "Sparks", "Buz Tozu": "Ice Dust", "Şeker Pembe": "Candy Pink", "Gökkuşağı": "Rainbow",

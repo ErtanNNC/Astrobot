@@ -6,6 +6,10 @@ from lvl import Level
 
 L = Level("ch3_magara", "Buz Mağarası", "scenes/chapter3/c1_buz_magarasi.tscn", sky="indoor",
           music="res://assets/audio/opengameart/happy_adventure_loop.mp3", water=None, kill_height=-12, seed=31)
+# Mağara tek dönemeçle kıvrılır (tasarım koordinatları dümdüz kalır): pivot, ikinci havuzdan sonraki buz
+# sahanlığının ortasında (z -64). Duvarlar pivotta bölünür; dönüşün dış yanında (doğu) üst üste bindirilir ki
+# arada açıklık kalmasın. Zemindeki kama boşluğu pivotun altındaki dolgu zeminle kapanır. Bkz. lvl.py TURNS
+L.turns([(0, -64, 30)])
 
 
 def wall(x0, x1, z0, z1, top, bottom=0.0, theme="stone"):
@@ -56,7 +60,11 @@ L.top(0, 7.5, -64, 12, 12, depth=8, theme="ice")                # z[-58,-70]
 L.battery_line((0, 5.65, -45.5), (0, 5.65, -56.5), 6)
 L.ent("checkpoint", -4, 7.5, -61, checkpoint_id="havuz2", ry=math.pi)
 L.guide(0, 7.0, -51)
-wall(-7, -6, -32, -98, 20, -3); wall(6, 7, -38, -98, 20, -3); wall(-7, 7, -98, -99, 20, 0)
+wall(-7, -6, -32, -64, 20, -3); wall(-7, -6, -64, -98, 20, -3)        # batı (dönüşün iç yanı): pivotta bölünür
+wall(6, 7, -38, -70, 20, -3); wall(6, 7, -59, -98, 20, -3)             # doğu (dış yan): 5-6 m üst üste biner
+wall(-7, 7, -98, -99, 20, 0)
+# Dönemeçteki kama boşluğunu kapatan dolgu zemin (sahanlıkla aynı yükseklikte, 3 cm aşağıda; pivot etrafında)
+L.box(3.5, 7.5 - 4.03, -70.5, 9, 8, 7, "ice", ry=-0.26)
 
 # ---------- Ustalık: düşmanları sırayla dondurup merdiven yap ----------
 L.top(0, 7.5, -72, 12, 4, depth=8, theme="ice")                 # z[-70,-74]

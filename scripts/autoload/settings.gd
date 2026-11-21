@@ -47,8 +47,17 @@ func all_areas_open() -> bool:
 	return dev_mode() and dev_all_areas
 
 
+## Tek seferlik temiz başlangıç (geliştirici isteği, 2026-11-22): bu kimliği taşımayan kurulumda ilk açılışta bütün
+## ilerleme silinir. Yeni bir temiz başlangıç gerekirse kimliği değiştir; mağaza sürümünde "" yap (silme yapılmaz).
+const CLEAN_START_ID := "2026-11-22"
+var _clean_start_done := ""
+
+
 func _ready() -> void:
 	load_settings()
+	if CLEAN_START_ID != "" and _clean_start_done != CLEAN_START_ID:
+		_clean_start_done = CLEAN_START_ID
+		reset_progress()
 	apply_language()
 	apply()
 	get_tree().root.theme = UIKit.make_theme()   # tüm arayüzün görünüşü (scripts/ui/ui_kit.gd)
@@ -88,6 +97,30 @@ func set_value(key: String, value: Variant) -> void:
 
 
 const QUALITY_SCALES := [0.7, 0.85, 1.0]
+
+
+## Temiz başlangıç: bütün kayıt yuvaları, hayaletler, başarımlar, günlük görev, bonus pil, kostüm seçimi ve oynanış
+## kaydı silinir. Ses, kontrol, dil ve görüntü ayarları kalır.
+func reset_progress() -> void:
+	for i in GameState.SLOT_COUNT:
+		GameState.delete_slot(i)
+	GameState.slot = -1
+	GameState.data = GameState.new_data()
+	GameState.set_ability("")
+	GameState.refill_lives()
+	achievements = []
+	bonus_batteries = 0
+	daily_day = -1
+	daily_progress = 0
+	daily_done = false
+	daily_streak = 0
+	skin = "klasik"
+	hat = "yok"
+	trail = "yok"
+	dev_all_areas = false
+	PlayLog.clear()
+	save_settings()
+	changed.emit()
 
 
 const UI_BIG_SCALE := 1.15
@@ -155,6 +188,7 @@ func load_settings() -> void:
 	easy_mode = cfg.get_value("access", "easy_mode", easy_mode)
 	hat = cfg.get_value("player", "hat", hat)
 	ui_big = cfg.get_value("access", "ui_big", ui_big)
+	_clean_start_done = cfg.get_value("meta", "clean_start", _clean_start_done)
 	daily_day = cfg.get_value("daily", "day", daily_day)
 	daily_progress = cfg.get_value("daily", "progress", daily_progress)
 	daily_done = cfg.get_value("daily", "done", daily_done)
@@ -187,6 +221,7 @@ func save_settings() -> void:
 	cfg.set_value("access", "easy_mode", easy_mode)
 	cfg.set_value("player", "hat", hat)
 	cfg.set_value("access", "ui_big", ui_big)
+	cfg.set_value("meta", "clean_start", _clean_start_done)
 	cfg.set_value("daily", "day", daily_day)
 	cfg.set_value("daily", "progress", daily_progress)
 	cfg.set_value("daily", "done", daily_done)

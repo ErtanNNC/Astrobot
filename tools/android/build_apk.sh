@@ -52,8 +52,10 @@ CODE=$(git rev-list --count HEAD)
 MILESTONE=$(cat tools/android/milestone.txt 2>/dev/null || echo 1)
 NAME="0.${MILESTONE}.${CODE}"
 mkdir -p build && cp export_presets.cfg build/presets.bak 2>/dev/null || true
-trap 'mv -f build/presets.bak export_presets.cfg 2>/dev/null || true' EXIT
+trap 'mv -f build/presets.bak export_presets.cfg 2>/dev/null || true; sed -i "s/^config\\/version=.*/config\\/version=\\"dev\\"/" project.godot' EXIT
 sed -i "s/^version\/code=.*/version\/code=${CODE}/; s/^version\/name=.*/version\/name=\"${NAME}\"/" export_presets.cfg
+# Sürüm adı oyunun içinde de bilinsin (oynanış kaydına yazılır)
+sed -i "s/^config\/version=.*/config\/version=\"${NAME}\"/" project.godot
 
 # 4) Dışa aktar (imzasız) ve imzala
 mkdir -p build

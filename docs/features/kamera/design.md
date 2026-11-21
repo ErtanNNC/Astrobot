@@ -44,3 +44,6 @@ Kamera oyuncunun dikkatini dağıtmadan hep doğru yeri gösterir. Astro Bot'tak
 ## History
 - 2026-11-18: tasarlandı.
 - 2026-11-18: M1'de uygulandı; dikey sınır, dönme hızı ve saydamlık sayıları eklendi.
+
+## Sıkışma (2026-11-22)
+Kamera kolu duvara çarpıp istenen uzunluğun %70'inin altına inince kamera Bip'e yapışıyor, ekranı Bip dolduruyordu. Artık kol kısaldıkça kamera yukarıdan bakar (tam sıkışmada +30°, en çok 72°; 3 1/s yumuşatma). Kamera bölgelerinde ve giriş ekranındaki önden bakışta uygulanmaz. Sayılar `follow_camera.gd` "Sıkışma" grubunda; telefonda denenmedi [ASSUMPTION].

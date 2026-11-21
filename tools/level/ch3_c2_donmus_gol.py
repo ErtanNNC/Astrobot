@@ -134,4 +134,6 @@ L.secret("buz_sutun", 12, 6.5, -73, 3.5, 3.5)
 L.secret("kar_cukuru", -13, -0.6, 2, 5, 6)
 # "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
 L.setpiece("whale", 0, 2.15, -93.5, (0, -4, -101), size=(20, 5, 3), big=1.6)
+# Hikâye anı (2026-11-22; docs/features/hikaye/design.md): Statik yolun ilerisinde belirir ve kaçar
+L.setpiece("statik", 0, 0, 3.0, (0, 9, -14), size=(18, 4, 2))
 L.write()

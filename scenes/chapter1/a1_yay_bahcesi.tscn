@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e17"]
 [ext_resource type="Script" path="res://scripts/setpiece/vista.gd" id="e18"]
 [ext_resource type="Script" path="res://scripts/setpiece/cannon.gd" id="e19"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e20"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/mossy-earth.png" id="tex_mossy_earth"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/lush-meadow-grass.png" id="tex_lush_meadow_grass"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
@@ -1681,6 +1682,15 @@ arc = 6
 time = 1.7
 secret = false
 finish = false
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -23.2111, 21, -102.35)
+script = ExtResource("e20")
+kind = "statik"
+size = Vector3(12, 5, 3)
+big = 1
+repeat = 0
+offset = Vector3(-1.07404, 9, -16.9439)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

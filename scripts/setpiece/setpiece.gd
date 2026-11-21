@@ -3,7 +3,7 @@ extends Area3D
 ## Tetiklenen "vay" anı: Bip alana ilk girdiğinde bir gösteri oynar (oynanışı engellemez, hasar vermez).
 ## Türler ve nerede kullanıldıkları: docs/features/vay-anlari/design.md
 
-@export_enum("whale", "skywhale", "eruption", "fireworks", "meteor", "lightning", "balloons", "beacon", "aurora", "crystals") var kind := "whale"
+@export_enum("whale", "skywhale", "eruption", "fireworks", "meteor", "lightning", "balloons", "beacon", "aurora", "crystals", "statik") var kind := "whale"
 @export var size := Vector3(10, 5, 4)       ## tetik kutusu
 @export var offset := Vector3(0, 0, -12)    ## gösterinin merkezi (bu düğüme göre, dünya yönünde)
 @export var big := 1.0                      ## gösterinin ölçeği
@@ -402,3 +402,32 @@ func _play_crystals() -> void:
 		mi.add_child(lamp)
 		if i % 3 == 0:
 			tw.parallel().tween_property(lamp, "light_energy", 1.6, 0.6)
+
+
+# ---------- Statik (hikâye anı, sözsüz): fırtına bulutu yolun ilerisinde belirir, kıvılcım saçar ve kaçar ----------
+## Bölüm başlarında oyuncuya kimi kovaladığını hatırlatır (docs/features/hikaye/design.md "Bölüm içi karşılaşmalar").
+func _play_statik() -> void:
+	var st := Node3D.new()
+	st.set_script(load("res://scripts/entities/prop.gd"))
+	st.set("kind", "storm")
+	st.set("size", 2.2 * big)
+	var c := center()
+	_spawn(st, c + Vector3.UP * 14.0)
+	var away := (c - global_position)
+	away.y = 0.0
+	away = away.normalized() if away.length() > 0.1 else Vector3.FORWARD
+	Sfx.play("thunder", -2.0, 1.2)
+	_shake(0.3)
+	_act(st, 4.6, func(n: Node3D, k: float):
+		if k < 0.2:                                     # gökten iner
+			n.global_position = c + Vector3.UP * 14.0 * (1.0 - k / 0.2)
+		elif k < 0.6:                                   # durur, alay eder gibi sallanır, kıvılcım saçar
+			var w := (k - 0.2) / 0.4
+			n.global_position = c + Vector3(sin(w * TAU * 3.0) * 0.8, sin(w * TAU * 2.0) * 0.4, 0)
+			if randf() < 0.3:
+				Fx.burst(n.global_position + Vector3(randf_range(-2, 2), randf_range(-1, 1), randf_range(-2, 2)), Color(0.8, 0.5, 1.0), 6, 5.0)
+		else:                                           # yolun ilerisine doğru kaçar
+			var e := (k - 0.6) / 0.4
+			n.global_position = c + away * 60.0 * e * e + Vector3.UP * 18.0 * e
+			if k >= 1.0:
+				Sfx.play("glide", -4.0, 0.6))

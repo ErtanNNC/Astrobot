@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Bip"
+config/version="dev"
 config/description="Antenle yetenek kopyalayan küçük robot Bip'in 3D platform oyunu."
 run/main_scene="res://scenes/ui/hub.tscn"
 config/icon="res://icon.png"
