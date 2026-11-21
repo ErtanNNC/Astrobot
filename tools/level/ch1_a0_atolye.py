@@ -135,6 +135,23 @@ for i in range(16):
 L.top(10, -20, -180, 200, 140, depth=2.0, theme="grass")   # vadi tabanı (uzakta)
 L.clouds(14, xr=(-120, 140), zr=(-300, -110), avoid=(0, 0, 0, 0), low=(-10, -4), high=(15, 35))
 
+# ---------- Balkon manzarası: Dişli Adası'nın bütün bölümleri uzakta görünür (yol haritası) ----------
+MD = "kaykit/medieval/"
+L.model(MD + "hills_A_trees.gltf", -30, -20, -150, 0.3, 14)          # Bölüm 1: bahçeler
+L.model(MD + "hills_B_trees.gltf", 10, -20, -135, 1.2, 12)
+for i, (x, z, h) in enumerate(((42, -165, 16), (52, -180, 24), (34, -190, 12))):   # kanyon mesaları
+    L.box(x, -20 + h / 2, z, 9, h, 9, "strata")
+for x, h in ((-52, 22), (-44, 30)):                                     # fabrika bacaları
+    L.box(x, -20 + h / 2, -195, 4, h, 4, "factory")
+    L.box(x, -20 + h + 0.4, -195, 4.6, 0.8, 4.6, "red")
+L.box(-48, -15, -198, 16, 10, 10, "factory")
+L.top(78, -18, -205, 24, 20, depth=4, theme="sand")                    # Bölüm 2: fener adası
+L.model(MD + "building_tower_A_red.gltf", 78, -18, -205, 0, 10)
+L.model(MD + "mountain_B.gltf", -12, -20, -245, 0.6, 34)               # Bölüm 3: karlı dağ
+L.scatter(["kenney/holiday/tree-snow-a.glb", "kenney/holiday/tree-snow-b.glb"], -40, 16, -230, -215, -20, 12, 6, 9)
+L.top(28, 34, -280, 34, 26, depth=4, theme="cloud")                    # Bölüm 4: bulutların üstünde kale
+L.model(MD + "building_castle_red.gltf", 28, 34, -280, 0.2, 9)
+
 # ---------- Süsler (KayKit Furniture/Restaurant, CC0; Atölye ana menüsüyle aynı eşyalar, çarpışmasız) ----------
 FU = "kaykit/furniture/"; RE = "kaykit/restaurant/"
 L.model(FU + "rug_oval_A", 0, 0.01, 3, 0, 1.3)

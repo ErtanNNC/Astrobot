@@ -129,3 +129,4 @@ Yay Bahçesi yöntemiyle baştan yapıldı. Üretici: `tools/level/ch1_a2_balon_
 - 2026-11-18: Kaya Ocağı'nda mağara çıkışı ve havuz çıkışı rampaları ters eğimliydi (oyuncu çatlak zemini kırdıktan sonra uçurum kenarına geliyordu); düzeltildi, test eklendi.
 - 2026-11-18: tasarlandı.
 - **Patron arenası (2026-11-21):** çevresine temaya uygun manzara eklendi (çarpışmasız süsler; oynanış değişmedi).
+- 2026-11-21: Uyanış Atölyesi balkon manzarası artık adanın bütün bölümlerini uzakta gösterir (tepeler, kanyon mesaları, fabrika bacaları, fener adası, karlı dağ, bulut kalesi): oyuncu yolculuğun haritasını ilk anda görür.
