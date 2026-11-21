@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e17"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e18"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e19"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e20"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/rivet-metal.png" id="tex_rivet_metal"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/dock-boards.png" id="tex_dock_boards"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/mossy-earth.png" id="tex_mossy_earth"]
@@ -1255,6 +1256,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 32, -280)
 use_collision = true
 size = Vector3(34, 4, 26)
 material = SubResource("m_cloud")
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 8.5, -91.5)
+script = ExtResource("e20")
+kind = "fireworks"
+size = Vector3(6, 4, 4)
+big = 0.5
+repeat = 0
+offset = Vector3(2, 3.5, -4.5)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

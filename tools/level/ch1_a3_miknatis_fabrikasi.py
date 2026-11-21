@@ -225,4 +225,11 @@ L.clouds(14, xr=(-100, 100), zr=(-220, 60), avoid=(-30, 30, -170, 20), low=(-6, 
 # Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
 L.secret("depo", 14, 12, -79.5, 5, 6)
 L.secret("vinc", 10.5, 33, -153, 4, 4)
+# "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
+# Vinç Terası'ndaki toptan batıdaki asılı güverteye, oradan geri
+L.cannon(-4.6, 26, -158.6, (-17.5, 34, -157.5))
+deck(-16.5, 34, -156, 6, 6)
+L.battery_ring((-16.5, 34, -156), 1.8, 8)
+L.ent("crate", -18.6, 34, -154.2, batteries=5)
+L.cannon(-14.6, 34, -154.4, (2.5, 26, -155.8))
 L.write()

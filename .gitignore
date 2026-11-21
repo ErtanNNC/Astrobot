@@ -20,3 +20,5 @@ tests/_icon.*
 tests/_perf2.*
 tests/_top.*
 tests/_menu_shots.*
+tests/_sp_shot.*
+tests/_qa_cp.*

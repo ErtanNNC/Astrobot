@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://scripts/entities/prop.gd" id="e11"]
 [ext_resource type="PackedScene" path="res://assets/models/kenney/platformer/rocks.glb" id="e12"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e13"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e14"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/icy-granite-cliff.png" id="tex_icy_granite_cliff"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/blue-ice-cracks.png" id="tex_blue_ice_cracks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/icy-rock-wall.png" id="tex_icy_rock_wall"]
@@ -671,6 +672,15 @@ script = ExtResource("e13")
 size = Vector3(2.4, 3, 2.4)
 method_name = "secret_found"
 arg = "kristal"
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.9, -84)
+script = ExtResource("e14")
+kind = "crystals"
+size = Vector3(12, 4, 3)
+big = 1
+repeat = 0
+offset = Vector3(0, 0, -6)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

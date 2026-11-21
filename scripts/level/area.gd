@@ -369,8 +369,9 @@ func complete_area() -> void:
 	anim.play("RobotArmature|Robot_Dance", 0.2)
 	var got := GameState.area_battery_count(area_id)
 	var res := GameState.finish_area(area_id, float(GameState.data.get("area_time", 0.0)), got, area_total)
-	var line := tr("Pil %d / %d  ·  Süre %s  ·  Yıldız %d / 3") % [got, area_total, GameState.time_text(res["time"]), res["stars"]]
+	var line := tr("Pil %d / %d  ·  Süre %s") % [got, area_total, GameState.time_text(res["time"])]
 	hud.banner("Yeni rekor!" if res["record"] else "Tamam!", line, 3.0)
+	hud.show_stars(res["stars"])
 	Daily.add("alan")
 	Daily.add("yildiz", res["stars"], true)
 	Daily.flush()

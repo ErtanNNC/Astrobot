@@ -22,6 +22,8 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e14"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e15"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e16"]
+[ext_resource type="Script" path="res://scripts/setpiece/vista.gd" id="e17"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e18"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/granite-rock.png" id="tex_granite_rock"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
@@ -788,6 +790,22 @@ transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 
 script = ExtResource("e7")
 kind = "atici"
 batteries = 3
+
+[node name="Vista_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+script = ExtResource("e17")
+size = Vector3(14, 4, 2)
+title = "Volkan"
+offset = Vector3(-24.1076, 36, -167.309)
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, -4.61245, 8, -113.247)
+script = ExtResource("e18")
+kind = "eruption"
+size = Vector3(12, 5, 3)
+big = 3
+repeat = 14
+offset = Vector3(-19.4951, 29, -53.5625)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

@@ -521,6 +521,13 @@ func _open_collection() -> void:
 			pil += d["batteries"][k].size()
 		UIKit.title(v, tr("Altın Vida %d/%d  ·  Çekirdek Pil %d/4\nGizli Köşe %d/%d  ·  Pil %d") % [d.get("golden_screws", []).size(), GameState.screw_total(),
 				d.get("core_cells", []).size(), d.get("secrets", []).size(), GameState.SECRET_TOTAL, pil], 24)
+		var stars := 0
+		var areas := 0
+		for k in d.get("best", {}):
+			stars += int(d["best"][k].get("stars", 0))
+		for c in GameState.CHAPTERS:
+			areas += GameState.CHAPTERS[c].size()
+		UIKit.title(v, tr("Yıldız %d/%d") % [stars, areas * 3], 24)
 	# Gardırop: kostümler minik Bip'ler olarak; dokunan seçer
 	UIKit.title(v, "Kostüm Dolabı", 26)
 	SkinCards.build(v, func(id: String): _pick_skin(id, true))

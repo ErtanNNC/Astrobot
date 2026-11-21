@@ -116,4 +116,6 @@ L.clouds(24, xr=(-90, 90), zr=(-90, 90), avoid=(-25, 25, -25, 25), low=(-6, -3),
 L.secret("cati", 12.5, 4.6, -3, 3.2, 3.2)
 # Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
 L.ent("enemy", -9, 0, -4, kind="atici", batteries=3)                      # ilk Atıcı: yoldan uzakta, sandığın yanında (güvenli tanışma)
+# "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
+L.setpiece("beacon", 0, 44.0, 0, (0, 50.5, 0), size=(9, 4, 9))
 L.write()

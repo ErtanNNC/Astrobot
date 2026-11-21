@@ -20,6 +20,8 @@
 [ext_resource type="Script" path="res://scripts/entities/wind_zone.gd" id="e12"]
 [ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e13"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e14"]
+[ext_resource type="Script" path="res://scripts/setpiece/vista.gd" id="e15"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e16"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/rivet-metal.png" id="tex_rivet_metal"]
@@ -772,6 +774,22 @@ transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, 
 script = ExtResource("e10")
 kind = "atici"
 batteries = 3
+
+[node name="Vista_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+script = ExtResource("e15")
+size = Vector3(14, 4, 2)
+title = "Gözlemevi"
+offset = Vector3(-17.5136, 27, -109.166)
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -21.5075, 10.15, -86.0151)
+script = ExtResource("e16")
+kind = "meteor"
+size = Vector3(10, 5, 3)
+big = 1
+repeat = 0
+offset = Vector3(26.1806, -3.85, -21.7847)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e14"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Goal_Flag.gltf" id="e15"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e16"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e17"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/granite-rock.png" id="tex_granite_rock"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
@@ -936,6 +937,15 @@ script = ExtResource("e16")
 size = Vector3(6, 3, 5)
 method_name = "secret_found"
 arg = "alt_bulut"
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(0.986636, 0, -0.162938, 0, 1, 0, 0.162938, 0, 0.986636, -2.48806, 5, -66.8805)
+script = ExtResource("e17")
+kind = "skywhale"
+size = Vector3(18, 12, 3)
+big = 1
+repeat = 0
+offset = Vector3(-10.1428, 12, -21.7514)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

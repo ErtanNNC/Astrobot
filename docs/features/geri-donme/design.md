@@ -41,4 +41,4 @@ Oyunu bitiren ya da bir alanı geçen oyuncunun aynı alana dönmek için bir se
 
 ## Açık konular
 - Hedef süreler ölçülmedi; ilk oyun testinde her alan için gerçek "iyi tur" süresi alınmalı.
-- Yazı tipinde yıldız işareti yok; şimdilik "2/3 yıldız" diye yazıyla gösteriliyor. Simgeyle göstermek daha iyi olur.
+- Alan sonunda yıldızlar simgeyle, sırayla patlayarak gösteriliyor (`hud.show_stars`, 2026-11-22). Alan Seç listesinde hâlâ yazıyla ("2/3 yıldız").

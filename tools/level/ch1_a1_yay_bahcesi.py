@@ -198,4 +198,13 @@ L.clouds(30, xr=(-110, 110), zr=(-230, 70), avoid=(-22, 22, -165, 25), low=(-8, 
 L.secret("magara", 0, -4.5, 12, 7, 6)
 L.secret("sutun", 6.5, 7.2, -12.5, 3, 3)
 L.secret("gok", 10.5, 22.5, -97.5, 3, 3)
+# "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
+L.vista(0, 0, 2.5, (-1, 44, -154), "Dev Yay Kulesi", size=(14, 4, 2))
+# Gök adası: Çiçek Tepesi'ndeki toptan fırla, pilleri topla, ikinci topla geri dön
+L.cannon(-6.8, 15, -80.3, (-25.5, 26, -85.5))
+L.top(-24, 26, -84, 7, 7, depth=1.4, theme="grass")
+L.battery_ring((-24, 26, -84), 2.2, 8)
+L.ent("crate", -26.3, 26, -82.2, batteries=5)
+L.battery_arc((-9, 18, -81), (-22, 28, -85), 6, 5.0)
+L.cannon(-21.8, 26, -82.2, (-1, 15, -80.5))
 L.write()

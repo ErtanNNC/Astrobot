@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e19"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e20"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e21"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e22"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/mossy-earth.png" id="tex_mossy_earth"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/lush-meadow-grass.png" id="tex_lush_meadow_grass"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
@@ -853,6 +854,15 @@ script = ExtResource("e21")
 size = Vector3(3.6, 3, 3.6)
 method_name = "secret_found"
 arg = "direk"
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 33.3201, 4, -69.2844)
+script = ExtResource("e22")
+kind = "whale"
+size = Vector3(10, 5, 3)
+big = 1.5
+repeat = 0
+offset = Vector3(-1.73648, -11, -9.84808)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e17"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e18"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e19"]
+[ext_resource type="Script" path="res://scripts/setpiece/cannon.gd" id="e20"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/sandstone-block.png" id="tex_sandstone_block"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/fine-beach-sand.png" id="tex_fine_beach_sand"]
@@ -1046,6 +1047,69 @@ kind = "dikenli"
 patrol = 1.6
 speed = 1
 batteries = 3
+
+[node name="Cannon_1" type="Area3D" parent="Entities"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -10.6823, 2, -23.7023)
+script = ExtResource("e20")
+offset = Vector3(7.17269, 10, -10.3765)
+arc = 6
+time = 1.7
+
+[node name="Kutu_58" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.14359, 11.6, -33.7128)
+use_collision = true
+size = Vector3(5.5, 0.8, 5.5)
+material = SubResource("m_wood")
+
+[node name="Kutu_59" type="CSGBox3D" parent="Level"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.14359, 2, -33.7128)
+use_collision = true
+size = Vector3(0.7, 19, 0.7)
+material = SubResource("m_wood")
+
+[node name="Pil_43" type="Area3D" parent="Batteries"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.757953, 12.8, -34.5128)
+script = ExtResource("e2")
+
+[node name="Pil_44" type="Area3D" parent="Batteries"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.598112, 12.8, -33.2987)
+script = ExtResource("e2")
+
+[node name="Pil_45" type="Area3D" parent="Batteries"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -1.34359, 12.8, -32.3272)
+script = ExtResource("e2")
+
+[node name="Pil_46" type="Area3D" parent="Batteries"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.5577, 12.8, -32.1673)
+script = ExtResource("e2")
+
+[node name="Pil_47" type="Area3D" parent="Batteries"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -3.52923, 12.8, -32.9128)
+script = ExtResource("e2")
+
+[node name="Pil_48" type="Area3D" parent="Batteries"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -3.68907, 12.8, -34.1269)
+script = ExtResource("e2")
+
+[node name="Pil_49" type="Area3D" parent="Batteries"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.94359, 12.8, -35.0985)
+script = ExtResource("e2")
+
+[node name="Pil_50" type="Area3D" parent="Batteries"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -1.72948, 12.8, -35.2583)
+script = ExtResource("e2")
+
+[node name="Crate_5" type="StaticBody3D" parent="Entities"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.90244, 12, -31.4272)
+script = ExtResource("e3")
+batteries = 5
+
+[node name="Cannon_2" type="Area3D" parent="Entities"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.0579529, 12, -33.3004)
+script = ExtResource("e20")
+offset = Vector3(-15.4911, -10, 11.3687)
+arc = 6
+time = 1.7
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

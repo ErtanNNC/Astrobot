@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e17"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e18"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e19"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e20"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/mossy-earth.png" id="tex_mossy_earth"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/lush-meadow-grass.png" id="tex_lush_meadow_grass"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
@@ -850,6 +851,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -4)
 script = ExtResource("e2")
 kind = "atici"
 batteries = 3
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 44, 0)
+script = ExtResource("e20")
+kind = "beacon"
+size = Vector3(9, 4, 9)
+big = 1
+repeat = 0
+offset = Vector3(0, 6.5, 0)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

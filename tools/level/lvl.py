@@ -116,6 +116,9 @@ ENTITIES = {
     "camzone": ("Area3D", "res://scripts/level/camera_zone.gd"),
     "trigger": ("Area3D", "res://scripts/entities/trigger.gd"),
     "prop": ("Node3D", "res://scripts/entities/prop.gd"),
+    "cannon": ("Area3D", "res://scripts/setpiece/cannon.gd"),
+    "vista": ("Area3D", "res://scripts/setpiece/vista.gd"),
+    "setpiece": ("Area3D", "res://scripts/setpiece/setpiece.gd"),
     "menu": ("Area3D", "res://scripts/ui/menu_object.gd"),
     "boss": ("Node3D", "res://scripts/boss/crane_boss.gd"),
     "giant": ("Node3D", "res://scripts/boss/snow_giant_boss.gd"),
@@ -412,6 +415,26 @@ class Level:
         self.nodes.append("\n".join(lines) + "\n")
         RAW[0] = False
         return name
+
+    # ---- "Vay" anları (docs/features/vay-anlari/design.md). Hedefler tasarım koordinatıyla verilir; köşeli
+    # alanlarda hedef başka bir yol parçasında olsa bile dünya yönü burada hesaplanır. ----
+    def _world_offset(self, x, y, z, target):
+        wx, wz, _ = turn_point(x, z) if TURNS else (x, z, 0)
+        tx, tz, _ = turn_point(target[0], target[2]) if TURNS else (target[0], target[2], 0)
+        return "@raw:Vector3(%.6g, %.6g, %.6g)" % (tx - wx, target[1] - y, tz - wz)
+
+    def cannon(self, x, y, z, target, arc=6.0, time=1.7):
+        """Fırlatma Topu: Bip'i (x,y,z)'den target'a kavisle fırlatır."""
+        return self.ent("cannon", x, y, z, offset=self._world_offset(x, y, z, target), arc=arc, time=time)
+
+    def vista(self, x, y, z, target, title="", size=(8, 4, 4)):
+        """Manzara anı: Bip buraya ilk girince kamera target'a döner, başlık çıkar."""
+        return self.ent("vista", x, y, z, size=size, title=title, offset=self._world_offset(x, y, z, target))
+
+    def setpiece(self, kind, x, y, z, center, size=(10, 5, 4), big=1.0, repeat=0.0, ry=0.0):
+        """Tetiklenen gösteri (balina, patlama, havai fişek...): Bip kutuya ilk girince center'da oynar."""
+        return self.ent("setpiece", x, y, z, ry=ry, kind=kind, size=size, big=big, repeat=repeat,
+                        offset=self._world_offset(x, y, z, center))
 
     def secret(self, sid, x, y, z, sx, sz):
         """Gizli köşe: Bip ilk girince 'Gizli köşe!' afişi ve müziği (area.gd secret_found)."""

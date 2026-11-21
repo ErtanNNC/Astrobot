@@ -72,8 +72,16 @@ func _ready() -> void:
 	_slider("master_vol", "Genel ses")
 	_slider("music_vol", "Müzik")
 	_slider("sfx_vol", "Efektler")
-	_button(_settings, "Geri", _show_main, UIKit.GREEN)
+	var foot := HBoxContainer.new()
+	foot.alignment = BoxContainer.ALIGNMENT_CENTER
+	foot.add_theme_constant_override("separation", 14)
+	_settings.add_child(foot)
+	_button(foot, "Lisanslar", _show_licenses).custom_minimum_size = Vector2(288, 62)
+	_button(foot, "Geri", _show_main, UIKit.GREEN).custom_minimum_size = Vector2(288, 62)
 	_settings.visible = false
+	_licenses = _column(stack)
+	_licenses.custom_minimum_size.x = 900
+	_licenses.visible = false
 	_refresh()
 
 
@@ -124,9 +132,54 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+var _licenses: VBoxContainer
+
+
+## Lisanslar: motorun ve içindeki kitaplıkların yasal bildirimleri + asset kaynakları (mağaza şartı).
+func _show_licenses() -> void:
+	_settings.visible = false
+	_licenses.visible = true
+	if _licenses.get_child_count() == 0:
+		_title(_licenses, "Lisanslar")
+		var sc := ScrollContainer.new()
+		sc.custom_minimum_size = Vector2(880, 380)
+		sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		_licenses.add_child(sc)
+		var l := Label.new()
+		l.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.custom_minimum_size.x = 850
+		l.add_theme_font_size_override("font_size", 16)
+		l.text = _license_text()
+		sc.add_child(l)
+		_button(_licenses, "Geri", func(): _licenses.visible = false; _show_settings(), UIKit.GREEN)
+	_fit_panel()
+
+
+func _license_text() -> String:
+	var t := "Godot Engine\n\n" + Engine.get_license_text() + "\n\n"
+	t += "Models: Quaternius (CC0), Kay Lousberg KayKit (CC0), Kenney (CC0), Pixabay (Pixabay Content License).\n"
+	t += "Animations: Mixamo (Adobe). Audio: Kenney (CC0), OpenGameArt contributors (CC0). Font: Nunito (SIL OFL 1.1).\n\n"
+	t += "Third-party components in Godot Engine:\n"
+	for c in Engine.get_copyright_info():
+		var who := ""
+		for part in c.get("parts", []):
+			for cp in part.get("copyright", []):
+				who = String(cp)
+				break
+			break
+		var lic := ""
+		if c.get("parts", []).size() > 0:
+			lic = String(c["parts"][0].get("license", ""))
+		t += "• %s — %s (%s)\n" % [c.get("name", ""), who, lic]
+	return t
+
+
 func _show_settings() -> void:
 	_main.visible = false
 	_settings.visible = true
+	if _licenses:
+		_licenses.visible = false
 	_refresh()
 	_grid.get_child(0).grab_focus()
 	_fit_panel()

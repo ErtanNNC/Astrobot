@@ -139,4 +139,6 @@ L.clouds(14, xr=(-90, 90), zr=(-200, 40), avoid=(-30, 30, -140, 20), low=(-12, -
 # Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
 L.secret("kemer", -6.5, 16.5, -84, 2.6, 2.6)
 L.secret("alt_bulut", 0, -6, 13.5, 6, 5)
+# "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
+L.setpiece("skywhale", 0, 5, -72, (0, 17, -96), size=(18, 12, 3), ry=0.6)
 L.write()

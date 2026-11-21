@@ -146,4 +146,12 @@ L.clouds(18, xr=(-90, 90), zr=(-200, 50), avoid=(-25, 25, -150, 20), low=(-10, -
 L.secret("gozcu", -12.6, 4, 1, 2, 2.4)
 # Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
 L.ent("enemy", 2.5, 2.5, -40, kind="dikenli", patrol=1.6, speed=1.0, batteries=3)   # ilk Dikenli: Kaya kaynağının yanında (çakılarak ezilir)
+# "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
+# Korsan topu: Gemi 1'in güvertesinden gözcü yuvasına, oradan geri
+L.cannon(3.6, 2.0, -25.6, (15, 12, -31))
+L.top(16, 12, -30, 5.5, 5.5, depth=0.8, theme="wood")
+L.box(16, 2, -30, 0.7, 19, 0.7, "wood")
+L.battery_ring((16, 12, -30), 1.6, 8)
+L.ent("crate", 14.2, 12, -28.4, batteries=5)
+L.cannon(17.6, 12, -28.6, (-1.5, 2.0, -26.5))
 L.write()

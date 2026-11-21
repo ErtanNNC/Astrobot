@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e12"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e13"]
 [ext_resource type="Script" path="res://scripts/entities/enemy.gd" id="e14"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e15"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/icy-granite-cliff.png" id="tex_icy_granite_cliff"]
@@ -658,6 +659,15 @@ kind = "dikenli"
 patrol = 3
 speed = 1.3
 batteries = 3
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, 5.63827, 23.65, -137.649)
+script = ExtResource("e15")
+kind = "fireworks"
+size = Vector3(7, 4, 3)
+big = 1
+repeat = 0
+offset = Vector3(-3.24919, 7.35, -8.92708)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

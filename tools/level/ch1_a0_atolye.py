@@ -170,4 +170,6 @@ L.model(FU + "shelf_B_large_decorated", 18.0, 10.4, -80, -math.pi / 2)
 L.model(FU + "rug_rectangle_stripes_A", 9, 8.51, -81.5, 0, 1.4)
 L.model(FU + "cactus_small_B", 17.2, 8.5, -74.6)
 
+# "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
+L.setpiece("fireworks", 5.5, 8.5, -91.5, (7.5, 12, -96), size=(6, 4, 4), big=0.5)
 L.write()

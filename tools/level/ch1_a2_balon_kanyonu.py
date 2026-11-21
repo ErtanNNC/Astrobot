@@ -206,4 +206,6 @@ L.clouds(18, xr=(-110, 110), zr=(-230, 60), avoid=(-30, 30, -190, 25), low=(-6, 
 L.secret("balkon", -14, 13, 1, 5, 6)
 L.secret("vida", 14, 7, -51, 4, 4)
 L.secret("kartal", 8, 23.5, -98.5, 3.5, 3.5)
+# "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
+L.setpiece("balloons", -3, 22, -139, (-3, 22, -152), size=(12, 5, 8))
 L.write()

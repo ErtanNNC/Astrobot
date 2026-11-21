@@ -28,6 +28,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e20"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e21"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e22"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e23"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-cliff-face.png" id="tex_cracked_cliff_face"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/brown-crushed-rock.png" id="tex_brown_crushed_rock"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/sandstone-block.png" id="tex_sandstone_block"]
@@ -975,6 +976,15 @@ script = ExtResource("e22")
 size = Vector3(6, 3, 5)
 method_name = "secret_found"
 arg = "sutun"
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -52)
+script = ExtResource("e23")
+kind = "eruption"
+size = Vector3(12, 4, 4)
+big = 1.6
+repeat = 0
+offset = Vector3(-29, -2, -10)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

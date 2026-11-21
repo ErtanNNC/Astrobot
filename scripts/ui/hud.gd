@@ -131,6 +131,35 @@ func banner(text: String, sub := "", hold := 2.0) -> void:
 		tw.chain().tween_property(l, "modulate:a", 0.0, 0.5)
 
 
+## Alan sonu: üç yıldız yuvası; kazanılanlar sırayla, sesle patlayarak dolar (docs/features/geri-donme/design.md).
+func show_stars(won: int) -> void:
+	var k := size.y / 720.0
+	var tex: Texture2D = load("res://assets/ui/kenney/icons/star.png")
+	var px := 92.0 * k
+	for i in 3:
+		var slot := TextureRect.new()
+		slot.texture = tex
+		slot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		slot.size = Vector2(px, px)
+		slot.pivot_offset = slot.size / 2.0
+		slot.position = Vector2(size.x / 2.0 + (i - 1) * px * 1.15 - px / 2.0, 285.0 * k + (0.0 if i == 1 else 14.0 * k))
+		slot.modulate = Color(0.25, 0.2, 0.15, 0.55)
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(slot)
+		var tw := slot.create_tween()
+		tw.tween_property(slot, "scale", Vector2.ONE, 0.25).from(Vector2.ZERO).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		if i < won:
+			tw.tween_interval(0.35 + i * 0.4)
+			tw.tween_callback(func():
+				slot.modulate = Color(1.0, 0.82, 0.2)
+				Sfx.play("pickup", 0.0, 1.0 + i * 0.2, 0.0)
+				Haptics.vibrate(25))
+			tw.tween_property(slot, "scale", Vector2.ONE, 0.35).from(Vector2(1.7, 1.7)).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+		tw.tween_interval(2.6)
+		tw.tween_property(slot, "modulate:a", 0.0, 0.4)
+		tw.tween_callback(slot.queue_free)
+
+
 var _fps: Label
 var _fps_t := 0.0
 var _fps_min := 999.0

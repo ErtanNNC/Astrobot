@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e15"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e16"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e17"]
+[ext_resource type="Script" path="res://scripts/setpiece/setpiece.gd" id="e18"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/sandstone-block.png" id="tex_sandstone_block"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/fine-beach-sand.png" id="tex_fine_beach_sand"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/desert-cliff.png" id="tex_desert_cliff"]
@@ -1464,6 +1465,15 @@ script = ExtResource("e17")
 size = Vector3(3.5, 3, 3.5)
 method_name = "secret_found"
 arg = "kartal"
+
+[node name="Setpiece_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 22, -139)
+script = ExtResource("e18")
+kind = "balloons"
+size = Vector3(12, 5, 8)
+big = 1
+repeat = 0
+offset = Vector3(0, 0, -13)
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")
