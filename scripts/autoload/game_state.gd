@@ -38,6 +38,7 @@ const CHAPTERS := {
 	],
 	4: [
 		{"id": "ch4_bulut", "scene": "res://scenes/chapter4/d1_bulut_basamaklari.tscn", "name": "Bulut Basamakları"},
+		{"id": "ch4_kopru", "scene": "res://scenes/chapter4/d1b_firtina_kopruleri.tscn", "name": "Fırtına Köprüleri"},
 		{"id": "ch4_kale", "scene": "res://scenes/chapter4/d2_kivilcim_kalesi.tscn", "name": "Kıvılcım Kalesi"},
 		{"id": "ch4_patron", "scene": "res://scenes/chapter4/d3_patron.tscn", "name": "Statik"},
 	],

@@ -10,13 +10,16 @@ var fails := 0
 
 func _ready() -> void:
 	await get_tree().process_frame
-	for path in ["res://scenes/chapter4/d1_bulut_basamaklari.tscn", "res://scenes/chapter4/d2_kivilcim_kalesi.tscn",
+	for path in ["res://scenes/chapter4/d1_bulut_basamaklari.tscn", "res://scenes/chapter4/d1b_firtina_kopruleri.tscn",
+			"res://scenes/chapter4/d2_kivilcim_kalesi.tscn",
 			"res://scenes/chapter4/d3_patron.tscn"]:
 		await _load(path)
 		await _common(path.get_file())
 		match path.get_file():
 			"d1_bulut_basamaklari.tscn":
 				await _d1()
+			"d1b_firtina_kopruleri.tscn":
+				await _d1b()
 			"d2_kivilcim_kalesi.tscn":
 				await _d2()
 			"d3_patron.tscn":
@@ -163,6 +166,84 @@ func climb_up() -> void:
 		if bip.is_on_floor() and i > 5:
 			break
 	await step(5)
+
+
+# ---------- Fırtına Köprüleri ----------
+## Köprüde ileri yürü; düşerse ya da köprü sonuna varırsa dur. Dönüş: köprü sonuna vardı mı.
+func walk_bridge(z_end: float, frames: int) -> bool:
+	Input.action_press("move_forward")
+	for i in frames:
+		await get_tree().physics_frame
+		if bip.global_position.z < z_end and bip.is_on_floor():
+			break
+		if bip.global_position.y < -2.0:
+			break
+	Input.action_release("move_forward")
+	await step(10)
+	return bip.global_position.z < z_end and bip.global_position.y > -0.3
+
+
+func _d1b() -> void:
+	# Kaya ile yan rüzgârda köprüyü geç
+	await place(Vector3(0, 0.1, -6.5), PI, "kaya")
+	var ok := await walk_bridge(-28.5, 900)
+	check("d1b: Kaya ile rüzgârlı köprü geçildi", ok, str(bip.global_position))
+	# Kayasız: rüzgâr eserken köprüde durulursa itilir
+	await place(Vector3(0, 0.1, -12), PI, "")
+	var pushed := false
+	for i in 240:
+		await get_tree().physics_frame
+		if absf(bip.global_position.x) > 2.0:
+			pushed = true
+			break
+	check("d1b: Kayasız rüzgâr köprüden iter", pushed, str(bip.global_position))
+	# Gizli çıkıntıdan trambolinle köprüye dönüş
+	await place(Vector3(4.6, -2.5, -15.0), PI, "")
+	Input.action_press("move_left")
+	for i in 240:
+		await get_tree().physics_frame
+		if i > 30 and bip.is_on_floor():
+			break
+	Input.action_release("move_left")
+	await step(10)
+	check("d1b: köprü altı çıkıntıdan trambolinle dönüş", bip.global_position.y > -0.3, str(bip.global_position))
+	# Pervane ile P2'ye (6,5 m)
+	await place(Vector3(0, 0.1, -36.8), PI, "pervane")
+	ok = await jump_forward(110, 100, 6.0, 300, 40)
+	check("d1b: Pervane ile kuleye (6,5 m)", ok and absf(bip.global_position.y - 6.5) < 0.2, str(bip.global_position))
+	await place(Vector3(3.8, 6.6, -46), PI / 2, "pervane")
+	ok = await jump_forward(110, 85, 10.0, 300, 50)
+	check("d1b: Altın Vida tablasına Pervane ile", ok and bip.global_position.y > 10.3, str(bip.global_position))
+	# Mıknatıs zinciri
+	await place(Vector3(0, 6.6, -49.5), PI, "miknatis")
+	var reached := []
+	for k in 5:
+		var stuck := await magnet_pull()
+		await climb_up()
+		reached.append(snappedf(bip.global_position.z, 0.1))
+		if bip.global_position.z < -77.5 and bip.is_on_floor():
+			break
+		if not stuck:
+			break
+	Input.action_press("move_forward"); await step(20); Input.action_release("move_forward"); await step(10)
+	check("d1b: Mıknatıs zinciriyle P3'e", bip.global_position.z < -77.0 and bip.global_position.y > 6.3, str(reached))
+	# Yan rüzgârda Balon süzülüşü
+	await place(Vector3(0, 6.6, -86.6), PI, "balon")
+	ok = await glide_to(-99.5, 3.5)
+	check("d1b: yan rüzgârda Balon ile P4'e", ok and absf(bip.global_position.y - 4.0) < 0.3, str(bip.global_position))
+	# Yay ile basamaklar
+	await place(Vector3(1, 4.1, -106.5), PI, "yay")
+	ok = await jump_forward(60, 40, 8.0)
+	check("d1b: Yay ile S1 (4,5 m)", ok and absf(bip.global_position.y - 8.5) < 0.2, str(bip.global_position))
+	await place(Vector3(1, 8.6, -111.8), PI, "yay")
+	ok = await jump_forward(60, 40, 12.5)
+	check("d1b: Yay ile S2", ok and absf(bip.global_position.y - 13.0) < 0.2, str(bip.global_position))
+	await place(Vector3(1, 13.1, -116.8), PI, "yay")
+	ok = await jump_forward(60, 40, 17.0)
+	check("d1b: Yay ile Fırtına Kulesi'ne", ok and absf(bip.global_position.y - 17.5) < 0.2, str(bip.global_position))
+	await place(Vector3(5.2, 17.6, -123.5), PI / 2, "yay")
+	ok = await jump_forward(60, 40, 21.5)
+	check("d1b: gizli Fırtına Gözü sütununa", ok and absf(bip.global_position.y - 22.0) < 0.2, str(bip.global_position))
 
 
 # ---------- Bulut Basamakları ----------

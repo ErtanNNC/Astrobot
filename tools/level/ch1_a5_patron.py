@@ -54,7 +54,7 @@ for (x, z) in ((-26, -20), (-30, 12), (0, -32), (24, -26), (-14, 34)):
     L.top(x, -3, z, 12, 12, depth=6, theme="quarry")
     for k in range(4):
         L.model("kaykit/spacebase/" + _r.choice(("cargo_A_stacked", "containers_C", "cargo_B", "structure_low")), x + _r.uniform(-4, 4), -3, z + _r.uniform(-4, 4), _r.uniform(0, 6.28), _r.uniform(1.6, 2.6))
-    L.model("kenney/factory/" + _r.choice(("crane", "robot-arm-a", "hopper-high-round")), x, -3, z, _r.uniform(0, 6.28), 3.0)
+    L.model("kenney/factory/" + _r.choice(("crane", "robot-arm-a", "hopper-high-round")) + ".glb", x, -3, z, _r.uniform(0, 6.28), 3.0)
 for (x, z) in ((-13.5, -13.5), (13.5, -13.5), (-13.5, 13.5)):
     L.model("kenney/factory/warning-orange.glb", x, 0, z, 0, 1.8)
 L.model("kenney/factory/cone.glb", -12, 0, 10, 0, 2.0); L.model("kenney/factory/box-large.glb", -12.5, 0, -11, 0.4, 2.2)

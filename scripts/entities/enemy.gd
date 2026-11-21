@@ -19,7 +19,7 @@ const SKINS := {
 	"goblin": ["res://assets/models/quaternius/enemies/Enemy.gltf", 0.38],
 	"frog": ["res://assets/models/quaternius/easy_enemies/Frog.fbx", 0.3],
 	"spider": ["res://assets/models/quaternius/easy_enemies/Spider.fbx", 0.26],
-	"rat": ["res://assets/models/quaternius/easy_enemies/Rat.fbx", 0.42],
+	"rat": ["res://assets/models/quaternius/easy_enemies/Rat.fbx", 0.34],
 	"wasp": ["res://assets/models/quaternius/easy_enemies/Wasp.fbx", 0.28],
 }
 ## Bölüm → [vidabocek, zipzip, hurdaci] görünüşü

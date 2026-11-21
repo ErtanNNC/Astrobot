@@ -28,6 +28,7 @@ const AREA_MUSIC := {
 	"ch3_zirve": "res://assets/audio/opengameart/fasttheme.ogg",
 	"ch3_patron": "res://assets/audio/opengameart/lsc_boss.ogg",
 	"ch4_bulut": "res://assets/audio/opengameart/superhero.ogg",
+	"ch4_kopru": "res://assets/audio/opengameart/fasttheme.ogg",
 	"ch4_kale": "res://assets/audio/opengameart/mechanical_complex.ogg",
 	"ch4_patron": "res://assets/audio/opengameart/lsc_boss.ogg",
 }

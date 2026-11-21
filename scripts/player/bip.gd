@@ -132,6 +132,7 @@ var dash_left := 0.0
 var dash_used := false
 var invuln := 0.0
 var wind := Vector3.ZERO       # rüzgâr alanları her kare ekler
+var _wind_push := Vector3.ZERO  # yerdeyken yan rüzgârın biriken itişi (Fırtına Köprüleri)
 var water_level := -INF        # suyun yüzeyi (suda değilse -INF)
 var copy_timer := 0.0
 var _jump_frame := false
@@ -381,6 +382,11 @@ func _physics_process(delta: float) -> void:
 		velocity += w * delta
 		if lifted and w.y > 0.0:
 			velocity.y = minf(velocity.y + w.y * delta * 2.0, w.y * 0.6)
+		# Yan rüzgâr yerde de iter (sürtünme yenmesin): yatay itiş hızı ayrı birikir, rüzgâr dinince söner
+		if on_floor:
+			_wind_push += Vector3(w.x, 0, w.z) * delta
+	else:
+		_wind_push = _wind_push.move_toward(Vector3.ZERO, 30.0 * delta)
 	wind = Vector3.ZERO
 
 	# --- Su: Kaya yavaşça batar (yüzme yukarıda, yerçekimi yerine) ---
@@ -388,8 +394,11 @@ func _physics_process(delta: float) -> void:
 		velocity.y = maxf(velocity.y, -3.0)
 
 	var fall_speed := -velocity.y
+	_wind_push = _wind_push.limit_length(6.0)
+	velocity += _wind_push
 	var pre_v := velocity
 	move_and_slide()
+	velocity -= _wind_push
 	if g > 0.0 and not is_on_floor():
 		velocity.y = maxf(velocity.y - g * delta * 0.5, -max_fall_speed)
 
