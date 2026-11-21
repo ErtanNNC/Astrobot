@@ -57,6 +57,7 @@ sed -i "s/^version\/code=.*/version\/code=${CODE}/; s/^version\/name=.*/version\
 
 # 4) Dışa aktar (imzasız) ve imzala
 mkdir -p build
+touch build/.gdignore   # build/ içindeki ekran görüntüleri ve eski APK'lar oyuna (APK'ya) girmesin
 rm -f build/Bip-unsigned.apk
 "$GODOT" --headless --path . --export-release Android build/Bip-unsigned.apk 2>&1 | grep -E "ERROR|HATA" || true
 [ -f build/Bip-unsigned.apk ] || { echo "HATA: Godot APK üretemedi"; exit 1; }
