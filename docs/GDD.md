@@ -37,7 +37,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Hareket | implemented | MVP | Koşma, değişken yükseklikte zıplama, coyote time, zıplama tamponu, havada kontrol; ilerledikçe açılan kenara tutunma, dönme saldırısı, havada atılma, duvar zıplaması, çift zıplama (D-016) | [design](features/hareket/design.md) |
 | Oyun hissi | in progress | MVP | Astro Bot / Mario Odyssey karşılaştırması: jet süzülme, pil çekimi, canlı süsler, sakin kamera; sırada seviye yoğunluğu | [design](features/oyun-hissi/design.md) |
 | Kostümler | implemented | V1 | Pille açılan 7 renk kostümü (Atölye'deki Kostüm Dolabı), ton kaydıran gölgelendirici | [design](features/kostum/design.md) |
-| Bölüm 5 (bonus) | in progress | V1 | Final sonrası açılan Gizli Adalar; ilk alan Oyuncak Kasabası | [design](features/bolum-5/design.md) |
+| Bölüm 5 (bonus) | implemented | V1 | Final sonrası açılan Gizli Adalar: Oyuncak Kasabası, Yıldız Gözlemevi, Volkan Adası (lav), Şampiyon Yolu | [design](features/bolum-5/design.md) |
 | Arayüz görünüşü | implemented | MVP | Kenney butonları, Nunito yazı tipi, animasyonlu kartlar, yeni HUD ve sonuç ekranı | [design](features/arayuz/design.md) |
 | Kopyalama | implemented | MVP | Antenle nesneden yetenek kopyalama; Yay, Balon, Mıknatıs, Kaya; hasar alınca yetenek kaybı | [design](features/kopyalama/design.md) |
 | Kamera | implemented | MVP | Kendi kendine takip eden, duvardan kaçan, telefonda elle döndürme gerektirmeyen kamera | [design](features/kamera/design.md) |
@@ -56,7 +56,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Yeni yetenekler | implemented | later | Pervane (Bölüm 2) ve Buz (Bölüm 3) yapıldı; Lastik top fikir | [bölüm 2](features/bolum-2/design.md), [bölüm 3](features/bolum-3/design.md) |
 | Bölüm 2 | implemented | later | Fırtına Limanı: 3 alan + Paslı Kaptan; yeni yetenek Pervane | [design](features/bolum-2/design.md) |
 | Bölüm 3 | implemented | later | Buzul Tepesi: 3 alan + Kardan Dev; yeni yetenek Buz | [design](features/bolum-3/design.md) |
-| Bölüm 4 | implemented | later | Fırtınanın Gözü: 2 alan + Statik (ikna edilir); final ve Emeği Geçenler | [design](features/bolum-4/design.md) |
+| Bölüm 4 | implemented | later | Fırtınanın Gözü: 3 alan (yeni: Fırtına Köprüleri, yan rüzgâr) + Statik (ikna edilir); final ve Emeği Geçenler | [design](features/bolum-4/design.md) |
 
 ## Milestones
 1. ✅ **M1, greybox hareket + kamera:** hareket, kamera; basit küplerden bir test alanı · bitti sayılır: PC'de 2 m'lik bir boşluk ve 1,5 m'lik bir basamak ilk denemede rahatça aşılıyor.
@@ -94,6 +94,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | D-018 | 2026-11-18 | Yürünen zeminlerin üstü KayKit Platformer Pack karolarıyla kaplanır (tema → renk: çimen yeşil, kum/ocak sarı, kanyon kırmızı, taş/fabrika/buz mavi); kar, bulut, ahşap ve iç mekân eski görünümde | düz renkli kutu zeminler | geliştiricinin önerdiği paket; oyuncak blok görünümü Astro Bot'un oyuncak dünyasına yakın. Karolar yalnız görsel (çarpışma aynı kutularda), MultiMesh ile çizilir | tüm seviyeler (`tools/level/lvl.py` `top()`, `scripts/level/kit_batch.gd`) |
 | D-019 | 2026-11-19 | Süsler Kenney Platformer Kit'e geçti (ağaç, çiçek, çimen, kaya, mantar; Bölüm 3'te karlı ağaçlar); karolu zeminlere çarpışmasız çiçek/çimen serpiştirilir (MultiMesh) | Quaternius süsleri | KayKit karolarıyla aynı oyuncak tarzı; boş zeminler canlanır. kenney.nl bu ortamda kapalı, paket kenney-assets.itch.io'dan alındı | tüm seviyeler (`lvl.py` `KIND_ALIAS`, `_kit_tiles`) |
 | D-020 | 2026-11-19 | Duvar, kayalık ve karosuz zeminler el boyaması dokularla çizilir (tema → doku, `lvl.py` `THEME_TEX`; `toon_terrain.gdshader` `side_tex/top_tex`) | çizgili düz renk | geliştirici: "texture'lar basit"; freegameassets.com CC0 dokuları | tüm seviyeler |
+| D-021 | 2026-11-21 | Bütün alanlar Yay Bahçesi yöntemiyle yenilendi (yer işareti, gizli köşeler, temaya özgü CC0 paketleri); Bölüm 4'e üçüncü alan, final sonrası bonus Bölüm 5 (4 alan), pille açılan kostümler | yalnızca görsel cila | geliştirici "mağaza kalitesi" ve "yeni bölümler" istedi; her bölüm 3+ alan dengeli | tüm bölümler, [kostüm](features/kostum/design.md), [bölüm 5](features/bolum-5/design.md) |
 | D-013 | 2026-11-18 | Seviyeler Python üretici betiklerle (`tools/level/*.py`) yazılır, ölçülü kutular + shader + süs | her seviyeyi elle editörde kurmak | ölçüler kesin kalır, Claude Code hızlı ve tekrarlanabilir kurar; elle düzenleme isteyen sahne için betik bir daha çalıştırılmaz | tüm seviyeler |
 
 ## Open questions
