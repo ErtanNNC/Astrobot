@@ -144,4 +144,6 @@ L.clouds(18, xr=(-90, 90), zr=(-200, 50), avoid=(-25, 25, -150, 20), low=(-10, -
 
 # Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
 L.secret("gozcu", -12.6, 4, 1, 2, 2.4)
+# Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
+L.ent("enemy", 2.5, 2.5, -40, kind="dikenli", patrol=1.6, speed=1.0, batteries=3)   # ilk Dikenli: Kaya kaynağının yanında (çakılarak ezilir)
 L.write()

@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e14"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e15"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e16"]
+[ext_resource type="Script" path="res://scripts/entities/enemy.gd" id="e17"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/icy-granite-cliff.png" id="tex_icy_granite_cliff"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/blue-ice-cracks.png" id="tex_blue_ice_cracks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/icy-rock-wall.png" id="tex_icy_rock_wall"]
@@ -1034,6 +1035,20 @@ transform = Transform3D(-1.34546, 0, -2.78405, 0, 3.09212, -0, 2.78405, 0, -1.34
 
 [node name="Cloud_2_7" parent="Clouds" instance=ExtResource("e14")]
 transform = Transform3D(-1.91306, 0, -0.198844, 0, 1.92336, -0, 0.198844, 0, -1.91306, 15.3995, -7.93407, 42.3056)
+
+[node name="Enemy_1" type="CharacterBody3D" parent="Entities"]
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -18.4076, 16, -52.9381)
+script = ExtResource("e17")
+kind = "atici"
+batteries = 3
+
+[node name="Enemy_2" type="CharacterBody3D" parent="Entities"]
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -45.6863, 11, -73.7796)
+script = ExtResource("e17")
+kind = "dikenli"
+patrol = 1.5
+speed = 1
+batteries = 3
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

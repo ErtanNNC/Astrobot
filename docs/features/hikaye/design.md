@@ -21,6 +21,8 @@ Karakterler bulunabilen CC0 asset'lerle yapılır; tarif asset'e uyarlanır (D-0
 | **Vidaböcek** (ilk düşman) | Quaternius Ultimate Platformer Pack "Crab" (Bölüm 1–2); Bölüm 3'te "Spider", Bölüm 4'te "Rat" (Easy Animated Enemies) | özgün kırmızı rengi kaldı (tehlike rengi, sanat yönü); adı "Vidaböcek" | oyunda |
 | **Zıpzıp** (zıplayan düşman) | Quaternius "Skull" (Bölüm 1), "Frog" (Bölüm 2–3), "Wasp" (Bölüm 4; Easy Animated Enemies) | yerinde zıplar, Bip yaklaşınca ona doğru seker | oyunda |
 | **Hurda Goblin** (kovalayan düşman) | Quaternius "Enemy" (boynuzlu yeşil) | Bip'i görünce kovalar, uzaklaşınca evine döner | oyunda |
+| **Atıcı** (mermi atan düşman) | Quaternius "Wasp" (Easy Animated Enemies) | havada asılı durur, şişip mermi yollar (`docs/features/dusmanlar/design.md`) | oyunda |
+| **Dikenli** (basılamayan düşman) | bölümün Vidaböcek modeli | sırtına koddan kırmızı dikenler eklenir; yalnızca Vuruş ya da Kaya ile yenilir | oyunda |
 | **Hurdacı Vinç** (patron) | uygun hazır model bulunamadı | basit şekillerden kuruldu: turuncu kule, dönen bom, kırmızı gözlü kabin, kancada Çekirdek Pil, 3 can ışığı (`scripts/boss/crane_boss.gd`) | oyunda |
 | **Paslı Kaptan** (Bölüm 2 patronu) | Pixabay "Fish mecha robot alien low poly" (fanusta balık, dört bacaklı robot gövde; animasyonsuz) | fanustaki balık yüzer, gövde hafifçe sallanır, vuruşta beyaz parlar, yenilince balık ters döner; tepesine Mıknatıs için metal şapka, önüne 3 can ışığı; çapa kolu koddan (`scripts/boss/captain_boss.gd`) | oyunda |
 | **Atölye robotları** (kapanışta alkışlayanlar) | Quaternius "Animated Robot" | farklı renklere boyanmış kopyalar; "Wave", "Yes", "Dance" animasyonları | oyunda (kapanış) |

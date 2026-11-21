@@ -126,4 +126,7 @@ L.model(MD + "building_castle_red.gltf", 0, 11.15 - 14, -150, 0, 9.0)
 
 # Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
 L.secret("kule", -11, 10, -20, 3, 3)
+# Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
+L.ent("enemy", -6, 2.0, -22, kind="atici", batteries=3)
+L.ent("enemy", 3, 2.0, -15, kind="dikenli", patrol=2.0, speed=1.2, batteries=3)
 L.write()

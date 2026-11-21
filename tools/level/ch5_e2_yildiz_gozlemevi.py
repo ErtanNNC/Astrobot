@@ -128,4 +128,6 @@ for (x, y, z, w) in ((-22, -6, -20, 10), (24, -4, -50, 12), (-26, 2, -90, 12), (
 # Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
 L.secret("adacik", 4, 0.8, -15, 2.4, 2.4)
 L.secret("yildiz", 9.5, 9, -59.5, 3, 3)
+# Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
+L.ent("enemy", 4, 2.15, -61.5, kind="atici", batteries=3)
 L.write()

@@ -102,4 +102,7 @@ L.clouds(18, xr=(-90, 90), zr=(-220, 40), avoid=(-20, 20, -160, 20), low=(-12, -
 
 # Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
 L.secret("vida_adasi", 9, 1, -34.5, 3, 3)
+# Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
+L.ent("enemy", -4, 5, -72, kind="atici", batteries=3)
+L.ent("enemy", 0, 5, -103, kind="dikenli", patrol=3.0, speed=1.3, batteries=3)
 L.write()

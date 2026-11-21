@@ -45,7 +45,7 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Kamera | implemented | MVP | Kendi kendine takip eden, duvardan kaçan, telefonda elle döndürme gerektirmeyen kamera | [design](features/kamera/design.md) |
 | Can ve hasar | implemented | MVP | 3 can; hasar önce yeteneği alır, yetenek yoksa can gider; kontrol noktasından devam | [bölüm 1](features/bolum-1/design.md) |
 | Toplanabilirler | implemented | MVP | Piller (bölüm başına ~150) ve alan başına 1, toplam 5 gizli altın vida; kırılan sandıklar | [bölüm 1](features/bolum-1/design.md) |
-| Düşmanlar | implemented | MVP | Vidaböcek (yürür), Zıpzıp (seker), Hurda Goblin (kovalar); üstüne zıplayınca ya da Kaya ile ezilince yenilir | [hikaye](features/hikaye/design.md) |
+| Düşmanlar | implemented | MVP | Vidaböcek (yürür), Zıpzıp (seker), Hurda Goblin (kovalar), Atıcı (uzaktan mermi atar), Dikenli (basılmaz; Vuruş ya da Kaya ile yenilir) | [design](features/dusmanlar/design.md) |
 | Mobil kontroller | implemented | MVP | Sol yüzen joystick, sağ altta yay şeklinde Zıpla ve Yetenek butonları, sol üstte Duraklat, titreşim; buton boyutu ve sol el modu | [design](features/mobil-kontroller/design.md) |
 | Bölüm 1 | implemented | MVP | Öğretici Uyanış Atölyesi + 4 alan (Yay, Balon, Mıknatıs, Kaya) + Hurdacı Vinç patronu | [design](features/bolum-1/design.md) |
 | Hikaye | implemented | MVP | Sözsüz anlatım; açılış ve kapanış sahneleri; rehber drone Pırıl; karakterlerin hangi asset'le yapılacağı belli | [design](features/hikaye/design.md) |

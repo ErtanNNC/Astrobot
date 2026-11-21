@@ -4,9 +4,11 @@ extends CharacterBody3D
 ##  vidabocek – Vidaböcek: bir çizgide ileri geri yürür, kenarda döner.
 ##  zipzip    – Zıpzıp: yerinde zıplar, Bip yaklaşınca ona doğru seker.
 ##  hurdaci   – Hurda Goblin: Bip'i görünce kovalar, uzaklaşınca evine döner.
+##  atici     – Atıcı: havada süzülür, Bip yaklaşınca nişan alıp yavaş bir enerji topu atar (önce şişer).
+##  dikenli   – Dikenli: Vidaböcek gibi yürür ama sırtı dikenlidir; üstüne zıplanamaz (Vuruş ya da Kaya ile).
 ## Görünüş bölüme göre değişir (CHAPTER_SKINS): yengeç/kurukafa → kurbağa, örümcek, sıçan, eşek arısı.
 
-@export_enum("vidabocek", "zipzip", "hurdaci") var kind := "vidabocek"
+@export_enum("vidabocek", "zipzip", "hurdaci", "atici", "dikenli") var kind := "vidabocek"
 @export var patrol := 3.0        ## m, başlangıçtan her iki yöne
 @export var speed := 1.6         ## m/s
 @export var batteries := 3       ## yenilince saçılan pil
@@ -42,6 +44,15 @@ var _hurt_area: Area3D
 var _axis := Vector3.RIGHT
 var _frozen := 0.0
 var _ice: StaticBody3D
+var _base_scale := 0.4
+var _shot_timer := 2.0
+var _aiming := 0.0
+
+const HOVER_HEIGHT := 1.3        ## m (atıcı)
+const SHOT_RANGE := 13.0         ## m
+const SHOT_PERIOD := 2.6         ## s, iki atış arası
+const SHOT_WARN := 0.55          ## s, atıştan önce şişme (oyuncuya haber)
+const SHOT_SPEED := 6.5          ## m/s
 
 
 func _ready() -> void:
@@ -62,7 +73,8 @@ func _ready() -> void:
 	add_child(cs)
 	var sk := skin if skin != "auto" else _chapter_skin()
 	_model = load(SKINS[sk][0]).instantiate()
-	_model.scale = Vector3.ONE * float(SKINS[sk][1])
+	_base_scale = float(SKINS[sk][1])
+	_model.scale = Vector3.ONE * _base_scale
 	add_child(_model)
 	_anim = _model.find_child("AnimationPlayer", true, false)
 	if _anim:
@@ -84,6 +96,26 @@ func _ready() -> void:
 	add_child(_hurt_area)
 	_hurt_area.body_entered.connect(_on_touch)
 	_hop_timer = randf_range(0.5, 1.5)
+	if kind == "atici":
+		# Havada süzülür: gövde 1,3 m yukarıda, yerçekimi yok
+		_gravity = 0.0
+		global_position.y += HOVER_HEIGHT
+		_home = global_position
+		_shot_timer = randf_range(1.0, SHOT_PERIOD)
+	elif kind == "dikenli":
+		# Sırtta kırmızı dikenler: "üstüne basma" işareti (sanat yönü: tehlike kırmızı ve sivri)
+		var spike_mat := AbilityModels.mat(Color(0.95, 0.25, 0.2), 0.4, 0.4)
+		for k in 5:
+			var cone := CylinderMesh.new()
+			cone.top_radius = 0.0
+			cone.bottom_radius = 0.13
+			cone.height = 0.42
+			cone.radial_segments = 8
+			var a := TAU * k / 5.0
+			var off := Vector3(cos(a) * 0.26, 0.98, sin(a) * 0.26) if k < 4 else Vector3(0, 1.08, 0)
+			var sp := AbilityModels.mesh_node(cone, spike_mat, off)
+			sp.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			add_child(sp)
 
 
 func _chapter_skin() -> String:
@@ -94,7 +126,9 @@ func _chapter_skin() -> String:
 			path = n.scene_file_path
 			break
 		n = n.get_parent()
-	var i := ["vidabocek", "zipzip", "hurdaci"].find(kind)
+	if kind == "atici":
+		return "wasp"
+	var i := ["vidabocek", "zipzip", "hurdaci"].find(kind if kind != "dikenli" else "vidabocek")
 	for ch in CHAPTER_SKINS:
 		if "/" + ch + "/" in path:
 			return CHAPTER_SKINS[ch][i]
@@ -130,7 +164,9 @@ func _physics_process(delta: float) -> void:
 		return
 	var bip := get_tree().get_first_node_in_group("player") as Node3D
 	match kind:
-		"vidabocek":
+		"atici":
+			_process_shooter(delta, bip)
+		"vidabocek", "dikenli":
 			var off := (global_position - _home).dot(_axis)
 			if (off > patrol and _dir > 0) or (off < -patrol and _dir < 0) or is_on_wall() or (is_on_floor() and not _ground_ahead()):
 				_dir = -_dir
@@ -177,6 +213,34 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if global_position.y < _home.y - 20:
 		queue_free()
+
+
+## Atıcı: yerinde süzülür, menzildeki Bip'e döner; atıştan önce şişerek haber verir, sonra mermi yollar.
+func _process_shooter(delta: float, bip: Node3D) -> void:
+	velocity = Vector3.ZERO
+	global_position.y = _home.y + sin(Time.get_ticks_msec() * 0.003 + _home.x) * 0.15
+	if bip == null:
+		return
+	var to := bip.global_position + Vector3.UP * 0.5 - global_position
+	if to.length() > SHOT_RANGE:
+		_aiming = 0.0
+		_model.scale = _model.scale.lerp(Vector3.ONE * _base_scale, 6 * delta)
+		return
+	_model.rotation.y = lerp_angle(_model.rotation.y, atan2(to.x, to.z), 6 * delta)
+	_shot_timer -= delta
+	if _shot_timer <= SHOT_WARN:
+		_aiming = 1.0 - clampf(_shot_timer / SHOT_WARN, 0.0, 1.0)
+		_model.scale = Vector3.ONE * _base_scale * (1.0 + 0.35 * _aiming)
+	if _shot_timer <= 0.0:
+		_shot_timer = SHOT_PERIOD
+		_aiming = 0.0
+		_model.scale = Vector3.ONE * _base_scale
+		var shot := Area3D.new()
+		shot.set_script(load("res://scripts/entities/enemy_shot.gd"))
+		get_parent().add_child(shot)
+		shot.global_position = global_position + Vector3.UP * 0.3 + to.normalized() * 0.6
+		shot.velocity = to.normalized() * SHOT_SPEED
+		Sfx.play("magnet", -8.0, 1.6)
 
 
 func _ground_ahead() -> bool:
@@ -230,6 +294,10 @@ func _on_touch(b: Node) -> void:
 	if bip.spin_left > 0.0:
 		on_spin(bip)
 		return
+	if kind == "dikenli" and not bip.pounding and bip.global_position.y > global_position.y + 0.55:
+		# Dikenlerin üstüne basılmaz: Bip sekip hasar alır (Kaya çakılması dikenleri ezer)
+		bip.take_hit(global_position + Vector3.DOWN)
+		return
 	if bip.pounding or (bip.global_position.y > global_position.y + 0.55 and bip.velocity.y < 1.0):
 		on_stomp(bip)
 	else:
@@ -238,6 +306,10 @@ func _on_touch(b: Node) -> void:
 
 func on_stomp(bip: Node) -> void:
 	if _dead:
+		return
+	if kind == "dikenli" and not (bip is Bip and (bip as Bip).pounding):
+		if bip.has_method("take_hit"):
+			bip.take_hit(global_position + Vector3.DOWN)
 		return
 	if bip.has_method("bounce"):
 		bip.bounce(11.0)

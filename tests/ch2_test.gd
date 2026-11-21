@@ -186,6 +186,21 @@ func _b2() -> void:
 	await place(Vector3(9.4, 0.1, -3), PI / 2, "yay")
 	ok = await jump_forward(60, 40, 4.0)
 	check("b2: gizli çatı yuvasına Yay ile", ok and absf(dp().y - 4.6) < 0.25, str(dp()))
+	# Atıcı: menzildeki Bip'e mermi yollar
+	var at: Node3D = null
+	for e in get_tree().get_nodes_in_group("enemy"):
+		if e.kind == "atici":
+			at = e
+	check("b2: Atıcı düşman var", at != null)
+	if at:
+		await place(Turns.design(level, at.global_position) + Vector3(6, -1.2, 0), PI, "")
+		var seen := false
+		for i in 260:
+			await get_tree().physics_frame
+			if get_tree().get_nodes_in_group("enemy_shot").size() > 0:
+				seen = true
+				break
+		check("b2: Atıcı mermi yolladı", seen)
 
 
 func _b3() -> void:
@@ -284,6 +299,25 @@ func _b3() -> void:
 	Input.action_press("jump"); await step(3); Input.action_release("jump")
 	await step(90)
 	check("b3: gizli gözcü yuvasına Mıknatıs ile", dp().y > 3.8, str(dp()))
+	# Dikenli: üstüne basınca Bip hasar alır, düşman ölmez; Vuruş (dönme) öldürür
+	var dk: Node3D = null
+	for e in get_tree().get_nodes_in_group("enemy"):
+		if e.kind == "dikenli":
+			dk = e
+	check("b3: Dikenli düşman var", dk != null)
+	if dk:
+		dk.speed = 0.0
+		GameState.refill_lives()
+		await place(Turns.design(level, dk.global_position) + Vector3(0, 2.2, 0), PI, "")
+		bip.invuln = 0.0
+		await step(50)
+		check("b3: Dikenli'ye basınca can gider, düşman ölmez", GameState.lives == GameState.MAX_LIVES - 1 and is_instance_valid(dk) and not dk._dead, "can %d" % GameState.lives)
+		GameState.data["furthest"] = "ch2_gemi"      # dönme saldırısı açık
+		await place(Turns.design(level, dk.global_position) + Vector3(0, 0.1, 1.3), PI, "")
+		await tap("attack")
+		await step(20)
+		check("b3: Vuruş Dikenli'yi yener", not is_instance_valid(dk) or dk._dead)
+		GameState.refill_lives()
 
 
 func _b4() -> void:

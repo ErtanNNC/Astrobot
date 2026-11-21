@@ -124,4 +124,7 @@ L.box(0, 19, -186.2, 0.3, 8, 0.3, "stone")
 L.scatter([H + "tree-snow-a.glb", H + "tree-snow-b.glb", H + "tree-snow-c.glb"], -7.5, 7.5, 2, 7.5, 0, 6, 1.6, 2.4, clear=(-3, 3))
 
 L.clouds(18, avoid=(-30, 30, -200, 20), low=(-12, -6), high=(26, 40))
+# Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
+L.ent("enemy", 4.5, 16.0, -58, kind="atici", batteries=3)
+L.ent("enemy", -3, 11.0, -91.5, kind="dikenli", patrol=1.5, speed=1.0, batteries=3)
 L.write()

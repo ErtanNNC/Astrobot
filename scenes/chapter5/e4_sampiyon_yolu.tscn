@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e11"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e12"]
 [ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e13"]
+[ext_resource type="Script" path="res://scripts/entities/enemy.gd" id="e14"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/icy-granite-cliff.png" id="tex_icy_granite_cliff"]
@@ -643,6 +644,20 @@ script = ExtResource("e13")
 size = Vector3(3, 3, 3)
 method_name = "secret_found"
 arg = "vida_adasi"
+
+[node name="Enemy_1" type="CharacterBody3D" parent="Entities"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -6.69235, 5, -67.1954)
+script = ExtResource("e14")
+kind = "atici"
+batteries = 3
+
+[node name="Enemy_2" type="CharacterBody3D" parent="Entities"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 5.19475, 5, -96.1038)
+script = ExtResource("e14")
+kind = "dikenli"
+patrol = 3
+speed = 1.3
+batteries = 3
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

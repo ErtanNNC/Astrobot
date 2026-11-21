@@ -134,4 +134,7 @@ for (x, z) in ((-20, -40), (22, -80), (-24, -110), (20, -20)):
 L.secret("adacik", 4, 0.5, -15, 2.4, 2.4)
 L.secret("gayzer", 9.6, 12, -68.5, 3, 3)
 L.secret("nis", 7, 16, -126, 2.6, 2.6)
+# Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
+L.ent("enemy", 3, 0, -57, kind="dikenli", patrol=1.8, speed=1.1, batteries=2)
+L.ent("enemy", -4, 8, -80, kind="atici", batteries=3)
 L.write()
