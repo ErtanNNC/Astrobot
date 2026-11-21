@@ -342,7 +342,7 @@ func _slot_text(i: int) -> String:
 	GameState.slot = saved_slot
 	var info := GameState.area_info(d.get("area", "ch1_atolye"))
 	var mins := int(float(d.get("play_time", 0)) / 60.0)
-	return "Yuva %d · %%%d\n%s · Pil %d · Vida %d/5 · %d dk" % [i + 1, pct, info["name"], batt, d.get("golden_screws", []).size(), mins]
+	return "Yuva %d · %%%d\n%s · Pil %d · Vida %d/%d · %d dk" % [i + 1, pct, info["name"], batt, d.get("golden_screws", []).size(), GameState.screw_total(), mins]
 
 
 func _refresh_capsules() -> void:

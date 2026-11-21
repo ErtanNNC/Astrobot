@@ -45,6 +45,7 @@ func _ready() -> void:
 			await get_tree().create_timer(2.0).timeout
 	_check("4 çekirdek pil", GameState.data["core_cells"].size() == 4, str(GameState.data["core_cells"]))
 	_check("oyun bitti işareti", GameState.data.get("game_complete", false))
+	_check("final sonrası bonus bölüm açıldı", GameState.data.get("area", "") == "ch5_oyuncak", str(GameState.data.get("area", "")))
 	_finish()
 
 

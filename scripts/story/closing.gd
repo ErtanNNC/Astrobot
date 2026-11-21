@@ -204,5 +204,13 @@ func _finish() -> void:
 	GameState.mark_seen("closing_ch%d" % GameState.chapter_of(GameState.data.get("area", "ch1_patron")))
 	if _final:
 		GameState.data["game_complete"] = true
+		# Bonus bölüm varsa Atölye kapısı oradan devam eder
+		var nxt := GameState.first_area_of_next_chapter(GameState.data.get("area", "ch4_patron"))
+		if not nxt.is_empty():
+			GameState.data["area"] = nxt["id"]
+			GameState.note_progress(nxt["id"])
+			GameState.data["chapter"] = GameState.chapter_of(nxt["id"])
+			GameState.data["checkpoint_id"] = "start"
+			GameState.data["checkpoint_ability"] = ""
 	GameState.save(true)
 	Scenes.go("res://scenes/ui/credits.tscn" if _final else NEXT)

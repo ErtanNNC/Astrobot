@@ -42,6 +42,10 @@ const CHAPTERS := {
 		{"id": "ch4_kale", "scene": "res://scenes/chapter4/d2_kivilcim_kalesi.tscn", "name": "Kıvılcım Kalesi"},
 		{"id": "ch4_patron", "scene": "res://scenes/chapter4/d3_patron.tscn", "name": "Statik"},
 	],
+	# Bonus bölüm (2026-11-21): final sonrası açılır, patron yok; bütün yetenekler karışık
+	5: [
+		{"id": "ch5_oyuncak", "scene": "res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "name": "Oyuncak Kasabası"},
+	],
 }
 
 ## Bip'in kostümleri (renk). Kilit: kayıt yuvalarındaki en çok pil (ya da Altın Vida) sayısı.
@@ -56,7 +60,7 @@ const SKINS := [
 	{"id": "altin", "name": "Altın", "hue": -0.02, "sat": 1.25, "val": 1.15, "need_screws": 10, "glow": 0.35},
 ]
 
-const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi", 4: "Fırtınanın Gözü"}
+const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi", 4: "Fırtınanın Gözü", 5: "Gizli Adalar"}
 
 var slot := -1
 var data := {}
@@ -325,7 +329,7 @@ func refill_lives() -> void:
 
 static func chapter_of(area_id: String) -> int:
 	if area_id.begins_with("ch") and area_id.length() > 2:
-		return clampi(int(area_id.substr(2, 1)), 1, 4)
+		return clampi(int(area_id.substr(2, 1)), 1, CHAPTERS.size())
 	return 1
 
 
@@ -437,5 +441,5 @@ func percent_complete() -> int:
 	var total_screws := 0
 	for c in CHAPTERS:
 		total_areas += CHAPTERS[c].size()
-		total_screws += CHAPTERS[c].size() - 1
+	total_screws = screw_total()
 	return clampi(int(round(done_areas * 50.0 / total_areas + screws * 30.0 / total_screws + cores * 20.0 / 4.0)), 0, 100)

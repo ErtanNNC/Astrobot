@@ -27,7 +27,10 @@ func _ready() -> void:
 	for a in GameState.CHAPTERS[ch]:
 		if GameState.has_screw(a["id"] + "_vida"):
 			chapter_screws += 1
-	var max_screws: int = GameState.CHAPTERS[ch].size() - 1
+	var max_screws := 0
+	for a in GameState.CHAPTERS[ch]:
+		if not String(a["id"]).ends_with("patron"):
+			max_screws += 1
 	_stars(v, 1 + int(chapter_screws * 2 >= max_screws) + int(chapter_screws >= max_screws))
 	var grid := GridContainer.new()
 	grid.columns = 3
@@ -37,7 +40,7 @@ func _ready() -> void:
 	var mins := int(float(GameState.data.get("play_time", 0.0)) / 60.0)
 	var stats := [
 		["battery", "Pil", total, ""],
-		["star", "Altın Vida", chapter_screws, " / %d" % (GameState.CHAPTERS[ch].size() - 1)],
+		["star", "Altın Vida", chapter_screws, " / %d" % max_screws],
 		["trophy", "Çekirdek Pil", GameState.data.get("core_cells", []).size(), " / 4"],
 		["medal1", "Kurtarılan robot", GameState.data.get("robots", []).size(), ""],
 		["information", "Süre", mins, " dk"],

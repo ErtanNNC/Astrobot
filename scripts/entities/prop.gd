@@ -1,10 +1,11 @@
 extends Node3D
 ## Basit süs: bir model ya da şekil, isteğe bağlı dönme/sallanma.
 
-@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator", "balloon", "dolphin", "whale", "fish", "snow") var kind := "gear"
+@export_enum("gear", "lamp", "station", "screen", "dark_tower", "storm", "rain", "generator", "balloon", "dolphin", "whale", "fish", "snow", "model") var kind := "gear"
 @export var size := 1.0
 @export var spin := 0.0          ## rad/s
 @export var color := Color(0.75, 0.78, 0.85)
+@export var model_path := ""     ## kind=model: herhangi bir glTF/GLB/FBX (ör. hareketli platformun üstündeki oyuncak tren)
 
 var _t := 0.0
 var _part: Node3D
@@ -221,6 +222,11 @@ func _ready() -> void:
 			sn.initial_velocity_min = 1.2
 			sn.initial_velocity_max = 2.0
 			add_child(sn)
+		"model":
+			if model_path != "":
+				var mdl: Node3D = load(model_path).instantiate()
+				mdl.scale = Vector3.ONE * size
+				add_child(mdl)
 		"storm":
 			# Statik: mor kıvılcımlı bulut (Quaternius Cloud, mora boyanmış)
 			var c: Node3D = load("res://assets/models/quaternius/platformer/Cloud_2.gltf").instantiate()
