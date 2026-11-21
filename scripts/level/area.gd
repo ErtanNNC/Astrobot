@@ -139,6 +139,10 @@ func _ready() -> void:
 	_start_ambient()
 	DecorSolid.cover_decor(self)        # iri süslerin içinden geçilmesin
 	PlayLog.begin(area_id, GameState.data.get("checkpoint_id", "start") == "start")
+	_last_ability = GameState.ability
+	GameState.ability_changed.connect(func(a: String):
+		if a != "":
+			_last_ability = a)
 	if title != "":
 		hud.banner.call_deferred(title, "", 2.2)
 	_announce_moves()
@@ -251,6 +255,21 @@ func _on_hurt(result: String) -> void:
 			game_over()
 
 
+## Yetenek güvencesi (oynanış kaydından, 2026-11-22): hasar Bip'in yeteneğini alıyor, ama bazı yollar o yetenek olmadan
+## geçilemiyor ve yakında kaynak olmayabiliyor (çıkmaz). Kural: kontrol noktası, Bip yeteneksizse bu alanda en son
+## taşıdığı yeteneği geri verir; yeniden doğarken de aynı şey olur.
+var _last_ability := ""
+
+
+func _restore_ability(at: Vector3) -> bool:
+	if GameState.ability != "" or _last_ability == "":
+		return false
+	GameState.set_ability(_last_ability)
+	Sfx.play("copy", -4.0)
+	Fx.burst(at + Vector3.UP * 1.4, AbilityModels.color(_last_ability), 14, 3.5)
+	return true
+
+
 ## Üç can da bitti: "Pil bitti!" ekranı. Kontrol noktası kaybedilir; alan baştan başlar ya da Atölye'ye dönülür.
 ## (Kolay modda ve öğreticide bu ekran çıkmaz.) Kurallar: docs/features/bolum-1/design.md "Can ve kaybetme"
 var is_game_over := false
@@ -307,7 +326,8 @@ func respawn(refill: bool) -> void:
 	Scenes.blink(func():
 		if not is_instance_valid(self) or not is_inside_tree():
 			return
-		GameState.set_ability(GameState.data.get("checkpoint_ability", ""))
+		var ab: String = GameState.data.get("checkpoint_ability", "")
+		GameState.set_ability(ab if ab != "" else _last_ability)       # yeteneksiz doğup çıkmaza girmesin
 		if refill:
 			GameState.refill_lives()
 		_place_bip()
@@ -337,6 +357,7 @@ func _count_death() -> void:
 
 func on_checkpoint(cp: Node3D) -> void:
 	_respawn = cp
+	_restore_ability(cp.global_position)
 	PlayLog.checkpoint(String(cp.checkpoint_id), float(GameState.data.get("area_time", 0.0)))
 	_deaths_here = 0
 	if Settings.easy_mode:

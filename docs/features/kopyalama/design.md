@@ -69,3 +69,10 @@ Oyunun kancası. Bip, anteniyle kopyalanabilir bir nesneye dokunarak onun yetene
 - 2026-11-18: tasarlandı.
 - 2026-11-18: "bölüm" yerine "alan" terimi (GDD 0.2).
 - 2026-11-18: dört yetenek ve Pervane, Buz uygulandı; bırakma süresi 1,2 sn (D-011); otomatik testler: `tests/m2_test.tscn`, `tests/abilities_test.tscn`, `tests/boss_test.tscn`.
+
+## Yetenek güvencesi (2026-11-22; oynanış kaydından)
+Hasar Bip'in yeteneğini alır (kural değişmedi). Ama bazı yollar yalnızca o yetenekle geçilir ve yakında kaynak olmayabilir: oyuncu çıkmaza girer. İlk oynanış kaydında Balon Kanyonu'nda tam bu oldu (kontrol noktasının yanındaki düşman Balon'u aldı, Altın Vida çıkıntısından dönüş rüzgârı Balon istiyordu, üç düşüş ve "Pil bitti").
+
+Kural: **kontrol noktası, Bip yeteneksizse o alanda en son taşıdığı yeteneği geri verir.** Yeniden doğarken de kayıtlı yetenek boşsa son taşınan yetenek verilir. Yani oyuncu en kötü ihtimalle son kontrol noktasına dönerek yeteneğini geri alır. Kod: `area.gd` (`_last_ability`, `_restore_ability`, `respawn`). Test: `tests/gameover_test.tscn`.
+
+Yerleştirme kuralı (yeni): dönüşü bir yetenek isteyen gizli köşenin üstünde o yeteneğin kaynağı bulunur.

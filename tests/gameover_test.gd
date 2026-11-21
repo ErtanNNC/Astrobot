@@ -24,6 +24,23 @@ func _ready() -> void:
 	await step(30)
 	var bip = level.get_node("GameRig/Bip")
 
+	# 0) Yetenek güvencesi: hasarla giden yeteneği kontrol noktası geri verir; yeniden doğarken de geri gelir
+	GameState.set_ability("yay")
+	await step(2)
+	GameState.set_ability("")                       # hasar yeteneği aldı
+	var cps: Array = level.find_children("Checkpoint*", "", true, false)
+	var cp_b = cps[cps.size() - 1]
+	cp_b._light_up(false)
+	level.on_checkpoint(cp_b)
+	check("kontrol noktası kaybedilen yeteneği geri verdi", GameState.ability == "yay", GameState.ability)
+	GameState.set_ability("")
+	GameState.data["checkpoint_ability"] = ""
+	level.respawn(false)
+	await step(40)
+	check("yeniden doğunca yetenek geri geldi", GameState.ability == "yay", GameState.ability)
+	GameState.set_ability("")
+	level._last_ability = ""
+
 	# 1) Kolay mod: son canla düşmek kaybettirmez
 	Settings.easy_mode = true
 	GameState.lives = 1

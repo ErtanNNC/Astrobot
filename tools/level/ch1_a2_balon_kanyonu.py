@@ -63,7 +63,8 @@ for side in (-1, 1):
             L.deco("k_tree" if k % 2 else "k_pine", side * (27 + off + k), h_top + 0.3, z0 - 8 - k * 14, 1.0 + 0.2 * k)
     # duvar diplerinde kaya yığınları
     for z in range(10, -180, -22):
-        L.kenney("rocks", side * (17.5 + random.uniform(0, 2)), FLOOR + 1.0, z + random.uniform(-4, 4), random.uniform(0, 6.28), 4.0)
+        L.kenney("rocks", side * (17.5 + random.uniform(0, 2)), FLOOR + 1.0, z + random.uniform(-4, 4), random.uniform(0, 6.28), 4.0, solid=False)
+        # (çarpışmasız: yoldan düşen oyuncu kanyon dibindeki kayaların üstünde mahsur kalmasın)
 
 # =====================================================================================
 # 0 · KANYON AĞZI (başlangıç)                                       x[-7,7] z[8,-4]
@@ -88,6 +89,7 @@ L.battery_arc((-7.5, 20, 3.5), (-13, 14, 3.5), 4, 1.5)
 mesa(-14, 13, 1, 5, 6, theme="canyon")                   # x[-16.5,-11.5] z[-2,4]
 L.battery_ring((-14, 13, 1), 1.5, 8)
 L.ent("crate", -15, 13, 3, batteries=5)
+L.ent("copy", -15.4, 13, 0.2, ability="balon")             # dönüş rüzgârı Balon ister: kaynağı balkonda
 wind(-9.3, 1, 24, w=2.6, force=14)                         # balkon ile başlangıç kayası arasında
 L.battery_line((-9.3, 16, 1), (-9.3, 22, 1), 3)
 L.kit("flag_C_blue", -15.8, 13, -1.2)
@@ -101,7 +103,7 @@ scatter(1, 19, -11, 8, 6, 3)
 mesa(5, 17, -25, 10, 8)                                   # M2 x[0,10] z[-21,-29]
 L.battery_arc((3, 19, -14.5), (5, 17, -20.5), 5, 2.2)
 L.ent("checkpoint", 8.5, 17, -22.5, checkpoint_id="kanyon1", ry=PI)
-L.ent("enemy", 3, 17, -26, kind="zipzip", batteries=2)
+L.ent("enemy", 7.6, 17, -27.4, kind="zipzip", batteries=2)   # iniş noktasından (5,-21) ve kontrol noktasından uzakta
 L.ent("crate", 1.5, 17, -28, batteries=2)
 scatter(5, 17, -25, 10, 8, 4)
 L.battery_ring((5, 17, -25), 2.2, 6)
@@ -127,6 +129,7 @@ scatter(-3, 14, -73, 12, 8, 4)
 # --- Gizli köşe 2: doğu dibindeki Altın Vida çıkıntısı (dönüş rüzgârla) ---
 mesa(14, 7, -51, 4, 4, theme="yellow")                    # x[12,16] z[-49,-53]
 L.ent("screw", 14, 7.2, -51.5)
+L.ent("copy", 15.2, 7, -52.2, ability="balon")             # dönüş rüzgârı Balon ister: kaynağı çıkıntının üstünde
 L.kit("star_yellow", 14, 10, -51.5, s=1.2)
 wind(14, -46, 21, w=3.0, force=14)                         # z[-44.5,-47.5]: tepeden batıya süzül → M3
 L.battery_line((14, 9, -46), (14, 16, -46), 3)

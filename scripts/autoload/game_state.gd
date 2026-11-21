@@ -85,7 +85,7 @@ const HATS := [
 ## Hedef süre (s): altında bitiren üçüncü yıldızı alır. Yol uzunluğundan hesaplandı (25 + 0,8 × metre), telefonda
 ## oynanarak ayarlanmalı [ASSUMPTION]. Patron alanları 180.
 const AREA_PAR := {
-	"ch1_atolye": 110, "ch1_yay": 180, "ch1_balon": 185, "ch1_miknatis": 170, "ch1_kaya": 160,
+	"ch1_atolye": 110, "ch1_yay": 180, "ch1_balon": 120, "ch1_miknatis": 170, "ch1_kaya": 160,
 	"ch2_rihtim": 125, "ch2_fener": 150, "ch2_gemi": 135,
 	"ch3_magara": 110, "ch3_gol": 135, "ch3_zirve": 180,
 	"ch4_bulut": 140, "ch4_kopru": 140, "ch4_kale": 130,

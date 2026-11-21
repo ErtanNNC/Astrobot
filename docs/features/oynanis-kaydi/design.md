@@ -32,3 +32,18 @@ olarak yazılmalı; kalmayacaksa iki düğme `Settings.dev_mode()` arkasına al�
 
 ## Testler
 `tests/replay_test.tscn`: tur yazılır, dışa aktarılır, geri çözülür, silinir.
+
+## Kayıt günlüğü
+### 1. kayıt — 2026-11-22, sürüm 0.4.122, SM-S948B (3120×1440), kalite Orta, gölge açık, 4 tur
+| Alan | Sonuç | Süre | Düşme | Hasar | Pil | Kare hızı (en düşük/ortalama) |
+|---|---|---|---|---|---|---|
+| Uyanış Atölyesi | bitti, 3 yıldız | 82 sn | 0 | 0 | 60/61 | 55/59 |
+| Yay Bahçesi | bitti, 3 yıldız | 160 sn | 0 | 2 | 161/175 | 59/59 |
+| Balon Kanyonu (1) | **Pil bitti** | 89 sn | 4 | 1 | | 59/59 |
+| Balon Kanyonu (2) | bitti, 2 yıldız | 92 sn | 2 | 1 | 96/127 | 59/59 |
+
+Bulgular ve yapılanlar:
+- Balon Kanyonu'nda üç düşüş aynı yerde (Altın Vida çıkıntısı, x≈14 z≈-47) ve iki turda da aynı noktada (M2, kontrol noktasının yanı) yetenek kaybı: yeteneksiz kalınca çıkıntıdan dönülemiyor → **yetenek güvencesi** kuralı eklendi (`docs/features/kopyalama/design.md`), çıkıntıya ve Kayıp Balkon'a Balon kaynağı kondu, M2'deki Zıpzıp iniş noktasından uzaklaştırıldı.
+- Düşen oyuncu kanyon dibindeki kaya yığınlarının üstünde kalabiliyordu (yeni süs çarpışması yüzünden; "en son zemin" yükseklikleri 2,4 ve -1,2) → o kayalar çarpışmasız yapıldı.
+- Balon Kanyonu hedef süresi 185 sn çok boldu (ilk temiz tur 92 sn) → 120 sn. Atölye (82/110) ve Yay Bahçesi (160/180) yerinde.
+- Kare hızı bu telefonda sorun değil (üst sınıf cihaz); zayıf cihaz verisi yok.

@@ -266,9 +266,9 @@ class Level:
             self.box(cx, b - 1.5, cz, sx * 0.75, 3.0, sz * 0.75, "grass")
             self.box(cx, b - 3.8, cz, sx * 0.45, 1.6, sz * 0.45, "grass")
 
-    def kenney(self, model, x, y, z, ry=0.0, s=2.4):
-        """Kenney Platformer Kit süsü (çarpışmasız, MultiMesh), ör. kenney("fence-straight", 1, 0, 2)."""
-        self.kit_items.append((KENNEY_DIR + model + ".glb", tf(x, y, z, 0, ry, s)))
+    def kenney(self, model, x, y, z, ry=0.0, s=2.4, solid=True):
+        """Kenney Platformer Kit süsü (MultiMesh), ör. kenney("fence-straight", 1, 0, 2). solid=False: çarpışmasız."""
+        self.kit_items.append((KENNEY_DIR + model + ".glb" + ("" if solid else "#nosolid"), tf(x, y, z, 0, ry, s)))
 
     def kit(self, model, x, y, z, ry=0.0, s=1.0):
         """KayKit süsü (çarpışmasız), ör. kit("cone_red", 2, 0, 3)."""
