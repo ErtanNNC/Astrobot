@@ -21,6 +21,7 @@ var sfx_vol := 1.0
 var quality := 2              ## 0 Düşük, 1 Orta, 2 Yüksek (3B çözünürlük ölçeği)
 var shadows_on := true
 var skin := "klasik"          ## Bip'in kostümü (GameState.SKINS)
+var show_fps := false         ## ekranda kare hızı (performans testi için)
 var dev_all_areas := false    ## test: Alan Seç'te bütün alanlar açık (mağaza sürümünden önce kaldırılacak)
 
 
@@ -97,6 +98,7 @@ func load_settings() -> void:
 	shadows_on = cfg.get_value("graphics", "shadows_on", shadows_on)
 	skin = cfg.get_value("player", "skin", skin)
 	dev_all_areas = cfg.get_value("dev", "all_areas", dev_all_areas)
+	show_fps = cfg.get_value("graphics", "show_fps", show_fps)
 
 
 func save_settings() -> void:
@@ -116,6 +118,7 @@ func save_settings() -> void:
 	cfg.set_value("graphics", "shadows_on", shadows_on)
 	cfg.set_value("player", "skin", skin)
 	cfg.set_value("dev", "all_areas", dev_all_areas)
+	cfg.set_value("graphics", "show_fps", show_fps)
 	# Güvenli yazma: önce geçici dosya, sonra yerine koy (kayıt dokümanı kural 7).
 	var tmp := PATH + ".tmp"
 	if cfg.save(tmp) == OK:

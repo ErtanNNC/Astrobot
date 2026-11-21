@@ -131,7 +131,38 @@ func banner(text: String, sub := "", hold := 2.0) -> void:
 		tw.chain().tween_property(l, "modulate:a", 0.0, 0.5)
 
 
+var _fps: Label
+var _fps_t := 0.0
+var _fps_min := 999.0
+
+
+## Kare hızı göstergesi (Ayarlar → "Kare hızını göster"): anlık FPS ve son yarım saniyenin en düşüğü.
+func _update_fps(delta: float) -> void:
+	if not Settings.show_fps:
+		if _fps:
+			_fps.visible = false
+		return
+	if _fps == null:
+		_fps = Label.new()
+		_fps.add_theme_font_size_override("font_size", 20)
+		_fps.add_theme_color_override("font_color", Color.WHITE)
+		_fps.add_theme_color_override("font_outline_color", Color.BLACK)
+		_fps.add_theme_constant_override("outline_size", 6)
+		_fps.set_anchors_preset(Control.PRESET_CENTER_TOP)
+		_fps.position.y = 6
+		_fps.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_fps)
+	_fps.visible = true
+	_fps_min = minf(_fps_min, 1.0 / maxf(delta, 0.0001))
+	_fps_t += delta
+	if _fps_t >= 0.5:
+		_fps.text = "%d FPS (en düşük %d)" % [Engine.get_frames_per_second(), int(_fps_min)]
+		_fps_t = 0.0
+		_fps_min = 999.0
+
+
 func _process(delta: float) -> void:
+	_update_fps(delta)
 	_t += delta
 	_save_t = maxf(_save_t - delta, 0.0)
 	_heart_pop = maxf(_heart_pop - delta * 3.0, 0.0)

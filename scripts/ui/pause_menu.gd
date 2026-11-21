@@ -65,6 +65,7 @@ func _ready() -> void:
 	_row("shake_on", "Ekran sarsıntısı")
 	_row("quality", "Görüntü kalitesi")
 	_row("shadows_on", "Gölgeler")
+	_row("show_fps", "Kare hızını göster")
 	_row("dev_all_areas", "Tüm alanlar açık (test)")
 	_slider("master_vol", "Genel ses")
 	_slider("music_vol", "Müzik")

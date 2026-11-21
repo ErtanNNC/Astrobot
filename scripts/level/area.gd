@@ -73,6 +73,7 @@ func _ready() -> void:
 	_count_batteries.call_deferred()
 	_move_props_to_layer2.call_deferred()
 	_spawn_lost_robots.call_deferred()
+	_optimize_rendering.call_deferred()
 	if has_node("Decor"):
 		var react := preload("res://scripts/level/decor_react.gd").new()
 		react.name = "DecorReact"
@@ -501,3 +502,24 @@ func _make_goal_marker() -> Node3D:
 	root.scale = Vector3.ONE * 1.5
 	add_child(root)
 	return root
+
+
+## Telefon performansı: uzaktaki küçük nesneler çizilmez, küçük süsler ve bulutlar gölge düşürmez.
+## Büyük nesneler (yer işaretleri, patronlar, platformlar) her mesafeden görünür kalır.
+func _optimize_rendering() -> void:
+	for group_name in ["Entities", "Decor", "Batteries", "Clouds"]:
+		var g := get_node_or_null(group_name)
+		if g == null:
+			continue
+		for n in g.find_children("*", "GeometryInstance3D", true, false):
+			var gi := n as GeometryInstance3D
+			if group_name == "Clouds":
+				gi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				continue
+			var size := gi.get_aabb().size * gi.global_transform.basis.get_scale()
+			var big := maxf(size.x, maxf(size.y, size.z))
+			if big < 1.3:
+				gi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			if big < 5.0:
+				gi.visibility_range_end = 50.0 if group_name == "Batteries" else (60.0 if big < 2.0 else 85.0)
+				gi.visibility_range_end_margin = 4.0

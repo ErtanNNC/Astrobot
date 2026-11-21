@@ -37,6 +37,7 @@ var _t := 0.0
 
 
 # ---------- Yeni Bip modeli (Pixabay sarı robot + Mixamo animasyonları) ----------
+const LITE_MESH := "res://assets/models/pixabay/bip/bip_mesh_lite.res"   ## ~12 bin üçgen
 const NEW_BIP := true                        ## false: eski Quaternius robotu
 const NEW_DIR := "res://assets/models/pixabay/bip/"
 const NEW_SCALE := 120.0                     ## Mixamo santim ölçeğinde verdi: 120× → ~1,2 m (antenlerle)
@@ -81,6 +82,9 @@ func _swap_model() -> void:
 	_new = true
 	for mi in nm.find_children("*", "MeshInstance3D", true, false):
 		(mi as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		# 49 bin üçgenli (148 bin köşeli) model yerine hafif kopya: tests/make_bip_lod.gd üretir
+		if ResourceLoader.exists(LITE_MESH):
+			(mi as MeshInstance3D).mesh = load(LITE_MESH)
 
 
 func _ready() -> void:
