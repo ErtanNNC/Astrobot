@@ -75,3 +75,4 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 - 2026-11-21: bölüm ve ilk alan (Oyuncak Kasabası) eklendi; ikinci alan Yıldız Gözlemevi, üçüncü alan Volkan Adası, dördüncü alan Şampiyon Yolu eklendi.
 - 2026-11-21: Final bittikten sonra Atölye'ye ilk dönüşte bir kez "Gizli Adalar açıldı!" duyurusu (`hub.gd _announce_bonus`, `seen_cutscenes` "bonus_intro").
 - 2026-11-21: Volkan Adası köşeli yola çevrildi (`L.turns`, üç dönüş: nehir, bazalt ve zincir platformları).
+- 2026-11-22: lav yüzeyi akan kabuklu gölgelendiriciyle çiziliyor (`assets/shaders/lava.gdshader`); alana vay anları eklendi (manzara + volkan patlaması).

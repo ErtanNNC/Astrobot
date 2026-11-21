@@ -19,16 +19,16 @@ func _ready() -> void:
 	plane.subdivide_width = int(size.x)
 	plane.subdivide_depth = int(size.z)
 	var mat := ShaderMaterial.new()
-	mat.shader = load("res://assets/shaders/water.gdshader")
-	mat.set_shader_parameter("wave_height", 0.06)
-	if lava:
-		mat.set_shader_parameter("deep", Color(0.85, 0.18, 0.04))
-		mat.set_shader_parameter("shallow", Color(1.0, 0.62, 0.12))
+	mat.shader = load("res://assets/shaders/lava.gdshader" if lava else "res://assets/shaders/water.gdshader")
+	if not lava:
+		mat.set_shader_parameter("wave_height", 0.06)
 	var mi := MeshInstance3D.new()
 	mi.mesh = plane
 	mi.material_override = mat
 	add_child(mi)
-	mi.visible = not lava          # lavda yalnızca parlayan çekirdek görünür
+	if lava:
+		mi.position.y = 0.03       # akan kabuklu yüzey, parlayan çekirdeğin hemen üstünde
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	# Su içi hacmi (yarı saydam)
 	var vol := BoxMesh.new()
 	vol.size = Vector3(size.x - 0.02, size.y, size.z - 0.02)
