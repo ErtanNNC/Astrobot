@@ -91,7 +91,7 @@ Yay Bahçesi yöntemiyle baştan yapıldı. Üretici: `tools/level/ch1_a2_balon_
 **Test:** `tests/ch1_areas_test.tscn` (buton, çatlak zemin, rampa, su altı, son parkur, iki yeni gizli köşe).
 
 ## Gizli köşe anı (2026-11-21)
-Her alanın gizli köşesinde görünmez bir tetikleyici var (`L.secret(id, ...)`, `area.gd secret_found`). Bip oraya ilk kez girince özel müzik (Sfx "secret"), titreşim ve **"Gizli köşe!"** afişi; kayıtta `secrets` listesine yazılır, Atölye Koleksiyon'unda "Gizli Köşe X / 28" görünür. Yeni gizli köşe eklenince `GameState.SECRET_TOTAL` güncellenir.
+Her alanın gizli köşesinde görünmez bir tetikleyici var (`L.secret(id, ...)`, `area.gd secret_found`). Bip oraya ilk kez girince özel müzik (Sfx "secret"), titreşim ve **"Gizli köşe!"** afişi; kayıtta `secrets` listesine yazılır, Atölye Koleksiyon'unda "Gizli Köşe X / 29" görünür. Yeni gizli köşe eklenince `GameState.SECRET_TOTAL` güncellenir.
 
 ## Rules
 1. Kontrol noktaları 60–90 saniyede bir ve her alan geçişinde; her biri otomatik kaydeder ([kayıt](../kayit/design.md)).

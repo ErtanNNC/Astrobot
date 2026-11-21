@@ -48,3 +48,4 @@ Kar zeminlerinin yan kenarlarına otomatik süs (`lvl.py` `_edge_dress`): kar y�
 Donmuş Göl: çevrede çam ormanlı karlı tepeler, göllerde buz parçaları, kıyıda ren geyiği, kızak, kardan adam, fenerler; yön işareti uzak kıyıda **dev süslü çam** ve hediyeler. Yeni gizli köşeler: göl 2'deki rüzgârın tepesinden doğudaki **buz sütunu** (Balon; rüzgâr gücü 9 → 14, eskisi süzülen Bip'i kaldıramıyordu) ve başlangıç kıyısının batısındaki **kar çukuru**. Test: `tests/ch3_test.tscn`.
 Kar Zirvesi: yağan kar (`prop` kind=snow), teleferik halatı ve asılı kırmızı kabin, etekte çam ormanı; zirvede zencefilli kulübe, fenerler, kardan adam, yıldız (yön işareti).
 - **Patron arenası (2026-11-21):** çevresine temaya uygun manzara eklendi (çarpışmasız süsler; oynanış değişmedi).
+Buz Mağarası (2026-11-21): yeni gizli köşe — havuz 2'deki kristal adacık (Buz ile suyun üstünde yürü, zıpla; 10 pil + sandık).

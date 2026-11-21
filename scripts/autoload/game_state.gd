@@ -64,7 +64,7 @@ const SKINS := [
 ]
 
 ## Gizli köşe tetikleyicisi sayısı (tools/level/*.py içindeki L.secret çağrıları; yeni ekleyince güncelle)
-const SECRET_TOTAL := 28
+const SECRET_TOTAL := 29
 
 const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi", 4: "Fırtınanın Gözü", 5: "Gizli Adalar"}
 

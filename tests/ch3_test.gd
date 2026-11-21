@@ -118,6 +118,16 @@ func _area1() -> void:
 	Input.action_release("move_forward")
 	await step(15)
 	check("Mağara: buz kütlesinden çıkıntıya çıkıldı", absf(bip.global_position.y - 5.35) < 0.2, "kütle %.2f → %s" % [y_block, bip.global_position])
+	# Gizli kristal adacık: havuz 2'de Buz ile yürü, sağa zıpla
+	await place(Vector3(0, 5.6, -51), PI / 2, "buz")
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.global_position.x > 1.6, 120)
+	await tap("jump", 12)
+	await run_until(func(): return bip.global_position.x > 3.6, 60)
+	Input.action_release("move_forward")
+	await run_until(func(): return bip.is_on_floor(), 90)
+	await step(10)
+	check("Mağara: gizli kristal adacık", bip.global_position.y > 6.0 and bip.global_position.x > 2.8, str(bip.global_position))
 
 
 # ---------------------------------------------------------------- Donmuş Göl

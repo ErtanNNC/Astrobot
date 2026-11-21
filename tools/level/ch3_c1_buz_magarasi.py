@@ -92,4 +92,11 @@ L.model(H + "sled.glb", -4.0, 0, 1.0, 0.8, 1.8)
 L.model("kaykit/holiday/snowball_pile.gltf", 4.6, 13.9, -95.5, 0, 2.2)
 L.model("kaykit/holiday/lantern_decorated.gltf", -4.6, 13.9, -91, 0, 2.0)
 
+
+# --- Gizli köşe (2026-11-21): havuz 2'deki kristal adacık (Buz ile suyun üstünde yürü, zıpla) ---
+L.top(4.0, 6.2, -51, 2.4, 2.4, depth=4, theme="ice")
+L.ent("crate", 4.4, 6.2, -51.5, batteries=5)
+L.battery_ring((3.8, 6.2, -50.8), 0.8, 5)
+L.deco("gem", 3.4, 6.2, -50.2, 1.6); L.deco("gem_pink", 4.8, 6.2, -50.4, 1.4)
+L.secret("kristal", 4.0, 6.2, -51, 2.4, 2.4)
 L.write()
