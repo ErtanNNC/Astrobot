@@ -20,6 +20,7 @@ THEMES = {
     "blue": ((0.45,0.70,1.00),(0.40,0.64,0.95),(0.35,0.55,0.85),(0.30,0.48,0.78)),
     "snow": ((0.95,0.97,1.00),(0.88,0.92,0.98),(0.62,0.70,0.82),(0.54,0.62,0.75)),
     "ice": ((0.72,0.90,1.00),(0.65,0.85,0.98),(0.50,0.72,0.90),(0.44,0.64,0.84)),
+    "castle": ((0.80,0.80,0.84),(0.74,0.74,0.79),(0.70,0.70,0.76),(0.62,0.62,0.68)),
     "green": ((0.45,0.85,0.45),(0.40,0.80,0.40),(0.35,0.70,0.35),(0.30,0.62,0.30)),
     "red": ((0.95,0.45,0.40),(0.90,0.40,0.36),(0.80,0.35,0.30),(0.72,0.30,0.26)),
     "cloud": ((0.98,0.97,1.00),(0.92,0.90,0.98),(0.82,0.78,0.95),(0.74,0.70,0.90)),
@@ -33,7 +34,7 @@ THEMES = {
 TEX_DIR = "res://assets/textures/freegameassets/painterly/"
 THEME_TEX = {
     "grass": ("mossy-earth", "lush-meadow-grass"), "grass2": ("mossy-earth", "lush-meadow-grass"),
-    "sand": ("sandstone-block", "fine-beach-sand"), "strata": ("desert-cliff", "red-desert-dust"), "qstrata": ("cracked-cliff-face", "brown-crushed-rock"), "canyon": ("desert-cliff", "red-desert-dust"),
+    "sand": ("sandstone-block", "fine-beach-sand"), "strata": ("desert-cliff", "red-desert-dust"), "qstrata": ("cracked-cliff-face", "brown-crushed-rock"), "castle": ("pale-limestone-blocks", "cracked-stone-ground"), "canyon": ("desert-cliff", "red-desert-dust"),
     "quarry": ("cracked-cliff-face", "brown-crushed-rock"), "stone": ("granite-rock", "cracked-stone-ground"),
     "kitside": ("pale-limestone-blocks", None), "wood": ("weathered-planks", "dock-boards"),
     "floor": ("dock-boards", "dock-boards"), "factory": ("rivet-metal", "rivet-metal"),
@@ -44,7 +45,7 @@ THEME_TEX = {
 STRATA = {"strata": None, "qstrata": ((0.78,0.74,0.68),(0.92,0.80,0.58),(0.62,0.56,0.50),(0.85,0.70,0.52))}
 
 # Koyu dokuları aydınlat (tema → çarpan)
-TEX_GAIN = {"factory": 1.75}
+TEX_GAIN = {"factory": 1.75, "castle": 1.45}
 
 # KayKit Platformer Pack (CC0, Kay Lousberg): yürünen zeminlerin üstü bu renkli karolarla kaplanır.
 # Tema → karo rengi. Listede olmayan temalar (kar, bulut, ahşap, iç mekân) eski görünümünde kalır.

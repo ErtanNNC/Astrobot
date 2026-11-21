@@ -11,12 +11,12 @@ L = Level("ch4_kale", "Kıvılcım Kalesi", "scenes/chapter4/d2_kivilcim_kalesi.
           kill_height=-8, water=None, seed=42)
 
 
-def wall(x0, x1, z0, z1, top, bottom, theme="stone"):
+def wall(x0, x1, z0, z1, top, bottom, theme="castle"):
     L.box((x0 + x1) / 2, (top + bottom) / 2, (z0 + z1) / 2, abs(x1 - x0), top - bottom, abs(z1 - z0), theme)
 
 
 # ---------- Avlu ve metal sur (Mıknatıs) ----------
-L.top(0, 0, 0, 16, 18, depth=3, theme="factory")                # x[-8,8] z[9,-9]
+L.top(0, 0, 0, 16, 18, depth=3, theme="castle")                # x[-8,8] z[9,-9]
 L.start(0, 0.1, 6, ry=PI)
 L.ent("copy", 0, 0, -3, ability="miknatis")
 L.ent("hint", 0, 0, -5, hint="ability", size=(8, 3, 5))
@@ -30,7 +30,7 @@ L.guide(0, 3, -7)
 L.top(0, 6.0, -10.5, 16, 3, depth=0.5, theme="stone")
 
 # ---------- İç avlu: testereler ve dikenler ----------
-L.top(0, 2.0, -21, 16, 18, depth=5, theme="factory")             # x[-8,8] z[-12,-30]
+L.top(0, 2.0, -21, 16, 18, depth=5, theme="castle")             # x[-8,8] z[-12,-30]
 L.ent("checkpoint", -5.5, 2.0, -14, checkpoint_id="avlu", ry=PI)
 L.ent("hazard", -5, 2.0, -18, kind="saw", move=(10, 0, 0), period=3.5)
 L.ent("hazard", 4.5, 2.0, -21.5, kind="spikes", size=(6, 2))
@@ -43,7 +43,7 @@ L.ent("gate", 0, 2.0, -30, name="Kapi1", size=(16, 4, 0.6), open_offset=(0, -4.2
 L.guide(-5.5, 4, -27)
 
 # ---------- Salon: Buz ile Hurda Goblin merdiveni (3,2 m çıkıntı) ----------
-L.top(0, 2.0, -38, 16, 16, depth=5, theme="factory")             # z[-30,-46]
+L.top(0, 2.0, -38, 16, 16, depth=5, theme="castle")             # z[-30,-46]
 L.ent("copy", -5.5, 2.0, -33, ability="buz")
 L.ent("hint", -3, 2.0, -40, hint="ability", size=(10, 3, 6))
 for x in (-3.0, 2.5):
@@ -72,10 +72,10 @@ L.ent("copy", 2.0, 7.0, -73, ability="pervane")                   # 3) Pervane
 L.top(0, 13.0, -80, 6, 3, depth=3, theme="purple")               # P3 z[-78.5,-81.5] (6 m yukarı)
 L.ent("copy", 2.0, 13.0, -80, ability="miknatis")                 # 4) Mıknatıs
 L.ent("metal", 0, 12.5, -88, size=(2.4, 1.0, 2.4))                # yüzen metal blok (üstü 13)
-L.top(0, 13.0, -93.75, 6, 2.5, depth=0.6, theme="factory")       # P4 ön z[-92.5,-95] (blok sonrası 3,3 m)
+L.top(0, 13.0, -93.75, 6, 2.5, depth=0.6, theme="castle")       # P4 ön z[-92.5,-95] (blok sonrası 3,3 m)
 for sx in (-1, 1):
-    L.top(sx * 2.25, 13.0, -96.5, 1.5, 3, depth=0.6, theme="factory")   # çatlağın yanları
-L.top(0, 13.0, -98.25, 6, 0.5, depth=0.6, theme="factory")       # arka kenar
+    L.top(sx * 2.25, 13.0, -96.5, 1.5, 3, depth=0.6, theme="castle")   # çatlağın yanları
+L.top(0, 13.0, -98.25, 6, 0.5, depth=0.6, theme="castle")       # arka kenar
 L.ent("copy", 2.2, 13.0, -93.5, ability="kaya")                   # 5) Kaya
 L.ent("cracked", 0, 12.75, -96.5, size=(3, 0.5, 3))               # P4'ün ortasında çatlak
 L.top(0, 9.0, -99, 6, 14, depth=1.0, theme="stone")              # alt oda z[-92,-106]
@@ -84,15 +84,28 @@ L.top(0, 7.0, -111.5, 6, 11, depth=1.0, theme="stone")           # havuz tabanı
 L.ent("water", 0, 9.0, -111.5, size=(6, 2, 11))
 for sx in (-1, 1):
     L.box(sx * 3.5, 8.0, -111.5, 1, 4, 11, "stone")
-L.top(0, 11.15, -120, 8, 6, depth=4.5, theme="factory")          # varış z[-117,-123] (suyun 2,15 m üstü)
+L.top(0, 11.15, -120, 8, 6, depth=4.5, theme="castle")          # varış z[-117,-123] (suyun 2,15 m üstü)
 L.ent("checkpoint", -3, 11.15, -118.5, checkpoint_id="final", ry=PI)
 L.ent("exit", 0, 11.15, -121)
 L.battery_line((0, 9.2, -108), (0, 9.2, -116), 4)
 
 # Süs: kale kuleleri, fırtına
 for x, z in ((-11, 6), (11, 6), (-11, -20), (-11, -45)):
-    L.top(x, 10, z, 3, 3, depth=13, theme="stone")
+    L.top(x, 10, z, 3, 3, depth=13, theme="castle")
     L.deco("flag", x, 10, z, 1.0)
+# --- Gizli köşe: avludaki köşe kulesinin yüzündeki metal levhalarla tepeye (Mıknatıs) ---
+L.ent("copy", -6.0, 2.0, -16.5, ability="miknatis")
+L.ent("metal", -9.1, 5.5, -20, size=(0.8, 1.6, 2.0))
+L.ent("metal", -9.1, 8.5, -20, size=(0.8, 1.6, 2.0))
+L.ent("crate", -11.4, 10, -20.6, batteries=5)
+L.battery_ring((-11, 10, -20), 0.9, 5)
+# Meşaleler (fener) ve sancaklar
+for (x, y, z) in ((-7.2, 0, 8), (7.2, 0, 8), (-7.2, 2.0, -29), (7.2, 2.0, -29), (-7.2, 5.2, -51), (7.2, 5.2, -51), (-3.4, 11.15, -122.4), (3.4, 11.15, -122.4)):
+    L.model("kenney/holiday/lantern.glb", x, y, z, 0, 1.8)
+for z in (-12.2, -30.4):
+    for x in (-5.5, 5.5):
+        L.box(x, 4.0 if z < -20 else 3.2, z + 0.35, 1.4, 2.4, 0.06, "red")
+
 L.ent("prop", -20, 30, -90, kind="storm", size=6.0)
 L.clouds(16, xr=(-90, 90), zr=(-200, 40), avoid=(-25, 25, -130, 20), low=(-14, -8), high=(25, 40))
 # Görsel yenileme (2026-11-21): kale surları, kuleler, bayraklar (KayKit Medieval, CC0; çarpışmasız süs)

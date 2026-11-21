@@ -306,12 +306,22 @@ func _d2() -> void:
 	await step(20)
 	Input.action_release("move_forward")
 	check("d2: Altın Vida kulesine Mıknatıs ile", stuck and bip.global_position.y > 8.8, str(bip.global_position))
+	# Gizli köşe: köşe kulesinin levhalarıyla tepeye
+	await place(Vector3(-7.4, 2.1, -20), -PI / 2, "miknatis")
+	for k in 2:
+		Input.action_press("ability"); await step(2); Input.action_release("ability")
+		await step(40)
+	Input.action_press("jump"); await step(3); Input.action_release("jump")
+	await step(90)
+	check("d2: gizli kule tepesine levhalarla", bip.global_position.y > 9.8, str(bip.global_position))
 
 
 var ok_ledge := false
 
 
 # ---------- Patron: Statik ----------
+
+
 func _d3() -> void:
 	var boss := level.find_child("Statik", true, false)
 	await place(Vector3(0, 0.1, 19), PI)
