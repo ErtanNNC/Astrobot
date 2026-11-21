@@ -137,3 +137,4 @@ Alanların çoğu dümdüz bir koridordu (emsal incelemesinin en sert eleştiril
 - **Patron arenası (2026-11-21):** çevresine temaya uygun manzara eklendi (çarpışmasız süsler; oynanış değişmedi).
 - 2026-11-21: Uyanış Atölyesi balkon manzarası artık adanın bütün bölümlerini uzakta gösterir (tepeler, kanyon mesaları, fabrika bacaları, fener adası, karlı dağ, bulut kalesi): oyuncu yolculuğun haritasını ilk anda görür.
 - 2026-11-22: Balon Kanyonu köşeli yola çevrildi (iki dönüş: M4 ve M6 kayaları; kanyon duvarı parçaları aynı yerlerden bölündü). Öğretici çıkış halkası yerine alanı bitiren topla sona eriyor.
+- 2026-11-22: öğreticinin başı: koridora 0,45 m'lik eşik (ilk zıplama oyunun ilk saniyelerinde) ve fırtınanın göründüğü pencere + zararsız yıldırım gösterisi eklendi.

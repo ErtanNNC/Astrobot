@@ -32,9 +32,18 @@ L.guide(0, 1.8, -5.5)
 
 # ---------- Koridor (kıvrılan, pil yolu) ----------
 wall(-2.0, -1.5, -6.0, -17.5, 3.0); wall(1.5, 2.0, -6.0, -13.5, 3.0)
-wall(1.5, 10.5, -13.5, -14.0, 3.0); wall(10.5, 11.0, -13.5, -26.0, 3.0)
+wall(1.5, 10.5, -13.5, -14.0, 3.0)
+# Doğu duvarı: ortasında büyük pencere (ilk 15 saniyede dışarıdaki fırtına görünür; erken "vay" anı)
+wall(10.5, 11.0, -13.5, -16.0, 3.0); wall(10.5, 11.0, -24.0, -26.0, 3.0)
+wall(10.5, 11.0, -16.0, -24.0, 0.9); wall(10.5, 11.0, -16.0, -24.0, 3.0, 2.5)
+for z in (-18.0, -20.0, -22.0):
+    L.box(10.75, 1.7, z, 0.12, 1.6, 0.12, "wood")                  # pencere çıtaları
 wall(-2.0, 6.5, -17.5, -18.0, 3.0); wall(6.5, 7.0, -17.5, -26.0, 3.0)
-L.battery_line((0, 0, -7), (0, 0, -13), 4)
+L.battery_line((0, 0, -7), (0, 0, -9), 2)
+# İlk zıplama oyunun 5. saniyesinde: koridoru boydan boya kesen alçak eşik (0,45 m; yürüyerek geçilmez)
+L.top(0, 0.45, -11, 3.0, 1.0, depth=0.45, theme="yellow")
+L.ent("hint", 0, 0, -9.3, hint="jump", size=(3, 3, 2.4))
+L.battery_arc((0, 0.2, -10), (0, 0.2, -12.2), 3, 1.2)
 L.battery_line((1.5, 0, -15.75), (7, 0, -15.75), 3)
 L.battery_line((8.75, 0, -18.5), (8.75, 0, -24), 3)
 L.ent("prop", 0, 2.6, -11, kind="lamp", size=0.8)
@@ -173,5 +182,6 @@ L.model(FU + "rug_rectangle_stripes_A", 9, 8.51, -81.5, 0, 1.4)
 L.model(FU + "cactus_small_B", 17.2, 8.5, -74.6)
 
 # "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
+L.setpiece("lightning", 8.75, 0, -17.5, (34, -6, -21), size=(3.5, 3, 2), big=1.2)      # pencereden görünen fırtına
 L.setpiece("fireworks", 5.5, 8.5, -91.5, (7.5, 12, -96), size=(6, 4, 4), big=0.5)
 L.write()

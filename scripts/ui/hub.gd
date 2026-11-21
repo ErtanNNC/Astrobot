@@ -442,7 +442,7 @@ func _open_slot(i: int) -> void:
 func _open_area_select(i: int, ch := 0) -> void:
 	var d := GameState.slot_summary(i)
 	var furthest := GameState.global_index(d.get("furthest", d.get("area", "ch1_atolye")))
-	var v := _new_overlay(620)
+	var v := _new_overlay(620 if ch == 0 else 820)
 	if ch == 0:
 		UIKit.title(v, "Alan Seç")
 		for c in GameState.CHAPTERS:
@@ -452,17 +452,86 @@ func _open_area_select(i: int, ch := 0) -> void:
 			b.disabled = not open
 	else:
 		UIKit.title(v, tr("Bölüm %d · %s") % [ch, tr(GameState.CHAPTER_NAMES[ch])], 32)
-		for a in GameState.CHAPTERS[ch]:
-			var id: String = a["id"]
-			var open := Settings.all_areas_open() or GameState.global_index(id) <= furthest
-			var txt: String = tr(a["name"]) if open else tr(a["name"]) + tr(" (kilitli)")
-			var best: Dictionary = d.get("best", {}).get(id, {})
-			var b := UIKit.button(v, txt, func(): _play_area(i, id))
-			if open and not best.is_empty():
-				_area_badge(b, int(best.get("stars", 0)), float(best.get("time", 0.0)))
-			b.disabled = not open
+		_area_map(v, i, ch, d, furthest)
 	UIKit.button(v, "Geri", func(): _open_area_select(i) if ch != 0 else _open_slot(i))
 	_focus_first(v)
+
+
+## Alan haritası: bölümün alanları kıvrılan bir yol üstünde yuvarlak duraklar olarak dizilir. Her durağın altında adı,
+## üç yıldızı ve rekor süresi; kilitli duraklar soluk. Dokununca alan açılır. (docs/features/ana-menu/design.md)
+func _area_map(v: Node, slot_i: int, ch: int, d: Dictionary, furthest: int) -> void:
+	var areas: Array = GameState.CHAPTERS[ch]
+	var n := areas.size()
+	var w := 760.0
+	var h := 350.0
+	var map := Control.new()
+	map.custom_minimum_size = Vector2(w, h)
+	v.add_child(map)
+	var pts: Array[Vector2] = []
+	for k in n:
+		var x := 70.0 + (w - 140.0) * (k / float(maxi(n - 1, 1)))
+		pts.append(Vector2(x, 92.0 if k % 2 == 0 else 212.0))
+	var line := Line2D.new()
+	line.width = 12.0
+	line.default_color = Color(0.85, 0.7, 0.45)
+	line.joint_mode = Line2D.LINE_JOINT_ROUND
+	line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	line.end_cap_mode = Line2D.LINE_CAP_ROUND
+	for k in n:
+		line.add_point(pts[k])
+	map.add_child(line)
+	var star: Texture2D = load("res://assets/ui/kenney/icons/star.png")
+	for k in n:
+		var a: Dictionary = areas[k]
+		var id: String = a["id"]
+		var open := Settings.all_areas_open() or GameState.global_index(id) <= furthest
+		var boss := id.ends_with("patron")
+		var b := Button.new()
+		b.text = "!" if boss else str(k + 1)
+		b.add_theme_font_size_override("font_size", 30)
+		var r := 92.0 if boss else 82.0
+		b.custom_minimum_size = Vector2(r, r)
+		b.size = Vector2(r, r)
+		b.position = pts[k] - Vector2(r, r) / 2.0
+		UIKit.style_button(b, UIKit.RED if boss else (UIKit.GREEN if not d.get("best", {}).get(id, {}).is_empty() else UIKit.BLUE), true)
+		b.disabled = not open
+		b.tooltip_text = tr(a["name"])
+		b.pressed.connect(func(): Sfx.play("click", -4.0))
+		b.pressed.connect(func(): _play_area(slot_i, id))
+		map.add_child(b)
+		var name_l := Label.new()
+		name_l.text = tr(a["name"])
+		name_l.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		name_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		name_l.add_theme_font_size_override("font_size", 17)
+		name_l.add_theme_color_override("font_color", Color(0.3, 0.2, 0.12) if open else Color(0.3, 0.2, 0.12, 0.45))
+		name_l.size = Vector2(150, 44)
+		name_l.position = pts[k] + Vector2(-75, r / 2.0 + 2.0)
+		name_l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		map.add_child(name_l)
+		var best: Dictionary = d.get("best", {}).get(id, {})
+		if open:
+			for sidx in 3:
+				var st := TextureRect.new()
+				st.texture = star
+				st.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				st.size = Vector2(22, 22)
+				st.position = pts[k] + Vector2(-35 + sidx * 24, -r / 2.0 - 26.0)
+				st.modulate = Color(1.0, 0.8, 0.15) if sidx < int(best.get("stars", 0)) else Color(0.3, 0.2, 0.12, 0.25)
+				st.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				map.add_child(st)
+		if not best.is_empty():
+			var tl := Label.new()
+			tl.text = GameState.time_text(float(best.get("time", 0.0)))
+			tl.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+			tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			tl.add_theme_font_size_override("font_size", 15)
+			tl.add_theme_color_override("font_color", Color(0.45, 0.3, 0.15))
+			tl.size = Vector2(150, 20)
+			tl.position = pts[k] + Vector2(-75, r / 2.0 + 44.0)
+			tl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			map.add_child(tl)
 
 
 ## Alan düğmesinin sağ ucunda: üç yıldız simgesi (kazanılanlar altın) ve rekor süre.

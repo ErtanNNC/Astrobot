@@ -37,6 +37,18 @@ func _ready() -> void:
 	base.height = 0.25
 	base.radial_segments = 20
 	add_child(AbilityModels.mesh_node(base, AbilityModels.mat(Color(0.7, 0.4, 0.95) if secret else Color(0.95, 0.75, 0.2), 0.4, 0.6), Vector3(0, 0.12, 0)))
+	if secret:
+		# Renk körleri için: mor kaidenin yanında bir de "?" işareti (bilgi yalnızca renkle verilmesin)
+		var q := Label3D.new()
+		q.text = "?"
+		q.font_size = 160
+		q.outline_size = 30
+		q.modulate = Color(1, 1, 1)
+		q.outline_modulate = Color(0.35, 0.15, 0.55)
+		q.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		q.position.y = 3.6
+		q.no_depth_test = true
+		add_child(q)
 	_barrel = Node3D.new()
 	_barrel.position.y = 1.1
 	add_child(_barrel)

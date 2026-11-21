@@ -90,3 +90,7 @@ Oyun içinde Duraklat (telefon: sol üst düğme, PC: Esc). Seçenekler: Devam, 
 
 **Kolay mod (2026-11-22):** Ayarlar → "Kolay mod". Açıkken düşmek can götürmez ve her kontrol noktası canları doldurur. Yıldız ve rekorlar aynı sayılır (küçük oyuncular cezalandırılmasın). Kod: `Settings.easy_mode`, `area.gd` (`_fall`, `on_checkpoint`).
 **Rekor hayaleti:** Ayarlar'dan kapatılabilir (`docs/features/geri-donme/design.md`). **Başarımlar:** Koleksiyon → Başarımlar.
+**Büyük arayüz (2026-11-22):** Ayarlar → "Büyük arayüz". Bütün 2B arayüz (yazılar, butonlar, göstergeler, dokunmatik butonlar) %15 büyür (`Settings.ui_big`, pencerenin `content_scale_factor` değeri). 3B görüntü etkilenmez.
+**Renk körlüğü:** oyunda bilgi yalnızca renkle verilmez: tehlikeler şekil ve hareketle de ayrılır (dikenler, dolan uyarı diski), gizli topların üstünde "?" işareti vardır. Ayrı bir renk modu yok.
+**Alan haritası (2026-11-22):** Alan Seç'te bir bölüm seçilince liste yerine harita açılır: alanlar kıvrılan bir yol üstünde yuvarlak duraklardır (82 px; patron 92 px ve kırmızı, "!" işaretli). Bitirilen durak yeşil, açık ama bitirilmemiş mavi, kilitli soluk. Her durağın üstünde üç yıldız, altında adı ve rekor süresi. Kod: `hub._area_map`.
+

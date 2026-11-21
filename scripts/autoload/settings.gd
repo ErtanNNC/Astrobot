@@ -23,6 +23,7 @@ var shadows_on := true
 var skin := "klasik"          ## Bip'in kostümü (GameState.SKINS)
 var language := ""            ## "" = cihaz diline göre (Türkçe cihazda tr, diğerlerinde en), "tr", "en"
 var show_fps := false         ## ekranda kare hızı (performans testi için)
+var ui_big := false           ## büyük arayüz: yazılar, butonlar ve göstergeler %15 büyür
 var hat := "yok"              ## Bip'in şapkası (GameState.HATS)
 var easy_mode := false        ## kolay mod: düşünce can gitmez, her kontrol noktası canları doldurur
 var achievements: Array = []  ## kazanılan başarım kimlikleri (scripts/autoload/achievements.gd)
@@ -89,8 +90,12 @@ func set_value(key: String, value: Variant) -> void:
 const QUALITY_SCALES := [0.7, 0.85, 1.0]
 
 
+const UI_BIG_SCALE := 1.15
+
+
 func apply() -> void:
 	Haptics.enabled = vibration
+	get_tree().root.content_scale_factor = UI_BIG_SCALE if ui_big else 1.0
 	apply_graphics()
 	var m := AudioServer.get_bus_index("Music")
 	var s := AudioServer.get_bus_index("SFX")
@@ -149,6 +154,7 @@ func load_settings() -> void:
 	achievements = cfg.get_value("player", "achievements", achievements)
 	easy_mode = cfg.get_value("access", "easy_mode", easy_mode)
 	hat = cfg.get_value("player", "hat", hat)
+	ui_big = cfg.get_value("access", "ui_big", ui_big)
 	daily_day = cfg.get_value("daily", "day", daily_day)
 	daily_progress = cfg.get_value("daily", "progress", daily_progress)
 	daily_done = cfg.get_value("daily", "done", daily_done)
@@ -180,6 +186,7 @@ func save_settings() -> void:
 	cfg.set_value("player", "achievements", achievements)
 	cfg.set_value("access", "easy_mode", easy_mode)
 	cfg.set_value("player", "hat", hat)
+	cfg.set_value("access", "ui_big", ui_big)
 	cfg.set_value("daily", "day", daily_day)
 	cfg.set_value("daily", "progress", daily_progress)
 	cfg.set_value("daily", "done", daily_done)

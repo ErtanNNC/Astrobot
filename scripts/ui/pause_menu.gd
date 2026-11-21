@@ -64,6 +64,7 @@ func _ready() -> void:
 	_row("vibration", "Titreşim")
 	_row("hints_on", "Pırıl ipuçları")
 	_row("easy_mode", "Kolay mod")
+	_row("ui_big", "Büyük arayüz")
 	_row("shake_on", "Ekran sarsıntısı")
 	_row("quality", "Görüntü kalitesi")
 	_row("shadows_on", "Gölgeler")

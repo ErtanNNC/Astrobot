@@ -30,7 +30,7 @@ vardır; bizde üç yapı taşı bunu sağlar. Gösteriler oynanışı durdurmaz
 ## Nerede ne var
 | Alan | Vay anı |
 |---|---|
-| Uyanış Atölyesi | çıkış kapısında küçük havai fişek |
+| Uyanış Atölyesi | koridor penceresinden fırtına ve yıldırımlar; balkonda havai fişek; alan, Bip'i vadiye fırlatan topla biter |
 | Yay Bahçesi | başta Dev Yay Kulesi manzarası; Çiçek Tepesi'nden gök adasına top (gidiş-dönüş) |
 | Balon Kanyonu | Gün Batımı Terası'nda balon şenliği |
 | Mıknatıs Fabrikası | Vinç Terası'ndan asılı güverteye top (gidiş-dönüş) |
