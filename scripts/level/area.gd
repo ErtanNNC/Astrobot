@@ -34,6 +34,7 @@ const AREA_MUSIC := {
 	"ch5_oyuncak": "res://assets/audio/opengameart/happy_clappy_loop.mp3",
 	"ch5_gozlemevi": "res://assets/audio/opengameart/snow_theme_loop.ogg",
 	"ch5_volkan": "res://assets/audio/opengameart/fasttheme.ogg",
+	"ch5_sampiyon": "res://assets/audio/opengameart/superhero.ogg",
 }
 
 var area_total := 0

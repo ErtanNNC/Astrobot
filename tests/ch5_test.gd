@@ -11,7 +11,7 @@ var fails := 0
 func _ready() -> void:
 	await get_tree().process_frame
 	for path in ["res://scenes/chapter5/e1_oyuncak_kasabasi.tscn", "res://scenes/chapter5/e2_yildiz_gozlemevi.tscn",
-			"res://scenes/chapter5/e3_volkan_adasi.tscn"]:
+			"res://scenes/chapter5/e3_volkan_adasi.tscn", "res://scenes/chapter5/e4_sampiyon_yolu.tscn"]:
 		await _load(path)
 		await _common(path.get_file())
 		match path.get_file():
@@ -21,6 +21,8 @@ func _ready() -> void:
 				await _e2()
 			"e3_volkan_adasi.tscn":
 				await _e3()
+			"e4_sampiyon_yolu.tscn":
+				await _e4()
 		level.queue_free()
 		await get_tree().process_frame
 	print("SONUÇ: %s" % ("TÜM TESTLER GEÇTİ" if fails == 0 else "%d test kaldı" % fails))
@@ -423,3 +425,76 @@ func _e3() -> void:
 	await place(Vector3(0, 8.1, -119.6), PI, "pervane")
 	ok = await jump_forward(110, 100, 14.0, 300, 40)
 	check("e3: Pervane ile krater kenarına", ok and absf(bip.global_position.y - 14.5) < 0.2, str(bip.global_position))
+
+
+func _e4() -> void:
+	await place(Vector3(0, 0.1, -5.5), PI, "yay")
+	var ok := await jump_forward(60, 40, 3.5)
+	check("e4: Yay terası 1", ok and absf(bip.global_position.y - 4.0) < 0.2, str(bip.global_position))
+	await place(Vector3(0, 4.1, -11.5), PI, "yay")
+	ok = await jump_forward(60, 40, 7.5)
+	check("e4: Yay terası 2", ok and absf(bip.global_position.y - 8.0) < 0.2, str(bip.global_position))
+	await place(Vector3(0, 8.1, -17.6), PI, "balon")
+	ok = await glide_to(-31.5, 4.5)
+	check("e4: Balon ile P1", ok and absf(bip.global_position.y - 5.0) < 0.3, str(bip.global_position))
+	# Mıknatıs zinciri
+	await place(Vector3(0, 5.1, -38.2), PI, "miknatis")
+	var reached := []
+	for k in 5:
+		var stuck := await magnet_pull()
+		await climb_up()
+		reached.append(snappedf(bip.global_position.z, 0.1))
+		if bip.global_position.z < -65.5 and bip.is_on_floor():
+			break
+		if not stuck:
+			break
+	Input.action_press("move_forward"); await step(20); Input.action_release("move_forward"); await step(10)
+	check("e4: Mıknatıs zinciriyle P2", bip.global_position.z < -65.5 and bip.global_position.y > 4.8, str(reached))
+	# Kaya: cam zemin, tünel, trambolin
+	await place(Vector3(0, 5.2, -77.0), PI, "kaya")
+	await tap("jump", 3)
+	await step(10)
+	await tap("ability")
+	await step(120)
+	check("e4: Kaya cam zemini kırdı", bip.global_position.y < 0.0, str(bip.global_position))
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 4.5 and bip.global_position.z < -95.5, 600)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e4: tünelden trambolinle C'ye", bip.global_position.z < -95.5 and absf(bip.global_position.y - 5.0) < 0.3, str(bip.global_position))
+	# Buz ile havuz
+	await place(Vector3(0, 5.1, -106.8), PI, "buz")
+	Input.action_press("move_forward")
+	await run_until(func(): return bip.global_position.z < -121.1, 300)
+	await tap("jump", 25)
+	await run_until(func(): return bip.is_on_floor() and bip.global_position.y > 7.0, 90)
+	Input.action_release("move_forward")
+	await step(10)
+	check("e4: Buz ile havuz", absf(bip.global_position.y - 7.15) < 0.2, str(bip.global_position))
+	# Pervane
+	await place(Vector3(0, 7.25, -133.0), PI, "pervane")
+	ok = await jump_forward(110, 100, 13.0, 300, 40)
+	check("e4: Pervane ile 6,5 m", ok and absf(bip.global_position.y - 13.65) < 0.2, str(bip.global_position))
+	# Gizli Altın Vida adacığından trambolinle P1'e dönüş
+	await place(Vector3(8.4, 2.5, -33.8), PI, "")
+	var turn: float = level.cam.auto_turn_speed
+	level.cam.auto_turn_speed = 0.0
+	Input.action_press("move_left")
+	for i in 240:
+		await get_tree().physics_frame
+		if i > 40 and bip.is_on_floor():
+			break
+	Input.action_release("move_left")
+	level.cam.auto_turn_speed = turn
+	await step(10)
+	check("e4: vida adacığından trambolinle dönüş", bip.global_position.y > 4.8, str(bip.global_position))
+	# Dev Yay ile kupaya (en sonda: çıkış)
+	await place(Vector3(0, 15.5, -141.0), PI, "")
+	Input.action_press("move_forward")
+	for i in 300:
+		await get_tree().physics_frame
+		if i > 40 and bip.is_on_floor():
+			break
+	Input.action_release("move_forward")
+	await step(10)
+	check("e4: Dev Yay ile kupa platformuna", absf(bip.global_position.y - 23.65) < 0.3, str(bip.global_position))

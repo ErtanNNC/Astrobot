@@ -7,6 +7,7 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 |---|---|---|---|---|---|---|
 | 1 | Oyuncak Kasabası | ~6 dk | Yay ile dev hediye kutuları (4 m) | oyuncak tren (hareketli vagon) | Balon ile kaleye süzülüş | Mıknatıs levhalarıyla kule, Pervane ile Fındıkkıran'ın şapkası |
 | 3 | Volkan Adası | ~6 dk | **lav**: Buz ile lavın üstünde yürümek | düşen bazalt taşları | gayzerlerde Balon ile yükselmek | magma zinciri (Mıknatıs), krater kenarı (Pervane) |
+| 4 | Şampiyon Yolu | ~5 dk | — | altı yetenek art arda | — | Dev Yay ile altın kupa platformu |
 | 2 | Yıldız Gözlemevi | ~6 dk | Buz ile gölün üstünde yürümek | Kaya ile cam zemini kırıp tünelden geçmek | dönen yıldız platformları (Yay) | teleskop rüzgârında Balon ile kubbeye |
 
 ## Oyuncak Kasabası (2026-11-21)
@@ -50,6 +51,11 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 
 **Gizli köşeler (3):** nehirdeki adacık (Buz; 10 pil), ikinci gayzerin tepesindeki çıkıntı (Balon; 10 pil), krater kenarındaki niş (Pervane; **Altın Vida**).
 
+## Şampiyon Yolu (2026-11-21)
+Üretici: `tools/level/ch5_e4_sampiyon_yolu.py`, kimlik `ch5_sampiyon`. Bonus bölümün ve oyunun en zor parkuru (Mario'daki "Şampiyon Yolu" fikri). Ölçüler oyunda zaten test edilmiş bölümlerden alındı: Yay ile iki 4 m'lik teras → 12,5 m Balon süzülüşü (kontrol noktası "sampiyon1") → 5,5 m aralıklı Mıknatıs zinciri → Kaya ile cam zemin, tünel, trambolin ("sampiyon2") → Buz ile havuz ve 2,15 m kıyı → Pervane ile 6,5 m ("sampiyon3") → **Dev Yay** ile altın kupa platformu (bitiş). Gökkuşağı yayı, sıcak hava balonları.
+
+**Gizli köşe:** P1'in doğusunda aşağıdaki adacıkta **Altın Vida** (Balon ile in, trambolinle dön).
+
 ## Rules
 1. Bonus bölüm yalnızca final bittikten sonra açılır.
 2. Bölüm 1'in kuralları geçerlidir (kontrol noktaları, 3 can, piller kaybolmaz, testere dişi zorluk).
@@ -66,4 +72,4 @@ Final (Statik) bittikten sonra açılan bonus bölüm. Hikâyeye bağlı değild
 `tests/ch5_test.tscn`: Oyuncak Kasabası (üç kutu, Altın Vida sütunu, tren, Balon, Mıknatıs, Pervane, iki gizli köşeden dönüş); Yıldız Gözlemevi (Buz ile göl, adacık, Kaya ile cam zemin ve tünel, oyuk, yıldız tablası, teleskop rüzgârı).
 
 ## History
-- 2026-11-21: bölüm ve ilk alan (Oyuncak Kasabası) eklendi; ikinci alan Yıldız Gözlemevi eklendi.
+- 2026-11-21: bölüm ve ilk alan (Oyuncak Kasabası) eklendi; ikinci alan Yıldız Gözlemevi, üçüncü alan Volkan Adası, dördüncü alan Şampiyon Yolu eklendi.
