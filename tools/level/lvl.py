@@ -188,7 +188,10 @@ def tf(x, y, z, rx=0.0, ry=0.0, s=1.0, rz=0.0):
         return (cy*v[0]+sy*v[2], v[1], -sy*v[0]+cy*v[2])
     X, Y, Z = [tuple(c*s if isinstance(s, (int, float)) else c for c in rot(v)) for v in ((1,0,0),(0,1,0),(0,0,1))]
     if isinstance(s, tuple):
-        X = tuple(c*s[0] for c in X); Y = tuple(c*s[1] for c in Y); Z = tuple(c*s[2] for c in Z)
+        # Eksen başına ölçek YEREL eksenlerde uygulanır (parça dönünce ölçeği de onunla döner). Yazılan üçlüler
+        # Godot'ta tabanın satırlarıdır; yerel ölçek için her satırın j. bileşeni s[j] ile çarpılır.
+        # (2026-11-22'ye kadar satır başına çarpılıyordu: dönen zeminlerde uzun ince parçalar eski yönünde kalıyordu.)
+        X = tuple(c*k for c, k in zip(X, s)); Y = tuple(c*k for c, k in zip(Y, s)); Z = tuple(c*k for c, k in zip(Z, s))
     f = lambda v: ", ".join("%.6g" % c for c in v)
     return "Transform3D(%s, %s, %s, %s)" % (f(X), f(Y), f(Z), f((x, y, z)))
 
@@ -271,12 +274,13 @@ class Level:
         """KayKit süsü (çarpışmasız), ör. kit("cone_red", 2, 0, 3)."""
         self.kit_items.append((KIT_DIR + model + ".gltf", tf(x, y, z, 0, ry, s)))
 
-    def model(self, path, x, y, z, ry=0.0, s=1.0):
-        """Herhangi bir glTF/GLB süs (çarpışmasız, MultiMesh), ör. model("kaykit/furniture/couch_pillows", ...).
+    def model(self, path, x, y, z, ry=0.0, s=1.0, solid=True):
+        """Herhangi bir glTF/GLB süs (MultiMesh; iri olanlara oyunda çarpışma eklenir, bkz. decor_solid.gd), ör. model("kaykit/furniture/couch_pillows", ...).
         Yol assets/models/ altına göredir; uzantı yoksa .gltf eklenir."""
         if not path.endswith((".gltf", ".glb", ".fbx")):
             path += ".gltf"
-        self.kit_items.append(("res://assets/models/" + path, tf(x, y, z, 0, ry, s)))
+        # solid=False: iri de olsa çarpışma eklenmez (zemin kenarı süsleri; zıplama yolunu kapatmasın). Bkz. decor_solid.gd
+        self.kit_items.append(("res://assets/models/" + path + ("" if solid else "#nosolid"), tf(x, y, z, 0, ry, s)))
 
     # Tema → kenar süsleri (çarpışmasız). Geniş zeminlerin kenarlarına serpiştirilir; ortası yürüme alanı kalır.
     EDGE_DRESS = {
@@ -302,9 +306,9 @@ class Level:
             sc = self.kit_rng.uniform(1.2, 1.8) if "tree" not in m else self.kit_rng.uniform(1.3, 1.9)
             if "cloud" in m:
                 sc = self.kit_rng.uniform(0.9, 1.4)
-                self.model(m, x, top - 0.9, z, self.kit_rng.uniform(0, math.tau), sc)
+                self.model(m, x, top - 0.9, z, self.kit_rng.uniform(0, math.tau), sc, solid=False)
             else:
-                self.model(m, x, top, z, self.kit_rng.uniform(0, math.tau), sc)
+                self.model(m, x, top, z, self.kit_rng.uniform(0, math.tau), sc, solid=False)
 
     def scatter(self, models, x0, x1, z0, z1, y, n, smin=1.0, smax=1.5, clear=None):
         """Bir alana süs serpiştir (çarpışmasız). models: assets/models/ altına göre yollar.

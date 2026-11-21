@@ -49,6 +49,21 @@ Her önemli olay ekranda bir işaret bırakır. Hepsi `Fx` autoload'ında: `burs
 | Düşman yenildi | sarı halka + parıltı + 0,06 sn donma + kamera sarsıntısı | `enemy.die` |
 | Patron saldırısı | yerde halka + içinde büyüyen disk; disk halkayı doldurduğu an darbe iner, son üçte birde hızlı yanıp söner | `scripts/boss/warn_mark.gd` |
 
+## Süslerin çarpışması (2026-11-22; geliştirici testinden)
+Telefonda oynarken kayaların, hediye paketlerinin ve boruların içine girilebildiği görüldü. Kural:
+1. **İri süsler katıdır.** Yüksekliği en az 0,5 m, genişliği en az 0,5 m ve en büyük boyu 14 m'yi geçmeyen her süs modeline çarpışma eklenir. Şekil modelin kendi üçgenlerinden kurulur; kemerlerin, tünellerin ve boruların içinden/altından yine geçilir.
+2. **Ağaçlarda yalnızca gövde katıdır** (ince silindir); yapraklar zıplama yolunu kapatmaz.
+3. **Çarpışmasız kalanlar:** ot, çiçek, bitki, mantar, halı, bayrak, bulut, yıldız/elmas süsleri, zemin karoları; kar ve bulut zeminlerin kenarına otomatik serpiştirilen süsler (zıplanan kenarlarda dururlar); bina, kule, duvar, vinç gibi kaplamalar (onların oynanış şekilleri betikte ayrıca kurulur).
+4. Süs çarpışması katman 2'dedir: Bip çarpar, kamera kolu çarpmaz.
+
+| Ad | Değer | Birim |
+|---|---|---|
+| En az yükseklik | 0,5 | m |
+| En az genişlik | 0,5 | m |
+| En büyük boy | 14 | m |
+
+Kod: `scripts/level/decor_solid.gd` (kurallar), `kit_batch.gd` (MultiMesh'li parçalar), `area.gd` (Decor altındaki modeller). Betikte bir süsü bilerek çarpışmasız bırakmak için `L.model(..., solid=False)`. Test: `tests/decor_test.tscn`.
+
 ## Sıradaki iş (önerilen)
 - **Seviye yoğunluğu:** geniş boş zeminlere para dizileri, kırılabilir nesneler, gizli köşeler, tekmelenebilir küçük nesneler (fizik topları, kutular) eklemek.
 - **Bölüme özel güç-yükü anı:** Astro Bot'ta her bölümün bir sürpriz oyuncağı var; bizde yetenekler bu rolde, bölüm içinde daha fazla "vay" anı (set-piece) eklenebilir.
@@ -57,3 +72,4 @@ Her önemli olay ekranda bir işaret bırakır. Hepsi `Fx` autoload'ında: `burs
 ## History
 - 2026-11-18: oluşturuldu; jet süzülme, pil çekimi, canlı süsler, sakin kamera eklendi (D-017).
 - 2026-11-21: geri bildirim efektleri tablosu; halka/konfeti efektleri, patron uyarı diski.
+- 2026-11-22: süslerin çarpışması eklendi.

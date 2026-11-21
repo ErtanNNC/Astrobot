@@ -137,6 +137,7 @@ func _ready() -> void:
 		mp.play()
 		create_tween().tween_property(mp, "volume_db", 0.0, MUSIC_FADE_IN)
 	_start_ambient()
+	DecorSolid.cover_decor(self)        # iri süslerin içinden geçilmesin
 	if title != "":
 		hud.banner.call_deferred(title, "", 2.2)
 	_announce_moves()

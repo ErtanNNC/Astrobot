@@ -154,3 +154,4 @@ Alanların çoğu dümdüz bir koridordu (emsal incelemesinin en sert eleştiril
 
 Kod: `area.gd` (`game_over`, `restart_area`, `_fall`, `_on_hurt`, `on_checkpoint`), `GameState.gain_life`. Test: `tests/gameover_test.tscn`.
 Açık konu: 3 can + kontrol noktası başına 1 can dengesi telefonda denenmeli; zor gelirse can sayısı ya da geri verilen can artırılır.
+- 2026-11-22: Mıknatıs Fabrikası'nda zeminden çıkan sarı şeritler düzeltildi (üreticideki ölçek hatası; dönen zeminlerin kenar şeritleri zeminle birlikte dönmüyordu).

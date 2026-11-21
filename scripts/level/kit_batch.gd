@@ -1,7 +1,7 @@
 extends Node3D
 ## KayKit parçalarını (CC0, Kay Lousberg) tek tek düğüm yerine MultiMesh ile çizer:
-## yüzlerce zemin karosu telefonda tek çizim çağrısına iner. Çarpışma yok (görsel);
-## zeminin çarpışması alttaki ölçülü kutuda kalır. Üretici: tools/level/lvl.py (kit_*).
+## yüzlerce zemin karosu telefonda tek çizim çağrısına iner. Zemin karolarının çarpışması yok (zeminin
+## çarpışması alttaki ölçülü kutuda); iri süslerin çarpışması _build_colliders ile eklenir. Üretici: tools/level/lvl.py (kit_*).
 
 @export var items: Array = []   ## [model yolu, Transform3D, model yolu, Transform3D, ...]
 
@@ -35,6 +35,27 @@ func _ready() -> void:
 			if TOPS.has(theme):
 				mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF   # gölgeyi alttaki gövde düşürür
 			add_child(mmi)
+	_build_colliders(groups)
+
+
+## İri süslerin çarpışması (içlerinden geçilmesin): kurallar scripts/level/decor_solid.gd
+func _build_colliders(groups: Dictionary) -> void:
+	var body: StaticBody3D = null
+	for p in groups:
+		var file: String = String(p).get_slice("#", 0)
+		if String(p).get_slice("#", 1) == "nosolid" or DecorSolid.skipped(file.get_file()):
+			continue
+		var parts := _parts(file)
+		for xf: Transform3D in groups[p]:
+			var world := []
+			for part in parts:
+				world.append([part[0], global_transform * xf * (part[1] as Transform3D)])
+			var cs := DecorSolid.trunk_for(world) if DecorSolid.is_tree(file.get_file()) else DecorSolid.shape_for(world)
+			if cs == null:
+				continue
+			if body == null:
+				body = DecorSolid.new_body(self)
+			body.add_child(cs)
 
 
 static func _parts(path: String) -> Array:
