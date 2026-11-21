@@ -141,4 +141,8 @@ for (x, z, m, s) in ((-22, -10, "present_D_yellow", 9), (24, -30, "present_E_red
     L.model(KH + m + ".gltf", x, -8, z, random.uniform(0, 6.28), s)
 L.model(H + "train-locomotive.glb", -14, -8, -40, PI / 2, 14.0); L.model(H + "train-wagon.glb", -14, -8, -31, PI / 2, 14.0)
 L.clouds(16, xr=(-100, 100), zr=(-200, 60), avoid=(-30, 30, -120, 20), low=(-4, 0), high=(30, 45))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("top_havuzu", 0, -3.5, 12, 8, 6)
+L.secret("gizli_raf", -5.5, 8, -38, 4, 5)
 L.write()

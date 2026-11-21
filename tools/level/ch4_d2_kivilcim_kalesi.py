@@ -120,4 +120,7 @@ L.model(MD + "flag_red.gltf", -3, 11.15, -122.6, 0, 4.0); L.model(MD + "flag_red
 L.model(MD + "building_tower_catapult_red.gltf", -12, 0, -60, 0.6, 4.0)
 L.model(MD + "building_castle_red.gltf", 0, 11.15 - 14, -150, 0, 9.0)
 
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("kule", -11, 10, -20, 3, 3)
 L.write()

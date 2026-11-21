@@ -337,6 +337,10 @@ class Level:
         self.nodes.append("\n".join(lines) + "\n")
         return name
 
+    def secret(self, sid, x, y, z, sx, sz):
+        """Gizli köşe: Bip ilk girince 'Gizli köşe!' afişi ve müziği (area.gd secret_found)."""
+        return self.ent("trigger", x, y, z, size=(sx, 3, sz), method_name="secret_found", arg=sid)
+
     def battery(self, x, y, z):
         return self.ent("battery", x, y + 0.8, z, parent="Batteries", name=self._name("Pil"))
 

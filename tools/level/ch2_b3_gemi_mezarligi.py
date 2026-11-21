@@ -138,4 +138,7 @@ L.ent("crate", -12.8, 4.0, 0.3, batteries=5)
 L.battery_ring((-11.6, 4.0, 1.0), 1.0, 6)
 L.ent("prop", -40, 25, -150, kind="storm", size=4.0)
 L.clouds(18, xr=(-90, 90), zr=(-200, 50), avoid=(-25, 25, -150, 20), low=(-10, -6), high=(15, 30))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("gozcu", -12.6, 4, 1, 2, 2.4)
 L.write()

@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://scripts/entities/platforms.gd" id="e11"]
 [ext_resource type="Script" path="res://scripts/entities/wind_zone.gd" id="e12"]
 [ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e13"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e14"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/rivet-metal.png" id="tex_rivet_metal"]
@@ -737,6 +738,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 8.6, -120)
 script = ExtResource("e4")
 kind = "lamp"
 size = 1.4
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.8, -15)
+script = ExtResource("e14")
+size = Vector3(2.4, 3, 2.4)
+method_name = "secret_found"
+arg = "adacik"
+
+[node name="Trigger_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 9, -59.5)
+script = ExtResource("e14")
+size = Vector3(3, 3, 3)
+method_name = "secret_found"
+arg = "yildiz"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

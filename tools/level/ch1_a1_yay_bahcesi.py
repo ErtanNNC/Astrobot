@@ -191,4 +191,9 @@ for (x, y, z, w, d) in ((-38, -2, -30, 14, 12), (42, 4, -60, 16, 12), (-46, 10, 
     for k in range(3):
         L.deco("k_tree" if k % 2 == 0 else "k_pine", x - w / 3 + k * w / 3, y, z + (k - 1) * 2.5, 1.0 + 0.3 * k)
 L.clouds(30, xr=(-110, 110), zr=(-230, 70), avoid=(-22, 22, -165, 25), low=(-8, -3), high=(10, 50))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("magara", 0, -4.5, 12, 7, 6)
+L.secret("sutun", 6.5, 7.2, -12.5, 3, 3)
+L.secret("gok", 10.5, 22.5, -97.5, 3, 3)
 L.write()

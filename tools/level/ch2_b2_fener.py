@@ -111,4 +111,7 @@ L.battery_ring((12.2, 4.6, -2.6), 0.8, 5)
 L.battery_line((9.6, 0.6, -3), (10.6, 3.8, -3), 2)
 L.ent("prop", -50, 30, -120, kind="storm", size=4.0)
 L.clouds(24, xr=(-90, 90), zr=(-90, 90), avoid=(-25, 25, -25, 25), low=(-6, -3), high=(18, 50))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("cati", 12.5, 4.6, -3, 3.2, 3.2)
 L.write()

@@ -96,4 +96,7 @@ for i in range(24):
 for (x, y, z, c) in ((-16, 22, -40, (0.95, 0.35, 0.3, 1)), (18, 26, -90, (0.3, 0.6, 0.95, 1)), (-18, 30, -130, (0.98, 0.78, 0.25, 1))):
     L.ent("prop", x, y, z, kind="balloon", size=0.9, color=c, parent="Decor")
 L.clouds(18, xr=(-90, 90), zr=(-220, 40), avoid=(-20, 20, -160, 20), low=(-12, -6), high=(30, 50))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("vida_adasi", 9, 1, -34.5, 3, 3)
 L.write()

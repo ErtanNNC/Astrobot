@@ -21,6 +21,7 @@
 [ext_resource type="Script" path="res://scripts/entities/trampoline.gd" id="e13"]
 [ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e14"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Goal_Flag.gltf" id="e15"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e16"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/granite-rock.png" id="tex_granite_rock"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
@@ -920,6 +921,20 @@ transform = Transform3D(0.61705, 0, 2.12837, 0, 2.21601, 0, -2.12837, 0, 0.61705
 
 [node name="Cloud_2_8" parent="Clouds" instance=ExtResource("e4")]
 transform = Transform3D(1.61586, 0, -1.01679, 0, 1.90916, 0, 1.01679, 0, 1.61586, -74.6961, -9.8951, -111.051)
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 16.5, -84)
+script = ExtResource("e16")
+size = Vector3(2.6, 3, 2.6)
+method_name = "secret_found"
+arg = "kemer"
+
+[node name="Trigger_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 13.5)
+script = ExtResource("e16")
+size = Vector3(6, 3, 5)
+method_name = "secret_found"
+arg = "alt_bulut"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

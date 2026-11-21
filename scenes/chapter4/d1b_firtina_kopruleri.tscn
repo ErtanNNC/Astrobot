@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e12"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e13"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e14"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e15"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-stone-ground.png" id="tex_cracked_stone_ground"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/rivet-metal.png" id="tex_rivet_metal"]
@@ -944,6 +945,20 @@ transform = Transform3D(0.459724, 0, 2.1569, 0, 2.20535, 0, -2.1569, 0, 0.459724
 
 [node name="Cloud_2_9" parent="Clouds" instance=ExtResource("e13")]
 transform = Transform3D(-0.616081, 0, -1.84201, 0, 1.94231, -0, 1.84201, 0, -0.616081, 35.6854, -12.1422, -103.653)
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, -4, -17)
+script = ExtResource("e15")
+size = Vector3(3.5, 3, 6)
+method_name = "secret_found"
+arg = "cikinti"
+
+[node name="Trigger_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 22, -123.5)
+script = ExtResource("e15")
+size = Vector3(2.6, 3, 2.6)
+method_name = "secret_found"
+arg = "firtina_gozu"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

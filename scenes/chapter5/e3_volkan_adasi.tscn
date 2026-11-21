@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e13"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e14"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e15"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e16"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/desert-cliff.png" id="tex_desert_cliff"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/red-desert-dust.png" id="tex_red_desert_dust"]
@@ -737,6 +738,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, -20)
 script = ExtResource("e9")
 kind = "lamp"
 size = 1.6
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, -15)
+script = ExtResource("e16")
+size = Vector3(2.4, 3, 2.4)
+method_name = "secret_found"
+arg = "adacik"
+
+[node name="Trigger_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.6, 12, -68.5)
+script = ExtResource("e16")
+size = Vector3(3, 3, 3)
+method_name = "secret_found"
+arg = "gayzer"
+
+[node name="Trigger_3" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 16, -126)
+script = ExtResource("e16")
+size = Vector3(2.6, 3, 2.6)
+method_name = "secret_found"
+arg = "nis"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

@@ -129,4 +129,9 @@ for k in range(6):
 for (x, z) in ((-20, -40), (22, -80), (-24, -110), (20, -20)):
     L.box(x, -2, z, 10, 4, 10, "strata")
     L.ent("prop", x, 1, z, kind="lamp", size=1.6)
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("adacik", 4, 0.5, -15, 2.4, 2.4)
+L.secret("gayzer", 9.6, 12, -68.5, 3, 3)
+L.secret("nis", 7, 16, -126, 2.6, 2.6)
 L.write()

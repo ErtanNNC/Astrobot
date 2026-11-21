@@ -121,4 +121,8 @@ for _ in range(40):
 for (x, y, z, w) in ((-22, -6, -20, 10), (24, -4, -50, 12), (-26, 2, -90, 12), (22, 6, -120, 10)):
     L.top(x, y, z, w, w, depth=6, theme="castle")
     L.ent("prop", x, y + 2.6, z, kind="lamp", size=1.4)
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("adacik", 4, 0.8, -15, 2.4, 2.4)
+L.secret("yildiz", 9.5, 9, -59.5, 3, 3)
 L.write()

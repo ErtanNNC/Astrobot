@@ -493,6 +493,7 @@ func _open_collection() -> void:
 		var d := GameState.slot_summary(best)
 		UIKit.title(v, "Altın Vida  %d / %d" % [d.get("golden_screws", []).size(), GameState.screw_total()], 28)
 		UIKit.title(v, "Çekirdek Pil  %d / 4" % d.get("core_cells", []).size(), 28)
+		UIKit.title(v, "Gizli Köşe  %d / %d" % [d.get("secrets", []).size(), GameState.SECRET_TOTAL], 28)
 		var lines := []
 		for ch in GameState.CHAPTERS:
 			var n := 0

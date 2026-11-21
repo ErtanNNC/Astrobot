@@ -201,4 +201,9 @@ for (x, y, z, c, s) in ((-14, 34, -30, (0.95, 0.35, 0.3, 1), 1.0), (16, 30, -70,
                         (30, 40, 10, (0.85, 0.45, 0.85, 1), 1.3), (-34, 44, -90, (0.95, 0.55, 0.25, 1), 1.4)):
     L.ent("prop", x, y, z, kind="balloon", size=s, color=c, parent="Decor")
 L.clouds(18, xr=(-110, 110), zr=(-230, 60), avoid=(-30, 30, -190, 25), low=(-6, -3), high=(36, 55))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("balkon", -14, 13, 1, 5, 6)
+L.secret("vida", 14, 7, -51, 4, 4)
+L.secret("kartal", 8, 23.5, -98.5, 3.5, 3.5)
 L.write()

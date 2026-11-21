@@ -185,4 +185,8 @@ L.ent("trampoline", 10.9, 3, -111.2, height=4.5)
 L.battery_arc((6.4, 4.5, -113), (10.6, 3, -113), 3, 1.0)
 
 L.clouds(14, xr=(-100, 100), zr=(-230, 60), avoid=(-30, 30, -175, 20), low=(-7, -5), high=(25, 45))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("raf", -10, 4.5, -1.5, 5, 7)
+L.secret("sutun", 13, 3, -113, 6, 5)
 L.write()

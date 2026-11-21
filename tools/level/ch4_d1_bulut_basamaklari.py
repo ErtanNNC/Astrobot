@@ -132,4 +132,8 @@ for i in range(14):
     L.deco(random.choice(["cloud", "cloud2", "cloud3"]), random.choice([-1, 1]) * random.uniform(16, 34),
            random.uniform(-15, -10), random.uniform(-140, 10), random.uniform(0.8, 1.6), parent="Clouds")
 L.clouds(14, xr=(-90, 90), zr=(-200, 40), avoid=(-30, 30, -140, 20), low=(-12, -6), high=(18, 32))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("kemer", -6.5, 16.5, -84, 2.6, 2.6)
+L.secret("alt_bulut", 0, -6, 13.5, 6, 5)
 L.write()

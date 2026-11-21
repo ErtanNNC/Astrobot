@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e14"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e15"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e16"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e17"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/desert-cliff.png" id="tex_desert_cliff"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/red-desert-dust.png" id="tex_red_desert_dust"]
@@ -71,7 +72,7 @@ subdivide_depth = 60
 sky_top_color = Color(0.350, 0.450, 0.850, 1)
 sky_horizon_color = Color(1.000, 0.750, 0.550, 1)
 sky_curve = 0.12
-ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_bottom_color = Color(0.200, 0.450, 0.750, 1)
 ground_horizon_color = Color(1.000, 0.750, 0.550, 1)
 sun_angle_max = 20.0
 
@@ -1439,6 +1440,27 @@ transform = Transform3D(2.30916, 0, -1.55529, 0, 2.78409, 0, 1.55529, 0, 2.30916
 
 [node name="Cloud_1_4" parent="Clouds" instance=ExtResource("e15")]
 transform = Transform3D(-1.28233, 0, -2.40364, 0, 2.72431, -0, 2.40364, 0, -1.28233, 78.2272, 46.8184, 51.2265)
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 13, 1)
+script = ExtResource("e17")
+size = Vector3(5, 3, 6)
+method_name = "secret_found"
+arg = "balkon"
+
+[node name="Trigger_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 7, -51)
+script = ExtResource("e17")
+size = Vector3(4, 3, 4)
+method_name = "secret_found"
+arg = "vida"
+
+[node name="Trigger_3" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 23.5, -98.5)
+script = ExtResource("e17")
+size = Vector3(3.5, 3, 3.5)
+method_name = "secret_found"
+arg = "kartal"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

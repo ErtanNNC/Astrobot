@@ -63,6 +63,9 @@ const SKINS := [
 	{"id": "altin", "name": "Altın", "hue": -0.02, "sat": 1.25, "val": 1.15, "need_screws": 10, "glow": 0.35},
 ]
 
+## Gizli köşe tetikleyicisi sayısı (tools/level/*.py içindeki L.secret çağrıları; yeni ekleyince güncelle)
+const SECRET_TOTAL := 28
+
 const CHAPTER_NAMES := {1: "Uyanış", 2: "Fırtına Limanı", 3: "Buzul Tepesi", 4: "Fırtınanın Gözü", 5: "Gizli Adalar"}
 
 var slot := -1
@@ -91,6 +94,7 @@ static func new_data() -> Dictionary:
 		"ability": "",
 		"unlocked_abilities": [],
 		"batteries": {},
+		"secrets": [],
 		"golden_screws": [],
 		"core_cells": [],
 		"seen_cutscenes": [],

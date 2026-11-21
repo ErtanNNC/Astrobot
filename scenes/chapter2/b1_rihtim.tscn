@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e18"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e19"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e20"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e21"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/mossy-earth.png" id="tex_mossy_earth"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/lush-meadow-grass.png" id="tex_lush_meadow_grass"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
@@ -114,7 +115,7 @@ subdivide_depth = 60
 sky_top_color = Color(0.250, 0.550, 0.950, 1)
 sky_horizon_color = Color(0.720, 0.880, 1.000, 1)
 sky_curve = 0.12
-ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_bottom_color = Color(0.200, 0.450, 0.750, 1)
 ground_horizon_color = Color(0.720, 0.880, 1.000, 1)
 sun_angle_max = 20.0
 
@@ -828,6 +829,13 @@ transform = Transform3D(-1.36205, 0, 1.68006, -0, 2.16282, 0, -1.68006, 0, -1.36
 
 [node name="Cloud_1_10" parent="Clouds" instance=ExtResource("e18")]
 transform = Transform3D(-2.97268, 0, 0.131748, -0, 2.9756, 0, -0.131748, 0, -2.97268, 36.3262, 17.1538, -146.957)
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.2, 11, -18)
+script = ExtResource("e21")
+size = Vector3(3.6, 3, 3.6)
+method_name = "secret_found"
+arg = "direk"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

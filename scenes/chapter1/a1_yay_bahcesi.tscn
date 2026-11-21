@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e14"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e15"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e16"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e17"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/mossy-earth.png" id="tex_mossy_earth"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/lush-meadow-grass.png" id="tex_lush_meadow_grass"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/pale-limestone-blocks.png" id="tex_pale_limestone_blocks"]
@@ -70,7 +71,7 @@ subdivide_depth = 60
 sky_top_color = Color(0.250, 0.550, 0.950, 1)
 sky_horizon_color = Color(0.720, 0.880, 1.000, 1)
 sky_curve = 0.12
-ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_bottom_color = Color(0.200, 0.450, 0.750, 1)
 ground_horizon_color = Color(0.720, 0.880, 1.000, 1)
 sun_angle_max = 20.0
 
@@ -1536,6 +1537,27 @@ transform = Transform3D(-1.45361, 0, 2.14017, -0, 2.58715, 0, -2.14017, 0, -1.45
 
 [node name="Cloud_2_9" parent="Clouds" instance=ExtResource("e15")]
 transform = Transform3D(1.93288, 0, -0.130957, 0, 1.93731, 0, 0.130957, 0, 1.93288, 67.6247, 17.9737, 57.5382)
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, 12)
+script = ExtResource("e17")
+size = Vector3(7, 3, 6)
+method_name = "secret_found"
+arg = "magara"
+
+[node name="Trigger_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 7.2, -12.5)
+script = ExtResource("e17")
+size = Vector3(3, 3, 3)
+method_name = "secret_found"
+arg = "sutun"
+
+[node name="Trigger_3" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 22.5, -97.5)
+script = ExtResource("e17")
+size = Vector3(3, 3, 3)
+method_name = "secret_found"
+arg = "gok"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_2.gltf" id="e19"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e20"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e21"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e22"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/cracked-cliff-face.png" id="tex_cracked_cliff_face"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/brown-crushed-rock.png" id="tex_brown_crushed_rock"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/sandstone-block.png" id="tex_sandstone_block"]
@@ -109,7 +110,7 @@ subdivide_depth = 60
 sky_top_color = Color(0.350, 0.600, 0.950, 1)
 sky_horizon_color = Color(0.950, 0.880, 0.750, 1)
 sky_curve = 0.12
-ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_bottom_color = Color(0.200, 0.450, 0.750, 1)
 ground_horizon_color = Color(0.950, 0.880, 0.750, 1)
 sun_angle_max = 20.0
 
@@ -983,6 +984,20 @@ transform = Transform3D(0.799992, 0, -1.88335, 0, 2.04622, 0, 1.88335, 0, 0.7999
 
 [node name="Cloud_1_6" parent="Clouds" instance=ExtResource("e20")]
 transform = Transform3D(1.72663, 0, -0.117959, 0, 1.73065, 0, 0.117959, 0, 1.72663, -56.104, -6.89306, -93.1457)
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 4.5, -1.5)
+script = ExtResource("e22")
+size = Vector3(5, 3, 7)
+method_name = "secret_found"
+arg = "raf"
+
+[node name="Trigger_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 3, -113)
+script = ExtResource("e22")
+size = Vector3(6, 3, 5)
+method_name = "secret_found"
+arg = "sutun"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

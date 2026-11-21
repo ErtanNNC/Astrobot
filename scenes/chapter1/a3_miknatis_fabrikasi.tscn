@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://scripts/entities/area_exit.gd" id="e11"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_3.gltf" id="e12"]
 [ext_resource type="PackedScene" path="res://assets/models/quaternius/platformer/Cloud_1.gltf" id="e13"]
+[ext_resource type="Script" path="res://scripts/entities/trigger.gd" id="e14"]
 [ext_resource type="Texture2D" path="res://assets/textures/freegameassets/painterly/rivet-metal.png" id="tex_rivet_metal"]
 [ext_resource type="Script" path="res://scripts/level/kit_batch.gd" id="kitb"]
 
@@ -64,7 +65,7 @@ subdivide_depth = 60
 sky_top_color = Color(0.300, 0.400, 0.600, 1)
 sky_horizon_color = Color(0.650, 0.700, 0.800, 1)
 sky_curve = 0.12
-ground_bottom_color = Color(0.2, 0.45, 0.75, 1)
+ground_bottom_color = Color(0.200, 0.450, 0.750, 1)
 ground_horizon_color = Color(0.650, 0.700, 0.800, 1)
 sun_angle_max = 20.0
 
@@ -945,6 +946,20 @@ transform = Transform3D(-0.164115, 0, 2.82629, -0, 2.83105, 0, -2.82629, 0, -0.1
 
 [node name="Cloud_1_6" parent="Clouds" instance=ExtResource("e13")]
 transform = Transform3D(-0.603462, 0, -2.31932, 0, 2.39654, -0, 2.31932, 0, -0.603462, 73.4152, -3.73591, 51.0535)
+
+[node name="Trigger_1" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 12, -79.5)
+script = ExtResource("e14")
+size = Vector3(5, 3, 6)
+method_name = "secret_found"
+arg = "depo"
+
+[node name="Trigger_2" type="Area3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 33, -153)
+script = ExtResource("e14")
+size = Vector3(4, 3, 4)
+method_name = "secret_found"
+arg = "vinc"
 
 [node name="KitBatch" type="Node3D" parent="."]
 script = ExtResource("kitb")

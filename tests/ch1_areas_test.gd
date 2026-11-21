@@ -142,6 +142,7 @@ func _test_yay() -> void:
 	await step(10)
 	level.cam.auto_turn_speed = turn
 	check("Gizli sütuna kenara tutunarak çıkış", hung and bip.global_position.y > 7.0, str(bip.global_position))
+	check("Gizli köşe bulununca kaydedildi", GameState.data.get("secrets", []).has("ch1_yay_sutun"), str(GameState.data.get("secrets", [])))
 	# Gizli mağaradan trambolinle geri dönüş
 	await place(Vector3(2.0, -3.0, 10.4), PI, "")
 	Input.action_press("move_forward")

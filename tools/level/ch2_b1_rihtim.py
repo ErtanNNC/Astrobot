@@ -129,4 +129,7 @@ md("flag_red", 8.6, 11.0, -17.2, 0, 5.0)
 L.ent("prop", 60, -8, -230, kind="dark_tower", size=2.5)
 L.ent("prop", 40, 28, -200, kind="storm", size=4.0)
 L.clouds(22, xr=(-100, 100), zr=(-220, 60), avoid=(-20, 20, -140, 20), low=(-6, -3), high=(12, 28))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("direk", 8.2, 11, -18, 3.6, 3.6)
 L.write()

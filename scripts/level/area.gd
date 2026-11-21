@@ -281,6 +281,19 @@ func boss_defeated(cell_pos: Vector3) -> void:
 	cell.global_position = cell_pos
 
 
+## Gizli köşe ilk kez bulununca: özel müzik, afiş, kayıt (Koleksiyon'da sayılır).
+func secret_found(id: String) -> void:
+	var key := area_id + "_" + id
+	var list: Array = GameState.data.get("secrets", [])
+	if list.has(key):
+		return
+	list.append(key)
+	GameState.data["secrets"] = list
+	Sfx.play("secret")
+	Haptics.vibrate(40)
+	hud.banner("Gizli köşe!", "Toplam %d" % list.size(), 1.6)
+
+
 func show_health() -> void:
 	## Öğreticide ilk düşmandan sonra can göstergesi belirir.
 	if not GameState.data["seen_cutscenes"].has("health_shown"):

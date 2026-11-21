@@ -25,7 +25,7 @@ func _on_body(b: Node) -> void:
 	if not (b is Bip) or (_done and once):
 		return
 	_done = true
-	var lvl := get_tree().current_scene
+	var lvl: Node = owner if owner and owner.has_method(method_name) else get_tree().current_scene
 	if lvl and lvl.has_method(method_name):
 		if arg != "":
 			lvl.call(method_name, arg)

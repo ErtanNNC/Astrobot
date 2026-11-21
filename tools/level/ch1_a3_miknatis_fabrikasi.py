@@ -216,4 +216,8 @@ for i in range(6):
     L.ent("prop", random.choice((-6.5, 6.5)), random.uniform(6, 20), -20 - i * 22, kind="lamp", size=1.0)
 
 L.clouds(14, xr=(-100, 100), zr=(-220, 60), avoid=(-30, 30, -170, 20), low=(-6, -3), high=(35, 50))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("depo", 14, 12, -79.5, 5, 6)
+L.secret("vinc", 10.5, 33, -153, 4, 4)
 L.write()

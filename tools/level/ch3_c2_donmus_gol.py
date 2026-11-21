@@ -126,4 +126,8 @@ L.model(KH + "snowball_pile.gltf", -14.4, -0.6, 0.0, 0, 2.0)
 
 L.scatter([H + "snow-pile.glb", H + "rocks-small.glb"], -9, 9, -4, 8, 0, 6, 1.4, 2.2, clear=(-4, 4))
 L.clouds(16, avoid=(-30, 30, -150, 20), low=(-6, -4), high=(14, 26))
+
+# Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
+L.secret("buz_sutun", 12, 6.5, -73, 3.5, 3.5)
+L.secret("kar_cukuru", -13, -0.6, 2, 5, 6)
 L.write()
