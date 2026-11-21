@@ -124,8 +124,8 @@ func _fire() -> void:
 	if flat.length() > 0.1:
 		_bip.facing_yaw = atan2(-flat.x, -flat.z)
 		_bip.rotation.y = _bip.facing_yaw
-	Sfx.play("break", 0.0, 0.55)
-	Sfx.play("spring", -2.0, 0.7)
+	Sfx.play("cannon", 2.0, 1.0)
+	Sfx.play("spring", -4.0, 0.7)
 	Haptics.vibrate(90)
 	Fx.ring(_from, Color(1.0, 0.85, 0.4), 3.0, 0.4, false)
 	Fx.burst(_from, Color(1.0, 0.9, 0.6), 24, 7.0)

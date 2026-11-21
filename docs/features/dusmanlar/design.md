@@ -45,5 +45,18 @@ yan yana gelince oyuncu düşünmek zorunda kalır.
 | E3 Volkan Adası | 1 | 1 |
 | E4 Şampiyon Yolu | 1 | 1 |
 
+## Patron saldırı desenleri (2026-11-22)
+2. aşamadan itibaren her patronun her 3. saldırısı tek mermi yerine bir desendir (`scripts/boss/boss_patterns.gd`).
+Her merminin yerde dolan uyarı diski vardır; her desenin güvenli yeri bellidir.
+
+| Patron | Desen | Güvenli yer |
+|---|---|---|
+| Hurdacı Vinç | patrondan oyuncuya doğru 4 hurdalık sıra | yana bir adım |
+| Paslı Kaptan | 3,2 saniyede bir güverteye hurda (yeni); 2. aşamada sıra hâlinde | yana bir adım; patrona 3,5 m'den yakınken düşmez |
+| Kardan Dev | oyuncunun çevresinde 6 kartopluk halka (yarıçap 3,2 m) | ortada dur |
+| Statik | artı biçiminde 9 yıldırım | çapraza kaç |
+
+Sayılar telefonda denenmedi [ASSUMPTION]; zor gelirse `BossPatterns.EVERY` büyütülür.
+
 ## Testler
 `tests/ch2_test.gd`: Atıcı mermi yollar; Dikenli'ye basınca can gider ve düşman ölmez; Vuruş Dikenli'yi yener.

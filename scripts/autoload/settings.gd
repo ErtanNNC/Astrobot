@@ -23,6 +23,7 @@ var shadows_on := true
 var skin := "klasik"          ## Bip'in kostümü (GameState.SKINS)
 var language := ""            ## "" = cihaz diline göre (Türkçe cihazda tr, diğerlerinde en), "tr", "en"
 var show_fps := false         ## ekranda kare hızı (performans testi için)
+var ghost_on := true          ## hayalet yarışı: rekor turun saydam Bip'i seninle koşar
 var trail := "yok"            ## koşu izi (GameState.TRAILS)
 var daily_day := -1           ## günlük görev (scripts/autoload/daily.gd): hangi gün
 var daily_progress := 0
@@ -141,6 +142,7 @@ func load_settings() -> void:
 	show_fps = cfg.get_value("graphics", "show_fps", show_fps)
 	language = cfg.get_value("player", "language", language)
 	trail = cfg.get_value("player", "trail", trail)
+	ghost_on = cfg.get_value("player", "ghost_on", ghost_on)
 	daily_day = cfg.get_value("daily", "day", daily_day)
 	daily_progress = cfg.get_value("daily", "progress", daily_progress)
 	daily_done = cfg.get_value("daily", "done", daily_done)
@@ -168,6 +170,7 @@ func save_settings() -> void:
 	cfg.set_value("graphics", "show_fps", show_fps)
 	cfg.set_value("player", "language", language)
 	cfg.set_value("player", "trail", trail)
+	cfg.set_value("player", "ghost_on", ghost_on)
 	cfg.set_value("daily", "day", daily_day)
 	cfg.set_value("daily", "progress", daily_progress)
 	cfg.set_value("daily", "done", daily_done)

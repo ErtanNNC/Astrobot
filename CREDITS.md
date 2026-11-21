@@ -39,6 +39,9 @@ Yine de teşekkür olarak burada ve ileride oyunun "Emeği Geçenler" ekranında
 | `assets/audio/opengameart/ambient/amb_rain.ogg` (ortam; kısaltıldı) | https://opengameart.org/content/amb-rain-loop-1 | Kresiek The Furry | CC0 1.0 | 2026-11-21 |
 | `assets/audio/opengameart/ambient/amb_machine.ogg` (ortam; "deep_rumble" kısaltıldı) | https://opengameart.org/content/underwater-or-space-engine-rumble | gmason | CC0 1.0 | 2026-11-21 |
 | `assets/audio/opengameart/ambient/amb_ocean.ogg` (ortam; dört dalga kaydı birleştirildi) | https://opengameart.org/content/beach-ocean-waves | jasinski (yükleyen: qubodup) | CC0 1.0 | 2026-11-21 |
+| `assets/audio/opengameart/setpiece/cannon.ogg`, `boom.ogg`, `firework.ogg` (top, patlama, havai fişek) | https://opengameart.org/content/25-cc0-bang-firework-sfx | rubberduck | CC0 1.0 | 2026-11-22 |
+| `assets/audio/opengameart/setpiece/splash.ogg` (balina sıçraması) | https://opengameart.org/content/40-cc0-water-splash-slime-sfx | rubberduck | CC0 1.0 | 2026-11-22 |
+| `assets/audio/opengameart/setpiece/thunder.ogg` (gök gürültüsü; 3,2 sn'ye kısaltıldı) | https://opengameart.org/content/100-cc0-sfx-2 | rubberduck | CC0 1.0 | 2026-11-22 |
 | `assets/audio/kenney/*` (efektler: Digital SFX, Interface Sounds, Jingles, Starter Kit sesleri) | https://opengameart.org/users/kenney , https://github.com/KenneyNL/Starter-Kit-3D-Platformer | Kenney (kenney.nl) | CC0 1.0 | 2026-11-18 |
 | `assets/models/quaternius/enemies/*.gltf` (Vidaböcek, Zıpzıp, Hurda Goblin, Pırıl) ve platformer paketinden ek modeller (Bouncer, Spikes, Saw, Crate, Gem, Door, Lever, Tower …) | https://quaternius.itch.io/ultimate-platformer-pack | Quaternius | CC0 1.0 | 2026-11-18 |
 

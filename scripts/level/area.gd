@@ -113,6 +113,14 @@ func _ready() -> void:
 	GameState.refill_lives()
 	if GameState.data.get("checkpoint_id", "start") == "start":
 		GameState.data["area_time"] = 0.0
+		_ghost_ok = not safe          # tur baştan başlıyor: kaydedilebilir (öğreticide hayalet yok)
+	if Settings.ghost_on and not safe and GameState.slot >= 0:
+		var run := GhostRun.load_run(GameState.slot, area_id)
+		if run.size() >= 8:
+			_ghost = GhostRun.new()
+			_ghost.samples = run
+			add_child(_ghost)
+			_ghost.show_at(float(GameState.data.get("area_time", 0.0)))
 	_place_bip()
 	hud.visible = not safe or GameState.data.get("seen_cutscenes", []).has("health_shown")
 	if AREA_MUSIC.has(area_id) and ResourceLoader.exists(AREA_MUSIC[area_id]):
@@ -187,7 +195,13 @@ func _place_bip() -> void:
 func _physics_process(_delta: float) -> void:
 	_update_goals(_delta)
 	if not _completing and bip.controls_enabled:
-		GameState.data["area_time"] = float(GameState.data.get("area_time", 0.0)) + _delta
+		var at: float = float(GameState.data.get("area_time", 0.0)) + _delta
+		GameState.data["area_time"] = at
+		# Hayalet: bu turu kaydet, rekor turu oynat
+		if _ghost_ok and at >= _ghost_rec.size() / 4 * GhostRun.STEP and _ghost_rec.size() / 4 < GhostRun.MAX_SAMPLES:
+			_ghost_rec.append_array(PackedFloat32Array([bip.global_position.x, bip.global_position.y, bip.global_position.z, bip.rotation.y]))
+		if _ghost:
+			_ghost.show_at(at)
 	if bip.global_position.y < kill_height and not _completing:
 		_fall()
 
@@ -195,6 +209,9 @@ func _physics_process(_delta: float) -> void:
 ## Yeniden doğma perdesi inerken düşme her karede tekrar sayılmasın (eskiden tek düşüş bütün canları
 ## götürüyor, ölüm sayacını şişiriyor ve sahne değişince boşa düşen geri çağrılar bırakıyordu).
 var _respawning := false
+var _ghost: GhostRun
+var _ghost_rec := PackedFloat32Array()
+var _ghost_ok := false     ## tur alanın başından mı başladı (ortadan devam edilen tur kaydedilmez)
 
 
 func _fall() -> void:
@@ -403,6 +420,9 @@ func complete_area() -> void:
 	var line := tr("Pil %d / %d  ·  Süre %s") % [got, area_total, GameState.time_text(res["time"])]
 	hud.banner("Yeni rekor!" if res["record"] else "Tamam!", line, 3.0)
 	hud.show_stars(res["stars"])
+	# Bu tur alanın en iyi süresiyse hayalet olarak sakla
+	if _ghost_ok and GameState.slot >= 0 and float(res["time"]) <= float(GameState.area_best(area_id).get("time", INF)) + 0.001:
+		GhostRun.save_run(GameState.slot, area_id, _ghost_rec)
 	Daily.add("alan")
 	Daily.add("yildiz", res["stars"], true)
 	Daily.flush()

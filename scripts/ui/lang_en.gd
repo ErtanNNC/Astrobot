@@ -83,6 +83,7 @@ const MESSAGES := {
 	"Dev Yay Kulesi": "Giant Spring Tower", "Gözlemevi": "Observatory", "Volkan": "Volcano",
 	"Lisanslar": "Licenses", "Yıldız %d/%d": "Stars %d/%d",
 	"Top Adaları": "Cannon Isles", "Yıldız Adası": "Star Isle",
+	"Rekor hayaleti": "Record ghost",
 	"Yeni rekor!": "New record!", "Pil %d / %d  ·  Süre %s": "Batteries %d / %d  ·  Time %s",
 	"  ·  %d/3 yıldız  ·  %s": "  ·  %d/3 stars  ·  %s", "Koşu izi  ·  pilin: %d": "Run trail  ·  your batteries: %d",
 	"İz yok": "No trail", "Kıvılcım": "Sparks", "Buz Tozu": "Ice Dust", "Şeker Pembe": "Candy Pink", "Gökkuşağı": "Rainbow",

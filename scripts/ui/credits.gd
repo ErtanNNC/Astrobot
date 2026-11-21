@@ -20,7 +20,7 @@ const LINES := [
 	["nihilocrat — Upbeat Chiptune Theme", 24], ["mopz — Platformer Music", 24],
 	["josepharaoh99 — Pacific Ocean", 24], ["zesona — Village of Snow", 24], ["", 20],
 	["Ortam ve adım sesleri (OpenGameArt, CC0)", 34],
-	["TinyWorlds, Thimras, JaggedStone, Kresiek The Furry, gmason, jasinski", 24], ["", 20],
+	["TinyWorlds, Thimras, JaggedStone, Kresiek The Furry, gmason, jasinski, rubberduck", 24], ["", 20],
 	["Motor", 34], ["Godot Engine (MIT)", 26], ["", 40],
 	["Oynadığın için teşekkürler!", 44], ["", 20], ["Dişli Adası yeniden ışıl ışıl.", 30], ["", 60],
 ]

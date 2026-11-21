@@ -53,6 +53,20 @@ func _ready() -> void:
 	if base < 500:
 		check("Gökkuşağı 500 pilden önce kilitli", not GameState.trail_unlocked("gokkusagi") or GameState.best_batteries() >= 500)
 
+	# Hayalet: kaydet, yükle, aradaki anı doğru hesapla, yuva silinince dosya da gider
+	var run := PackedFloat32Array()
+	for i in 30:
+		run.append_array(PackedFloat32Array([i * 0.5, 1.0, -i * 1.0, 0.0]))
+	check("hayalet kaydedildi", GhostRun.save_run(2, "test_alan", run))
+	var back := GhostRun.load_run(2, "test_alan")
+	check("hayalet aynı geri yüklendi", back.size() == run.size() and is_equal_approx(back[run.size() - 2], -29.0))
+	var mid: Array = GhostRun.sample_at(back, 1.05)
+	check("hayalet iki örnek arasını doğru hesaplar", (mid[0] as Vector3).distance_to(Vector3(5.25, 1.0, -10.5)) < 0.01, str(mid[0]))
+	check("hayalet süresi", is_equal_approx(GhostRun.duration(back), 2.9), str(GhostRun.duration(back)))
+	check("çok kısa tur kaydedilmez", not GhostRun.save_run(2, "bos", PackedFloat32Array([0, 0, 0, 0])))
+	GhostRun.delete_slot(2)
+	check("yuva silinince hayalet de silindi", GhostRun.load_run(2, "test_alan").is_empty())
+
 	Settings.daily_day = keep[0]; Settings.daily_progress = keep[1]; Settings.daily_done = keep[2]
 	Settings.daily_streak = keep[3]; Settings.bonus_batteries = keep[4]; Settings.trail = keep[5]
 	Settings.save_settings()

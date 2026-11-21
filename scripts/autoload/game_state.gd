@@ -159,6 +159,7 @@ func start_slot(i: int, fresh: bool) -> void:
 
 
 func delete_slot(i: int) -> void:
+	GhostRun.delete_slot(i)
 	for p in [slot_path(i), slot_path(i) + ".bak", slot_path(i) + ".tmp"]:
 		if FileAccess.file_exists(p):
 			DirAccess.remove_absolute(p)

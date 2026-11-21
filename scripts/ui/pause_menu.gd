@@ -66,6 +66,7 @@ func _ready() -> void:
 	_row("shake_on", "Ekran sarsıntısı")
 	_row("quality", "Görüntü kalitesi")
 	_row("shadows_on", "Gölgeler")
+	_row("ghost_on", "Rekor hayaleti")
 	_row("show_fps", "Kare hızını göster")
 	if Settings.dev_mode():
 		_row("dev_all_areas", "Tüm alanlar açık (test)")

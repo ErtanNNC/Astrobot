@@ -141,7 +141,7 @@ func _play_whale() -> void:
 	var a := c - axis * span
 	var b := c + axis * span
 	holder.rotation.y = global_rotation.y
-	Sfx.play("drop", 0.0, 0.5)
+	Sfx.play("splash", 3.0, 0.7)
 	Fx.burst(a + Vector3.UP, Color(0.85, 0.95, 1.0), 30, 8.0)
 	Fx.ring(a, Color(0.85, 0.95, 1.0), 5.0 * big, 0.8)
 	_shake(0.25)
@@ -149,7 +149,7 @@ func _play_whale() -> void:
 		n.global_position = a.lerp(b, k) + Vector3.UP * (-3.0 + 13.0 * big * sin(PI * k))
 		n.rotation.z = lerpf(0.9, -0.9, k)
 		if k >= 1.0:
-			Sfx.play("drop", 0.0, 0.45)
+			Sfx.play("splash", 3.0, 0.6)
 			Fx.burst(b + Vector3.UP, Color(0.85, 0.95, 1.0), 30, 8.0)
 			Fx.ring(b, Color(0.85, 0.95, 1.0), 5.0 * big, 0.8)
 			_shake(0.2))
@@ -175,7 +175,7 @@ func _play_skywhale() -> void:
 # ---------- Volkan patlaması: kızgın kayalar fışkırır ----------
 func _play_eruption() -> void:
 	var c := center()
-	Sfx.play("break", 2.0, 0.4)
+	Sfx.play("boom", 3.0, 0.7)
 	_shake(0.55)
 	Fx.burst(c, Color(1.0, 0.5, 0.15), 40, 12.0)
 	Fx.ring(c, Color(1.0, 0.6, 0.2), 14.0 * big, 0.9, false)
@@ -209,7 +209,7 @@ func _play_fireworks() -> void:
 				Fx.burst(at, col, 26, 8.0)
 				Fx.burst(at, Color(1, 1, 1), 10, 4.0)
 				Fx.ring(at, col, 4.0, 0.5, false)
-				Sfx.play("pop", -4.0, randf_range(0.7, 1.3)), i * 0.32)
+				Sfx.play("firework", -2.0, randf_range(0.85, 1.2)), i * 0.32)
 
 
 # ---------- Meteor yağmuru: kayan yıldızlar, sonuncusu yakına düşer ----------
@@ -227,7 +227,7 @@ func _play_meteor() -> void:
 			Fx.burst(n.global_position, Color(0.8, 0.95, 1.0), 3, 1.5)
 			n.scale = Vector3(1, 1, 1) * (1.0 + 0.3 * sin(k * 40.0))
 			if k >= 1.0 and last:
-				Sfx.play("break", 0.0, 0.5)
+				Sfx.play("boom", 2.0, 1.1)
 				Fx.burst(b, Color(0.8, 0.95, 1.0), 40, 9.0)
 				Fx.ring(b, Color(0.8, 0.95, 1.0), 7.0, 0.7)
 				_shake(0.45), i * 0.45)
@@ -245,7 +245,7 @@ func _play_lightning() -> void:
 		_act(holder, 0.22, func(n: Node3D, k: float):
 			if not n.visible:
 				n.visible = true
-				Sfx.play("break", -1.0, randf_range(0.4, 0.6))
+				Sfx.play("thunder", 0.0, randf_range(0.9, 1.15))
 				Fx.burst(at, Color(0.9, 0.8, 1.0), 16, 6.0)
 				_shake(0.3)
 			n.scale.x = 1.0 - k * 0.7

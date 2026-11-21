@@ -18,6 +18,14 @@ Oyunu bitiren ya da bir alanı geçen oyuncunun aynı alana dönmek için bir se
 6. **Bonus pil** kostüm ve iz açmaya sayılır; alanlardaki pil sayacını değiştirmez. Oyuncuya aittir (kayıt yuvasına değil).
 7. **Koşu izleri:** Bip koşarken arkasında renkli zerreler bırakır. Pille açılır, Kostüm Dolabı'ndan seçilir.
 
+## Hayalet (2026-11-22)
+- Alanın en iyi süreli turu saklanır (`user://ghost_<yuva>_<alan>.bin`); alana yeniden girince saydam mavi bir Bip o turu koşar.
+- Zaman ekseni alan süresidir: duraklatınca, ara sahnede ve top uçuşunda hayalet de bekler.
+- Yalnızca alanın başından başlayan turlar kaydedilir (kayıttan, ortadaki kontrol noktasından devam edilen tur kaydedilmez).
+- Öğreticide hayalet yoktur. Ayarlar → "Rekor hayaleti" ile kapatılır. Kayıt yuvası silinince hayaletleri de silinir.
+- Örnekleme 0,1 sn; en çok 15 dakika. Kod: `scripts/level/ghost_run.gd`, `area.gd`.
+- Sonraki adım (yapılmadı): hayaleti arkadaşla paylaşmak (kod ya da dosya ile) = sunucusuz "çok oyunculu".
+
 ## Sayılar
 | Ad | Değer | Birim | Not |
 |---|---|---|---|

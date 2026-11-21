@@ -179,11 +179,18 @@ func _physics_process(delta: float) -> void:
 		_beam.scale.z = _beam.scale.x
 
 
+var _attack_n := 0
+
+
 func _strike() -> void:
 	if not _bip:
 		return
 	var at := _bip.global_position + Vector3(randf_range(-1.5, 1.5), 0, randf_range(-1.5, 1.5))
 	at.y = _bip.last_floor_y
+	_attack_n += 1
+	if phase >= 2 and _attack_n % BossPatterns.EVERY == 0:      # ikinci saldırı: artı biçiminde yıldırımlar (çapraza kaç)
+		BossPatterns.volley(get_parent(), "res://scripts/boss/lightning.gd", "cross", global_position, at)
+		return
 	var l := load("res://scripts/boss/lightning.gd").new() as Node3D
 	get_parent().add_child(l)
 	l.global_position = at

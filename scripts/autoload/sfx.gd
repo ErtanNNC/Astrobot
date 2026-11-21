@@ -29,6 +29,12 @@ const SOUNDS := {
 	"glass": "res://assets/audio/kenney/glass_002.ogg",
 	"land": "res://assets/audio/kenney/land.ogg",
 	"fall": "res://assets/audio/kenney/fall.ogg",
+	# Vay anları (OpenGameArt, CC0; bkz. CREDITS.md)
+	"cannon": "res://assets/audio/opengameart/setpiece/cannon.ogg",
+	"boom": "res://assets/audio/opengameart/setpiece/boom.ogg",
+	"firework": "res://assets/audio/opengameart/setpiece/firework.ogg",
+	"splash": "res://assets/audio/opengameart/setpiece/splash.ogg",
+	"thunder": "res://assets/audio/opengameart/setpiece/thunder.ogg",
 }
 
 var _cache := {}

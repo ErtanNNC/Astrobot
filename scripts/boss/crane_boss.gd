@@ -237,11 +237,18 @@ func _check_hook_landing() -> void:
 			_hook_state = 3
 
 
+var _attack_n := 0
+
+
 func _drop_scrap() -> void:
 	if not _bip:
 		return
 	var at := _bip.global_position + Vector3(randf_range(-2.5, 2.5), 0, randf_range(-2.5, 2.5))
 	at.y = _bip.last_floor_y
+	_attack_n += 1
+	if phase >= 2 and _attack_n % BossPatterns.EVERY == 0:      # ikinci saldırı: hurda sırası (yana kaç)
+		BossPatterns.volley(get_parent(), "res://scripts/boss/scrap.gd", "line", global_position, at)
+		return
 	var s := load("res://scripts/boss/scrap.gd").new() as Node3D
 	get_parent().add_child(s)
 	s.global_position = at

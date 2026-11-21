@@ -199,6 +199,9 @@ func _physics_process(delta: float) -> void:
 				break
 
 
+var _attack_n := 0
+
+
 func _throw_snowball() -> void:
 	if not _bip:
 		return
@@ -206,6 +209,11 @@ func _throw_snowball() -> void:
 	var at := _bip.global_position + Vector3(randf_range(-2.0, 2.0), 0, randf_range(-2.0, 2.0))
 	at.y = _bip.last_floor_y
 	if Vector2(at.x - global_position.x, at.z - global_position.z).length() < 3.5:
+		return
+	_attack_n += 1
+	if phase >= 2 and _attack_n % BossPatterns.EVERY == 0:      # ikinci saldırı: kartopu halkası (ortada kal)
+		BossPatterns.volley(get_parent(), "res://scripts/boss/snowball.gd", "ring", global_position, at)
+		Sfx.play("glide", -6.0, 0.5)
 		return
 	var s := load("res://scripts/boss/snowball.gd").new() as Node3D
 	get_parent().add_child(s)

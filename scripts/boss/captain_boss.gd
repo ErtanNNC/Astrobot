@@ -141,6 +141,20 @@ func _physics_process(delta: float) -> void:
 	_eye.position.y = _fish_pos.y + sin(_t * 2.3) * 0.06
 	_model.position.y = sin(_t * 2.0) * 0.08
 	_model.rotation.z = sin(_t * 1.1) * 0.03
+	# İkinci saldırı (2026-11-22): güverteye aralıklı varil/hurda düşer; 2. aşamada sıra hâlinde
+	_drop_t -= delta
+	if _drop_t <= 0.0 and (phase == 1 or phase == 2):
+		_drop_t = DROP_INTERVAL
+		var bp := get_tree().get_first_node_in_group("player") as Bip
+		if bp and Vector2(bp.global_position.x - global_position.x, bp.global_position.z - global_position.z).length() > 3.5:
+			var at := Vector3(bp.global_position.x, bp.last_floor_y, bp.global_position.z)
+			_attack_n += 1
+			if phase == 2 and _attack_n % BossPatterns.EVERY == 0:
+				BossPatterns.volley(get_parent(), "res://scripts/boss/scrap.gd", "line", global_position, at)
+			else:
+				var s := load("res://scripts/boss/scrap.gd").new() as Node3D
+				get_parent().add_child(s)
+				s.global_position = at + Vector3(randf_range(-1.5, 1.5), 0, randf_range(-1.5, 1.5))
 	var spd: float = [0.0, sweep_speed, sweep_speed * 0.6, 0.0][phase]
 	_sweeper.rotation.y += spd * delta
 	if spd > 0.0:
@@ -151,6 +165,11 @@ func _physics_process(delta: float) -> void:
 		_barrels = _barrels.filter(func(x): return is_instance_valid(x))
 		if _barrels.is_empty():
 			_hit()
+
+
+const DROP_INTERVAL := 3.2       ## s
+var _drop_t := 4.0
+var _attack_n := 0
 
 
 func _spawn_barrels() -> void:

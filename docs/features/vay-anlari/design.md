@@ -82,4 +82,4 @@ türü hatasız oynar, geçici olanlar arkasını temizler.
 ## Açık konular
 - Hiçbiri telefonda oynanarak denenmedi: topun süresi/kavisi mide bulandırıyor mu, manzara kamerası başta rahatsız ediyor mu bakılmalı.
 - Topların ana yol olduğu alan: Top Adaları (Bölüm 5). Diğer alanlarda toplar yan yol.
-- Gösterilerin kendine özel sesi yok; eldeki efektler alçak perdede kullanılıyor.
+- Top, patlama, havai fişek, balina sıçraması ve gök gürültüsünün kendi sesi var (`Sfx`: cannon, boom, firework, splash, thunder; CC0). Sesler bu ortamda dinlenemedi; düzeyleri telefonda kontrol edilmeli.
