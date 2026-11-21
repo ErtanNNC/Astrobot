@@ -156,7 +156,7 @@ func _update_fps(delta: float) -> void:
 	_fps_min = minf(_fps_min, 1.0 / maxf(delta, 0.0001))
 	_fps_t += delta
 	if _fps_t >= 0.5:
-		_fps.text = "%d FPS (en düşük %d)" % [Engine.get_frames_per_second(), int(_fps_min)]
+		_fps.text = tr("%d FPS (en düşük %d)") % [Engine.get_frames_per_second(), int(_fps_min)]
 		_fps_t = 0.0
 		_fps_min = 999.0
 

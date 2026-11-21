@@ -203,7 +203,7 @@ static func style_slider(sl: HSlider) -> void:
 
 static func icon_for(text: String) -> Texture2D:
 	for k in ICONS:
-		if text.begins_with(k):
+		if text.begins_with(k) or text.begins_with(TranslationServer.translate(k)):   # çevrilmiş metinde de simge
 			return icon(ICONS[k], 40)
 	return null
 
@@ -252,21 +252,29 @@ static func pop_in(c: Control) -> void:
 		await c.get_tree().process_frame      # düzen otursun (sarılan yazılar ilk karede çok uzun ölçülür)
 		if not is_instance_valid(c):
 			return
-		# Uzun pencereler (çok düğmeli menüler) kısa ekrana sığsın: gerekirse küçült
-		var sz := c.size
-		c.pivot_offset = sz / 2.0
-		var fit := 1.0
-		var vh := c.get_viewport_rect().size.y
-		if sz.y > vh * 0.94:
-			fit = vh * 0.94 / sz.y
-			# Ekrandan büyük pencere üstten taşar: dönme noktasını, küçülünce ortada kalacak yere koy
-			var top0 := c.global_position.y
-			c.pivot_offset.y = ((vh - sz.y * fit) / 2.0 - top0) / (1.0 - fit)
+		await c.get_tree().process_frame
+		if not is_instance_valid(c):
+			return
+		var fit := fit_scale(c)
 		var tw := c.create_tween().set_parallel(true)
 		tw.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 		tw.tween_property(c, "scale", Vector2.ONE * fit, 0.32).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		tw.tween_property(c, "modulate:a", 1.0, 0.15)
 	go.call_deferred()
+
+
+## Uzun pencereler (çok düğmeli menüler) kısa ekrana sığsın: gereken ölçeği döndürür ve dönme noktasını
+## küçülünce ekranın ortasında kalacak yere koyar. Ölçeği çağıran uygular.
+static func fit_scale(c: Control) -> float:
+	var sz := c.size
+	c.pivot_offset = sz / 2.0
+	var vh := c.get_viewport_rect().size.y
+	if sz.y <= vh * 0.94:
+		return 1.0
+	var fit := vh * 0.94 / sz.y
+	var top0 := c.global_position.y - (c.pivot_offset.y * (1.0 - c.scale.y))   # ölçeksiz üst kenar
+	c.pivot_offset.y = ((vh - sz.y * fit) / 2.0 - top0) / (1.0 - fit)
+	return fit
 
 
 ## Büyük başlık (36 px ve üstü) kırmızı kurdele üstünde beyaz yazı; küçükler düz yazı.

@@ -18,7 +18,7 @@ func _ready() -> void:
 	var v := UIKit.panel(self, 820)
 	var area: String = GameState.data.get("area", "ch1_patron")
 	var ch := GameState.chapter_of(area)
-	UIKit.title(v, "Bölüm %d Tamamlandı!" % ch, 44)
+	UIKit.title(v, tr("Bölüm %d Tamamlandı!") % ch, 44)
 	UIKit.title(v, GameState.CHAPTER_NAMES.get(ch, ""), 30)
 	var total := 0
 	for a in GameState.CHAPTERS[ch]:
@@ -43,7 +43,7 @@ func _ready() -> void:
 		["star", "Altın Vida", chapter_screws, " / %d" % max_screws],
 		["trophy", "Çekirdek Pil", GameState.data.get("core_cells", []).size(), " / 4"],
 		["medal1", "Kurtarılan robot", GameState.data.get("robots", []).size(), ""],
-		["information", "Süre", mins, " dk"],
+		["information", "Süre", mins, tr(" dk")],
 	]
 	if GameState.data.get("game_complete", false):
 		stats.append(["checkmark", "Tüm oyun pili", GameState.total_batteries(), ""])
@@ -65,7 +65,7 @@ func _ready() -> void:
 		GameState.data["checkpoint_id"] = "start"
 		GameState.data["checkpoint_ability"] = ""
 		GameState.set_ability("")
-		var b2 := UIKit.button(btns, "Bölüm %d: %s" % [ch + 1, GameState.CHAPTER_NAMES[ch + 1]], func(): Scenes.go(nxt["scene"]), UIKit.BLUE)
+		var b2 := UIKit.button(btns, tr("Bölüm %d: %s") % [ch + 1, tr(GameState.CHAPTER_NAMES[ch + 1])], func(): Scenes.go(nxt["scene"]), UIKit.BLUE)
 		b2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	GameState.save(true)
 

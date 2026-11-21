@@ -1,0 +1,90 @@
+class_name LangEn
+## İngilizce çeviri tablosu: anahtar oyundaki Türkçe metnin kendisidir (kaynak dil Türkçe).
+## Settings._ready bunu TranslationServer'a kaydeder; Label/Button metinleri kendiliğinden çevrilir,
+## biçimli metinlerde (%d, %s) kodda tr("...") kullanılır. Yeni metin ekleyince buraya da ekle.
+## Bkz. docs/features/dil/design.md
+
+const MESSAGES := {
+	# --- Genel düğmeler ---
+	"Devam": "Continue", "Yeni Oyun": "New Game", "Kayıtlar": "Saves", "Ayarlar": "Settings", "Koleksiyon": "Collection",
+	"Kostümler": "Costumes", "Çıkış": "Quit", "Kapat": "Close", "Geri": "Back", "Evet": "Yes", "Hayır": "No", "Sil": "Delete",
+	"Alan Seç": "Area Select", "Atölye": "Workshop", "Atölye'ye dön": "Back to Workshop", "Harika!": "Great!",
+	"Kontrol noktasından başla": "Restart from checkpoint", "Duraklatıldı": "Paused", "Televizyon": "Television",
+	"Kostüm Dolabı": "Costume Closet", "Nereye gidelim?": "Where to?", "Devam: ": "Continue: ", "En ileri nokta: ": "Furthest point: ",
+	"Sahne: Fırtına Gecesi": "Scene: Stormy Night", "Sahne: Işıklar Geri Geldi": "Scene: The Lights Are Back",
+	"Başlamak için dokun": "Tap to start", "Başlamak için bir tuşa bas": "Press any key to start", "Kopyalayan Robot": "The Copy Robot",
+	"Bu yuvadaki kayıt silinip yeni oyun başlasın mı?": "Erase this save and start a new game?",
+	"Yuva %d silinsin mi?": "Delete slot %d?", "Emin misin? Bu geri alınamaz.": "Are you sure? This cannot be undone.",
+	"Yuva %d · Boş": "Slot %d · Empty", "Boş": "Empty", "Vida %d/%d": "Screws %d/%d",
+	"Yuva %d · %%%d\n%s · Pil %d · Vida %d/%d · %d dk": "Slot %d · %d%%\n%s · Batteries %d · Screws %d/%d · %d min",
+	"Bölüm %d · %s": "Chapter %d · %s", " (kilitli)": " (locked)", "Bölüm %d: %s": "Chapter %d: %s",
+	"Henüz bir şey yok. Kapıdan çıkıp maceraya başla!": "Nothing here yet. Walk out the door and start the adventure!",
+	"Altın Vida %d/%d  ·  Çekirdek Pil %d/4\nGizli Köşe %d/%d  ·  Pil %d": "Golden Screws %d/%d  ·  Core Cells %d/4\nSecrets %d/%d  ·  Batteries %d",
+	"Gizli Adalar açıldı!": "Secret Islands unlocked!",
+	"Ada kurtuldu ama Pırıl haritada dört gizli ada buldu: Oyuncak Kasabası, Yıldız Gözlemevi, Volkan Adası ve Şampiyon Yolu. Kapıdan çıkınca yolculuk Bölüm 5 ile sürer!":
+		"The island is saved, but Sparkle found four secret islands on the map: Toy Town, Star Observatory, Volcano Island and Champion's Road. Walk out the door and the journey continues in Chapter 5!",
+	"%d Altın Vida": "%d Screws", "%d pil": "%d batteries",
+	# --- Ayarlar ---
+	"Buton boyutu": "Button size", "Sol el modu": "Left-handed", "Titreşim": "Vibration", "Pırıl ipuçları": "Sparkle hints",
+	"Ekran sarsıntısı": "Screen shake", "Görüntü kalitesi": "Graphics quality", "Gölgeler": "Shadows", "Kare hızını göster": "Show FPS",
+	"Tüm alanlar açık (test)": "All areas open (test)", "Genel ses": "Master volume", "Müzik": "Music", "Efektler": "Effects",
+	"Küçük": "Small", "Orta": "Medium", "Büyük": "Large", "Düşük": "Low", "Yüksek": "High", "Açık": "On", "Kapalı": "Off",
+	"Dil": "Language", "Türkçe": "Türkçe", "%d FPS (en düşük %d)": "%d FPS (min %d)",
+	# --- Oyun içi afişler ---
+	"Robot kurtarıldı!": "Robot rescued!", "Toplam %d": "Total %d", "Altın Vida!": "Golden Screw!", "Aşama %d": "Phase %d",
+	"Gizli köşe!": "Secret found!", "Tamam!": "Clear!", "Pil %d / %d": "Batteries %d / %d", "Yeni hareket: ": "New move: ",
+	"Vuruş butonu": "Attack button", "B tuşu": "B button", "F tuşu": "F key",
+	"Boşluk": "Space", "Boşluk (basılı)": "Space (hold)", "Fare / oklar": "Mouse / arrows", "A (basılı)": "A (hold)",
+	"Sağ çubuk": "Right stick", "Sol çubuk": "Left stick",
+	# --- Sonuç ekranı ---
+	"Bölüm %d Tamamlandı!": "Chapter %d Complete!", "Pil": "Batteries", "Altın Vida": "Golden Screws", "Çekirdek Pil": "Core Cells",
+	"Kurtarılan robot": "Robots rescued", "Süre": "Time", " dk": " min", "Tüm oyun pili": "All batteries",
+	# --- Hareketler ---
+	"Kenara Tutunma": "Ledge Grab", "Zıplaman kısa kalırsa kenara tutun; zıpla ya da ileri bas, yukarı çık.": "If your jump falls short, grab the ledge; jump or push forward to climb up.",
+	"Dönme Saldırısı": "Spin Attack", "Vuruş butonu: dönerek düşmanları ve sandıkları vur. Havada kısa süre asılı kalırsın.": "Attack button: spin to hit enemies and crates. You hang in the air for a moment.",
+	"Havada Atılma": "Air Dash", "Havadayken Vuruş butonu: ileri doğru hamle yap.": "Attack button in mid-air: dash forward.",
+	"Duvar Zıplaması": "Wall Jump", "Duvara doğru düşerken kayarsın; zıpla, karşıya sek.": "You slide when falling against a wall; jump to bounce off.",
+	"Çift Zıplama": "Double Jump", "Havadayken bir kez daha zıpla.": "Jump once more in mid-air.",
+	# --- Yetenekler ---
+	"Yay": "Spring", "Balon": "Balloon", "Mıknatıs": "Magnet", "Kaya": "Rock", "Pervane": "Propeller", "Buz": "Ice",
+	# --- Bölümler ve alanlar ---
+	"Uyanış": "Awakening", "Fırtına Limanı": "Storm Harbor", "Buzul Tepesi": "Glacier Peak", "Fırtınanın Gözü": "Eye of the Storm", "Gizli Adalar": "Secret Islands",
+	"Uyanış Atölyesi": "Wake-up Workshop", "Yay Bahçesi": "Spring Garden", "Balon Kanyonu": "Balloon Canyon", "Mıknatıs Fabrikası": "Magnet Factory",
+	"Kaya Ocağı": "Rock Quarry", "Hurdacı Vinç": "Scrapper Crane", "Liman Rıhtımı": "Harbor Docks", "Fener Kulesi": "Lighthouse Tower",
+	"Gemi Mezarlığı": "Ship Graveyard", "Paslı Kaptan": "Rusty Captain", "Buz Mağarası": "Ice Cave", "Donmuş Göl": "Frozen Lake",
+	"Kar Zirvesi": "Snow Summit", "Kardan Dev": "Snow Giant", "Bulut Basamakları": "Cloud Steps", "Fırtına Köprüleri": "Storm Bridges",
+	"Kıvılcım Kalesi": "Spark Castle", "Statik": "Static", "Oyuncak Kasabası": "Toy Town", "Yıldız Gözlemevi": "Star Observatory",
+	"Volkan Adası": "Volcano Island", "Şampiyon Yolu": "Champion's Road",
+	"Çiçek Tepesi": "Flower Hill", "Gün Batımı Terası": "Sunset Terrace",
+	# --- Kostümler ---
+	"Klasik Sarı": "Classic", "Gökyüzü": "Sky", "Nane": "Mint", "Pamuk Şeker": "Cotton Candy", "Lav": "Lava", "Gece": "Night", "Altın": "Gold",
+	# --- Patron ipuçları ---
+	"Yay'ı kopyala; kanca yere inince üstüne zıpla!": "Copy the Spring; jump on the hook when it lands!",
+	"Balon'u kopyala, rüzgârla süzülüp sağdaki şaltere ulaş!": "Copy the Balloon, glide on the wind to the switch on the right!",
+	"Mıknatısla metal bloklardan tepeye çık, Kaya ile kabinin çatısına çakıl!": "Climb the metal blocks with the Magnet, then slam the cabin roof with the Rock!",
+	"Pervane'yi kopyala, direğin tepesindeki gözcü yerine uç!": "Copy the Propeller and fly up to the crow's nest!",
+	"Kaya'yı kopyala, güverteye düşen 3 sandığı kır (üstüne zıpla ya da çakıl)!": "Copy the Rock and smash the 3 crates that drop on deck (jump on them or slam)!",
+	"Mıknatısla kaptanın şapkasına çekil, tepedeki Kaya ile şapkaya çakıl!": "Pull yourself to the captain's hat with the Magnet, then slam it with the Rock up there!",
+	"Zıpzıpları Buz ile dondur; buz bloklarına basıp devin yumruğuna çık!": "Freeze the hoppers with Ice; step on the ice blocks to reach the giant's fist!",
+	"Buz'u kopyala, gölün üstünde yürüyüp adadaki şalteri indir!": "Copy the Ice, walk across the lake and pull the switch on the island!",
+	"Pervane ile devin başının üstüne yüksel, Kaya ile başına çakıl!": "Rise above the giant's head with the Propeller, then slam it with the Rock!",
+	"Yıldırım halkalarından kaç; Kaya ile üç paratoner direğine çakıl!": "Dodge the lightning rings; slam the three lightning rods with the Rock!",
+	"Pervane ve Balon ile bulutlardan Statik'e çık, sırtındaki şaltere dokun!": "Use the Propeller and Balloon to climb the clouds to Static and touch the switch on its back!",
+	"Mıknatısla Statik'in tacına çekil, tacın üstünde Yetenek tuşuyla enerji ver!": "Pull yourself to Static's crown with the Magnet, then give energy with the Ability button!",
+	# --- Emeği Geçenler ---
+	"Tasarım ve yapım": "Design and development", "Bip Ekibi": "Team Bip", "Claude Code ile birlikte": "together with Claude Code",
+	"Bip'in gövdesi": "Bip's body", "Animasyonlar: Mixamo (Adobe)": "Animations: Mixamo (Adobe)",
+	"Atölye robotları: Quaternius — Animated Robot (CC0)": "Workshop robots: Quaternius — Animated Robot (CC0)",
+	"Çevre, düşmanlar, Pırıl": "Environment, enemies, Sparkle", "Zemin blokları": "Blocks and props", "Ağaçlar ve çiçekler": "Trees and flowers",
+	"Paslı Kaptan modeli": "Rusty Captain model", "Duvar ve zemin dokuları": "Wall and ground textures", "Ses efektleri": "Sound effects",
+	"Arayüz": "Interface", "Yazı tipi": "Font", "Müzik (OpenGameArt, CC0)": "Music (OpenGameArt, CC0)", "Motor": "Engine",
+	"Oynadığın için teşekkürler!": "Thanks for playing!", "Dişli Adası yeniden ışıl ışıl.": "Gear Island shines again.",
+}
+
+
+static func translation() -> Translation:
+	var t := Translation.new()
+	t.locale = "en"
+	for k in MESSAGES:
+		t.add_message(k, MESSAGES[k])
+	return t

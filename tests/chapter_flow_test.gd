@@ -4,6 +4,13 @@ extends Node
 var fails := 0
 
 func _ready() -> void:
+	# Dil: İngilizce seçilince çevrilir, Türkçe seçilince Türkçe kalır (motor İngilizceye düşmemeli)
+	Settings.language = "en"
+	Settings.apply_language()
+	_check("dil: İngilizce çeviri", tr("Devam") == "Continue" and tr("Bölüm %d: %s") == "Chapter %d: %s", tr("Devam"))
+	Settings.language = "tr"   # testler düğmeleri Türkçe metinle arar
+	Settings.apply_language()
+	_check("dil: Türkçe seçiliyken Türkçe", tr("Devam") == "Devam", tr("Devam"))
 	GameState.delete_slot(2)
 	GameState.start_slot(2, true)
 	var first = load("res://scenes/chapter1/a0_atolye.tscn").instantiate()

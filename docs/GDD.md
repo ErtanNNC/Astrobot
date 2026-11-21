@@ -37,6 +37,8 @@ keşfet → kopyalanabilir nesne bul → yeteneği kopyala → engeli/bulmacayı
 | Hareket | implemented | MVP | Koşma, değişken yükseklikte zıplama, coyote time, zıplama tamponu, havada kontrol; ilerledikçe açılan kenara tutunma, dönme saldırısı, havada atılma, duvar zıplaması, çift zıplama (D-016) | [design](features/hareket/design.md) |
 | Oyun hissi | in progress | MVP | Astro Bot / Mario Odyssey karşılaştırması: jet süzülme, pil çekimi, canlı süsler, sakin kamera; sırada seviye yoğunluğu | [design](features/oyun-hissi/design.md) |
 | Kostümler | implemented | V1 | Pille açılan 7 renk kostümü (Atölye'deki Kostüm Dolabı), ton kaydıran gölgelendirici | [design](features/kostum/design.md) |
+| Dil | implemented | V1 | Türkçe + İngilizce; cihaz diline göre açılır, Ayarlar'dan değişir | [design](features/dil/design.md) |
+| Performans | in progress | V1 | Uzaklık gizleme, hafif Bip, FPS göstergesi; gerçek cihaz ölçümü bekleniyor | [design](features/performans/design.md) |
 | Bölüm 5 (bonus) | implemented | V1 | Final sonrası açılan Gizli Adalar: Oyuncak Kasabası, Yıldız Gözlemevi, Volkan Adası (lav), Şampiyon Yolu | [design](features/bolum-5/design.md) |
 | Arayüz görünüşü | implemented | MVP | Kenney butonları, Nunito yazı tipi, animasyonlu kartlar, yeni HUD ve sonuç ekranı | [design](features/arayuz/design.md) |
 | Kopyalama | implemented | MVP | Antenle nesneden yetenek kopyalama; Yay, Balon, Mıknatıs, Kaya; hasar alınca yetenek kaybı | [design](features/kopyalama/design.md) |

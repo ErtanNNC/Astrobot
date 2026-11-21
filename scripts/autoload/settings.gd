@@ -21,14 +21,38 @@ var sfx_vol := 1.0
 var quality := 2              ## 0 Düşük, 1 Orta, 2 Yüksek (3B çözünürlük ölçeği)
 var shadows_on := true
 var skin := "klasik"          ## Bip'in kostümü (GameState.SKINS)
+var language := ""            ## "" = cihaz diline göre (Türkçe cihazda tr, diğerlerinde en), "tr", "en"
 var show_fps := false         ## ekranda kare hızı (performans testi için)
 var dev_all_areas := false    ## test: Alan Seç'te bütün alanlar açık (mağaza sürümünden önce kaldırılacak)
 
 
 func _ready() -> void:
 	load_settings()
+	apply_language()
 	apply()
 	get_tree().root.theme = UIKit.make_theme()   # tüm arayüzün görünüşü (scripts/ui/ui_kit.gd)
+
+
+## Kaynak dil Türkçe; İngilizce çeviri tablosu scripts/ui/lang_en.gd
+func current_language() -> String:
+	if language in ["tr", "en"]:
+		return language
+	return "tr" if OS.get_locale_language() == "tr" else "en"
+
+
+var _en: Translation
+
+
+## İngilizce tablo yalnızca dil İngilizceyken kayıtlıdır: motor, Türkçe çeviri bulamayınca İngilizceye
+## düştüğü için tablo hep kayıtlı kalırsa Türkçe seçiliyken de İngilizce çıkar.
+func apply_language() -> void:
+	var lang := current_language()
+	if _en == null:
+		_en = LangEn.translation()
+	TranslationServer.remove_translation(_en)
+	if lang == "en":
+		TranslationServer.add_translation(_en)
+	TranslationServer.set_locale(lang)
 
 
 func button_scale() -> float:
@@ -99,6 +123,7 @@ func load_settings() -> void:
 	skin = cfg.get_value("player", "skin", skin)
 	dev_all_areas = cfg.get_value("dev", "all_areas", dev_all_areas)
 	show_fps = cfg.get_value("graphics", "show_fps", show_fps)
+	language = cfg.get_value("player", "language", language)
 
 
 func save_settings() -> void:
@@ -119,6 +144,7 @@ func save_settings() -> void:
 	cfg.set_value("player", "skin", skin)
 	cfg.set_value("dev", "all_areas", dev_all_areas)
 	cfg.set_value("graphics", "show_fps", show_fps)
+	cfg.set_value("player", "language", language)
 	# Güvenli yazma: önce geçici dosya, sonra yerine koy (kayıt dokümanı kural 7).
 	var tmp := PATH + ".tmp"
 	if cfg.save(tmp) == OK:

@@ -22,6 +22,10 @@ static func build(parent: Control, on_pick: Callable, columns := 4) -> GridConta
 	return grid
 
 
+static func _t(s: String) -> String:
+	return TranslationServer.translate(s)
+
+
 static func _card(sk: Dictionary, on_pick: Callable) -> Control:
 	var id: String = sk["id"]
 	var open := GameState.skin_unlocked(id)
@@ -51,7 +55,7 @@ static func _card(sk: Dictionary, on_pick: Callable) -> Control:
 	svc.add_child(sv)
 	_stage(sv, sk, open)
 	var l := Label.new()
-	l.text = sk["name"] if open else ("%d Altın Vida" % int(sk["need_screws"]) if sk.has("need_screws") else "%d pil" % int(sk["need"]))
+	l.text = _t(sk["name"]) if open else (_t("%d Altın Vida") % int(sk["need_screws"]) if sk.has("need_screws") else _t("%d pil") % int(sk["need"]))
 	if chosen:
 		l.text = "✓ " + l.text
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

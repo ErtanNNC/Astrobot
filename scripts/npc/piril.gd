@@ -187,7 +187,7 @@ func show_hint(kind: String, at: Vector3) -> void:
 	var dev: String = TouchInput.last_device
 	if names.has(dev):
 		var l := Label3D.new()
-		l.text = names[dev].get(kind, "")
+		l.text = tr(names[dev].get(kind, ""))
 		l.font_size = 40
 		l.outline_size = 10
 		l.billboard = BaseMaterial3D.BILLBOARD_ENABLED

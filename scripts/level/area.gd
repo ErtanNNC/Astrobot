@@ -74,6 +74,8 @@ func _ready() -> void:
 	_move_props_to_layer2.call_deferred()
 	_spawn_lost_robots.call_deferred()
 	_optimize_rendering.call_deferred()
+	for l3 in find_children("*", "Label3D", true, false):
+		(l3 as Label3D).text = tr((l3 as Label3D).text)      # seviye tabelaları (Label3D kendiliğinden çevrilmez)
 	if has_node("Decor"):
 		var react := preload("res://scripts/level/decor_react.gd").new()
 		react.name = "DecorReact"
@@ -133,7 +135,7 @@ func _spawn_lost_robots() -> void:
 
 
 func on_robot_rescued() -> void:
-	hud.banner("Robot kurtarıldı!", "Toplam %d" % GameState.data.get("robots", []).size(), 1.2)
+	hud.banner("Robot kurtarıldı!", tr("Toplam %d") % GameState.data.get("robots", []).size(), 1.2)
 
 
 ## Ağaç/kaya gibi süs gövdeleri ve sandıklar 2. katmana: Bip çarpar, kamera kolu çarpmaz (ekran sıçramaz).
@@ -270,7 +272,7 @@ func boss_event(what: String) -> void:
 func boss_phase(p: int) -> void:
 	# Her aşama başında kontrol noktası: o aşamadan devam edilir
 	var boss := get_tree().get_first_node_in_group("boss")
-	hud.banner("Aşama %d" % p, _phase_hint(boss, p), 4.5)
+	hud.banner(tr("Aşama %d") % p, _phase_hint(boss, p), 4.5)
 	_goal_t = 0.0
 	GameState.data["checkpoint_ability"] = GameState.ability
 
@@ -292,7 +294,7 @@ func secret_found(id: String) -> void:
 	GameState.data["secrets"] = list
 	Sfx.play("secret")
 	Haptics.vibrate(40)
-	hud.banner("Gizli köşe!", "Toplam %d" % list.size(), 1.6)
+	hud.banner("Gizli köşe!", tr("Toplam %d") % list.size(), 1.6)
 
 
 func show_health() -> void:
@@ -313,7 +315,7 @@ func complete_area() -> void:
 	var anim: AnimationPlayer = bip.get_node("Visual/Model/AnimationPlayer")
 	anim.play("RobotArmature|Robot_Dance", 0.2)
 	var got := GameState.area_battery_count(area_id)
-	hud.banner("Tamam!", "Pil %d / %d" % [got, area_total], 2.5)
+	hud.banner("Tamam!", tr("Pil %d / %d") % [got, area_total], 2.5)
 	await get_tree().create_timer(3.2).timeout
 	var nxt := GameState.next_area(area_id)
 	if nxt.is_empty():
@@ -379,12 +381,12 @@ func _announce_moves() -> void:
 	for m in moves:
 		if not is_inside_tree():
 			return
-		var info: String = GameState.MOVES[m]["info"]
+		var info: String = tr(GameState.MOVES[m]["info"])
 		if TouchInput.last_device == "gamepad":
-			info = info.replace("Vuruş butonu", "B tuşu")
+			info = info.replace(tr("Vuruş butonu"), tr("B tuşu"))
 		elif TouchInput.last_device == "keyboard":
-			info = info.replace("Vuruş butonu", "F tuşu")
-		hud.banner("Yeni hareket: " + GameState.MOVES[m]["name"], info, 3.5)
+			info = info.replace(tr("Vuruş butonu"), tr("F tuşu"))
+		hud.banner(tr("Yeni hareket: ") + tr(GameState.MOVES[m]["name"]), info, 3.5)
 		Sfx.play("secret", -4.0)
 		await get_tree().create_timer(4.5, false).timeout
 

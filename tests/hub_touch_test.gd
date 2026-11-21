@@ -3,6 +3,8 @@ extends Node
 var fails := 0
 
 func _ready() -> void:
+	Settings.language = "tr"   # testler düğmeleri Türkçe metinle arar
+	Settings.apply_language()
 	for i in GameState.SLOT_COUNT:
 		GameState.delete_slot(i)
 	load("res://scripts/ui/hub.gd").skip_title = true

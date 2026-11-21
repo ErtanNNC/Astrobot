@@ -58,6 +58,7 @@ func _ready() -> void:
 	_grid.add_theme_constant_override("h_separation", 14)
 	_grid.add_theme_constant_override("v_separation", 14)
 	_settings.add_child(_grid)
+	_row("language", "Dil")
 	_row("button_size", "Buton boyutu")
 	_row("left_handed", "Sol el modu")
 	_row("vibration", "Titreşim")
@@ -114,6 +115,16 @@ func _show_settings() -> void:
 	_settings.visible = true
 	_refresh()
 	_grid.get_child(0).grab_focus()
+	_fit_panel()
+
+
+## Ayarlar listesi uzadıkça kısa ekrana sığsın (ana duraklatma menüsünde ölçek 1'e döner).
+func _fit_panel() -> void:
+	_panel.scale = Vector2.ONE
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if is_instance_valid(_panel):
+		_panel.scale = Vector2.ONE * UIKit.fit_scale(_panel)
 
 
 func _show_main() -> void:
@@ -123,6 +134,7 @@ func _show_main() -> void:
 	_settings.visible = false
 	_main.visible = true
 	_main.get_child(1).grab_focus()
+	_fit_panel()
 
 
 # ---------- Yardımcılar ----------
@@ -204,7 +216,10 @@ func _on_slider(v: float, key: String) -> void:
 
 
 func _toggle(key: String) -> void:
-	if key == "button_size" or key == "quality":
+	if key == "language":
+		Settings.set_value("language", "en" if Settings.current_language() == "tr" else "tr")
+		Settings.apply_language()
+	elif key == "button_size" or key == "quality":
 		Settings.set_value(key, (Settings.get(key) + 1) % 3)
 	else:
 		Settings.set_value(key, not Settings.get(key))
@@ -215,13 +230,15 @@ func _refresh() -> void:
 	for key in _rows:
 		var b: Button = _rows[key][0]
 		var value: String
-		if key == "button_size":
+		if key == "language":
+			value = "Türkçe" if Settings.current_language() == "tr" else "English"
+		elif key == "button_size":
 			value = ["Küçük", "Orta", "Büyük"][Settings.button_size]
 		elif key == "quality":
 			value = ["Düşük", "Orta", "Yüksek"][Settings.quality]
 		else:
 			value = "Açık" if Settings.get(key) else "Kapalı"
-		b.text = "%s:  %s" % [_rows[key][1], value]
+		b.text = "%s:  %s" % [tr(_rows[key][1]), tr(value)]
 		var col := UIKit.BLUE
 		if value == "Açık":
 			col = UIKit.GREEN

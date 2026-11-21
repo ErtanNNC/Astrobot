@@ -295,10 +295,10 @@ func _play_pressed() -> void:
 	var v := _new_overlay(700)
 	UIKit.title(v, "Nereye gidelim?")
 	if not d.get("game_complete", false):
-		UIKit.button(v, "Devam: " + GameState.area_info(d.get("area", "ch1_atolye"))["name"], func(): _start_game(last, false), UIKit.GREEN)
+		UIKit.button(v, tr("Devam: ") + tr(GameState.area_info(d.get("area", "ch1_atolye"))["name"]), func(): _start_game(last, false), UIKit.GREEN)
 		var fur: String = d.get("furthest", "")
 		if fur != "" and fur != d.get("area", ""):
-			UIKit.button(v, "En ileri nokta: " + GameState.area_info(fur)["name"], func(): _start_area(last, GameState.area_info(fur)), UIKit.GREEN)
+			UIKit.button(v, tr("En ileri nokta: ") + tr(GameState.area_info(fur)["name"]), func(): _start_area(last, GameState.area_info(fur)), UIKit.GREEN)
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.add_theme_constant_override("h_separation", 10)
@@ -306,7 +306,7 @@ func _play_pressed() -> void:
 	v.add_child(grid)
 	for a in unlocked:
 		var has_screw: bool = d.get("golden_screws", []).has(a["id"] + "_vida")
-		var label: String = a["name"] + ("  ✓" if has_screw else "")
+		var label: String = tr(a["name"]) + ("  ✓" if has_screw else "")
 		var b := UIKit.button(grid, label, func(): _start_area(last, a))
 		b.custom_minimum_size = Vector2(320, 56)
 		b.add_theme_font_size_override("font_size", 22)
@@ -353,7 +353,7 @@ func _start_game(slot: int, fresh: bool) -> void:
 func _slot_text(i: int) -> String:
 	var d := GameState.slot_summary(i)
 	if d.is_empty():
-		return "Yuva %d · Boş" % (i + 1)
+		return tr("Yuva %d · Boş") % (i + 1)
 	var saved_slot := GameState.slot
 	var saved := GameState.data
 	GameState.data = GameState._migrate(d.duplicate(true))
@@ -363,7 +363,7 @@ func _slot_text(i: int) -> String:
 	GameState.slot = saved_slot
 	var info := GameState.area_info(d.get("area", "ch1_atolye"))
 	var mins := int(float(d.get("play_time", 0)) / 60.0)
-	return "Yuva %d · %%%d\n%s · Pil %d · Vida %d/%d · %d dk" % [i + 1, pct, info["name"], batt, d.get("golden_screws", []).size(), GameState.screw_total(), mins]
+	return tr("Yuva %d · %%%d\n%s · Pil %d · Vida %d/%d · %d dk") % [i + 1, pct, tr(info["name"]), batt, d.get("golden_screws", []).size(), GameState.screw_total(), mins]
 
 
 func _refresh_capsules() -> void:
@@ -371,7 +371,7 @@ func _refresh_capsules() -> void:
 		if m.kind == "capsule":
 			var d := GameState.slot_summary(int(m.arg))
 			if d.is_empty():
-				m.set_hologram("Boş")
+				m.set_hologram(tr("Boş"))
 			else:
 				var saved := GameState.data
 				GameState.data = GameState._migrate(d.duplicate(true))
@@ -381,7 +381,7 @@ func _refresh_capsules() -> void:
 			var best := 0
 			for i in GameState.SLOT_COUNT:
 				best = maxi(best, GameState.slot_summary(i).get("golden_screws", []).size())
-			m.set_hologram("Vida %d/%d" % [best, GameState.screw_total()])
+			m.set_hologram(tr("Vida %d/%d") % [best, GameState.screw_total()])
 
 
 ## Kurtarılan robotlar Atölye'de dans eder (en çok robot kurtarılan yuvadan, en fazla 24).
@@ -433,7 +433,7 @@ func _open_slot(i: int) -> void:
 		UIKit.button(v, "Devam", func(): _start_game(i, false), UIKit.GREEN)
 		UIKit.button(v, "Alan Seç", func(): _open_area_select(i))
 		UIKit.button(v, "Yeni Oyun", func(): _confirm("Bu yuvadaki kayıt silinip yeni oyun başlasın mı?", func(): _start_game(i, true)))
-		UIKit.button(v, "Sil", func(): _confirm("Yuva %d silinsin mi?" % (i + 1), func(): _confirm("Emin misin? Bu geri alınamaz.", func(): _delete(i))), UIKit.RED)
+		UIKit.button(v, "Sil", func(): _confirm(tr("Yuva %d silinsin mi?") % (i + 1), func(): _confirm("Emin misin? Bu geri alınamaz.", func(): _delete(i))), UIKit.RED)
 	UIKit.button(v, "Geri", _close_overlay)
 	_focus_first(v)
 
@@ -448,14 +448,14 @@ func _open_area_select(i: int, ch := 0) -> void:
 		for c in GameState.CHAPTERS:
 			var first := GameState.global_index(GameState.CHAPTERS[c][0]["id"])
 			var open := Settings.dev_all_areas or first <= furthest
-			var b := UIKit.button(v, "Bölüm %d · %s" % [c, GameState.CHAPTER_NAMES[c]], func(): _open_area_select(i, c))
+			var b := UIKit.button(v, tr("Bölüm %d · %s") % [c, tr(GameState.CHAPTER_NAMES[c])], func(): _open_area_select(i, c))
 			b.disabled = not open
 	else:
-		UIKit.title(v, "Bölüm %d · %s" % [ch, GameState.CHAPTER_NAMES[ch]], 32)
+		UIKit.title(v, tr("Bölüm %d · %s") % [ch, tr(GameState.CHAPTER_NAMES[ch])], 32)
 		for a in GameState.CHAPTERS[ch]:
 			var id: String = a["id"]
 			var open := Settings.dev_all_areas or GameState.global_index(id) <= furthest
-			var b := UIKit.button(v, a["name"] if open else a["name"] + " (kilitli)", func(): _play_area(i, id))
+			var b := UIKit.button(v, tr(a["name"]) if open else tr(a["name"]) + tr(" (kilitli)"), func(): _play_area(i, id))
 			b.disabled = not open
 	UIKit.button(v, "Geri", func(): _open_area_select(i) if ch != 0 else _open_slot(i))
 	_focus_first(v)
@@ -515,7 +515,7 @@ func _open_collection() -> void:
 		var pil := 0
 		for k in d.get("batteries", {}):
 			pil += d["batteries"][k].size()
-		UIKit.title(v, "Altın Vida %d/%d  ·  Çekirdek Pil %d/4\nGizli Köşe %d/%d  ·  Pil %d" % [d.get("golden_screws", []).size(), GameState.screw_total(),
+		UIKit.title(v, tr("Altın Vida %d/%d  ·  Çekirdek Pil %d/4\nGizli Köşe %d/%d  ·  Pil %d") % [d.get("golden_screws", []).size(), GameState.screw_total(),
 				d.get("core_cells", []).size(), d.get("secrets", []).size(), GameState.SECRET_TOTAL, pil], 24)
 	# Gardırop: kostümler minik Bip'ler olarak; dokunan seçer
 	UIKit.title(v, "Kostüm Dolabı", 26)
