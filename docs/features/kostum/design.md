@@ -2,6 +2,8 @@
 
 Oyuncunun topladığı pillerle açılan renk kostümleri. Toplamanın bir ödülü olsun, oyuncu Bip'i kendine benzetebilsin diye (Astro Bot'taki kostüm odası gibi). Atölye'deki **Kostüm Dolabı**'ndan (kuzey duvarı, pencerenin sağı) ya da hızlı menüdeki "Kostümler" düğmesinden seçilir.
 
+**Görünüş (2026-11-21):** Kostüm Dolabı ve Koleksiyon ekranında her kostüm minik, yavaşça dönen bir 3B Bip olarak kartta durur (`scripts/ui/skin_cards.gd`, her kart kendi küçük SubViewport'unda). Seçili kart yeşil, üstündeki Bip el sallar; kilitli kostümler karanlık siluet ve gereken pil/vida sayısıyla görünür. Karta dokunmak kostümü seçer, Atölye'deki Bip anında değişir.
+
 ## Rules
 1. Kostüm yalnızca görünüştür; oynanışı değiştirmez.
 2. Kostüm oyuncunundur, kayıt yuvasının değil: Ayarlar dosyasında tutulur (`Settings.skin`).
