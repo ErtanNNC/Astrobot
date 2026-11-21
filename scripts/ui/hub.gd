@@ -159,6 +159,27 @@ func _enter_hub(_animated: bool) -> void:
 	var anim: AnimationPlayer = bip.get_node("Visual/Model/AnimationPlayer")
 	anim.play("RobotArmature|Robot_Wave")
 	anim.queue("RobotArmature|Robot_Idle")
+	_announce_bonus.call_deferred()
+
+
+## Final bittiyse bonus bölümü bir kez duyur (oyuncu Gizli Adalar'ın açıldığını bilsin).
+func _announce_bonus() -> void:
+	var d := GameState.data
+	if d.is_empty() or not d.get("game_complete", false) or d.get("seen_cutscenes", []).has("bonus_intro"):
+		return
+	if GameState.chapter_of(d.get("area", "ch1_atolye")) != 5:
+		return
+	GameState.mark_seen("bonus_intro")
+	GameState.save(true)
+	await get_tree().create_timer(1.2).timeout
+	var v := _new_overlay(560)
+	UIKit.title(v, "Gizli Adalar açıldı!")
+	var l := UIKit.title(v, "Ada kurtuldu ama Pırıl haritada dört gizli ada buldu: Oyuncak Kasabası, Yıldız Gözlemevi, Volkan Adası ve Şampiyon Yolu. Kapıdan çıkınca yolculuk Bölüm 5 ile sürer!", 24)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(500, 0)
+	Sfx.play("secret")
+	UIKit.button(v, "Harika!", _close_overlay, UIKit.GREEN)
+	_focus_first(v)
 
 
 func _physics_process(_delta: float) -> void:
@@ -360,7 +381,7 @@ func _refresh_capsules() -> void:
 			var best := 0
 			for i in GameState.SLOT_COUNT:
 				best = maxi(best, GameState.slot_summary(i).get("golden_screws", []).size())
-			m.set_hologram("Vida %d/5" % best)
+			m.set_hologram("Vida %d/%d" % [best, GameState.screw_total()])
 
 
 ## Kurtarılan robotlar Atölye'de dans eder (en çok robot kurtarılan yuvadan, en fazla 24).
