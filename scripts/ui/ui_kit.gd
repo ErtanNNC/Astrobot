@@ -267,12 +267,14 @@ static func pop_in(c: Control) -> void:
 ## küçülünce ekranın ortasında kalacak yere koyar. Ölçeği çağıran uygular.
 static func fit_scale(c: Control) -> float:
 	var sz := c.size
-	c.pivot_offset = sz / 2.0
 	var vh := c.get_viewport_rect().size.y
+	# Ölçeksiz üst kenar: düzenin verdiği konum (ölçek ve eski eksen noktası hesaba katılmadan). Böylece bu işlev
+	# pencere zaten ölçekliyken de yeniden çağrılabilir (eskiden ikinci çağrıda konum kayıyordu).
+	var top0 := c.global_position.y - c.pivot_offset.y * (1.0 - c.scale.y)
+	c.pivot_offset = sz / 2.0
 	if sz.y <= vh * 0.94:
 		return 1.0
 	var fit := vh * 0.94 / sz.y
-	var top0 := c.global_position.y - (c.pivot_offset.y * (1.0 - c.scale.y))   # ölçeksiz üst kenar
 	c.pivot_offset.y = ((vh - sz.y * fit) / 2.0 - top0) / (1.0 - fit)
 	return fit
 

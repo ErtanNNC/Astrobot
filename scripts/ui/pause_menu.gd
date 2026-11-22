@@ -57,7 +57,18 @@ func _ready() -> void:
 	_grid.columns = 3
 	_grid.add_theme_constant_override("h_separation", 14)
 	_grid.add_theme_constant_override("v_separation", 14)
-	_settings.add_child(_grid)
+	# Ayar listesi kaydırılır: pencere ekrandan uzun olmaz, "Geri" ve alt düğmeler hep görünür.
+	# (Geliştirici testi 2026-11-22: liste uzayınca pencere küçültülüyordu; telefonda bir ayar değişince küçültme
+	# bozuluyor, pencere büyüyüp "Geri" düğmesi ekran dışına çıkıyordu.)
+	_scroll = ScrollContainer.new()
+	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_scroll.custom_minimum_size = Vector2(900, SETTINGS_LIST_HEIGHT)
+	_settings.add_child(_scroll)
+	_list = VBoxContainer.new()
+	_list.add_theme_constant_override("separation", 14)
+	_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_scroll.add_child(_list)
+	_list.add_child(_grid)
 	_row("language", "Dil")
 	_row("button_size", "Buton boyutu")
 	_row("left_handed", "Sol el modu")
@@ -144,6 +155,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+const SETTINGS_LIST_HEIGHT := 330.0      ## px (720 yüksekliğe göre); liste bundan uzunsa kaydırılır
+var _scroll: ScrollContainer
+var _list: VBoxContainer
 var _licenses: VBoxContainer
 var _log_btn: Button
 var _wipe_btn: Button
@@ -222,7 +236,6 @@ func _show_settings() -> void:
 
 ## Ayarlar listesi uzadıkça kısa ekrana sığsın (ana duraklatma menüsünde ölçek 1'e döner).
 func _fit_panel() -> void:
-	_panel.scale = Vector2.ONE
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if is_instance_valid(_panel):
@@ -292,7 +305,7 @@ func _slider(key: String, label: String) -> void:
 	UIKit.style_slider(sl)
 	sl.value_changed.connect(_on_slider.bind(key))
 	row.add_child(sl)
-	_settings.add_child(row)
+	_list.add_child(row)
 
 
 static var _grab_tex: Texture2D
@@ -326,6 +339,7 @@ func _toggle(key: String) -> void:
 	else:
 		Settings.set_value(key, not Settings.get(key))
 	_refresh()
+	_fit_panel()          # ayar (dil, büyük arayüz...) pencerenin boyunu değiştirebilir: yeniden sığdır
 
 
 func _refresh() -> void:
