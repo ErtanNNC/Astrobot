@@ -50,3 +50,4 @@ Oyunu bitiren ya da bir alanı geçen oyuncunun aynı alana dönmek için bir se
 ## Açık konular
 - Hedef süreler ölçülmedi; ilk oyun testinde her alan için gerçek "iyi tur" süresi alınmalı.
 - Alan sonunda yıldızlar simgeyle, sırayla patlayarak gösteriliyor (`hud.show_stars`, 2026-11-22). Alan Seç listesinde de her alanın yanında üç yıldız simgesi ve rekor süre var (`hub._area_badge`).
+- 2026-11-22: patron alanları da yıldız ve rekor süre alıyor; hedef süreler iki oynanış kaydına göre ayarlandı (kural: geliştiricinin ilk temiz turunun ~1,1 katı).

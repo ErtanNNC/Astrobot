@@ -559,7 +559,7 @@ script = ExtResource("e0")
 ability = "miknatis"
 
 [node name="Enemy_3" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -12.7279, 9, -66.5563)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -17.3241, 9, -64.0815)
 script = ExtResource("e7")
 kind = "hurdaci"
 speed = 1.3
@@ -736,7 +736,7 @@ method_name = "secret_found"
 arg = "gizli_raf"
 
 [node name="Enemy_4" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 12, -23)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 12, -28)
 script = ExtResource("e7")
 kind = "dikenli"
 patrol = 2

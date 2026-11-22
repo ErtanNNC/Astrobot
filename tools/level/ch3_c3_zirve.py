@@ -126,7 +126,7 @@ L.scatter([H + "tree-snow-a.glb", H + "tree-snow-b.glb", H + "tree-snow-c.glb"],
 L.clouds(18, avoid=(-30, 30, -200, 20), low=(-12, -6), high=(26, 40))
 # Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
 L.ent("enemy", 4.5, 16.0, -58, kind="atici", batteries=3)
-L.ent("enemy", -3, 11.0, -91.5, kind="dikenli", patrol=1.5, speed=1.0, batteries=3)
+L.ent("enemy", 3.5, 11.0, -86, kind="dikenli", patrol=1.5, speed=1.0, batteries=3)   # kontrol noktasından uzağa (2. oynanış kaydı: doğar doğmaz hasar)
 # "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
 L.setpiece("aurora", 0, 9.15, -164, (0, 48, -205), size=(12, 5, 3), big=1.5)
 L.write()

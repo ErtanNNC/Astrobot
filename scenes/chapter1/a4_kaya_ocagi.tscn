@@ -483,7 +483,7 @@ speed = 1.2
 batteries = 3
 
 [node name="Enemy_3" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -57)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, -64.5)
 script = ExtResource("e10")
 kind = "zipzip"
 batteries = 2

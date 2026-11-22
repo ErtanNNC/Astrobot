@@ -786,7 +786,7 @@ speed = 1.1
 batteries = 2
 
 [node name="Enemy_3" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -14.119, 8, -76.6091)
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -5.31398, 8, -77.5951)
 script = ExtResource("e7")
 kind = "atici"
 batteries = 3

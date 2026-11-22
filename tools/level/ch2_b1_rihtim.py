@@ -43,16 +43,18 @@ L.battery_ring((0, 5.5, -29), 1.2, 4, y=0.6)
 L.ent("platform", 2.5, 5.25, -38, kind="move", size=(3.5, 0.5, 3.5), offset=(-5, 0, 0), duration=2.8, color=(0.8, 0.55, 0.32))
 L.top(0, 4.5, -47, 7, 6, depth=13, theme="wood")              # ara rıhtım z[-44,-50]
 L.battery_arc((0, 5.5, -33), (0, 4.5, -44), 5, 2.0)
-L.ent("enemy", 0, 4.5, -47, kind="zipzip", batteries=3)
+L.ent("enemy", 1.8, 4.5, -48.4, kind="zipzip", batteries=3)
+# 2. oynanış kaydı: iskele ile orta ada arası (60 m, hareketli ve düşen platformlar) kontrol noktasızdı; üç düşüş = "Pil bitti"
+L.ent("checkpoint", -2.3, 4.5, -45.4, checkpoint_id="ara", ry=PI)
 L.guide(0, 6.5, -47)
 
 # ---------- Şaşırt: martıların (Zıpzıp) üstünden atılma, kaybolan dalga platformları ----------
 for i, (x, y) in enumerate(((-2.0, 3.5), (2.0, 3.0), (-1.5, 3.5))):
     z = -56 - i * 6
-    L.ent("platform", x, y - 0.25, z, kind="fall", size=(3, 0.5, 3), color=(0.45, 0.7, 1.0))
+    L.ent("platform", x, y - 0.25, z, kind="fall", size=(3.6, 0.5, 3.6), color=(0.45, 0.7, 1.0))
     L.battery(x, y, z)
 L.ent("enemy", 4.5, 4.5, -60, kind="zipzip", batteries=2)  # su üstünde zıplayan martı (kendi adacığında)
-L.top(4.5, 4.5, -60, 2.5, 2.5, depth=2, theme="stone")
+L.top(4.5, 4.5, -60, 4.0, 4.0, depth=2, theme="stone")       # 2,5 → 4 m (iki düşüş burada)
 L.top(0, 4.0, -77, 8, 8, depth=12, theme="sand")              # orta ada z[-73,-81]
 L.ent("checkpoint", -2.5, 4.0, -78, checkpoint_id="ada", ry=PI)
 L.tree(-2.2, 4.0, -79.6, 0.8, fruit=True)

@@ -32,6 +32,7 @@ yan yana gelince oyuncu düşünmek zorunda kalır.
 - Yeni tür ilk kez güvenli bir yerde gösterilir: yoldan uzakta ya da çözümü veren yeteneğin hemen yanında.
 - Atıcı dar köprünün ya da hareketli platformun üstüne konmaz; oyuncunun yana kaçacak yeri olmalı.
 - Dikenli, Vuruş açılmadan önceki alanlara yalnızca Kaya kaynağının yanına konur.
+- **Kontrol noktasının 6 m çevresinde düşman durmaz** (aynı yükseklikte). Oyuncu orada yeniden doğar; doğar doğmaz hasar alması haksızdır. İki oynanış kaydında da hasarların çoğu böyle düşmanlardan geldi. İniş noktaları (uzun süzülüş, top) için de aynı kural.
 
 | Alan | Atıcı | Dikenli |
 |---|---|---|

@@ -467,6 +467,14 @@ func _boss_show(boss: Node3D, intro: bool) -> void:
 
 
 func boss_defeated(cell_pos: Vector3) -> void:
+	# Patron alanı da bir tur sayılır: yıldız, rekor süre, hayalet ve oynanış kaydı (eskiden yalnızca normal alanlarda
+	# yazılıyordu; patronlar haritada hep yıldızsız görünüyor, kayıtta "bitmedi" sayılıyordu).
+	var got_b := GameState.area_battery_count(area_id)
+	var res_b := GameState.finish_area(area_id, float(GameState.data.get("area_time", 0.0)), got_b, area_total)
+	hud.show_stars(res_b["stars"])
+	PlayLog.end("done", int(res_b["stars"]), got_b, area_total)
+	if _ghost_ok and GameState.slot >= 0 and float(res_b["time"]) <= float(GameState.area_best(area_id).get("time", INF)) + 0.001:
+		GhostRun.save_run(GameState.slot, area_id, _ghost_rec)
 	get_tree().create_timer(6.0).timeout.connect(func(): Achievements.refresh())
 	var b := get_tree().get_first_node_in_group("boss") as Node3D
 	if b:

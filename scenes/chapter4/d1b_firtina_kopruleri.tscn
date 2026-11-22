@@ -372,10 +372,10 @@ script = ExtResource("e0")
 ability = "pervane"
 
 [node name="Enemy_1" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -3.18198, 0, -33.3536)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -1.76777, 0, -36.8891)
 script = ExtResource("e7")
 kind = "vidabocek"
-patrol = 2
+patrol = 1.5
 speed = 1.2
 batteries = 2
 
@@ -533,7 +533,7 @@ script = ExtResource("e0")
 ability = "balon"
 
 [node name="Enemy_2" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 2.05695, 6.5, -76.4481)
+transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, -2.95537, 6.5, -78.8394)
 script = ExtResource("e7")
 kind = "zipzip"
 batteries = 2

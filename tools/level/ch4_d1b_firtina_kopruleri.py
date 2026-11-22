@@ -75,7 +75,7 @@ L.ent("trampoline", 4.6, -4, -15.0, height=6.0)
 pylon(0, 0, -33, 10, 10)                                           # P1 z[-28,-38]
 L.ent("checkpoint", -3, 0, -31, checkpoint_id="kopru1", ry=PI)
 L.ent("copy", 3, 0, -35, ability="pervane")
-L.ent("enemy", -2, 0, -35.5, kind="vidabocek", patrol=2.0, speed=1.2, batteries=2)
+L.ent("enemy", 1.5, 0, -37, kind="vidabocek", patrol=1.5, speed=1.2, batteries=2)   # kontrol noktasından uzağa (2. oynanış kaydı: doğar doğmaz hasar)
 L.battery_line((0, 1.5, -38.5), (0, 7.0, -41.5), 4)
 pylon(0, 6.5, -46, 10, 8)                                          # P2 z[-42,-50]
 L.ent("copy", 3, 6.5, -44, ability="miknatis")
@@ -97,7 +97,7 @@ L.ent("metal", 0, 7.5, -78)                                        # iniş tutam
 pylon(0, 6.5, -82, 12, 10)                                         # P3 z[-77,-87]
 L.ent("checkpoint", 4, 6.5, -84, checkpoint_id="zincir", ry=PI)
 L.ent("copy", -4, 6.5, -80, ability="balon")
-L.ent("enemy", 2, 6.5, -82, kind="zipzip", batteries=2)
+L.ent("enemy", -2, 6.5, -85, kind="zipzip", batteries=2)   # kontrol noktasından uzağa (2. oynanış kaydı: doğar doğmaz hasar)
 L.battery_ring((0, 6.5, -82.5), 2.2, 6)
 L.guide(0, 9, -63)
 

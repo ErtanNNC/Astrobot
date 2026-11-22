@@ -106,7 +106,7 @@ L.battery_arc((0, 12.5, -56.5), (0, 9.2, -66), 6, 2.0)
 L.top(0, 9, -70, 12, 10, depth=2, theme="red")                       # Kale avlusu z[-65,-75]
 L.ent("checkpoint", 4, 9, -67, checkpoint_id="kale", ry=PI)
 L.ent("copy", -4, 9, -67, ability="miknatis")
-L.ent("enemy", 2, 9, -71, kind="hurdaci", speed=1.3, batteries=3)
+L.ent("enemy", -3, 9, -72.5, kind="hurdaci", speed=1.3, batteries=3)   # kontrol noktasından uzağa (2. oynanış kaydı: doğar doğmaz hasar)
 for x in (-6.2, 6.2):
     L.model("kaykit/medieval/building_tower_B_red.gltf", x, 9, -74, 0, 2.6)
 L.guide(0, 12, -60)
@@ -149,7 +149,7 @@ L.clouds(16, xr=(-100, 100), zr=(-200, 60), avoid=(-30, 30, -120, 20), low=(-4, 
 L.secret("top_havuzu", 0, -3.5, 12, 8, 6)
 L.secret("gizli_raf", -5.5, 8, -38, 4, 5)
 # Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
-L.ent("enemy", -2, 12, -23, kind="dikenli", patrol=2.0, speed=1.1, batteries=2)
+L.ent("enemy", -1, 12, -28, kind="dikenli", patrol=2.0, speed=1.1, batteries=2)   # kontrol noktasından uzağa (2. oynanış kaydı: doğar doğmaz hasar)
 # "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)
 L.setpiece("fireworks", 0, 22.5, -90, (0, 29, -100), size=(8, 4, 4))
 L.write()

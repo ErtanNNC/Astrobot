@@ -47,3 +47,18 @@ Bulgular ve yapılanlar:
 - Düşen oyuncu kanyon dibindeki kaya yığınlarının üstünde kalabiliyordu (yeni süs çarpışması yüzünden; "en son zemin" yükseklikleri 2,4 ve -1,2) → o kayalar çarpışmasız yapıldı.
 - Balon Kanyonu hedef süresi 185 sn çok boldu (ilk temiz tur 92 sn) → 120 sn. Atölye (82/110) ve Yay Bahçesi (160/180) yerinde.
 - Kare hızı bu telefonda sorun değil (üst sınıf cihaz); zayıf cihaz verisi yok.
+
+### 2. kayıt — 2026-11-22, sürüm 0.4.124, aynı telefon, kalite Yüksek, 8 tur (4 yeni)
+| Alan | Sonuç | Süre | Düşme | Hasar | Pil | Kare hızı |
+|---|---|---|---|---|---|---|
+| Mıknatıs Fabrikası | bitti, 3 yıldız | 125 sn | 0 | 0 | 80/97 | 58/59 |
+| Kaya Ocağı | bitti, 2 yıldız | 210 sn | 1 | 2 | 61/70 | 49/59 |
+| Hurdacı Vinç | yenildi (kayıtta "bitmedi" görünüyordu) | 153 sn | 2 | 0 | | 55/59 |
+| Liman Rıhtımı | **Pil bitti** | 74 sn | 3 | 0 | | 59/59 |
+
+Bulgular ve yapılanlar:
+- **Liman Rıhtımı:** üç düşüşün üçü de iskele kontrol noktası ile orta ada arasında (60 m: iki hareketli platform, düşman, üç düşen platform; kontrol noktası yok). İkisi martı adacığının (2,5 m) yanında. → ara rıhtıma kontrol noktası, düşen platformlar 3 → 3,6 m, martı adacığı 2,5 → 4 m.
+- **Kaya Ocağı:** iki hasar da kontrol noktasının 5 m yanındaki Zıpzıp'tan. Balon Kanyonu'ndaki sorunun aynısı → bütün alanlar tarandı; kontrol noktasına 5 m'den yakın duran yedi düşman uzaklaştırıldı (Kaya Ocağı, Kar Zirvesi, Fırtına Köprüleri ×2, Oyuncak Kasabası ×2, Volkan Adası). Yeni yerleştirme kuralı `docs/features/dusmanlar/design.md` içinde.
+- **Patron alanları** tur olarak sayılmıyordu: yıldız, rekor, hayalet ve kayıt yazılmıyordu → `boss_defeated` artık `finish_area` çağırıyor.
+- **Hedef süreler** (ilk temiz turun ~1,1 katı): Atölye 110 → 95, Balon 120 → 110, Mıknatıs 170 → 140, Kaya Ocağı 160 → 230 (160 ulaşılmazdı). Yay Bahçesi 180 kaldı.
+- Kare hızı Yüksek kalitede de 59; en düşük 49 (Kaya Ocağı).

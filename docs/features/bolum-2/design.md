@@ -53,3 +53,4 @@ Görünüş: fanusunda bir balığın yüzdüğü dört bacaklı robot (Pixabay 
 - **Gemi Mezarlığı:** yağmur, yırtık yelkenli batık direkler, güvertelerde toplar (Quaternius Pirate Pack), kumda kurukafalar, varil ve kasalar, suda yüzen variller; bitişin ardında yan yatmış dev batık gemi (yön işareti).
 - **Patron arenası (2026-11-21):** çevresine temaya uygun manzara eklendi (çarpışmasız süsler; oynanış değişmedi).
 - **Yeni gizli köşeler (2026-11-21):** Fener'de balıkçı evinin çatısındaki martı yuvası (başlangıçtaki Yay ile); Gemi Mezarlığı'nda kumsalın batısındaki batık direğin gözcü yuvası (Mıknatıs ile; zincir direklerinden 7 m'den uzak, ana yolu şaşırtmaz).
+- 2026-11-22 (2. oynanış kaydı): Liman Rıhtımı: ara rıhtıma kontrol noktası ("ara"), düşen dalga platformları 3,6 m, martı adacığı 4 m.
