@@ -76,5 +76,31 @@ func _ready() -> void:
 				yaw_ok = true          # en az bir şerit gerçekten dönük
 	check("fabrikada uzun kenar şeritleri bulundu", checked > 10, str(checked))
 	check("dönen zeminde şerit de dönük", yaw_ok)
+	fab.free()
+	await get_tree().process_frame
+
+	# Havada duran nesne olmasın: her alanda sandık, trambolin, yetenek kaynağı ve kontrol noktasının altında zemin var
+	# (geliştirici testi 2026-11-22: dönüş noktasındaki sütunun sandığı ve pilleri sütundan ayrı dönüp havada kalmıştı)
+	for ch in GameState.CHAPTERS:
+		for a in GameState.CHAPTERS[ch]:
+			var lv: Node3D = await load_level(a["scene"])
+			var space := lv.get_world_3d().direct_space_state
+			var bad := []
+			var n := 0
+			for pat in ["Crate*", "Trampoline*", "Copy*", "Checkpoint*", "Cannon*"]:
+				for e in lv.find_children(pat, "", true, false):
+					# patron aşamasına bağlı nesneler patronun gövdesinde durur (zemin dövüşte kurulur): sayılmaz
+					if not (e is Node3D) or (e.get_parent() is AnimatableBody3D) or e.is_in_group("boss_phase"):
+						continue
+					n += 1
+					var o: Vector3 = (e as Node3D).global_position
+					var q := PhysicsRayQueryParameters3D.create(o + Vector3.UP * 0.6, o + Vector3.DOWN * 1.2, 1)
+					if e is CollisionObject3D:
+						q.exclude = [(e as CollisionObject3D).get_rid()]
+					if space.intersect_ray(q).is_empty():
+						bad.append("%s %s" % [e.name, str(o.snapped(Vector3.ONE * 0.1))])
+			check("%s: %d nesnenin hepsi zeminde" % [a["id"], n], bad.is_empty(), str(bad))
+			lv.free()
+			await get_tree().process_frame
 	print("SONUÇ: %s" % ("TÜM TESTLER GEÇTİ" if fails == 0 else "%d test kaldı" % fails))
 	get_tree().quit(1 if fails else 0)

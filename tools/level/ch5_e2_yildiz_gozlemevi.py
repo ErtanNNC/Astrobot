@@ -78,11 +78,12 @@ L.ent("copy", 4, 2.15, -55, ability="yay")
 L.ent("enemy", 0, 2.15, -60, kind="vidabocek", patrol=3, speed=1.2, batteries=2)
 lamp(-5.6, 4.6, -62); lamp(5.6, 4.6, -62)
 # --- Gizli köşe 3: kayan yıldız tablası (C'nin doğusundaki trambolinden) ---
-L.ent("trampoline", 5.0, 2.15, -59.5, height=7.0)
-L.top(9.5, 9.0, -59.5, 3, 3, depth=0.6, theme="yellow")
-L.ent("crate", 9.9, 9.0, -60.2, batteries=5)
-L.battery_ring((9.5, 9.0, -59.5), 1.0, 5)
-L.kit("star_yellow", 9.5, 12.5, -59.5, s=1.6)
+with L.region(-58):          # C kıyısı dönüş noktasında: trambolin ve tablası kıyıyla aynı bölgede dursun
+    L.ent("trampoline", 5.0, 2.15, -59.5, height=7.0)
+    L.top(9.5, 9.0, -59.5, 3, 3, depth=0.6, theme="yellow")
+    L.ent("crate", 9.9, 9.0, -60.2, batteries=5)
+    L.battery_ring((9.5, 9.0, -59.5), 1.0, 5)
+    L.kit("star_yellow", 9.5, 12.5, -59.5, s=1.6)
 
 # =====================================================================================
 # 3 · TAKIMYILDIZ: dönen yıldız platformları, Yay ile 4 m basamaklar
@@ -127,7 +128,8 @@ for (x, y, z, w) in ((-22, -6, -20, 10), (24, -4, -50, 12), (-26, 2, -90, 12), (
 
 # Gizli köşe tetikleyicileri (ilk girişte "Gizli köşe!" afişi)
 L.secret("adacik", 4, 0.8, -15, 2.4, 2.4)
-L.secret("yildiz", 9.5, 9, -59.5, 3, 3)
+with L.region(-58):
+    L.secret("yildiz", 9.5, 9, -59.5, 3, 3)
 # Yeni düşman türleri (2026-11-21; docs/features/dusmanlar/design.md)
 L.ent("enemy", 4, 2.15, -61.5, kind="atici", batteries=3)
 # "Vay" anları (2026-11-22; docs/features/vay-anlari/design.md)

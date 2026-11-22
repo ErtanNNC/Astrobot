@@ -174,9 +174,72 @@ def turn_vec(v, z):
     return (v[0] * math.cos(a) + v[2] * math.sin(a), v[1], -v[0] * math.sin(a) + v[2] * math.cos(a))
 
 
+# Zeminler (üst yüzeyi olan kutular): [cx, cz, sx, sz, üst y]. Bir zeminin üstüne konan her şey (sandık, pil, süs,
+# düşman...) o zeminle AYNI bölgede sayılır. Yoksa dönüş noktasının üstünde duran bir platformda platform dönmez,
+# üstündekilerin pivot_z'den ilerideki yarısı döner ve havada kalır (geliştirici testi 2026-11-22, Kaya Ocağı sütunu).
+SUPPORTS = []
+
+
+def _region(z):
+    return sum(1 for t in TURNS if z < t[1])
+
+
+def support_z(x, y, z):
+    """(x,y,z) bir zeminin üstündeyse (üst yüzeyin 0,6 m altı ile 4 m üstü arası) ve o zemin başka bir dönüş
+    bölgesindeyse zeminin merkez z'sini döndürür; değilse None."""
+    best = None
+    for (cx, cz, sx, sz, top, rz) in SUPPORTS:
+        if abs(x - cx) <= sx / 2 + 0.05 and abs(z - cz) <= sz / 2 + 0.05 and top - 0.6 <= y <= top + 4.0:
+            if best is None or top > best[1]:
+                best = (rz, top)
+    if best is not None and _region(best[0]) != _region(z):
+        return best[0]
+    return None
+
+
+def ref_z(x, y, z):
+    """Bir noktanın hangi dönüş bölgesinde sayılacağını veren z: elle ayarlanan bölge, yoksa altındaki zemin, yoksa kendi z'si."""
+    if ZREF[0] is not None:
+        return ZREF[0]
+    sz = support_z(x, y, z)
+    return z if sz is None else sz
+
+
+def world_xz(x, y, z):
+    """Tasarım noktası → dünya (x, z); tf ile aynı bölge kuralını kullanır."""
+    if not TURNS:
+        return x, z
+    keep = ZREF[0]
+    ZREF[0] = ref_z(x, y, z)
+    try:
+        wx, wz, _ = turn_point(x, z)
+    finally:
+        ZREF[0] = keep
+    return wx, wz
+
+
+class _Region:
+    """with L.region(z): bloğundaki her şey z'nin dönüş bölgesinde sayılır (dönüş noktasındaki bir platforma bağlı
+    yan platformlar, gizli köşeler: platformla birlikte dursunlar)."""
+    def __init__(self, z):
+        self.z = z
+    def __enter__(self):
+        self.keep = ZREF[0]
+        ZREF[0] = self.z
+    def __exit__(self, *a):
+        ZREF[0] = self.keep
+
+
 def tf(x, y, z, rx=0.0, ry=0.0, s=1.0, rz=0.0):
     if TURNS and not RAW[0]:
-        x, z, yaw = turn_point(x, z)
+        auto = support_z(x, y, z) if ZREF[0] is None else None
+        if auto is not None:
+            ZREF[0] = auto
+        try:
+            x, z, yaw = turn_point(x, z)
+        finally:
+            if auto is not None:
+                ZREF[0] = None
         ry -= yaw          # tf'in ry'si Godot'un rotation.y'sinin tersi yönde yazılır (bkz. ramp notu)
     cx, sx = math.cos(rx), math.sin(rx)
     cy, sy = math.cos(ry), math.sin(ry)
@@ -230,6 +293,9 @@ class Level:
     # ---- Zemin kutuları (ölçülü, çarpışmalı) ----
     def box(self, x, y, z, sx, sy, sz, theme="grass", rx=0.0, ry=0.0, name=None, parent="Level"):
         self.used_themes.add(theme)
+        if abs(rx) < 1e-6 and abs(math.sin(ry * 2)) < 1e-6 and sx >= 1.0 and sz >= 1.0:
+            swap = abs(math.sin(ry)) > 0.5
+            SUPPORTS.append([x, z, sz if swap else sx, sx if swap else sz, y + sy / 2, z if ZREF[0] is None else ZREF[0]])
         name = name or self._name("Kutu")
         self.nodes.append('[node name="%s" type="CSGBox3D" parent="%s"]\ntransform = %s\nuse_collision = true\nsize = Vector3(%s, %s, %s)\nmaterial = SubResource("m_%s")\n'
                           % (name, parent, tf(x, y, z, rx, ry), fmt(sx), fmt(sy), fmt(sz), theme))
@@ -238,11 +304,13 @@ class Level:
     def top(self, cx, top, cz, sx, sz, depth=3.0, theme="grass", name=None, ry=0.0, side=None):
         """Üst yüzeyi 'top' yüksekliğinde olan kutu (çoğu zemin böyle).
         kit açıksa üstü KayKit platform karolarıyla kaplanır; kutu gri gövde olur."""
-        ZREF[0] = cz      # örtü, karolar ve kenar süsleri zeminin kendisiyle aynı bölgede kalsın
+        keep = ZREF[0]
+        if keep is None:
+            ZREF[0] = cz  # örtü, karolar ve kenar süsleri zeminin kendisiyle aynı bölgede kalsın
         try:
             return self._top(cx, top, cz, sx, sz, depth, theme, name, ry, side)
         finally:
-            ZREF[0] = None
+            ZREF[0] = keep
 
     def _top(self, cx, top, cz, sx, sz, depth, theme, name, ry, side):
         if abs(math.sin(ry * 2)) < 1e-6:
@@ -374,6 +442,10 @@ class Level:
         return self.box(cx, base + rise / 2 - 0.2 * math.cos(a), cz, width, 0.4, L, theme, rx=a, ry=ry)
 
     # ---- Varlıklar ----
+    def region(self, z):
+        """with L.region(z): ... → bloktaki her şey z'nin dönüş bölgesinde kurulur. Bkz. _Region."""
+        return _Region(z)
+
     def turns(self, lst):
         """Alanın dönüşlerini kur (betiğin başında, her şeyden önce). Bkz. TURNS."""
         TURNS[:] = sorted(lst, key=lambda t: -t[1])
@@ -406,7 +478,7 @@ class Level:
         if TURNS and not local:
             for k in ("offset", "move"):          # hareket yönleri de yolla birlikte döner
                 if k in props and isinstance(props[k], tuple) and len(props[k]) == 3:
-                    props[k] = turn_vec(props[k], z)
+                    props[k] = turn_vec(props[k], ref_z(x, y, z))
         RAW[0] = local
         e = self._ext("Script", path)
         name = name or self._name(etype.capitalize())
@@ -423,8 +495,8 @@ class Level:
     # ---- "Vay" anları (docs/features/vay-anlari/design.md). Hedefler tasarım koordinatıyla verilir; köşeli
     # alanlarda hedef başka bir yol parçasında olsa bile dünya yönü burada hesaplanır. ----
     def _world_offset(self, x, y, z, target):
-        wx, wz, _ = turn_point(x, z) if TURNS else (x, z, 0)
-        tx, tz, _ = turn_point(target[0], target[2]) if TURNS else (target[0], target[2], 0)
+        wx, wz = world_xz(x, y, z)
+        tx, tz = world_xz(target[0], target[1], target[2])
         return "@raw:Vector3(%.6g, %.6g, %.6g)" % (tx - wx, target[1] - y, tz - wz)
 
     def cannon(self, x, y, z, target, arc=6.0, time=1.7, secret=False, finish=False):

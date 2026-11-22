@@ -1340,7 +1340,7 @@ size = Vector3(7.2, 1.6, 5.4)
 material = SubResource("m_grass")
 
 [node name="KTree_7" parent="Decor" instance=ExtResource("e4")]
-transform = Transform3D(2.737, 0, 1.22835, 0, 3, 0, -1.22835, 0, 2.737, 29.5679, 4, -84.0143)
+transform = Transform3D(2.94657, 0, -0.563673, 0, 3, 0, 0.563673, 0, 2.94657, 36.6667, 4, -62.5)
 
 [node name="KTreePine_9" parent="Decor" instance=ExtResource("e5")]
 transform = Transform3D(-3.04024, 0, -0.700977, 0, 3.12, -0, 0.700977, 0, -3.04024, 42, 4, -60)
@@ -1379,7 +1379,7 @@ transform = Transform3D(2.05646, 0, 2.18426, 0, 3, 0, -2.18426, 0, 2.05646, -77.
 transform = Transform3D(-2.9855, 0, 0.906193, -0, 3.12, 0, -0.906193, 0, -2.9855, -71.7272, 10, -109.382)
 
 [node name="KTree_10" parent="Decor" instance=ExtResource("e4")]
-transform = Transform3D(-4.62531, 0, 1.28315, -0, 4.8, 0, -1.28315, 0, -4.62531, -59.0447, 10, -76.9019)
+transform = Transform3D(-2.36327, 0, 4.17791, -0, 4.8, 0, -4.17791, 0, -2.36327, -66.2525, 10, -105.878)
 
 [node name="Kutu_60" type="CSGBox3D" parent="Level"]
 transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 18.1757, 16.75, -123.992)

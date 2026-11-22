@@ -309,12 +309,12 @@ script = ExtResource("e5")
 checkpoint_id = "tepe"
 
 [node name="Copy_2" type="Area3D" parent="Entities"]
-transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, 0.95093, 13.5, -26.756)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 13.5, -25.5)
 script = ExtResource("e0")
 ability = "miknatis"
 
 [node name="Hint_1" type="Area3D" parent="Entities"]
-transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -1.28558, 13.5, -25.5321)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, -26)
 script = ExtResource("e6")
 hint = "ability"
 size = Vector3(10, 3, 4)
@@ -518,11 +518,11 @@ transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, 
 script = ExtResource("e1")
 
 [node name="Pil_23" type="Area3D" parent="Batteries"]
-transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -47.9486, 16.3, -82.9305)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -49.1733, 16.3, -82.6024)
 script = ExtResource("e1")
 
 [node name="Copy_4" type="Area3D" parent="Entities"]
-transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, -45.4866, 15.5, -82.4964)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -47.2581, 15.5, -84.2094)
 script = ExtResource("e0")
 ability = "balon"
 

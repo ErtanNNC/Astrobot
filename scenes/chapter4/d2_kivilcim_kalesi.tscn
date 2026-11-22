@@ -405,7 +405,7 @@ size = Vector3(6, 8, 6)
 material = SubResource("m_purple")
 
 [node name="Copy_6" type="Area3D" parent="Entities"]
-transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, 0.567907, 5.2, -57.4346)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5.2, -56.5)
 script = ExtResource("e0")
 ability = "yay"
 
@@ -427,7 +427,7 @@ size = Vector3(6, 3, 4)
 material = SubResource("m_kitside")
 
 [node name="Pil_16" type="Area3D" parent="Batteries"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -3.78989, 10.3, -61.4282)
+transform = Transform3D(0.766044, 0, 0.642788, 0, 1, 0, -0.642788, 0, 0.766044, -5.1423, 10.3, -61.1284)
 script = ExtResource("e2")
 
 [node name="Pil_17" type="Area3D" parent="Batteries"]

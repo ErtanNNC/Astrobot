@@ -298,7 +298,19 @@ func _e2() -> void:
 	await step(10)
 	check("e2: tünelin gizli oyuğuna girildi", dp().x > 3.4, str(dp()))
 	# Kayan yıldız tablası: trambolinden doğuya
-	await place(Vector3(5.0, 3.5, -59.5), PI / 2, "")
+	# Trambolin dönüş noktasındaki kıyının üstünde: konumu sahneden alınır (kıyıyla aynı bölgede durur)
+	await step(35)
+	var tramp: Node3D = null
+	for t in level.find_children("Trampoline*", "", true, false):
+		if is_equal_approx(t.height, 7.0):
+			tramp = t
+	GameState.set_ability("")
+	bip.reset_state(tramp.global_position + Vector3(0, 1.4, 0))
+	bip.facing_yaw = PI / 2
+	bip.rotation.y = PI / 2
+	bip.invuln = 30.0
+	level.cam.snap_to_target()
+	await step(8)
 	Input.action_press("move_forward")
 	await run_until(func(): return bip.is_on_floor() and dp().y > 8.0, 240)
 	Input.action_release("move_forward")

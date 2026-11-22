@@ -156,3 +156,4 @@ Kod: `area.gd` (`game_over`, `restart_area`, `_fall`, `_on_hurt`, `on_checkpoint
 Açık konu: 3 can + kontrol noktası başına 1 can dengesi telefonda denenmeli; zor gelirse can sayısı ya da geri verilen can artırılır.
 - 2026-11-22: Mıknatıs Fabrikası'nda zeminden çıkan sarı şeritler düzeltildi (üreticideki ölçek hatası; dönen zeminlerin kenar şeritleri zeminle birlikte dönmüyordu).
 - 2026-11-22 (1. oynanış kaydı): Balon Kanyonu: gizli köşelere Balon kaynağı, M2 düşmanı iniş noktasından uzağa, kanyon dibi kayaları çarpışmasız, hedef süre 120 sn.
+- 2026-11-22 (geliştirici ekran görüntüsü): Kaya Ocağı'ndaki gizli kaya sütununun sandığı ve pilleri havada duruyordu. Sütun tam dönüş noktasındaydı; üstündekilerin yarısı sütundan ayrı dönüyordu. Üretici düzeltildi (zeminin üstündeki her şey zeminle aynı bölgede); 15 alanda dönüş noktalarındaki nesneler yerine oturdu.

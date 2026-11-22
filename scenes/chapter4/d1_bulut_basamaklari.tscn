@@ -276,21 +276,21 @@ script = ExtResource("e8")
 checkpoint_id = "bulut1"
 
 [node name="Enemy_2" type="CharacterBody3D" parent="Entities"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -8.3817, 4, -27.7753)
+transform = Transform3D(0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, 0.819152, -9.99723, 4, -29.6361)
 script = ExtResource("e6")
 kind = "zipzip"
 batteries = 2
 
 [node name="Crate_2" type="StaticBody3D" parent="Entities"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -13.4355, 4, -30.1647)
+transform = Transform3D(0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, 0.819152, -15.0761, 4, -27.3006)
 script = ExtResource("e2")
 batteries = 3
 
 [node name="Pirilnokta_2" type="Marker3D" parent="Guide" groups=["piril_point"]]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -11.0553, 6, -27.4564)
+transform = Transform3D(0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, 0.819152, -11.4715, 6, -27.383)
 
 [node name="Copy_2" type="Area3D" parent="Entities"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -7.99347, 4, -29.2242)
+transform = Transform3D(0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, 0.819152, -10.8576, 4, -30.8649)
 script = ExtResource("e0")
 ability = "balon"
 
@@ -310,7 +310,7 @@ size = Vector3(8, 3, 8)
 material = SubResource("m_cloud")
 
 [node name="Pil_11" type="Area3D" parent="Batteries"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -10.0201, 4.8, -31.3201)
+transform = Transform3D(0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, 0.819152, -13.7658, 4.8, -30.6596)
 script = ExtResource("e1")
 
 [node name="Pil_12" type="Area3D" parent="Batteries"]
@@ -414,11 +414,11 @@ transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 
 script = ExtResource("e1")
 
 [node name="Pil_25" type="Area3D" parent="Batteries"]
-transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, -2.44894, 8.3, -65.022)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -1.60844, 8.3, -65.6105)
 script = ExtResource("e1")
 
 [node name="Pil_26" type="Area3D" parent="Batteries"]
-transform = Transform3D(0.906308, 0, 0.422618, 0, 1, 0, -0.422618, 0, 0.906308, -1.08947, 8.3, -65.6559)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -0.159547, 8.3, -65.2223)
 script = ExtResource("e1")
 
 [node name="Copy_4" type="Area3D" parent="Entities"]

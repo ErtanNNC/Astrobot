@@ -94,3 +94,4 @@ piller dizilidir (kavis `cannon.gd` ile aynı formülden hesaplanır). Hedef sü
 - 2026-11-21: Volkan Adası köşeli yola çevrildi (`L.turns`, üç dönüş: nehir, bazalt ve zincir platformları).
 - 2026-11-22: lav yüzeyi akan kabuklu gölgelendiriciyle çiziliyor (`assets/shaders/lava.gdshader`); alana vay anları eklendi (manzara + volkan patlaması).
 - 2026-11-22: Top Adaları eklendi (bölüm 5 alan oldu); gizli köşe toplamı 30.
+- 2026-11-22: Yıldız Gözlemevi'nde kayan yıldız tablası ve trambolini `with L.region(-58)` ile C kıyısına bağlandı (kıyı dönüş noktasında).
